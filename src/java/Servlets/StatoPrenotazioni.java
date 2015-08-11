@@ -11,12 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * La servlet risponde con una stringa json con le informazioni riguardanti lo stato dei posti della sala per uno spettacolo.
- * Stati possibili: occupato (posto sicuramente prenotato), tmp (un utente è in fase di prenotazione di quel posto), tuo (l'utente che fa la richiesta ha selezionato quel posto)
- * Si aspetta di trovare per l'utente una sessione esistente con un id univoco che identifica l'utente, l'id è di tipo stringa
- * formato in dettaglio: 
+ * Stati possibili: occupato (posto sicuramente prenotato, senza timestamp), tmp (un utente è in fase di prenotazione di quel posto con timestamp), tuo (l'utente che fa la richiesta ha selezionato quel posto con timestamp)
+ * Si aspetta di trovare per l'utente una sessione esistente con un id univoco che identifica l'utente sotto il nome "idUtente", l'id è di tipo stringa
+ * formato json in dettaglio: {"$idPosto" : {"x" : $x, "y" : $y, "stato" : "tmp", "timestamp" : $timestamp}}
  */
 public class StatoPrenotazioni extends HttpServlet {
 
@@ -31,6 +32,11 @@ public class StatoPrenotazioni extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession(false);
+        String idUtente = (String)session.getAttribute("idUtente");
+         //fai query
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
