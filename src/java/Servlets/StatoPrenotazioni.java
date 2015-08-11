@@ -10,11 +10,13 @@ import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 /**
  * La servlet risponde con una stringa json con le informazioni riguardanti lo stato dei posti della sala per uno spettacolo.
@@ -29,6 +31,17 @@ private DBManager manager;
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
+    
+    public String serialize(List<PrenotazioneTmp> lista){
+        String res = "{";//{
+        for(PrenotazioneTmp pren : lista){
+            res = res.concat("\"" + Integer.toString(pren.getIdPosto()) + "\":"); // { "$idPosto":
+         //   res = res.concat(res)
+                    }
+         res = res.concat("}");
+        return res;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,13 +54,22 @@ private DBManager manager;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(true); //damettere poi a false
+        HttpSession session = request.getSession(true); //da mettere poi a false
         //String idUtente = (String)session.getAttribute("idUtente");
-       String idUtente = "sdascascasca";
-       // ArrayList<PrenotazioneTmp> result = manager.getPrenotazioniTmp(); 
+        String idUtente = "sdascascasca";
+        int idSpettacolo = 0;
+        try{
+            idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
+        }catch(NumberFormatException ex){
+            //TO DO forward to error.jsp
+        }
+        
+        //ArrayList<PrenotazioneTmp> result = manager.getPrenotazioniTmp(idSpettacolo);
+        
+        //creazione json, serializzo il result
         response.setContentType("text/plain;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           out.println(request.getParameter("spettacolo"));
+            out.println("{\"1\":{\"x\" : \"1\", \"y\" : \"A\", \"stato\" : \"occupato\"}}");
         }
     }
     
