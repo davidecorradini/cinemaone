@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Posto implements Serializable{
     private int idPosto;
     private int idSala;
-    private int riga;
+    private char riga;
     private int colonna;
     private int stato; //semantica stato: 0 ok, -1 rotto.
 
@@ -49,14 +49,14 @@ public class Posto implements Serializable{
     /**
      * @return the riga
      */
-    public int getRiga() {
+    public char getRiga() {
         return riga;
     }
 
     /**
      * @param riga the riga to set
      */
-    public void setRiga(int riga) {
+    public void setRiga(char riga) {
         this.riga = riga;
     }
 

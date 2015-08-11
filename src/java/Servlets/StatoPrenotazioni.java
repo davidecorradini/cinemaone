@@ -32,11 +32,11 @@ private DBManager manager;
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
-    public String serialize(List<PrenotazioneTmp> lista){
+    public String serialize(List<Object[]> lista){
         String res = "{";//{
-        for(PrenotazioneTmp pren : lista){
-            res = res.concat("\"" + Integer.toString(pren.getIdPosto()) + "\":"); // { "$idPosto":
-         //   res = res.concat(res)
+        for(Object[] pren : lista){
+            res = res.concat("\"" + Integer.toString(((PrenotazioneTmp)pren[0]).getIdPosto()) + "\":"); // { "$idPosto":
+           // res = res.concat("{\"x\":" "\"}");
                     }
          res = res.concat("}");
         return res;
@@ -64,10 +64,10 @@ private DBManager manager;
             //TO DO forward to error.jsp
         }
         
-        //ArrayList<PrenotazioneTmp> result = manager.getPrenotazioniTmp(idSpettacolo);
+        //ArrayList<Object[]> result = manager.getPrenotazioniTmp(idSpettacolo);
         
         //creazione json, serializzo il result
-        response.setContentType("text/plain;charset=UTF-8");
+        response.setContentType("text/plain;charset=UTF-8\nAccess-Control-Allow-Origin: *");
         try (PrintWriter out = response.getWriter()) {
             out.println("{\"1\":{\"x\" : \"1\", \"y\" : \"A\", \"stato\" : \"occupato\"}}");
         }

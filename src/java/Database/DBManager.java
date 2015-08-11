@@ -147,7 +147,7 @@ public class DBManager implements Serializable {
             Posto tmp = new Posto();
             tmp.setIdPosto(rs.getInt("ID_POSTO"));
             tmp.setIdSala(rs.getInt("ID_SALA"));
-            tmp.setRiga(rs.getInt("RIGA"));
+            tmp.setRiga(rs.getString("RIGA").charAt(0));
             tmp.setColonna(rs.getInt("COLONNA"));
             tmp.setStato(rs.getInt("STATO"));
             posti.add(tmp);
