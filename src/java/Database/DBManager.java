@@ -9,6 +9,7 @@ package Database;
 import Beans.Film;
 import Beans.Posto;
 import Beans.Prenotazione;
+import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
 import Beans.Spettacolo;
@@ -462,7 +463,42 @@ public class DBManager implements Serializable {
                 
     }
     
+    public ArrayList<Object[]> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("SELECT * FROM PRENOTAZIONETmp JOIN POSTO WHERE ID_SPETTACOLO = ?;");
+        stm.setInt(1,id_spettacolo);
+        ResultSet rs = stm.executeQuery();
+        ArrayList<Object[]> PrenotazioniTmp = new ArrayList<>();
+        while(rs.next()){
+            PrenotazioneTmp tmp = new PrenotazioneTmp();
+            Posto posto = new Posto();
+            tmp.setIdUtente(rs.getString("ID_UTENTE"));
+            tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+            tmp.setIdPosto(rs.getInt("ID_POSTO"));
+            tmp.setTimestamp(rs.getTimestamp("DATA_ORA_OPERAZIONETmp"));
+            posto.setColonna(rs.getInt("COLONNA"));
+            posto.setRiga(rs.getString("RIGA").charAt(0));
+            posto.setIdPosto(rs.getInt("ID_POSTO"));
+            posto.setIdSala(rs.getInt("ID_SALA"));
+            posto.setStato(rs.getInt("STATO"));
+            Object res[] = new Object[2];
+            res[0] = tmp;
+            res[1] = posto;
+            PrenotazioniTmp.add(res);
+        }
+        return PrenotazioniTmp;
+    }
     
+    public void aggiungiPrenotazione(Prenotazione pre) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE) VALUES (?,?,?,?,?,?); ");
+        stm.setInt(1, pre.getIdPrenotazione());
+        stm.setInt(2, pre.getIdUtente());
+        stm.setInt(3, pre.getIdSpettacolo());
+        stm.setInt(4, pre.getIdPrezzo());
+        stm.setInt(5, pre.getIdPosto());
+        stm.setTimestamp(6, pre.getDataOraOperazione());
+    }
     
     
     
