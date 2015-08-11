@@ -5,8 +5,11 @@
  */
 package Servlets;
 
+import Beans.PrenotazioneTmp;
+import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +23,12 @@ import javax.servlet.http.HttpSession;
  * formato json in dettaglio: {"$idPosto" : {"x" : $x, "y" : $y, "stato" : "tmp", "timestamp" : $timestamp}}
  */
 public class StatoPrenotazioni extends HttpServlet {
-
+private DBManager manager;
+    
+    @Override
+    public void init() throws ServletException{
+        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,8 +43,8 @@ public class StatoPrenotazioni extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         String idUtente = (String)session.getAttribute("idUtente");
-         //fai query
-        
+    
+       // ArrayList<PrenotazioneTmp> result = manager.getPrenotazioniTmp(); 
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -51,6 +59,12 @@ public class StatoPrenotazioni extends HttpServlet {
             out.println("</html>");
         }
     }
+    
+    @Override
+    public void destroy(){
+        this.manager = null;
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
