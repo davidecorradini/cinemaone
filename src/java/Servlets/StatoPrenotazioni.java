@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Beans.Posto;
 import Beans.PrenotazioneTmp;
 import Database.DBManager;
 import java.io.IOException;
@@ -36,7 +37,8 @@ private DBManager manager;
         String res = "{";//{
         for(Object[] pren : lista){
             res = res.concat("\"" + Integer.toString(((PrenotazioneTmp)pren[0]).getIdPosto()) + "\":"); // { "$idPosto":
-           // res = res.concat("{\"x\":" "\"}");
+            res = res.concat("{\"x\":\"" + Integer.toString(((Posto)pren[1]).getColonna()) +
+                    "\", \"y\":" + ((Posto)pren[1]).getRiga() + "\"}");
                     }
          res = res.concat("}");
         return res;
