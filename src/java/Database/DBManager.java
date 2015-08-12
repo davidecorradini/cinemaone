@@ -453,7 +453,7 @@ public class DBManager implements Serializable {
         
         PreparedStatement stm;
         stm = con.prepareStatement("  INSERT INTO UTENTE (ID_RUOLO, EMAIL, PASSWORD)\n" +
-"VALUES (1,'gino.perna@cinemaone.it','gino'); ");
+"VALUES (?,?,?); ");
                 
         stm.setInt(1, ut.getIdRuolo());
         stm.setString(2, ut.getEmail());
