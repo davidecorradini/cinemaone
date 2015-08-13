@@ -133,9 +133,10 @@ private DBManager manager;
         }
         
         
-        response.setContentType("text/plain;charset=UTF-8\nAccess-Control-Allow-Origin: *");
+        response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println("{\"1\":{\"x\" : \"1\", \"y\" : \"A\", \"stato\" : \"occupato\"}}");
+           // out.println(json.toString());
         }
     }
     

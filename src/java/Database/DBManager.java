@@ -130,6 +130,12 @@ public class DBManager implements Serializable {
     
     
     
+    public ArrayList<Film> getFilmsSlider(){
+        return null;
+    }
+    
+    
+    
     
     
     
