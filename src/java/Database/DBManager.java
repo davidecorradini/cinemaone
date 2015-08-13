@@ -128,14 +128,30 @@ public class DBManager implements Serializable {
         return spettacoli;
     }
     
+    
+    
+    
+    
+    
+    //In Object[0] prenotazione e Object[1] Posto.
+    public ArrayList<Object[]> getPostiOccupati(int idSpettacolo) throws SQLException{
+        return null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      *
      * @param spetta spettacolo di cui si vogliono ottenere i posti disponibili
      * @return lista di posti disponibili (toglie i rotti)
      * @throws SQLException
      */
-    
-    
     public ArrayList<Posto> getPostiLiberi(Spettacolo spetta) throws SQLException{
         PreparedStatement stm = con.prepareStatement(
                 "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO FROM POSTO P WHERE P.STATO = 0 AND P.ID_SALA = ? AND P.ID_POSTO NOT IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?");
