@@ -36,7 +36,6 @@ private DBManager manager;
     }
     
     public String serialize(List<Object[]> lista) throws IOException{
-        JSONObject json = new JSONObject(); 
         for(Object[] coppia : lista){
             PrenotazioneTmp prenotazione = (PrenotazioneTmp)coppia[0];
             Posto posto = (Posto)coppia[1];
@@ -44,7 +43,6 @@ private DBManager manager;
         }
         
         StringWriter out = new StringWriter();
-        json.writeJSONString(out);
         return out.toString();
     }
     
