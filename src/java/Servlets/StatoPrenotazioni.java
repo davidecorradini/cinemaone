@@ -10,6 +10,8 @@ import Beans.PrenotazioneTmp;
 import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
 
 
 /**
@@ -33,15 +36,17 @@ private DBManager manager;
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
     
-    public String serialize(List<Object[]> lista){
-        String res = "{";//{
-        for(Object[] pren : lista){
-            res = res.concat("\"" + Integer.toString(((PrenotazioneTmp)pren[0]).getIdPosto()) + "\":"); // { "$idPosto":
-            res = res.concat("{\"x\":\"" + Integer.toString(((Posto)pren[1]).getColonna()) +
-                    "\", \"y\":" + ((Posto)pren[1]).getRiga() + "\"}");
-                    }
-         res = res.concat("}");
-        return res;
+    public String serialize(List<Object[]> lista) throws IOException{
+        JSONObject json = new JSONObject(); 
+        for(Object[] coppia : lista){
+            PrenotazioneTmp prenotazione = (PrenotazioneTmp)coppia[0];
+            Posto posto = (Posto)coppia[1];
+            //json.
+        }
+        
+        StringWriter out = new StringWriter();
+        json.writeJSONString(out);
+        return out.toString();
     }
     
     /**
@@ -66,9 +71,14 @@ private DBManager manager;
             //TO DO forward to error.jsp
         }
         
-        //ArrayList<Object[]> result = manager.getPrenotazioniTmp(idSpettacolo);
+        ArrayList<Object[]> result = null;
+        try {
+            result = manager.getPrenotazioneTmp(idSpettacolo);
+        } catch (SQLException ex) {
+            //TO DO: forward to error page, or handle the exception
+        }
         
-        //creazione json, serializzo il result
+        //creazione json, serializzo il result...trova una libreria decente.
         response.setContentType("text/plain;charset=UTF-8\nAccess-Control-Allow-Origin: *");
         try (PrintWriter out = response.getWriter()) {
             out.println("{\"1\":{\"x\" : \"1\", \"y\" : \"A\", \"stato\" : \"occupato\"}}");
