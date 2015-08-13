@@ -35,7 +35,7 @@ public class ProgrammazioneFilm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        manager
         }
     @Override
     public void destroy(){
