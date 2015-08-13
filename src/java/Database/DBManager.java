@@ -20,6 +20,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -568,6 +569,44 @@ public class DBManager implements Serializable {
         return PrenotazioniTmp;
     }
     
+    
+    public ArrayList<Object[]> getPrenotazione(int id_spettacolo) throws SQLException{
+        PreparedStatement stm;
+        ArrayList<Object[]> Prenotazioni = new ArrayList<>();
+        stm = con.prepareStatement("SELECT * FROM PRENOTAZIONE WHERE ID_SPETTACOLO=?");
+        try {
+            stm.setInt(1,id_spettacolo);
+            ResultSet rs = stm.executeQuery();
+            try {
+                while(rs.next()){
+                    Prenotazione tmp = new Prenotazione();
+                    Posto posto = new Posto();
+                    tmp.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                    tmp.setIdUtente(rs.getInt("ID_UTENTE"));
+                    tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    tmp.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmp.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                    posto.setColonna(rs.getInt("COLONNA"));
+                    posto.setRiga(rs.getString("RIGA").charAt(0));
+                    posto.setIdPosto(rs.getInt("ID_POSTO"));
+                    posto.setIdSala(rs.getInt("ID_SALA"));
+                    posto.setStato(rs.getInt("STATO")); //se è prenotato dovremmo essere già sicuri che è in buono stato? abbiamo già fatto questo controllo da qualche parte?
+                    Object res[] = new Object[2];
+                    res[0] = tmp;
+                    res[1] = posto;
+                    Prenotazioni.add(res);
+                }
+            } finally { 
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return Prenotazioni;
+    }
+    
+    
     public void aggiungiPrenotazione(Prenotazione pre) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement("INSERT INTO PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE) VALUES (?,?,?,?,?,?); ");
@@ -586,7 +625,7 @@ public class DBManager implements Serializable {
         
         public void aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?); ");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?) ");
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setInt(2, pre.getIdPosto());
@@ -600,7 +639,17 @@ public class DBManager implements Serializable {
     
     
     
-    
+    public void eliminaPrenotazioneTmp(Timestamp tm) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("DELETE * FROM PRENOTAZIONETMP WHERE DATA_ORA_OPERAZIONETMP < '?'; ");
+        try {
+            stm.setTimestamp(1, tm);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+        
+    }
     
     
 }
