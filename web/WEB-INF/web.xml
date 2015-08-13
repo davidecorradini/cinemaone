@@ -36,6 +36,10 @@
         <servlet-name>HomeSlider</servlet-name>
         <servlet-class>Servlets.HomeSlider</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProgrammazioneFilm</servlet-name>
+        <servlet-class>Servlets.ProgrammazioneFilm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>HomeSlider</servlet-name>
         <url-pattern>/HomeSlider</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProgrammazioneFilm</servlet-name>
+        <url-pattern>/ProgrammazioneFilm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

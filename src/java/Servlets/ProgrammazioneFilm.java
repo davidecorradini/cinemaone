@@ -5,10 +5,8 @@
  */
 package Servlets;
 
-import Beans.Film;
 import Database.DBManager;
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author enrico
  */
-public class HomeSlider extends HttpServlet {
+public class ProgrammazioneFilm extends HttpServlet {
     private DBManager manager;
 
     @Override
@@ -35,13 +33,10 @@ public class HomeSlider extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Film> films = null;
-                //= manager.getFilmsSlider();
-        request.setAttribute("filmsSlider", films);
-        getServletContext().getRequestDispatcher("home.jsp").forward(request, response);
-    }
-    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        }
     @Override
     public void destroy(){
         this.manager = null;
