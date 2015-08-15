@@ -20,6 +20,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -568,6 +569,44 @@ public class DBManager implements Serializable {
         return PrenotazioniTmp;
     }
     
+    
+    public ArrayList<Object[]> getPrenotazione(int id_spettacolo) throws SQLException{
+        PreparedStatement stm;
+        ArrayList<Object[]> Prenotazioni = new ArrayList<>();
+        stm = con.prepareStatement("SELECT * FROM PRENOTAZIONE WHERE ID_SPETTACOLO=?");
+        try {
+            stm.setInt(1,id_spettacolo);
+            ResultSet rs = stm.executeQuery();
+            try {
+                while(rs.next()){
+                    Prenotazione tmp = new Prenotazione();
+                    Posto posto = new Posto();
+                    tmp.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                    tmp.setIdUtente(rs.getInt("ID_UTENTE"));
+                    tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    tmp.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmp.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                    posto.setColonna(rs.getInt("COLONNA"));
+                    posto.setRiga(rs.getString("RIGA").charAt(0));
+                    posto.setIdPosto(rs.getInt("ID_POSTO"));
+                    posto.setIdSala(rs.getInt("ID_SALA"));
+                    posto.setStato(rs.getInt("STATO")); //se è prenotato dovremmo essere già sicuri che è in buono stato? abbiamo già fatto questo controllo da qualche parte?
+                    Object res[] = new Object[2];
+                    res[0] = tmp;
+                    res[1] = posto;
+                    Prenotazioni.add(res);
+                }
+            } finally { 
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return Prenotazioni;
+    }
+    
+    
     public void aggiungiPrenotazione(Prenotazione pre) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement("INSERT INTO PRENOTAZIONE (ID_PRENOTAZIONE, ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE) VALUES (?,?,?,?,?,?); ");
@@ -586,7 +625,7 @@ public class DBManager implements Serializable {
         
         public void aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?); ");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?) ");
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setInt(2, pre.getIdPosto());
@@ -600,7 +639,94 @@ public class DBManager implements Serializable {
     
     
     
+    public void eliminaPrenotazioneTmp(Timestamp tm) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("DELETE * FROM PRENOTAZIONETMP WHERE DATA_ORA_OPERAZIONETMP < '?'; ");
+        try {
+            stm.setTimestamp(1, tm);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+        
+    }
+    
+    public ArrayList<Film> getFilmsSlider() throws SQLException{
+        ArrayList<Film> posti = new ArrayList<>();
+        PreparedStatement stm = con.prepareStatement(" SELECT ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER FROM FILM WHERE IS_IN_SLIDER=TRUE ");
+        try {
+            ResultSet rs = stm.executeQuery();
+            try {
+               
+                while(rs.next()){
+                    Film tmp = new Film();
+                    tmp.setIdFilm(rs.getInt("ID_FILM"));
+                    tmp.setTitolo(rs.getString("TITOLO"));
+                    tmp.setIdGenere(rs.getInt("ID_GENERE"));
+                    tmp.setUrlTrailer(rs.getString("URL_TRAILER"));
+                    tmp.setDurata(rs.getInt("DURATA"));
+                    tmp.setUriLocandina(rs.getString("TRAMA"));
+                    tmp.setTrama(rs.getString("URI_LOCANDINA"));
+                    tmp.setIsInSlider(rs.getBoolean("IS_IN_SLIDER"));
+
+                    posti.add(tmp);
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return posti;
+    }
     
     
+    
+    
+    
+    
+    //In Object[0] prenotazione e Object[1] Posto.
+    public ArrayList<Object[]> getPostiOccupati(Integer id_spettacolo) throws SQLException{
+        ArrayList<Object[]> res = new ArrayList<>();
+        ArrayList<Posto> posti = new ArrayList<>();
+         PreparedStatement stm = con.prepareStatement( " SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO,PR2.ID_PRENOTAZIONE,PR2.ID_UTENTE,PR2.ID_SPETTACOLO,PR2.ID_POSTO,PR2.ID_PREZZO,PR2.DATA_ORA_OPERAZIONE FROM POSTO P JOIN PRENOTAZIONE PR2 ON PR2.ID_POSTO=P.ID_POSTO WHERE P.ID_POSTO IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?) " );
+        try {
+            stm.setInt(1, id_spettacolo);
+            ResultSet rs = stm.executeQuery();
+            try {
+                while(rs.next()){
+
+                    Object[] tmp = new Object[2];
+
+                    Prenotazione tmpPre = new Prenotazione();
+
+                    tmpPre.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                    tmpPre.setIdUtente(rs.getInt("ID_UTENTE"));
+                    tmpPre.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    tmpPre.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    tmpPre.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmpPre.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+
+
+
+                    Posto tmpPosto = new Posto();
+                    tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmpPosto.setIdSala(rs.getInt("ID_SALA"));
+                    tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
+                    tmpPosto.setColonna(rs.getInt("COLONNA"));
+                    tmpPosto.setStato(rs.getInt("STATO"));
+
+                    tmp[0] = tmpPre;
+                    tmp[1] = tmpPosto;
+                    res.add(tmp);
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
+    }
     
 }
