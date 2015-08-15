@@ -35,7 +35,8 @@ public class ProgrammazioneFilm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        manager
+        ArrayList<Object[]> spettacoli = manager.getSpettacoli(); //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
+        request.setAttribute("spettacoli", spettacoli);
         }
     @Override
     public void destroy(){
