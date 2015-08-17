@@ -38,7 +38,7 @@
     </servlet>
     <servlet>
         <servlet-name>ProgrammazioneFilm</servlet-name>
-        <servlet-class>Servlets.ProgrammazioneFilm</servlet-class>
+        <servlet-class>Servlets.Spettacoli</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>

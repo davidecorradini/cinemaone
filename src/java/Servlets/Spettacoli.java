@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author enrico
  */
-public class ProgrammazioneFilm extends HttpServlet {
+public class Spettacoli extends HttpServlet {
     private DBManager manager;
 
     @Override
@@ -43,7 +43,7 @@ public class ProgrammazioneFilm extends HttpServlet {
         try {
             spettacoli = manager.getSpettacoli(); //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
         } catch (SQLException ex) {
-            Logger.getLogger(ProgrammazioneFilm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Spettacoli.class.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("spettacoli", spettacoli);
         }
