@@ -688,7 +688,6 @@ public class DBManager implements Serializable {
     //In Object[0] prenotazione e Object[1] Posto.
     public ArrayList<Object[]> getPostiOccupati(Integer id_spettacolo) throws SQLException{
         ArrayList<Object[]> res = new ArrayList<>();
-        ArrayList<Posto> posti = new ArrayList<>();
          PreparedStatement stm = con.prepareStatement( " SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO,PR2.ID_PRENOTAZIONE,PR2.ID_UTENTE,PR2.ID_SPETTACOLO,PR2.ID_POSTO,PR2.ID_PREZZO,PR2.DATA_ORA_OPERAZIONE FROM POSTO P JOIN PRENOTAZIONE PR2 ON PR2.ID_POSTO=P.ID_POSTO WHERE P.ID_POSTO IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?) " );
         try {
             stm.setInt(1, id_spettacolo);
@@ -728,5 +727,7 @@ public class DBManager implements Serializable {
         }
         return res;
     }
+    
+    
     
 }

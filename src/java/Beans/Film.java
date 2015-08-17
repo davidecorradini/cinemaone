@@ -19,6 +19,7 @@ public class Film implements Serializable{
     private String UrlTrailer; //max size: 255
     private String UriLocandina; //max size: 255
     private String trama; //max size 1000
+    private boolean IsInSlider;
 
     /**
      * @return the idFilm
@@ -116,5 +117,19 @@ public class Film implements Serializable{
      */
     public void setTrama(String trama) {
         this.trama = trama;
+    }
+
+    /**
+     * @return the IsInSlider
+     */
+    public boolean isIsInSlider() {
+        return IsInSlider;
+    }
+
+    /**
+     * @param IsInSlider the IsInSlider to set
+     */
+    public void setIsInSlider(boolean IsInSlider) {
+        this.IsInSlider = IsInSlider;
     }
 }
