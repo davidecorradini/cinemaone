@@ -46,6 +46,7 @@ public class Spettacoli extends HttpServlet {
             //to do gestisci errore
         }
         request.setAttribute("spettacoli", spettacoli);
+        getServletContext().getRequestDispatcher("spettacoli.jsp").forward(request, response);
     }
     
     @Override

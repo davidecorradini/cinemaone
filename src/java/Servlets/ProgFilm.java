@@ -45,6 +45,7 @@ public class ProgFilm extends HttpServlet {
             //to do  gestisci errore
         }
         request.setAttribute("film", film);
+        getServletContext().getRequestDispatcher("film.jsp").forward(request, response);
     }
     
     @Override
