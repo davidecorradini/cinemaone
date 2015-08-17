@@ -44,6 +44,10 @@
         <servlet-name>ProgFilm</servlet-name>
         <servlet-class>Servlets.ProgFilm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DettaglioFilm</servlet-name>
+        <servlet-class>Servlets.DettaglioFilm</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>ProgFilm</servlet-name>
         <url-pattern>/ProgFilm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DettaglioFilm</servlet-name>
+        <url-pattern>/DettaglioFilm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

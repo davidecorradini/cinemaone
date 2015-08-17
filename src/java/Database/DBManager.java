@@ -950,10 +950,11 @@ public class DBManager implements Serializable {
                 "ORDER BY SP.DATA_ORA;");
         stm.setInt(1, filmId);
         ResultSet rs = stm.executeQuery();
-        ArrayList<Spettacolo> tmpSpettacoli = new ArrayList<>();
-        Film tmpFilm = new Film();
+        ArrayList<Spettacolo> tmpSpettacoli = null;
+        Film tmpFilm = null;
         if(rs.next()){
-            
+            tmpSpettacoli = new ArrayList<>();
+            tmpFilm = new Film();
             tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
             tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
             tmpFilm.setDurata(rs.getInt("DURATA"));
