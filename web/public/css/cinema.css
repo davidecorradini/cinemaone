@@ -1,0 +1,187 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700,400italic,100);
+
+body {
+    padding-top: 60px;
+    font-family: 'Roboto', sans-serif;
+    background-color: #FAFAFA;
+}
+
+h1 {
+    font-size: 52px;
+    font-weight: 100;
+    margin: 0;
+}
+
+.navbar-default {
+    box-shadow: 0 0 5px rgba(255, 255, 255, .5);
+}
+
+/*
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a {
+    background-color: #263238;
+    color: #CFD8DC;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    background-color: #37474F;
+    color: #B0BEC5;
+}
+*/
+
+.banner { position: relative; overflow: auto; }
+.banner li { list-style: none; }
+.banner ul li { float: left; }
+
+
+.slider {
+    width: 100%;
+    height: 400px;
+    background-image: url(../img/slider/i-fantastici-4.png);
+    background-size: cover;
+    background-position: top center;
+    margin-bottom: 32px;
+}
+
+.subtitle {
+    font-size: 14px;
+    padding-left: 4px;
+}
+
+.sala {
+    width: 520px;
+    margin: 0 auto;
+}
+
+.posto {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    float: left;
+    margin: 3px;
+    padding: 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    outline: none;
+}
+
+.posto:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+}
+
+.libero {
+    border: 1px #455a64 solid;
+    background-color: #cfd8dc;
+}
+
+.libero:hover {
+    background-color: #90a4ae;
+}
+
+.selezionato {
+    border: 1px #388e3c solid;
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+.selezionato:hover {
+    background-color: #a5d6a7;
+}
+
+.occupato {
+    border: 1px #d32f2f solid;
+    background-color: #ffcdd2;
+    color: #d32f2f;
+    cursor: not-allowed;
+}
+
+.occupato:hover {
+    background-color: #ef9a9a;
+}
+
+.occupato-tmp {
+    border: 1px #ffa000 solid;
+    background-color: #ffecb3;
+    color: #ffa000;
+    cursor: wait;
+}
+
+.occupato-tmp:hover {
+    background-color: #ffd54f;
+}
+
+.invisibile {
+    opacity: 0;
+    cursor: default;
+}
+
+.selezionato-container {
+    /*display: none;*/
+    height: 32px;
+    padding: 4px;
+    border: 1px #388e3c solid;
+    background-color: #e8f5e9;
+    border-radius: 3px;
+    color: #388e3c;
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 6px;
+}
+
+.posto-side {
+    /*position: relative;*/
+    margin: -5px;
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    float: left;
+    padding: 0;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
+    outline: none;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+}
+
+footer {
+    width: 100%;
+    padding: 24px 0;
+    background-color: #283645;
+    border-bottom: 24px #1C2631 solid;
+    color: #FAFAFA;
+    font-size: 12px;
+}
+
+.footer-brand {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* HELPERS */
+
+.zmdi-right-8 {
+    margin-right: 8px;
+}
+
+.zmdi-right-4 {
+    margin-right: 4px;
+}
+
+.navbar-brand {
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+}
+
+ul.nav.navbar-nav.navbar-right li a {
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+}
