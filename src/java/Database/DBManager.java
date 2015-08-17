@@ -12,6 +12,7 @@ import Beans.Prenotazione;
 import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
+import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.Utente;
 import java.io.Serializable;
@@ -688,7 +689,7 @@ public class DBManager implements Serializable {
     //In Object[0] prenotazione e Object[1] Posto.
     public ArrayList<Object[]> getPostiOccupati(Integer id_spettacolo) throws SQLException{
         ArrayList<Object[]> res = new ArrayList<>();
-         PreparedStatement stm = con.prepareStatement( " SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO,PR2.ID_PRENOTAZIONE,PR2.ID_UTENTE,PR2.ID_SPETTACOLO,PR2.ID_POSTO,PR2.ID_PREZZO,PR2.DATA_ORA_OPERAZIONE FROM POSTO P JOIN PRENOTAZIONE PR2 ON PR2.ID_POSTO=P.ID_POSTO WHERE P.ID_POSTO IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?) " );
+        PreparedStatement stm = con.prepareStatement( " SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO,PR2.ID_PRENOTAZIONE,PR2.ID_UTENTE,PR2.ID_SPETTACOLO,PR2.ID_POSTO,PR2.ID_PREZZO,PR2.DATA_ORA_OPERAZIONE FROM POSTO P JOIN PRENOTAZIONE PR2 ON PR2.ID_POSTO=P.ID_POSTO WHERE P.ID_POSTO IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?) " );
         try {
             stm.setInt(1, id_spettacolo);
             ResultSet rs = stm.executeQuery();
@@ -729,5 +730,40 @@ public class DBManager implements Serializable {
     }
     
     
-    
+    //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
+    public ArrayList<Object[]> getSpettacoli() throws SQLException{
+        ArrayList<Object[]> res = new ArrayList<>();
+        PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA,S.ID_SALA,S.NOME,S.DESCRIZIONE, SP.DATA_ORA \n" +
+"FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA;");
+        ResultSet rs = stm.executeQuery();
+        try {
+            while(rs.next()){
+                Object[] tmp = new Object[3];
+                Film tmpFilm = new Film();
+                Sala tmpSala = new Sala();
+                Timestamp dataOra;
+                tmpFilm.setDurata(rs.getInt("DURATA"));
+                tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+                tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpFilm.setIsInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                tmpFilm.setTitolo(rs.getString("TITOLO"));
+                tmpFilm.setTrama(rs.getString("TRAMA"));
+                tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
+                tmpSala.setIdSala(rs.getInt("ID_SALA"));
+                tmpSala.setNome(rs.getString("NOME"));
+                dataOra = rs.getTimestamp("DATA_ORA");
+                tmp[0] = tmpFilm;
+                tmp[1] = tmpSala;
+                tmp[2] = dataOra;
+                res.add(tmp);
+                }
+            } finally {
+                rs.close();
+            }
+        
+        return res;
+    }
+      
 }
