@@ -18,16 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author enrico
+ * @author alessandro
  */
-public class Spettacoli extends HttpServlet {
+public class ProgFilm extends HttpServlet {
     private DBManager manager;
 
     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,21 +38,20 @@ public class Spettacoli extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Object[]> spettacoli = null; 
+        ArrayList<Object[]> film = new ArrayList<>();
         try {
-            spettacoli = manager.getSpettacoli(); //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
+            film = manager.getFilmESpettacoli();
         } catch (SQLException ex) {
-            //to do gestisci errore
+            //to do  gestisci errore
         }
-        request.setAttribute("spettacoli", spettacoli);
+        request.setAttribute("film", film);
     }
     
     @Override
     public void destroy(){
         this.manager = null;
     }
-
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
