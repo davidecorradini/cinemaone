@@ -34,7 +34,7 @@
     </servlet>
     <servlet>
         <servlet-name>HomeSlider</servlet-name>
-        <servlet-class>Servlets.HomeSlider</servlet-class>
+        <servlet-class>Servlets.Home</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ProgrammazioneFilm</servlet-name>

@@ -1007,7 +1007,6 @@ exists or setup the property manually. For example like this:
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
         <copyfiles files="${libs.JAVADB_DRIVER_LABEL.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.jstl.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.json-simple-1.1.1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.java-json.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">

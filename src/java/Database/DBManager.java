@@ -187,12 +187,11 @@ public class DBManager implements Serializable {
         // possiamo farci passare tutta una classe spettacolo
         
         PreparedStatement stm;
-        stm = con.prepareStatement(" INSERT INTO SPETTACOLO (ID_FILM, ID_SALA, DATA_ORA, URI_LOCANDINA) VALUES (?,?,'?','?') ");
+        stm = con.prepareStatement(" INSERT INTO SPETTACOLO (ID_FILM, ID_SALA, DATA_ORA) VALUES (?,?,'?') ");
         try {
             stm.setInt(1, sp.getIdFilm());
             stm.setInt(2, sp.getIdSala());
             stm.setTimestamp(3, sp.getDataOra());
-            //stm.setInt(4, ()); mettiamo anche l'uri??
             stm.executeUpdate();
         } finally {
             stm.close();
@@ -943,4 +942,44 @@ public class DBManager implements Serializable {
         return res;
     }
     
+    public Object[] getFilmESpettacoli(int filmId) throws SQLException{
+        Object[] res = new Object[2];
+        PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
+                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
+                "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP AND F.ID_FILM = ?\n" +
+                "ORDER BY SP.DATA_ORA;");
+        stm.setInt(1, filmId);
+        ResultSet rs = stm.executeQuery();
+        ArrayList<Spettacolo> tmpSpettacoli = new ArrayList<>();
+        Film tmpFilm = new Film();
+        if(rs.next()){
+            
+            tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+            tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+            tmpFilm.setDurata(rs.getInt("DURATA"));
+            tmpFilm.setTitolo(rs.getString("TITOLO"));
+            tmpFilm.setTrama(rs.getString("TRAMA"));
+            tmpFilm.setIsInSlider(rs.getBoolean("IS_IN_SLIDER"));
+            tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+            tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                        
+            Spettacolo tmpSpettacolo = new Spettacolo();
+            tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+            tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
+            tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
+            tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
+            tmpSpettacoli.add(tmpSpettacolo);
+        }
+        while(rs.next()){
+            Spettacolo tmpSpettacolo = new Spettacolo();
+            tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+            tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
+            tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
+            tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
+            tmpSpettacoli.add(tmpSpettacolo);
+        }        
+        res[0]=tmpFilm;
+        res[1]=tmpSpettacoli;
+        return res;
+    }
 }

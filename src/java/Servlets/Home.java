@@ -6,9 +6,13 @@
 package Servlets;
 
 import Beans.Film;
+import Beans.Prezzo;
 import Database.DBManager;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author enrico
  */
-public class HomeSlider extends HttpServlet {
+public class Home extends HttpServlet {
     private DBManager manager;
 
     @Override
@@ -37,8 +41,20 @@ public class HomeSlider extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Film> films = null;
-                //= manager.getFilmsSlider();
+        try {
+            films = manager.getFilmsSlider();
+        } catch (SQLException ex) {
+            // to do
+        }
         request.setAttribute("filmsSlider", films);
+        
+        ArrayList<Prezzo> prezzi = null;
+        try {
+            prezzi = manager.getAllPrezzi();
+        } catch (SQLException ex) {
+            //TO DO hadle error
+        }
+        request.setAttribute("prezzi", prezzi);
         getServletContext().getRequestDispatcher("home.jsp").forward(request, response);
     }
     
