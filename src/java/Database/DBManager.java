@@ -7,13 +7,19 @@ package Database;
  */
 
 import Beans.Film;
+import Beans.FilmPrezzo;
+import Beans.FilmSpettacoli;
+import Beans.IncassoFilm;
 import Beans.Posto;
+import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
+import Beans.PrenotazionePosto;
 import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
 import Beans.Sala;
 import Beans.Spettacolo;
+import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -517,13 +523,13 @@ public class DBManager implements Serializable {
      */
     
     //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
-    public ArrayList<Object[]> getSpettacoli() throws SQLException{
-        ArrayList<Object[]> res = new ArrayList<>();
+    public ArrayList<SpettacoloSalaOrario> getSpettacoli() throws SQLException{
+        ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA,S.ID_SALA,S.NOME,S.DESCRIZIONE, SP.DATA_ORA FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP;");
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
-                Object[] tmp = new Object[3];
+                SpettacoloSalaOrario tmp = new SpettacoloSalaOrario();
                 Film tmpFilm = new Film();
                 Sala tmpSala = new Sala();
                 Timestamp dataOra;
@@ -539,9 +545,9 @@ public class DBManager implements Serializable {
                 tmpSala.setIdSala(rs.getInt("ID_SALA"));
                 tmpSala.setNome(rs.getString("NOME"));
                 dataOra = rs.getTimestamp("DATA_ORA");
-                tmp[0] = tmpFilm;
-                tmp[1] = tmpSala;
-                tmp[2] = dataOra;
+                tmp.setFilm(tmpFilm);
+                tmp.setSala(tmpSala);
+                tmp.setDataOra(dataOra);
                 res.add(tmp);
             }
         } finally {
@@ -595,18 +601,18 @@ public class DBManager implements Serializable {
      */
     
     
-    public ArrayList<Object[]> getStorico(Utente ut) throws SQLException{
+    public ArrayList<FilmPrezzo> getStorico(Utente ut) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement(
                 "SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.URI_LOCANDINA, PR.ID_PREZZO, PR.TIPO, PR.PREZZO FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO WHERE P.ID_UTENTE = ?");
-        ArrayList<Object[]> res = new ArrayList<>();
+        ArrayList<FilmPrezzo> res = new ArrayList<>();
         try {
             stm.setInt(1, ut.getIdUtente());
             ResultSet rs = stm.executeQuery();
             try {
                 
                 while(rs.next()){
-                    Object[] tmp = new Object[2];
+                    FilmPrezzo tmp = new FilmPrezzo();
                     
                     Film tmpFilm = new Film();
                     tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
@@ -622,8 +628,8 @@ public class DBManager implements Serializable {
                     tmpPrezzo.setPrezzo(rs.getDouble("PREZZO"));
                     tmpPrezzo.setTipo(rs.getString("TIPO"));
                     
-                    tmp[0] = tmpFilm;
-                    tmp[1] = tmpPrezzo;
+                    tmp.setFilm(tmpFilm);
+                    tmp.setPrezzo(tmpPrezzo);
                     res.add(tmp);
                 }
             } finally {
@@ -641,18 +647,18 @@ public class DBManager implements Serializable {
      * @return array di coppie di object, il primo elemento di ogni coppia è l'incasso, il secondo è l'ID del film
      * @throws SQLException
      */
-    public ArrayList<Object[]> getFilmPrezzo() throws SQLException{
-        ArrayList<Object[]> res = new ArrayList<>();
+    public ArrayList<IncassoFilm> getFilmIncasso() throws SQLException{
+        ArrayList<IncassoFilm> res = new ArrayList<>();
         PreparedStatement stm;
         stm = con.prepareStatement( " SELECT DISTINCT F.ID_FILM, SUM (PR.PREZZO) AS TOT FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO GROUP BY F.ID_FILM " );
         try {
             ResultSet rs = stm.executeQuery();
             try {
                 while(rs.next()){
-                    Object[] tmp = new Object[2];
+                    IncassoFilm tmp = new IncassoFilm();
                     
-                    tmp[0] = rs.getInt("TOT");
-                    tmp[1] = rs.getInt("F.ID_FILM");
+                    tmp.setIdFilm(rs.getInt("F.ID_FILM"));
+                    tmp.setIncasso(rs.getDouble("TOT"));                   
                     
                     res.add(tmp);
                 }
@@ -705,9 +711,9 @@ public class DBManager implements Serializable {
      * @return ArrayList di prenotazionitmp relative a uno spettacolo
      * @throws SQLException
      */
-    public ArrayList<Object[]> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
+    public ArrayList<PrenTmpPosto> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
         PreparedStatement stm;
-        ArrayList<Object[]> PrenotazioniTmp = new ArrayList<>();
+        ArrayList<PrenTmpPosto> PrenotazioniTmp = new ArrayList<>();
         stm = con.prepareStatement("SELECT * FROM PRENOTAZIONETmp JOIN POSTO WHERE ID_SPETTACOLO = ?;");
         try {
             stm.setInt(1,id_spettacolo);
@@ -726,9 +732,9 @@ public class DBManager implements Serializable {
                     posto.setIdPosto(rs.getInt("ID_POSTO"));
                     posto.setIdSala(rs.getInt("ID_SALA"));
                     posto.setStato(rs.getInt("STATO"));
-                    Object res[] = new Object[2];
-                    res[0] = tmp;
-                    res[1] = posto;
+                    PrenTmpPosto res = new PrenTmpPosto();
+                    res.setPren(tmp);
+                    res.setPosto(posto);
                     PrenotazioniTmp.add(res);
                 }
             } finally {
@@ -747,9 +753,9 @@ public class DBManager implements Serializable {
      * @return ArrayList di prenotazioni relative a uno spettacolo
      * @throws SQLException
      */
-    public ArrayList<Object[]> getPrenotazione(int id_spettacolo) throws SQLException{
+    public ArrayList<PrenotazionePosto> getPrenotazioni(int id_spettacolo) throws SQLException{
         PreparedStatement stm;
-        ArrayList<Object[]> Prenotazioni = new ArrayList<>();
+        ArrayList<PrenotazionePosto> prenotazioni = new ArrayList<>();
         stm = con.prepareStatement("SELECT * FROM PRENOTAZIONE WHERE ID_SPETTACOLO=?");
         try {
             stm.setInt(1,id_spettacolo);
@@ -769,10 +775,10 @@ public class DBManager implements Serializable {
                     posto.setIdPosto(rs.getInt("ID_POSTO"));
                     posto.setIdSala(rs.getInt("ID_SALA"));
                     posto.setStato(rs.getInt("STATO")); //se è prenotato dovremmo essere già sicuri che è in buono stato? abbiamo già fatto questo controllo da qualche parte?
-                    Object res[] = new Object[2];
-                    res[0] = tmp;
-                    res[1] = posto;
-                    Prenotazioni.add(res);
+                    PrenotazionePosto res = new PrenotazionePosto();
+                    res.setPrenotazione(tmp);
+                    res.setPosto(posto);
+                    prenotazioni.add(res);
                 }
             } finally {
                 rs.close();
@@ -780,7 +786,7 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
-        return Prenotazioni;
+        return prenotazioni;
     }
     
     
@@ -830,8 +836,8 @@ public class DBManager implements Serializable {
      * @return ArrayList di coppie di object, il primo elemento contiene la prenotazione, il secondo contiene il posto
      * @throws SQLException
      */
-    public ArrayList<Object[]> getPostiOccupati(Integer id_spettacolo) throws SQLException{
-        ArrayList<Object[]> res = new ArrayList<>();
+    public ArrayList<PrenotazionePosto> getPostiOccupati(Integer id_spettacolo) throws SQLException{
+        ArrayList<PrenotazionePosto> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement( " SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO,PR2.ID_PRENOTAZIONE,PR2.ID_UTENTE,PR2.ID_SPETTACOLO,PR2.ID_POSTO,PR2.ID_PREZZO,PR2.DATA_ORA_OPERAZIONE FROM POSTO P JOIN PRENOTAZIONE PR2 ON PR2.ID_POSTO=P.ID_POSTO WHERE P.ID_POSTO IN( SELECT PR.ID_POSTO FROM PRENOTAZIONE PR WHERE PR.ID_SPETTACOLO = ?) " );
         try {
             stm.setInt(1, id_spettacolo);
@@ -839,7 +845,7 @@ public class DBManager implements Serializable {
             try {
                 while(rs.next()){
                     
-                    Object[] tmp = new Object[2];
+                    PrenotazionePosto tmp = new PrenotazionePosto();
                     
                     Prenotazione tmpPre = new Prenotazione();
                     
@@ -859,8 +865,8 @@ public class DBManager implements Serializable {
                     tmpPosto.setColonna(rs.getInt("COLONNA"));
                     tmpPosto.setStato(rs.getInt("STATO"));
                     
-                    tmp[0] = tmpPre;
-                    tmp[1] = tmpPosto;
+                    tmp.setPrenotazione(tmpPre);
+                    tmp.setPosto(tmpPosto);
                     res.add(tmp);
                 }
             } finally {
@@ -873,8 +879,8 @@ public class DBManager implements Serializable {
     }
     
     
-    public ArrayList<Object[]> getFilmESpettacoli() throws SQLException{
-        ArrayList<Object[]> res = new ArrayList<>();
+    public ArrayList<FilmSpettacoli> getFilmESpettacoli() throws SQLException{
+        ArrayList<FilmSpettacoli> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
                 "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP\n" +
@@ -883,7 +889,7 @@ public class DBManager implements Serializable {
         try {
             int oldId = 0;
             ArrayList<Spettacolo> tmpSpettacoli = new ArrayList<>();            
-            Object[] tmp = new Object[2];
+            FilmSpettacoli tmp = new FilmSpettacoli();
             if(rs.next()){
                 Spettacolo tmpSpettacolo = new Spettacolo();
                 tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
@@ -902,8 +908,8 @@ public class DBManager implements Serializable {
                 tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
                 tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
                 
-                tmp[0] = tmpFilm;
-                tmp[1] = tmpSpettacoli;            
+                tmp.setFilm(tmpFilm);
+                tmp.setSpettacoli(tmpSpettacoli);            
                 
                 tmpSpettacoli.add(tmpSpettacolo);
             }
@@ -918,7 +924,7 @@ public class DBManager implements Serializable {
                 int idFilm = rs.getInt("ID_FILM");
                 if(idFilm != oldId){
                     res.add(tmp);                    
-                    tmp = new Object[2];  
+                    tmp = new FilmSpettacoli();
                     Film tmpFilm = new Film();
                     tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                     tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
@@ -930,8 +936,8 @@ public class DBManager implements Serializable {
                     tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
                     tmpSpettacoli = new ArrayList<>();
                     
-                    tmp[0] = tmpFilm;
-                    tmp[1] = tmpSpettacoli;    
+                    tmp.setFilm(tmpFilm);
+                    tmp.setSpettacoli(tmpSpettacoli);
                     oldId = idFilm;
                 }
                 tmpSpettacoli.add(tmpSpettacolo);
@@ -942,8 +948,8 @@ public class DBManager implements Serializable {
         return res;
     }
     
-    public Object[] getFilmESpettacoli(int filmId) throws SQLException{
-        Object[] res = new Object[2];
+    public FilmSpettacoli getFilmESpettacoli(int filmId) throws SQLException{
+        FilmSpettacoli res = new FilmSpettacoli();
         PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
                 "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP AND F.ID_FILM = ?\n" +
@@ -979,8 +985,8 @@ public class DBManager implements Serializable {
             tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
             tmpSpettacoli.add(tmpSpettacolo);
         }        
-        res[0]=tmpFilm;
-        res[1]=tmpSpettacoli;
+        res.setFilm(tmpFilm);
+        res.setSpettacoli(tmpSpettacoli);
         return res;
     }
 }

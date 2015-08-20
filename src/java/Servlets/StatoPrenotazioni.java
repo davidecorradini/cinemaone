@@ -6,6 +6,9 @@
 package Servlets;
 
 import Beans.Posto;
+import Beans.PrenTmpPosto;
+import Beans.Prenotazione;
+import Beans.PrenotazionePosto;
 import Beans.PrenotazioneTmp;
 import Database.DBManager;
 import java.io.IOException;
@@ -71,8 +74,8 @@ private DBManager manager;
             //TO DO forward to error.jsp
         }
         
-        ArrayList<Object[]> result = null;
-        ArrayList<Object[]> occupied = null;
+        ArrayList<PrenTmpPosto> result = null;
+        ArrayList<PrenotazionePosto> occupied = null;
         try {
             result = manager.getPrenotazioneTmp(idSpettacolo);
             occupied = manager.getPostiOccupati(idSpettacolo);
@@ -86,10 +89,10 @@ private DBManager manager;
 //creazione json, serializzo il result...trova una libreria decente.
         JSONObject json = new JSONObject();
         try {
-            for(Object[] res : occupied){
-                Posto posto = (Posto) res[1];
+            for(PrenotazionePosto res : occupied){
+                Posto posto = res.getPosto();
                 postiSettati.add(posto);
-                PrenotazioneTmp pren = (PrenotazioneTmp) res[0];
+                Prenotazione pren = res.getPrenotazione();
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", posto.getRiga());
@@ -100,12 +103,12 @@ private DBManager manager;
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
             
-            for(Object[] res : result){ //cicla su prenotazioniTmp.
-                Posto posto = (Posto) res[1];
+            for(PrenTmpPosto res : result){ //cicla su prenotazioniTmp.
+                Posto posto = res.getPosto();
                
                 if(!postiSettati.contains(posto)){ //non dovrebbe mai essere vera.                   
                     
-                    PrenotazioneTmp pren = (PrenotazioneTmp) res[0];
+                    PrenotazioneTmp pren = res.getPren();
                     JSONObject jsonObject= new JSONObject();
                     
                     jsonObject.put("x", posto.getColonna());

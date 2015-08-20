@@ -5,12 +5,11 @@
  */
 package Servlets;
 
+import Beans.FilmSpettacoli;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +37,7 @@ public class ProgFilm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Object[]> film = new ArrayList<>();
+        ArrayList<FilmSpettacoli> film = new ArrayList<>();
         try {
             film = manager.getFilmESpettacoli();
         } catch (SQLException ex) {

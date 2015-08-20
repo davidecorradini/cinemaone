@@ -5,12 +5,11 @@
  */
 package Servlets;
 
+import Beans.SpettacoloSalaOrario;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class Spettacoli extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<Object[]> spettacoli = null; 
+        ArrayList<SpettacoloSalaOrario> spettacoli = null; 
         try {
             spettacoli = manager.getSpettacoli(); //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
         } catch (SQLException ex) {
