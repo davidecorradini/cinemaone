@@ -43,7 +43,7 @@ public class DettaglioFilm extends HttpServlet {
             //TO DO forward to error page or to film page.
         }
         try {
-            dettaglioFilm = manager.getFilmESpettacoli(idFilm.intValue());
+            dettaglioFilm = manager.getFilmSpettacoli(idFilm.intValue());
         } catch (SQLException ex) {
             //TO DO handle exception
         }

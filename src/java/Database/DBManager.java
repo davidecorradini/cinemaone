@@ -973,7 +973,7 @@ public class DBManager implements Serializable {
      * @return
      * @throws SQLException 
      */
-    public FilmSpettacoli getFilmESpettacoli(int filmId) throws SQLException{
+    public FilmSpettacoli getFilmSpettacoli(int filmId) throws SQLException{
         FilmSpettacoli res = new FilmSpettacoli();
         PreparedStatement stm = con.prepareStatement(
                 "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
