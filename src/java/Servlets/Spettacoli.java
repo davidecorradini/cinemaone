@@ -15,10 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author enrico
- */
+
 public class Spettacoli extends HttpServlet {
     private DBManager manager;
 
@@ -40,12 +37,13 @@ public class Spettacoli extends HttpServlet {
             throws ServletException, IOException {
         ArrayList<SpettacoloSalaOrario> spettacoli = null; 
         try {
-            spettacoli = manager.getSpettacoli(); //deve ritornare un arrayList di triple di Object di cui il primo è il film, il secondo la sala e il terzo il timestamp di quand'è
+            //TO DO aggiungere film
+            spettacoli = manager.getSpettacoli(); 
         } catch (SQLException ex) {
             //to do gestisci errore
         }
         request.setAttribute("spettacoli", spettacoli);
-        getServletContext().getRequestDispatcher("spettacoli.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("spettacoli.html").forward(request, response);
     }
     
     @Override

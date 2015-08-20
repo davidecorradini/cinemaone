@@ -48,7 +48,14 @@
         <servlet-name>DettaglioFilm</servlet-name>
         <servlet-class>Servlets.DettaglioFilm</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>Prenotazioni</servlet-name>
+        <servlet-class>Servlets.Prenotazioni</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>aggiungiPrenTmp</servlet-name>
+        <servlet-class>Servlets.aggiungiPrenTmp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -59,7 +66,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/Hhme</url-pattern>
+        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProgFilm</servlet-name>
@@ -72,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>Spettacoli</servlet-name>
         <url-pattern>/spettacoli</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Prenotazioni</servlet-name>
+        <url-pattern>/prenotazioni</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>aggiungiPrenTmp</servlet-name>
+        <url-pattern>/aggiungiPrenotazioneTmp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

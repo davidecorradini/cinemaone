@@ -13,11 +13,9 @@ import Beans.PrenotazioneTmp;
 import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,18 +38,7 @@ private DBManager manager;
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-    
-    public String serialize(List<Object[]> lista) throws IOException{
-        for(Object[] coppia : lista){
-            PrenotazioneTmp prenotazione = (PrenotazioneTmp)coppia[0];
-            Posto posto = (Posto)coppia[1];
-            //json.
-        }
-        
-        StringWriter out = new StringWriter();
-        return out.toString();
-    }
-    
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -97,7 +84,7 @@ private DBManager manager;
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", posto.getRiga());
                 jsonObject.put("stato", "occupato");
-                 java.util.Date date= new java.util.Date();
+                java.util.Date date= new java.util.Date();
                 jsonObject.put("timestamp", new Timestamp(date.getTime()));
                 
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
@@ -136,8 +123,7 @@ private DBManager manager;
         
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
-            out.println("{\"1\":{\"x\" : \"1\", \"y\" : \"A\", \"stato\" : \"occupato\"}}");
-           // out.println(json.toString());
+            out.println(json.toString());
         }
     }
     

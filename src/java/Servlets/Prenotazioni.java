@@ -5,29 +5,26 @@
  */
 package Servlets;
 
-import Beans.Film;
-import Beans.Prezzo;
+import Beans.InfoPrenotazione;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author enrico
- */
-public class Home extends HttpServlet {
-    private DBManager manager;
 
+
+public class Prenotazioni extends HttpServlet {
+    private DBManager manager;
+    
+    
     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,28 +35,26 @@ public class Home extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<Film> films = null;
+        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
+        String idUtente = (String)request.getSession(false).getAttribute("idUtente");
+        InfoPrenotazione infoPrenotazione = null;
         try {
-            films = manager.getFilmsSlider();
-        } catch (SQLException ex) {
-            // TO DO  handle error
+            infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
+        } catch (SQLException ex){
+           //TO DO  handle error.
         }
-        request.setAttribute("filmsSlider", films);
         
-        ArrayList<Prezzo> prezzi = null;
-        try {
-            prezzi = manager.getAllPrezzi();
-        } catch (SQLException ex) {
-            //TO DO handle error
+        request.setAttribute("infoPrenotazione", infoPrenotazione);
+        
+        request.getRequestDispatcher("prenotazione.html").forward(request, response);
         }
-        request.setAttribute("prezzi", prezzi);
-        getServletContext().getRequestDispatcher("index.html").forward(request, response);
-    }
     
     @Override
     public void destroy(){
         this.manager = null;
     }
+    
+
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

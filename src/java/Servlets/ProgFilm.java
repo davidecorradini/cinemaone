@@ -15,10 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author alessandro
- */
+
 public class ProgFilm extends HttpServlet {
     private DBManager manager;
 
@@ -39,12 +36,13 @@ public class ProgFilm extends HttpServlet {
             throws ServletException, IOException {
         ArrayList<FilmSpettacoli> film = new ArrayList<>();
         try {
+            //TO DO seleziona solo i primi 3 spettacoli ad ogni film.
             film = manager.getFilmSpettacoli();
         } catch (SQLException ex) {
             //to do  gestisci errore
         }
         request.setAttribute("film", film);
-        getServletContext().getRequestDispatcher("film.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("film.html").forward(request, response);
     }
     
     @Override

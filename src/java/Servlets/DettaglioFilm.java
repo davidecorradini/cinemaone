@@ -14,10 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author alessandro
- */
+
 public class DettaglioFilm extends HttpServlet {
     private DBManager manager;
 
@@ -48,7 +45,7 @@ public class DettaglioFilm extends HttpServlet {
             //TO DO handle exception
         }
         request.setAttribute("dettaglioFilm", dettaglioFilm);
-        getServletContext().getRequestDispatcher("dettaglio-film.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("dettaglio-film.html").forward(request, response);
     }
     
     @Override
