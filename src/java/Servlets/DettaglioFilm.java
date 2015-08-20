@@ -38,7 +38,7 @@ public class DettaglioFilm extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         FilmSpettacoli dettaglioFilm = new FilmSpettacoli();
-        Integer idFilm = (int)request.getAttribute("idfilm");
+        Integer idFilm = Integer.parseInt(request.getParameter("idfilm"));
         if(idFilm == null){
             //TO DO forward to error page or to film page.
         }

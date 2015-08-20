@@ -29,15 +29,15 @@
         <servlet-class>Servlets.Login</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>Servlets.Home</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>StatoPrenotazioni</servlet-name>
         <servlet-class>Servlets.StatoPrenotazioni</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HomeSlider</servlet-name>
-        <servlet-class>Servlets.Home</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ProgrammazioneFilm</servlet-name>
+        <servlet-name>Spettacoli</servlet-name>
         <servlet-class>Servlets.Spettacoli</servlet-class>
     </servlet>
     <servlet>
@@ -48,29 +48,30 @@
         <servlet-name>DettaglioFilm</servlet-name>
         <servlet-class>Servlets.DettaglioFilm</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/Login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StatoPrenotazioni</servlet-name>
         <url-pattern>/statoPrenotazioni</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HomeSlider</servlet-name>
-        <url-pattern>/HomeSlider</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ProgrammazioneFilm</servlet-name>
-        <url-pattern>/ProgrammazioneFilm</url-pattern>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Hhme</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProgFilm</servlet-name>
-        <url-pattern>/ProgFilm</url-pattern>
+        <url-pattern>/progFilm</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DettaglioFilm</servlet-name>
-        <url-pattern>/DettaglioFilm</url-pattern>
+        <url-pattern>/dettaglioFilm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Spettacoli</servlet-name>
+        <url-pattern>/spettacoli</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

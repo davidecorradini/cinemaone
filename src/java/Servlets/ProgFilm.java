@@ -39,7 +39,7 @@ public class ProgFilm extends HttpServlet {
             throws ServletException, IOException {
         ArrayList<FilmSpettacoli> film = new ArrayList<>();
         try {
-            film = manager.getFilmESpettacoli();
+            film = manager.getFilmSpettacoli();
         } catch (SQLException ex) {
             //to do  gestisci errore
         }

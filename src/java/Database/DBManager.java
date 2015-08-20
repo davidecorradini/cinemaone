@@ -897,7 +897,7 @@ public class DBManager implements Serializable {
      * @return lista di Film e relativi spettacoli.
      * @throws SQLException 
      */
-    public ArrayList<FilmSpettacoli> getFilmESpettacoli() throws SQLException{
+    public ArrayList<FilmSpettacoli> getFilmSpettacoli() throws SQLException{
         ArrayList<FilmSpettacoli> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
                 "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
