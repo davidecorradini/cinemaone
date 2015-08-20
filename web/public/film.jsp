@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 --%>
 
-<jsp:useBean id="f" scope="request" class="Beans.Film"/>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -35,6 +34,9 @@
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                             <span class="sr-only">Toggle navigation</span>
+                            
+                            
+                            
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -70,22 +72,21 @@
             
             
             
-            <c:forEach var="obj" items="${film}">
-                
-                <c:set var="f" value="$ {obj[0]}"/>
-                <c:set var="spettacoli" value="$ {obj[1]}"/>
-                
+            <c:forEach var="tmp" items="${requestScope.film}">
                 <div class="media">
                     <div class="media-left">
-                        <a href="dettaglio-film.html"><img class="media-object thumbnail" src="img/movie/locandina_i-fantastici-4.jpg" alt="i-fantastici-4" style="height: 200px"></a>
+                        <a href="DettaglioFilm?idfilm=<c:out value="${tmp.getFilm().getIdFilm()}"></c:out>"><img class="media-object thumbnail" src="img/movie/<c:out value="${tmp.getFilm().getUriLocandina()}"></c:out>" style="height: 200px"></a>
                     </div>
                     <div class="media-body">
-                        <h3 class="media-heading"><a href="dettaglio-film.html"> <c:out value="${f.titolo}"/> </a> <small>Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></h3>
-                        <p>Quattro amici (Reed Richards, i fratelli Susan e Johnny Storm e Ben Grimm) insieme al dottor Victor von Doom partono per...<a href="dettaglio-film.html">[vedi dettagli]</a></p>
-                        <p>Programmazione<ul><li>Luned&igrave; 9.00</li><li>Luned&igrave; 9.00</li><li>Luned&igrave; 9.00</li></ul></p>
+                        <h3 class="media-heading"><a href="DettaglioFilm?idfilm=<c:out value="${tmp.getFilm().getIdFilm()}"></c:out>"><c:out value="${tmp.getFilm().getTitolo()}"></c:out></a> <small><c:out value="${tmp.getFilm().getUriLocandina()}"></c:out>Tim Story &middot; 2005 &middot; <c:out value="${tmp.getFilm().getGenere()}"></c:out> &middot; <c:out value="${tmp.getFilm().getDurata()}"></c:out></small></h3>
+                        <p><c:out value="${tmp.getFilm().getTrama()}"></c:out><a href="DettaglioFilm?idfilm=<c:out value="${tmp.getFilm().getIdFilm()}"></c:out>">[vedi dettagli]</a></p>
+                        <p>Programmazione<ul>
+                            <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
+                                <li><c:out value="${tmp1.getDataOra()}"></c:out></li>
+                            </c:forEach>
+                        </ul></p>
                     </div>
                 </div>
-                
             </c:forEach>
             
             

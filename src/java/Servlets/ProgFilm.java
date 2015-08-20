@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.FilmSpettacoli;
 import Database.DBManager;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -41,6 +42,18 @@ public class ProgFilm extends HttpServlet {
         } catch (SQLException ex) {
             //to do  gestisci errore
         }
+        
+         FileWriter w;
+    w=new FileWriter("scrittura.txt");
+
+    w.write('a');
+    w.write('b');
+
+    w.flush();
+        
+        System.out.println("lista film: "+film);
+        
+        
         request.setAttribute("film", film);
         getServletContext().getRequestDispatcher("film.html").forward(request, response);
     }
