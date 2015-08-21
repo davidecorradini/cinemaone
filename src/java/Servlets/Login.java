@@ -31,13 +31,13 @@ public class Login extends HttpServlet {
         try{
             user = manager.authenticate(username, password);
         }catch(SQLException ex){
-            RequestDispatcher rd = request.getRequestDispatcher("/public/error.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/jsp/error.jsp");
             request.setAttribute("error", ex);
             rd.forward(request, response);
             return;
         }
         if(user == null){
-        RequestDispatcher rd = request.getRequestDispatcher("/public/login.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
         request.setAttribute("message", "Username/password non esistente");
         rd.forward(request, response);        
         }else{

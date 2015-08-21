@@ -53,7 +53,7 @@ public class Home extends HttpServlet {
             //TO DO handle error
         }
         request.setAttribute("prezzi", prezzi);
-        getServletContext().getRequestDispatcher("index.html").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
     }
     
     @Override

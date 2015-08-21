@@ -45,7 +45,7 @@ public class DettaglioFilm extends HttpServlet {
             //TO DO handle exception
         }
         request.setAttribute("dettaglioFilm", dettaglioFilm);
-        getServletContext().getRequestDispatcher("dettaglio-film.html").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/dettaglio-film.jsp").forward(request, response);
     }
     
     @Override

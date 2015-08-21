@@ -6,26 +6,28 @@
 package Filters;
 
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-
-public class SessionFilter implements Filter {
-    private String lastID = null;
+/**
+ *
+ * @author enrico
+ */
+public class JspAccessFilter implements Filter {
     
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public SessionFilter() {
+    public JspAccessFilter() {
     }    
     
     /**
@@ -37,13 +39,10 @@ public class SessionFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
         
-                
-        doBeforeProcessing(request, response);
         
         Throwable problem = null;
         try {
@@ -56,12 +55,10 @@ public class SessionFilter implements Filter {
             t.printStackTrace();
         }
         
-
     }
 
     /**
      * Return the filter configuration object for this filter.
-     * @return 
      */
     public FilterConfig getFilterConfig() {
         return (this.filterConfig);
@@ -77,10 +74,14 @@ public class SessionFilter implements Filter {
     }
 
     /**
-     * Init method for this filter
-     * @param filterConfig
+     * Destroy method for this filter
      */
-    @Override
+    public void destroy() {        
+    }
+
+    /**
+     * Init method for this filter
+     */
     public void init(FilterConfig filterConfig) {        
         this.filterConfig = filterConfig;
     }
@@ -91,35 +92,60 @@ public class SessionFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("SessionFilter()");
+            return ("JspAccessFilter()");
         }
-        StringBuilder sb = new StringBuilder("SessionFilter(");
+        StringBuffer sb = new StringBuffer("JspAccessFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
     }
     
-    private void doBeforeProcessing(ServletRequest requestS, ServletResponse responseS) {
-        HttpServletRequest request = (HttpServletRequest)requestS;
-        HttpServletResponse response = (HttpServletResponse)responseS;
+    private void sendProcessingError(Throwable t, ServletResponse response) {
+        String stackTrace = getStackTrace(t);        
         
-        HttpSession session = request.getSession(true);
-        if(session.getAttribute("idUtente") == null){ //se non ha una sessione
-            session.setAttribute("idUtente", generaIdUtente());
-        }
-    }    
-   
-    @Override
-    public void destroy() {
-        this.filterConfig = null;
-    }
+        if (stackTrace != null && !stackTrace.equals("")) {
+            try {
+                response.setContentType("text/html");
+                PrintStream ps = new PrintStream(response.getOutputStream());
+                PrintWriter pw = new PrintWriter(ps);                
+                pw.print("<html>\n<head>\n<title>Error</title>\n</head>\n<body>\n"); //NOI18N
 
-    private String generaIdUtente(){
-        if(lastID == null){
-            lastID = "";
+                // PENDING! Localize this for next official release
+                pw.print("<h1>The resource did not process correctly</h1>\n<pre>\n");                
+                pw.print(stackTrace);                
+                pw.print("</pre></body>\n</html>"); //NOI18N
+                pw.close();
+                ps.close();
+                response.getOutputStream().close();
+            } catch (Exception ex) {
+            }
+        } else {
+            try {
+                PrintStream ps = new PrintStream(response.getOutputStream());
+                t.printStackTrace(ps);
+                ps.close();
+                response.getOutputStream().close();
+            } catch (Exception ex) {
+            }
         }
-        //lastID = lastID.
-        return null;
+    }
+    
+    public static String getStackTrace(Throwable t) {
+        String stackTrace = null;
+        try {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            t.printStackTrace(pw);
+            pw.close();
+            sw.close();
+            stackTrace = sw.getBuffer().toString();
+        } catch (Exception ex) {
+        }
+        return stackTrace;
+    }
+    
+    public void log(String msg) {
+        filterConfig.getServletContext().log(msg);        
     }
     
 }

@@ -8,6 +8,14 @@
         <filter-name>SessionFilter</filter-name>
         <filter-class>Filters.SessionFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>JspAccessFilter</filter-name>
+        <filter-class>Filters.JspAccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>JspAccessFilter</filter-name>
+        <url-pattern>/jsp/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>TimeLogger</filter-name>
         <url-pattern>/*</url-pattern>
@@ -58,35 +66,35 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/login</url-pattern>
+        <url-pattern>/login.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StatoPrenotazioni</servlet-name>
-        <url-pattern>/statoPrenotazioni</url-pattern>
+        <url-pattern>/output/statoPrenotazioni</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
-        <url-pattern>/index</url-pattern>
+        <url-pattern>/index.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProgFilm</servlet-name>
-        <url-pattern>/progFilm</url-pattern>
+        <url-pattern>/film.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DettaglioFilm</servlet-name>
-        <url-pattern>/dettaglioFilm</url-pattern>
+        <url-pattern>/dettaglio-film.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Spettacoli</servlet-name>
-        <url-pattern>/spettacoli</url-pattern>
+        <url-pattern>/spettacoli.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Prenotazioni</servlet-name>
-        <url-pattern>/prenotazioni</url-pattern>
+        <url-pattern>/prenotazione.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>aggiungiPrenTmp</servlet-name>
-        <url-pattern>/aggiungiPrenotazioneTmp</url-pattern>
+        <url-pattern>/input/aggiungiPrenotazioneTmp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

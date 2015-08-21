@@ -46,7 +46,7 @@ public class Prenotazioni extends HttpServlet {
         
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         
-        request.getRequestDispatcher("prenotazione.html").forward(request, response);
+        request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
         }
     
     @Override
