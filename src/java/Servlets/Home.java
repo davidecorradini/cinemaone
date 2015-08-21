@@ -38,6 +38,7 @@ public class Home extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("HOME");
         ArrayList<Film> films = null;
         try {
             films = manager.getFilmsSlider();
@@ -45,7 +46,6 @@ public class Home extends HttpServlet {
             // TO DO  handle error
         }
         request.setAttribute("filmsSlider", films);
-        
         ArrayList<Prezzo> prezzi = null;
         try {
             prezzi = manager.getAllPrezzi();

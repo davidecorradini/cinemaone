@@ -35,6 +35,7 @@ public class ProgFilm extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("PROGFILM");
         ArrayList<FilmSpettacoli> film = new ArrayList<>();
         try {
             //TO DO seleziona solo i primi 3 spettacoli ad ogni film.
@@ -42,17 +43,7 @@ public class ProgFilm extends HttpServlet {
         } catch (SQLException ex) {
             //to do  gestisci errore
         }
-        
-         FileWriter w;
-    w=new FileWriter("scrittura.txt");
-
-    w.write('a');
-    w.write('b');
-
-    w.flush();
-        
-        System.out.println("lista film: "+film);
-        
+               
         
         request.setAttribute("film", film);
         getServletContext().getRequestDispatcher("/jsp/film.jsp").forward(request, response);
