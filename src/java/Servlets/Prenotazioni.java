@@ -42,7 +42,8 @@ public class Prenotazioni extends HttpServlet {
         try {
             infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
         } catch (SQLException ex){
-           //TO DO  handle error.
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
         request.setAttribute("infoPrenotazione", infoPrenotazione);

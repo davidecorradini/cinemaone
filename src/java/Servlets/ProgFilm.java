@@ -41,7 +41,8 @@ public class ProgFilm extends HttpServlet {
             //TO DO seleziona solo i primi 3 spettacoli ad ogni film.
             film = manager.getFilmSpettacoli();
         } catch (SQLException ex) {
-            //to do  gestisci errore
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
                
         

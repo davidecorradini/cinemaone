@@ -40,7 +40,8 @@ public class Spettacoli extends HttpServlet {
             //TO DO aggiungere film
             spettacoli = manager.getSpettacoli(); 
         } catch (SQLException ex) {
-            //to do gestisci errore
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         request.setAttribute("spettacoli", spettacoli);
         getServletContext().getRequestDispatcher("/jsp/spettacoli.jsp").forward(request, response);

@@ -31,10 +31,8 @@ public class Login extends HttpServlet {
         try{
             user = manager.authenticate(username, password);
         }catch(SQLException ex){
-            RequestDispatcher rd = request.getRequestDispatcher("/jsp/error.jsp");
-            request.setAttribute("error", ex);
-            rd.forward(request, response);
-            return;
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         if(user == null){
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");

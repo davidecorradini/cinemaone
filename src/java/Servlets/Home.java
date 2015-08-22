@@ -40,17 +40,21 @@ public class Home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("HOME");
         ArrayList<Film> films = null;
+       
         try {
             films = manager.getFilmsSlider();
         } catch (SQLException ex) {
-            // TO DO  handle error
+            request.setAttribute("error", "impossibile caricare la pagina home, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         request.setAttribute("filmsSlider", films);
         ArrayList<Prezzo> prezzi = null;
+        
         try {
             prezzi = manager.getAllPrezzi();
         } catch (SQLException ex) {
-            //TO DO handle error
+             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         request.setAttribute("prezzi", prezzi);
         getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);

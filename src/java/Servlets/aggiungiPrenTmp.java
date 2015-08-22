@@ -47,7 +47,8 @@ public class aggiungiPrenTmp extends HttpServlet {
         try {
             manager.aggiungiPrenotazioneTmp(prenTmp);
         } catch (SQLException ex) {
-            //TO DO: handle error
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
     }
     

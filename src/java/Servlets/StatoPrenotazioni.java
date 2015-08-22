@@ -58,7 +58,8 @@ private DBManager manager;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
         }catch(NumberFormatException ex){
-            //TO DO forward to error.jsp
+            request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
         ArrayList<PrenTmpPosto> result = null;
@@ -67,7 +68,8 @@ private DBManager manager;
             result = manager.getPrenotazioneTmp(idSpettacolo);
             occupied = manager.getPostiOccupati(idSpettacolo);
         } catch (SQLException ex) {
-            //TO DO: forward to error page, or handle the exception
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
          

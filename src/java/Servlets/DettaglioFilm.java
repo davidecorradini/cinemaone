@@ -35,15 +35,20 @@ public class DettaglioFilm extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("DETTAGLIOFILM");
         FilmSpettacoli dettaglioFilm = new FilmSpettacoli();
-        Integer idFilm = Integer.parseInt(request.getParameter("idfilm"));
-        if(idFilm == null){
-            //TO DO forward to error page or to film page.
+        Integer idFilm = null;
+        try{
+        idFilm = Integer.parseInt(request.getParameter("idfilm"));
+        }catch(NumberFormatException ex){
+            request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
+           getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         try {
             dettaglioFilm = manager.getFilmSpettacoli(idFilm.intValue());
         } catch (SQLException ex) {
-            //TO DO handle exception
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
+        
         request.setAttribute("dettaglioFilm", dettaglioFilm);
         getServletContext().getRequestDispatcher("/jsp/dettaglio-film.jsp").forward(request, response);
     }
