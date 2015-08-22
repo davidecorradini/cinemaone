@@ -73,12 +73,13 @@
             
             <c:forEach var="tmp" items="${requestScope.film}">
                 <c:set var="tmpfilm" value="${tmp.getFilm()}"/>
+                <c:set var="tmpgenere" value="${tmp.genere}"/>
                 <div class="media">
                     <div class="media-left">
                         <a href="DettaglioFilm?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><img class="media-object thumbnail" src="img/movie/<c:out value="${tmpfilm.getUriLocandina()}"></c:out>" style="height: 200px"></a>
                         </div>
                         <div class="media-body">
-                                <h3 class="media-heading"><a href="DettaglioFilm?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.regista}"></c:out> &middot; <c:out value="${tmpfilm.anno}"></c:out> &middot; <c:out value="${tmpfilm.getIdGenere()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
+                                <h3 class="media-heading"><a href="DettaglioFilm?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.regista}"></c:out> &middot; <c:out value="${tmpfilm.anno}"></c:out> &middot; <c:out value="${tmpgenere.descrizione}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
                         <p><c:out value="${tmpfilm.getTrama()}"></c:out><a href="DettaglioFilm?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[vedi dettagli]</a></p>
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
