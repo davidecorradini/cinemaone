@@ -19,7 +19,9 @@ public class Film implements Serializable{
     private String UrlTrailer; //max size: 255
     private String UriLocandina; //max size: 255
     private String trama; //max size 1000
-    private boolean IsInSlider;
+    private boolean isInSlider;
+    private int anno;
+    private String regista;
 
     /**
      * @return the idFilm
@@ -122,14 +124,42 @@ public class Film implements Serializable{
     /**
      * @return the IsInSlider
      */
-    public boolean isIsInSlider() {
-        return IsInSlider;
+    public boolean isInSlider() {
+        return isInSlider;
     }
 
     /**
-     * @param IsInSlider the IsInSlider to set
+     * @param isInSlider the isInSlider to set
      */
-    public void setIsInSlider(boolean IsInSlider) {
-        this.IsInSlider = IsInSlider;
+    public void setisInSlider(boolean isInSlider) {
+        this.isInSlider = isInSlider;
+    }
+
+    /**
+     * @return the anno
+     */
+    public int getAnno() {
+        return anno;
+    }
+
+    /**
+     * @param anno the anno to set
+     */
+    public void setAnno(int anno) {
+        this.anno = anno;
+    }
+
+    /**
+     * @return the regista
+     */
+    public String getRegista() {
+        return regista;
+    }
+
+    /**
+     * @param regista the regista to set
+     */
+    public void setRegista(String regista) {
+        this.regista = regista;
     }
 }
