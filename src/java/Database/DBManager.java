@@ -6,6 +6,7 @@ package Database;
 import Beans.Film;
 import Beans.FilmPrezzo;
 import Beans.FilmSpettacoli;
+import Beans.Genere;
 import Beans.IncassoFilm;
 import Beans.InfoPrenotazione;
 import Beans.Posto;
@@ -864,22 +865,26 @@ public class DBManager implements Serializable {
      */
     public ArrayList<FilmSpettacoli> getFilmSpettacoli() throws SQLException{
         ArrayList<FilmSpettacoli> res = new ArrayList<>();
-        PreparedStatement stm = con.prepareStatement(
-                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
-                        "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
-                        "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP\n" +
-                        "ORDER BY F.ID_FILM, SP.DATA_ORA;");
+        PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA\n" + 
+                "SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA, G.DESCRIZIONE\n" +
+                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
+                "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP\n" +
+                "ORDER BY F.ID_FILM, SP.DATA_ORA");
         ResultSet rs = stm.executeQuery();
         try {
             int oldId = 0;
+            FilmSpettacoli tmpFilmESpettacoli = new FilmSpettacoli();
             ArrayList<Spettacolo> tmpSpettacoli = new ArrayList<>();
-            FilmSpettacoli tmp = new FilmSpettacoli();
             if(rs.next()){
                 Spettacolo tmpSpettacolo = new Spettacolo();
                 tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                 tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
                 tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
                 tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
+                Genere tmpGenere = new Genere();
+                tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
                 
                 oldId = rs.getInt("ID_FILM");
                 Film tmpFilm = new Film();
@@ -894,23 +899,19 @@ public class DBManager implements Serializable {
                 tmpFilm.setAnno(rs.getInt("ANNO"));
                 tmpFilm.setRegista(rs.getString("REGISTA"));
                 
-                tmp.setFilm(tmpFilm);
-                tmp.setSpettacoli(tmpSpettacoli);
-                
+                tmpFilmESpettacoli.setFilm(tmpFilm);
+                tmpFilmESpettacoli.setSpettacoli(tmpSpettacoli);
+                tmpFilmESpettacoli.setGenere(tmpGenere);
+                res.add(tmpFilmESpettacoli);
                 tmpSpettacoli.add(tmpSpettacolo);
             }
             
             while(rs.next()){
-                Spettacolo tmpSpettacolo = new Spettacolo();
-                tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
-                tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
-                tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
-                tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
                 
                 int idFilm = rs.getInt("ID_FILM");
                 if(idFilm != oldId){
-                    res.add(tmp);
-                    tmp = new FilmSpettacoli();
+                    tmpFilmESpettacoli = new FilmSpettacoli();
+                    tmpSpettacoli = new ArrayList<>();
                     Film tmpFilm = new Film();
                     tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                     tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
@@ -922,12 +923,25 @@ public class DBManager implements Serializable {
                     tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
                     tmpFilm.setAnno(rs.getInt("ANNO"));
                     tmpFilm.setRegista(rs.getString("REGISTA"));
-                    tmpSpettacoli = new ArrayList<>();
                     
-                    tmp.setFilm(tmpFilm);
-                    tmp.setSpettacoli(tmpSpettacoli);
+                    
+                    Genere tmpGenere = new Genere();
+                    tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                    tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
+                    
+                    tmpFilmESpettacoli.setFilm(tmpFilm);
+                    tmpFilmESpettacoli.setGenere(tmpGenere);
+                    tmpFilmESpettacoli.setSpettacoli(tmpSpettacoli);
+                    res.add(tmpFilmESpettacoli);
+                    
                     oldId = idFilm;
                 }
+                Spettacolo tmpSpettacolo = new Spettacolo();
+                tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
+                tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
+                tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
                 tmpSpettacoli.add(tmpSpettacolo);
             }
         } finally {

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class FilmSpettacoli {
     private Film film;
     private ArrayList<Spettacolo> spettacoli;
+    private Genere genere;
 
     /**
      * @return the film
@@ -41,5 +42,19 @@ public class FilmSpettacoli {
      */
     public void setSpettacoli(ArrayList<Spettacolo> spettacoli) {
         this.spettacoli = spettacoli;
+    }
+
+    /**
+     * @return the genere
+     */
+    public Genere getGenere() {
+        return genere;
+    }
+
+    /**
+     * @param genere the genere to set
+     */
+    public void setGenere(Genere genere) {
+        this.genere = genere;
     }
 }
