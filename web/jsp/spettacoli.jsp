@@ -4,6 +4,7 @@
     Author     : enrico
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -70,111 +71,26 @@
                     <th class="text-center">Sala</th>
                     <th class="text-center">Prenota</th>
                 </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
-                <tr>
-                    <td>I Fantastici 4 <small class="text-muted">Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></td>
-                    <td class="text-center">24 Agosto</td>
-                    <td class="text-center">21.00</td>
-                    <td class="text-center">Sala 4</td>
-                    <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
-                </tr>
+                <c:forEach var="tmp" items="${requestScope.spettacoli}">
+                    <c:set var="tmpFilm" value="${tmp.getFilm()}"/>
+                    <c:set var="tmpSala" value="${tmp.getSala()}"/>
+                    <c:set var="tmpGenere" value="${tmp.getGenere()}"/>
+                    <tr>
+                        <td><c:out value="${tmpFilm.getTitolo()}"></c:out> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out></small></td>
+                        <td class="text-center"><c:out value="${tmp.getData()}"></c:out></td>
+                        <td class="text-center"><c:out value="${tmp.getOra()}"></c:out></td>
+                        <td class="text-center"><c:out value="${tmpSala.getNome()}"></c:out></td>
+                        <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
+                    </tr>
+                </c:forEach>
+                
             </table>
             <!--
             <table class="table table-striped">
                 <tbody>
                     <tr>
                         <td>
-                            <h5><strong>Lunedì 03 agosto 2015</strong></h5>
+                            <h5><strong>LunedÃ¬ 03 agosto 2015</strong></h5>
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><strong>Sala1</strong></h6>
@@ -205,7 +121,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <h5><strong>Martedì 04 agosto 2015</strong></h5>
+                            <h5><strong>MartedÃ¬ 04 agosto 2015</strong></h5>
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><strong>Sala1</strong></h6>
@@ -236,7 +152,7 @@
                     </tr>
                     <tr>  
                         <td>
-                            <h5><strong>Mercoledì 05 agosto 2015</strong></h5>
+                            <h5><strong>MercoledÃ¬ 05 agosto 2015</strong></h5>
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><strong>Sala1</strong></h6>
@@ -267,7 +183,7 @@
                     </tr>
                     <tr>     
                         <td>
-                            <h5><strong>Giovedì 06 agosto 2015</strong></h5>
+                            <h5><strong>GiovedÃ¬ 06 agosto 2015</strong></h5>
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><strong>Sala1</strong></h6>
@@ -298,7 +214,7 @@
                     </tr>
                     <tr>       
                         <td>
-                            <h5><strong>Venerdì 07 agosto 2015</strong></h5>
+                            <h5><strong>VenerdÃ¬ 07 agosto 2015</strong></h5>
                             <div class="row">
                                 <div class="col-md-3">
                                     <h6><strong>Sala1</strong></h6>

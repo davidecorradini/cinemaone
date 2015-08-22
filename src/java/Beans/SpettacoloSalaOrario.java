@@ -14,7 +14,10 @@ import java.sql.Timestamp;
 public class SpettacoloSalaOrario {
     private Film film;
     private Sala sala;
+    private Genere genere;
     private Timestamp dataOra;
+    private String data;
+    private String ora;
 
     /**
      * @return the film
@@ -56,6 +59,48 @@ public class SpettacoloSalaOrario {
      */
     public void setDataOra(Timestamp dataOra) {
         this.dataOra = dataOra;
+    }
+
+    /**
+     * @return the genere
+     */
+    public Genere getGenere() {
+        return genere;
+    }
+
+    /**
+     * @param genere the genere to set
+     */
+    public void setGenere(Genere genere) {
+        this.genere = genere;
+    }
+
+    /**
+     * @return the data
+     */
+    public String getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    /**
+     * @return the ora
+     */
+    public String getOra() {
+        return ora;
+    }
+
+    /**
+     * @param ora the ora to set
+     */
+    public void setOra(String ora) {
+        this.ora = ora;
     }
     
 }

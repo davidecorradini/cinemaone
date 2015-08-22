@@ -3,7 +3,8 @@
     Created on : Aug 21, 2015, 12:38:33 PM
     Author     : enrico
 --%>
-
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!DOCTYPE html>
@@ -35,7 +36,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                    <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
+                        <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
@@ -59,35 +60,37 @@
                 </div>
             </nav>
         </header>
-        
+            
         <div class="banner">
-    <ul>
-        <li><div class="slider">
-            
-        </div></li>
-        <li><div class="slider">
-            
-        </div></li>
-        <li><div class="slider">
-            
-        </div></li>
-    </ul>
-</div>
+            <ul>
+                <c:forEach var="tmp" items="${requestScope.filmsSlider}">
+                    
+                    <li>
+                        <div class="slider" style="background: url(img/slider/<c:out value="${tmp.getUriLocandina()}"></c:out>)">
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-8"></div>
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">Listino prezzi</div>
-                            <div class="panel-body">
-                                <ul>
-                                    <li><strong>Intero</strong> € 9.00</li>
-                                    <li><strong>Ridotto</strong> € 6.00</li>
-                                    <li><strong>Disabili</strong> € 5.00</li>
-                                    <li><strong>Militari</strong>€ 5.00</li>
-                                </ul>
-                            </div>
+                        <div class="panel-body">
+                            <ul>
+                                
+                                <c:forEach var="tmp2" items="${requestScope.prezzi}">
+                                    
+<li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <c:out value="${tmp2.getPrezzo()}"></c:out></li>
+                                    
+                                        
+                                    </c:forEach>
+                                
+                            </ul>
                         </div>
+                    </div>
                 </div>
             </div>        
         </div>

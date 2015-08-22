@@ -151,7 +151,7 @@ public class DBManager implements Serializable {
      * @param fm film da inserire nel database
      * @throws SQLException
      */
-    public void inserisciFilm(Film fm) throws SQLException{        
+    public void inserisciFilm(Film fm) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER, DURATA, TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA) VALUES ('?',?,'?',?,'?','?',?,?,'?')");
         try {
             stm.setString(1, fm.getTitolo());
@@ -197,7 +197,7 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     public void cambiaStato(Posto ps) throws SQLException{
-             
+        
         PreparedStatement stm = con.prepareStatement(" UPDATE POSTO SET STATO=? ID_POSTO=? ");
         try {
             stm.setInt(1, ps.getStato());
@@ -297,10 +297,10 @@ public class DBManager implements Serializable {
             stm.executeUpdate();
         } finally {
             stm.close();
-        }        
+        }
     }
     
-  
+    
     /**
      * elimina le prenotazioni temporanee precedenti a tm.
      * @param tm limite minimo di validità delle prenotazionitmp (quelle piu vecchie vengono eliminate)
@@ -487,13 +487,15 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     //aggiungere film.
+     
     public ArrayList<SpettacoloSalaOrario> getSpettacoli() throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.URI_LOCANDINA, F.IS_IN_SLIDER, F.ANNO, F.REGISTA" + 
-                        " S.ID_SALA,S.NOME,S.DESCRIZIONE, SP.DATA_ORA\n" +
-                        "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA\n" +
-                        "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP;");
+                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.URI_LOCANDINA, F.IS_IN_SLIDER, F.ANNO, F.REGISTA," +
+                        " S.ID_SALA,S.NOME,S.DESCRIZIONE AS DESCRIZIONE2, SP.DATA_ORA, G.DESCRIZIONE\n" +
+                        "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
+                        "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP\n"+
+                        "ORDER BY SP.DATA_ORA");
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
@@ -512,18 +514,29 @@ public class DBManager implements Serializable {
                 tmpFilm.setRegista(rs.getString("REGISTA"));
                 tmpFilm.setAnno(rs.getInt("ANNO"));
                 
-                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
+                Genere tmpGenere = new Genere();
+                tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
+                
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE2"));
                 tmpSala.setIdSala(rs.getInt("ID_SALA"));
                 tmpSala.setNome(rs.getString("NOME"));
                 dataOra = rs.getTimestamp("DATA_ORA");
                 tmp.setFilm(tmpFilm);
                 tmp.setSala(tmpSala);
+                tmp.setGenere(tmpGenere);
+                
                 tmp.setDataOra(dataOra);
+                
+                String data = dataOra.toString().substring(0, 10);
+                String[] data1 = data.split("-");
+                tmp.setData(data1[2] + "-" + data1[1] + "-" + data1[0]);
+                tmp.setOra(dataOra.toString().substring(11, 16));
                 res.add(tmp);
             }
         } finally {
             rs.close();
-        }        
+        }
         return res;
     }
     
@@ -544,15 +557,15 @@ public class DBManager implements Serializable {
             stm.setInt(1, spetta.getIdSala());
             stm.setInt(2, spetta.getIdSpettacolo());
             ResultSet rs = stm.executeQuery();
-                while(rs.next()){
-                    Posto tmp = new Posto();
-                    tmp.setIdPosto(rs.getInt("ID_POSTO"));
-                    tmp.setIdSala(rs.getInt("ID_SALA"));
-                    tmp.setRiga(rs.getString("RIGA").charAt(0));
-                    tmp.setColonna(rs.getInt("COLONNA"));
-                    tmp.setStato(rs.getInt("STATO"));
-                    posti.add(tmp);
-                }
+            while(rs.next()){
+                Posto tmp = new Posto();
+                tmp.setIdPosto(rs.getInt("ID_POSTO"));
+                tmp.setIdSala(rs.getInt("ID_SALA"));
+                tmp.setRiga(rs.getString("RIGA").charAt(0));
+                tmp.setColonna(rs.getInt("COLONNA"));
+                tmp.setStato(rs.getInt("STATO"));
+                posti.add(tmp);
+            }
         } finally {
             stm.close();
         }
@@ -569,7 +582,7 @@ public class DBManager implements Serializable {
     public ArrayList<FilmPrezzo> getStorico(Utente ut) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement(
-                "SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA" + 
+                "SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA" +
                         " PR.ID_PREZZO, PR.TIPO, PR.PREZZO\n" +
                         "FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO\n" +
                         "WHERE P.ID_UTENTE = ?");
@@ -774,7 +787,7 @@ public class DBManager implements Serializable {
     public ArrayList<Film> getFilmsSlider() throws SQLException{
         ArrayList<Film> film = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA\n"+ 
+                "SELECT ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA\n"+
                         "FROM FILM WHERE IS_IN_SLIDER=TRUE");
         try {
             ResultSet rs = stm.executeQuery();
@@ -787,8 +800,8 @@ public class DBManager implements Serializable {
                     tmp.setIdGenere(rs.getInt("ID_GENERE"));
                     tmp.setUrlTrailer(rs.getString("URL_TRAILER"));
                     tmp.setDurata(rs.getInt("DURATA"));
-                    tmp.setUriLocandina(rs.getString("TRAMA"));
-                    tmp.setTrama(rs.getString("URI_LOCANDINA"));
+                    tmp.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                    tmp.setTrama(rs.getString("TRAMA"));
                     tmp.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
                     tmp.setRegista(rs.getString("REGISTA"));
                     tmp.setAnno(rs.getInt("ANNO"));
@@ -826,7 +839,7 @@ public class DBManager implements Serializable {
             stm.setInt(1, id_spettacolo);
             ResultSet rs = stm.executeQuery();
             try {
-                while(rs.next()){                    
+                while(rs.next()){
                     PrenotazionePosto tmp = new PrenotazionePosto();
                     
                     Prenotazione tmpPre = new Prenotazione();
@@ -837,7 +850,7 @@ public class DBManager implements Serializable {
                     tmpPre.setIdPrezzo(rs.getInt("ID_PREZZO"));
                     tmpPre.setIdPosto(rs.getInt("ID_POSTO"));
                     tmpPre.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
-                                        
+                    
                     Posto tmpPosto = new Posto();
                     tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
                     tmpPosto.setIdSala(rs.getInt("ID_SALA"));
@@ -865,7 +878,7 @@ public class DBManager implements Serializable {
      */
     public ArrayList<FilmSpettacoli> getFilmSpettacoli() throws SQLException{
         ArrayList<FilmSpettacoli> res = new ArrayList<>();
-        PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA\n" + 
+        PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA,\n" +
                 "SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA, G.DESCRIZIONE\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
                 "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP\n" +
