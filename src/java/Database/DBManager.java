@@ -21,6 +21,7 @@ import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
 import java.io.Serializable;
+import static java.lang.Math.random;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -1061,4 +1063,68 @@ public class DBManager implements Serializable {
         }
         return res;
     }
+    
+     /**
+     * setta la programmazione dei film in modo da metterli in serie
+     * @param min numero di minuti tra uno spettacolo e l'altro
+     * @throws SQLException
+     */
+    public void setProgrammazione(int min) throws SQLException{
+        
+        int n=10; //numero di film per spettacolo
+        
+        Calendar calendar = Calendar.getInstance();
+       
+        PreparedStatement stmFilm;
+        PreparedStatement stmSala;
+        PreparedStatement stmUpdate;
+        stmFilm = con.prepareStatement("SELECT ID_FILM FROM FILM");
+        stmSala = con.prepareStatement("SELECT ID_SALA FROM SALA");
+        stmUpdate = con.prepareStatement("INSERT INTO SPETTACOLO (ID_SALA, ID_FILM, DATA_ORA) VALUES (?,?,?)");
+        ResultSet rsFilm = stmFilm.executeQuery();
+        ResultSet rsSala = stmSala.executeQuery();
+        
+        ArrayList<Integer> film = new ArrayList<>();
+        
+        //fare ciclo che tira su tutti gli id_film
+        while(rsFilm.next()){
+            int id= rsFilm.getInt("ID_FILM");
+            film.add(id);
+        }
+        
+        try {
+            int nfilm=0;
+            while (rsSala.next()){ 
+                
+                Calendar calendar2 = (Calendar) calendar.clone();
+                calendar2.add(Calendar.MINUTE, (int) (random() * min));
+                int id_sala= rsSala.getInt("ID_SALA");
+
+                int id_film= film.remove(nfilm);
+             
+
+                for (int i=0; i<n; i++){
+                    
+                    Timestamp time = new Timestamp(calendar2.getTimeInMillis());
+                    stmUpdate.setInt(1, id_sala);
+                    stmUpdate.setInt(2, id_film);
+                    stmUpdate.setTimestamp(3, time);
+                    stmUpdate.executeUpdate();
+                    //schema di spettacolo: ID_SPETTACOLO, ID_FILM, ID_SALA, DATA_ORA
+                    //aumento il tempo
+                    calendar2.add(Calendar.MINUTE, min);
+                }
+             
+            }
+        } finally {
+            stmFilm.close();
+            stmSala.close();
+            stmUpdate.close();
+            rsFilm.close();
+            rsSala.close();
+        }        
+    }   
+    
 }
+    
+
