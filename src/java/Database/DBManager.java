@@ -1071,7 +1071,7 @@ public class DBManager implements Serializable {
      */
     public void setProgrammazione(int min) throws SQLException{
         
-        int n=10; //numero di film per spettacolo
+        int n=5; //numero di film per spettacolo
         
         Calendar calendar = Calendar.getInstance();
        
