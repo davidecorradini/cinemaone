@@ -44,6 +44,7 @@ public class DBManager implements Serializable {
         }
         Connection con = DriverManager.getConnection(dburl);
         this.con = con;
+        initBeans(con);
     }
     
     public static void shutdown() {
@@ -52,6 +53,10 @@ public class DBManager implements Serializable {
         } catch (SQLException ex) {
             Logger.getLogger(DBManager.class.getName()).info(ex.getMessage());
         }
+    }
+    
+    private void initBeans(Connection con){
+        
     }
     
     /**
