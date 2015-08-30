@@ -41,7 +41,7 @@ public class TicketCreator {
     this.destinationPath = destinationPath;
     }
     
-    public void generaTicket(Utente utente, Prenotazione prenotazione, Spettacolo spettacolo, Film film, Sala sala) throws DocumentException, FileNotFoundException, IOException{
+    public String generaTicket(Utente utente, Prenotazione prenotazione, Spettacolo spettacolo, Film film, Sala sala) throws DocumentException, FileNotFoundException, IOException{
                 
         Paragraph titlePar = new Paragraph(new Phrase("cinemaOne\n" + film.getTitolo() + "\n\n", FontFactory.getFont(titleFont, titleSize)));
         titlePar.setAlignment(Element.ALIGN_CENTER);
@@ -97,7 +97,7 @@ public class TicketCreator {
         document.add(qrCode);
         document.add(footer);
         document.close();
-        
+        return fileName;
     }
    
     /*
