@@ -2,9 +2,9 @@ DELETE FROM FILM;
 
 DELETE FROM GENERE;
 
-ALTER TABLE GENERE ALTER COLUMN &quot;ID_GENERE&quot; RESTART WITH 1;
+ALTER TABLE GENERE ALTER COLUMN ID_GENERE RESTART WITH 1;
 
-ALTER TABLE FILM ALTER COLUMN &quot;ID_FILM&quot; RESTART WITH 1;
+ALTER TABLE FILM ALTER COLUMN ID_FILM RESTART WITH 1;
 
 INSERT INTO genere (DESCRIZIONE)
 VALUES ('comico');
@@ -32,7 +32,7 @@ VALUES ('I Fantastici 4',
 7,
 'https://www.youtube.com/watch?v=27dZ5mJBnBY',
 123,
-'Quattro amici (Reed Richards, i fratelli Susan e Johnny Storm e Ben Grimm) insieme al dottor Victor von Doom partono per una missione spaziale a scopo scientifico. Una volta in orbita per&ograve;, a causa di un imprevisto, una nube di raggi cosmici li investe modificando il loro DNA, un evento da cui acquisiranno dei poteri sovrumani. Reed Richards scoprir&agrave; che potr&agrave; allungare ogni parte del suo corpo a dismisura, Susan Storm pu&ograve; diventare invisibile e generare campi di forza, Johnny pu&ograve; incendiarsi e volare mentre Ben si &egrave; tramutato in una grossa &quot;Cosa&quot; dalla pelle di pietra e dalla forza straordinaria. Anche Von Doom &egrave; stato mutato dai raggi cosmici, che gli hanno conferito dei poteri elettroconduttori e una pelle metallica. Quest''ultimo, che &egrave; un avido imprenditore, cerca di usare i suoi poteri per i propri fini, arrivando a minacciare New York e l''intera umanit&agrave;.',
+'Quattro amici (Reed Richards, i fratelli Susan e Johnny Storm e Ben Grimm) insieme al dottor Victor von Doom partono per una missione spaziale a scopo scientifico. Una volta in orbita per&ograve;, a causa di un imprevisto, una nube di raggi cosmici li investe modificando il loro DNA, un evento da cui acquisiranno dei poteri sovrumani. Reed Richards scoprir&agrave; che potr&agrave; allungare ogni parte del suo corpo a dismisura, Susan Storm pu&ograve; diventare invisibile e generare campi di forza, Johnny pu&ograve; incendiarsi e volare mentre Ben si &egrave; tramutato in una grossa Cosa dalla pelle di pietra e dalla forza straordinaria. Anche Von Doom &egrave; stato mutato dai raggi cosmici, che gli hanno conferito dei poteri elettroconduttori e una pelle metallica. Quest''ultimo, che &egrave; un avido imprenditore, cerca di usare i suoi poteri per i propri fini, arrivando a minacciare New York e l''intera umanit&agrave;.',
 'i-fantastici-4.jpg',
 TRUE,
 2005,
@@ -54,7 +54,7 @@ VALUES ('Left Behind',
 2,
 'https://www.youtube.com/watch?v=-uRyOxv4lxs',
 110,
-'Improvvisamente, in tutto il mondo, milioni di persone svaniscono apparentemente nel nulla, lasciando dietro di s&eacute; solo i propri abiti. Tra i &quot;lasciati indietro&quot; che hanno subito la perdita dei propri cari ci sono Ray, pilota di Boeing 747, sua figlia Chloe ed il pastore Bruce Barnes, i quali, esaminando le Sacre Scritture, capiscono che cosa sta succedendo... Tratto dal primo romanzo della serie &quot;Left Behind&quot;, fenomeno editoriale che ha venduto oltre 100 milioni di copie nel mondo.',
+'Improvvisamente, in tutto il mondo, milioni di persone svaniscono apparentemente nel nulla, lasciando dietro di s&eacute; solo i propri abiti. Tra i lasciati indietro che hanno subito la perdita dei propri cari ci sono Ray, pilota di Boeing 747, sua figlia Chloe ed il pastore Bruce Barnes, i quali, esaminando le Sacre Scritture, capiscono che cosa sta succedendo... Tratto dal primo romanzo della serie Left Behind, fenomeno editoriale che ha venduto oltre 100 milioni di copie nel mondo.',
 'left-behind.jpg',
 FALSE,
 2014,
@@ -76,7 +76,7 @@ VALUES ('Joker-Wild Card',
 5,
 'https://www.youtube.com/watch?v=cLXawrDz24I',
 92,
-'Action thriller sulla storia di Nick Wild (Jason Statham), un giocatore d''azzardo in riabilitazione, che decide di dedicare la sua vita alla protezione delle persone coinvolte nel difficile mondo del gioco d''azzardo come &quot;chaperon&quot;. Il suo lavoro giornaliero passa in secondo piano quando una sua amica viene brutalmente picchiata da un pericoloso gangster. Basato sull''omonimo romanzo di William Goldman del 1985 e remake del film &quot;Heat&quot; del 1986 con Burt Reynold &egrave; il nuovo lavoro di Simon West regista di Con Air, Lara Croft ed I Mercenari 2.',
+'Action thriller sulla storia di Nick Wild (Jason Statham), un giocatore d''azzardo in riabilitazione, che decide di dedicare la sua vita alla protezione delle persone coinvolte nel difficile mondo del gioco d''azzardo come chaperon. Il suo lavoro giornaliero passa in secondo piano quando una sua amica viene brutalmente picchiata da un pericoloso gangster. Basato sull''omonimo romanzo di William Goldman del 1985 e remake del film Heat del 1986 con Burt Reynold &egrave; il nuovo lavoro di Simon West regista di Con Air, Lara Croft ed I Mercenari 2.',
 'joker-wild-card.jpg',
 FALSE,
 2015,
@@ -142,7 +142,7 @@ VALUES ('Ocean''s Eleven',
 2,
 'https://www.youtube.com/watch?v=m7lrZK21AX4',
 116,
-'Uscito di prigione dopo cinque anni di reclusione per rapina e truffa aggravata, Danny Ocean va a ritrovare Rusty Ryan, vecchio compagno con un passato di truffatore e rapinatore, attualmente insegnante (naturalmente illegale) di poker. Dopo aver spennato i suoi &quot;studenti&quot;, Rusty, parlando con Danny, viene a sapere che l''amico vuole tentare un furto ai danni del &quot;Mirage&quot;, del &quot;Bellagio&quot; e dell''&quot;MGM Grand&quot;, i tre principali casin&ograve; di Las Vegas, propriet&agrave; di Terry Benedict.',
+'Uscito di prigione dopo cinque anni di reclusione per rapina e truffa aggravata, Danny Ocean va a ritrovare Rusty Ryan, vecchio compagno con un passato di truffatore e rapinatore, attualmente insegnante (naturalmente illegale) di poker. Dopo aver spennato i suoi studenti, Rusty, parlando con Danny, viene a sapere che l''amico vuole tentare un furto ai danni del Mirage, del Bellagio e dell''MGM Grand&quot;, i tre principali casin&ograve; di Las Vegas, propriet&agrave; di Terry Benedict.',
 'oceans-eleven.jpg',
 TRUE,
 2001,
