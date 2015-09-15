@@ -191,7 +191,7 @@ public class DBManager implements Serializable {
         try {
             stm.setInt(1, sp.getIdFilm());
             stm.setInt(2, sp.getIdSala());
-            stm.setTimestamp(3, sp.getDataOra());
+            stm.setTimestamp(3, sp.getTimeStamp());
             stm.executeUpdate();
         } finally {
             stm.close();

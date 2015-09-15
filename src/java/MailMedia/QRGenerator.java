@@ -26,6 +26,5 @@ public class QRGenerator {
         output.write(stream.toByteArray());
         output.flush();
         output.close();
-    }
-    
+    }    
 }

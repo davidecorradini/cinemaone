@@ -64,7 +64,7 @@ public class TicketCreator {
         cells[0][2] = new PdfPCell(new Paragraph(new Phrase("data-ora: ", FontFactory.getFont(tableFont, tableSize))));
         table.addCell(cells[0][2]);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Date date = new Date(spettacolo.getDataOra().getTime());
+        Date date = new Date(spettacolo.getTimeStamp().getTime());
         cells[1][2] = new PdfPCell(new Paragraph(new Phrase(dateFormat.format(date), FontFactory.getFont(tableFont, tableSize))));
         table.addCell(cells[1][2]);
         

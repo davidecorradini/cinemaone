@@ -7,6 +7,7 @@ package Beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Spettacolo implements Serializable{
     private int idSpettacolo;
     private int idFilm;
     private int idSala;
-    private Timestamp dataOra;
+    private Timestamp timeStamp;
 
     /**
      * @return the idSpettacolo
@@ -59,19 +60,32 @@ public class Spettacolo implements Serializable{
     public void setIdSala(int idSala) {
         this.idSala = idSala;
     }
-
+    
+    /**
+     *@return the timestamp
+     */
+    public Timestamp getTimeStamp(){
+        return timeStamp;
+    }
+    
     /**
      * @return the dataOra
      */
-    public Timestamp getDataOra() {
-        return dataOra;
+    public Data getDataOra() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timeStamp.getTime());
+        int giorno = cal.get(Calendar.DAY_OF_MONTH);
+        int mese = cal.get(Calendar.MONTH);
+        int anno = cal.get(Calendar.YEAR);
+        int ore = cal.get(Calendar.HOUR);
+        int minuti = cal.get(Calendar.MINUTE);
+        return new Data(giorno, mese, anno, ore, minuti);
     }
 
     /**
-     * @param dataOra the dataOra to set
+     * @param timeStamp the timeStamp to set
      */
-    public void setDataOra(Timestamp dataOra) {
-        this.dataOra = dataOra;
-    }
-    
+    public void setDataOra(Timestamp timeStamp) {
+       this.timeStamp = timeStamp;
+    }    
 }
