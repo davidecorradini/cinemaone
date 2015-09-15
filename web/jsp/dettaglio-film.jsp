@@ -72,13 +72,13 @@
                     </div>
                     <div id="2" class="col-md-9">
                         <p><strong>Regista: </strong><c:out value="${tmpFilm.getRegista()}"></c:out></p>
-                    <p><strong>Genere: </strong><c:out value="${tmpGenere.getDescrizione}"></c:out></p>
+                    <p><strong>Genere: </strong><c:out value="${tmpGenere.getDescrizione()}"></c:out></p>
                     <p><strong>Durata: </strong><c:out value="${tmpFilm.getDurata()}"></c:out> minuti</p>				  
                     <p><strong>Trama: </strong><c:out value="${tmpFilm.getTrama()}"></c:out></p>
                         <p><strong>Programmazione: </strong><br>
                         <c:forEach var="tmpSpettacolo" items="${tmp.getSpettacoli()}">
                             <c:set var="tmpDataOra" value="${tmpSpettacolo.getDataOra()}"></c:set>
-                            <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo}"></c:out>"><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOre()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></a><br>
+                            <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOre()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></a><br>
                         </c:forEach>
                     </p>
                 </div>
