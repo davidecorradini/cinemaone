@@ -45,7 +45,7 @@ public class DettaglioFilm extends HttpServlet {
         try {
             dettaglioFilm = manager.getFilmSpettacoli(idFilm);
         } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita" + ex);
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         

@@ -979,10 +979,10 @@ public class DBManager implements Serializable {
     public FilmSpettacoli getFilmSpettacoli(int filmId) throws SQLException{
         FilmSpettacoli res = new FilmSpettacoli();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA\n" +
+                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SP.ID_SPETTACOLO, SP.ID_FILM, SP.ID_SALA, SP.DATA_ORA\n" +
                         "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
                         "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP AND F.ID_FILM = ?\n" +
-                        "ORDER BY SP.DATA_ORA;");
+                        "ORDER BY SP.DATA_ORA");
         stm.setInt(1, filmId);
         ResultSet rs = stm.executeQuery();
         ArrayList<Spettacolo> tmpSpettacoli = null;
