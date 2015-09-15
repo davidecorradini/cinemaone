@@ -43,7 +43,7 @@ public class DettaglioFilm extends HttpServlet {
            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         try {
-            dettaglioFilm = manager.getFilmSpettacoli(idFilm.intValue());
+            dettaglioFilm = manager.getFilmSpettacoli(idFilm);
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
