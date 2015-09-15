@@ -3,8 +3,9 @@
     Created on : Aug 21, 2015, 12:41:38 PM
     Author     : enrico
 --%>
-
+    
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,7 +35,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                    <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
+                        <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
@@ -58,45 +59,52 @@
                 </div>
             </nav>
         </header>
-
-		<div class="container">
+        <c:set var="tmp" value="${requestScope.dettaglioFilm}"></c:set>
+        <c:set var="tmpFilm" value="${tmp.getFilm()}"></c:set>
+        <c:set var="tmpGenere" value="${tmp.getGenere()}"></c:set>
+        <div class="container">
             <div class="page-header">
-                <h1>I Fantastici 4</h1>
-            </div>
-            <div class="row">
-                <div id="1" class="col-md-3">
-                    <img class="media-object thumbnail" src="img/movie/locandina_i-fantastici-4.jpg" alt="i-fantastici-4" style="height: 400px">
+                <h1><c:out value="${tmpFilm.getTitolo()}"></c:out></h1>
                 </div>
-                <div id="2" class="col-md-9">
-                    <p><strong>Regista: </strong>Tim Story</p>
-				<p><strong>Genere: </strong>fantasy</p>
-                    <p><strong>Durata: </strong>135 minuti</p>				  
-			<p><strong>Trama: </strong>Quattro amici (Reed Richards, i fratelli Susan e Johnny Storm e Ben Grimm) insieme al dottor Victor von Doom partono per una missione spaziale a scopo scientifico. Una volta in orbita per&ograve;, a causa di un imprevisto, una nube di raggi cosmici li investe modificando il loro DNA, un evento da cui acquisiranno dei poteri sovrumani. Reed Richards scoprirà che potrà allungare ogni parte del suo corpo a dismisura, Susan Storm può diventare invisibile e generare campi di forza, Johnny può incendiarsi e volare mentre Ben si è tramutato in una grossa "Cosa" dalla pelle di pietra e dalla forza straordinaria. Anche Von Doom è stato mutato dai raggi cosmici, che gli hanno conferito dei poteri elettroconduttori e una pelle metallica. Quest'ultimo, che è un avido imprenditore, cerca di usare i suoi poteri per i propri fini, arrivando a minacciare New York e l'intera umanità per soggiogarla ed impadronirsi della terra, diventato così il supercriminale Dottor Destino. Reed, Sue, Johnny e Ben, divenuti nel frattempo popolari supereroi con il nome di Fantastici Quattro, lo sconfiggeranno dopo una dura battaglia.</p>
-			<p><strong>Programmazione: </strong><br>03 luglio 2015: <a href="prenotazione.html">17.00</a> - <a href="prenotazione.html">20.00</a> - <a href="prenotazione.html">23.00</a><br>04 luglio 2015: <a href="prenotazione.html">17.00</a> - <a href="prenotazione.html">20.00</a> - <a href="prenotazione.html">23.00</a><br>05 luglio 2015: <a href="prenotazione.html">17.00</a> - <a href="prenotazione.html">20.00</a> - <a href="prenotazione.html">23.00</a></p> 
-                </div>
-            </div>
- 
-<p><h4><strong>Trailer</strong></h4></p>
-           <iframe width="560" height="315" src="https://www.youtube.com/embed/yg_d-Ubt7D8" frameborder="0" allowfullscreen></iframe>
-        
-		</div >
-		<footer>
-            <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <span class="footer-brand">Cinema One s.r.l.</span><br>
-                        <i class="zmdi zmdi-pin zmdi-hc-fw zmdi-right-4"></i>Viale A. Degasperi 95, 38023 Cles TN<br>
-                        <i class="zmdi zmdi-email zmdi-hc-fw zmdi-right-4"></i>info@cinemaone.it<br>
-                        <i class="zmdi zmdi-phone zmdi-hc-fw zmdi-right-4"></i>+39 347 244 3532
+                    <div id="1" class="col-md-3">
+                        <img class="media-object thumbnail" src="img/movie/<c:out value="${tmpFilm.getUriLocandina()}"></c:out>" style="height: 400px">
                     </div>
-                    <div class="col-md-6">
-                        <span class="text-right">Copyright &copy; 2015 Cinema One. Tutti i diritti riservati.</span>
-                    </div>
+                    <div id="2" class="col-md-9">
+                        <p><strong>Regista: </strong><c:out value="${tmpFilm.getRegista()}"></c:out></p>
+                    <p><strong>Genere: </strong><c:out value="${tmpGenere.getDescrizione}"></c:out></p>
+                    <p><strong>Durata: </strong><c:out value="${tmpFilm.getDurata()}"></c:out> minuti</p>				  
+                    <p><strong>Trama: </strong><c:out value="${tmpFilm.getTrama()}"></c:out></p>
+                        <p><strong>Programmazione: </strong><br>
+                        <c:forEach var="tmpSpettacolo" items="${tmp.getSpettacoli()}">
+                            <c:set var="tmpDataOra" value="${tmpSpettacolo.getDataOra()}"></c:set>
+                            <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo}"></c:out>"><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOra()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></a><br>
+                        </c:forEach>
+                    </p>
                 </div>
             </div>
-        </footer>
-        <script src="js/jquery-1.11.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.jcarousel.min.js"></script>
-    </body>
+                
+            <p><h4><strong>Trailer</strong></h4></p>
+        <iframe width="560" height="315" src="<c:out value="${tmpFilm.getUrlTrailer()}"></c:out>" frameborder="0" allowfullscreen></iframe>
+            
+    </div >
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="footer-brand">Cinema One s.r.l.</span><br>
+                    <i class="zmdi zmdi-pin zmdi-hc-fw zmdi-right-4"></i>Viale A. Degasperi 95, 38023 Cles TN<br>
+                    <i class="zmdi zmdi-email zmdi-hc-fw zmdi-right-4"></i>info@cinemaone.it<br>
+                    <i class="zmdi zmdi-phone zmdi-hc-fw zmdi-right-4"></i>+39 347 244 3532
+                </div>
+                <div class="col-md-6">
+                    <span class="text-right">Copyright &copy; 2015 Cinema One. Tutti i diritti riservati.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.jcarousel.min.js"></script>
+</body>
 </html>

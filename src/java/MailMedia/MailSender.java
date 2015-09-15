@@ -96,10 +96,10 @@ public class MailSender {
     public static void main(String[] args){
         try {
             MailSender instance = new MailSender();
-            instance.sendMail("en.magnago@gmail.com", "test", "testtext", "testallegato");
+            instance.sendMail("en.magnago@gmail.com", "test", "testtext", null);
         } catch (MessagingException ex) {
-           System.out.println("ERRORE NELL'INVIO DELLA MAIL");
+           System.out.println("ERRORE NELL'INVIO DELLA MAIL" + ex);
         }
-    }
-    */
+    }*/
+    
 }
