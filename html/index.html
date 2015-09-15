@@ -8,6 +8,7 @@
         <meta name="author" content="">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="css/jquery.bxslider.css" rel="stylesheet">
         <link href="css/cinema.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -51,20 +52,41 @@
                 </div>
             </nav>
         </header>
-        
-        <div class="banner">
-    <ul>
-        <li><div class="slider">
-            
-        </div></li>
-        <li><div class="slider">
-            
-        </div></li>
-        <li><div class="slider">
-            
-        </div></li>
-    </ul>
-</div>
+        <ul class="bxslider">
+            <li>
+                <a href="#">
+                    <div class="cover" style="background-image:url(img/slider/i-fantastici-4.jpg);">
+                        <div class="cover-text">
+                            <div class="container">
+                                <h1>I Fantastici 4 <small>Tim Story &middot; 2005 &middot; Fantasy &middot; 135min</small></h1>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="cover" style="background-image:url(img/slider/oceans-eleven.jpg);">
+                        <div class="cover-text">
+                            <div class="container">
+                                <h1>Ocean's Eleven <small>Steven Soderbergh &middot; 2001 &middot; Azione &middot; 116min</small></h1>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="cover" style="background-image:url(img/slider/spy.jpg);">
+                        <div class="cover-text">
+                            <div class="container">
+                                <h1>Spy <small>Paul Feig &middot; 2015 &middot; Commedia &middot; 120min</small></h1>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
         <div class="container">
             <div class="row">
                 <div class="col-md-8"></div>
@@ -101,7 +123,7 @@
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.jcarousel.min.js"></script>
-        <script src="js/unslider.min.js"></script>
+        <script src="js/jquery.bxslider.min.js"></script>
         <script src="js/cinema.js"></script>
     </body>
 </html>

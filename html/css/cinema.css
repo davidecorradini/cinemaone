@@ -12,10 +12,6 @@ h1 {
     margin: 0;
 }
 
-.navbar-default {
-    box-shadow: 0 0 5px rgba(255, 255, 255, .5);
-}
-
 /*
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a {
     background-color: #263238;
@@ -28,33 +24,36 @@ h1 {
 }
 */
 
-.banner {
-    position: relative;
-    overflow: auto;
-    padding: 0;
-    margin: 0;
+.bx-viewport {
+    border: 0 !important;
+    left: 0 !important;
 }
 
-.banner li {
-    float: left;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.banner ul li {
-    float: left;
-    padding: 0;
-    margin: 0;
-}
-
-.slider {
-    width: 100%;
-    height: 400px;
-    background-image: url(../img/slider/i-fantastici-4.jpg);
+.cover {
     background-size: cover;
-    background-position: top center;
-    margin-bottom: 32px;
+    width: 100%;
+    height: 420px;
+    background-position: 50% 15%;
+}
+
+.cover-text {
+    width: 100%;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, .5);
+    color: white;
+    position: absolute;
+    bottom: 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+}
+
+.cover-text > .container > h1 {
+    font-size: 42px;
+    font-weight: 100;
+}
+
+.cover-text > .container > h1 > small {
+    font-size: 18px;
+    font-weight: 300;
 }
 
 .subtitle {

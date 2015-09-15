@@ -1,5 +1,9 @@
 // Slider
 
+$(document).ready(function(){
+    $('.bxslider').bxSlider();
+});
+/*
 $(function() {
     $('.banner').unslider({
         speed: 500,
@@ -9,7 +13,7 @@ $(function() {
         fluid: false
     });
 });
-
+*/
 
 // Prenotazione
 
