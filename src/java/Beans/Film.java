@@ -97,7 +97,7 @@ public class Film implements Serializable{
     /**
      * @return the UriLocandina
      */
-    public String geturiLocandina() {
+    public String getUriLocandina() {
         return uriLocandina;
     }
 
