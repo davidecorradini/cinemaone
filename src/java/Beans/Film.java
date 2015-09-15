@@ -16,8 +16,8 @@ public class Film implements Serializable{
     private int idGenere;
     private String titolo; //max size: 100
     private int durata; //durata in minuti
-    private String UrlTrailer; //max size: 255
-    private String UriLocandina; //max size: 255
+    private String urlTrailer; //max size: 255
+    private String uriLocandina; //max size: 255
     private String trama; //max size 1000
     private boolean isInSlider;
     private int anno;
@@ -83,28 +83,29 @@ public class Film implements Serializable{
      * @return the UrlTrailer
      */
     public String getUrlTrailer() {
-        return UrlTrailer;
+        return urlTrailer;
     }
 
     /**
-     * @param UrlTrailer the UrlTrailer to set
+     * @param urlTrailer the UrlTrailer to set
      */
-    public void setUrlTrailer(String UrlTrailer) {
-        this.UrlTrailer = UrlTrailer;
+    public void setUrlTrailer(String urlTrailer) {
+        //watch?v= ->  embed/
+        this.urlTrailer = urlTrailer.replaceFirst("watch?v=", "embed/");
     }
 
     /**
      * @return the UriLocandina
      */
-    public String getUriLocandina() {
-        return UriLocandina;
+    public String geturiLocandina() {
+        return uriLocandina;
     }
 
     /**
-     * @param UriLocandina the UriLocandina to set
+     * @param uriLocandina the UriLocandina to set
      */
-    public void setUriLocandina(String UriLocandina) {
-        this.UriLocandina = UriLocandina;
+    public void setUriLocandina(String uriLocandina) {
+        this.uriLocandina = uriLocandina;
     }
 
     /**
