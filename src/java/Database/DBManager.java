@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public class DBManager implements Serializable {
     // transient = non viene serializzato
     
-    private transient Connection con;
+    private final transient Connection con;
     
     public DBManager(String dburl) throws SQLException {
         try {
