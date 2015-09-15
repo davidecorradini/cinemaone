@@ -8,6 +8,7 @@ package Beans;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -71,15 +72,8 @@ public class Spettacolo implements Serializable{
     /**
      * @return the dataOra
      */
-    public Data getDataOra() {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(timeStamp.getTime());
-        int giorno = cal.get(Calendar.DAY_OF_MONTH);
-        int mese = cal.get(Calendar.MONTH);
-        int anno = cal.get(Calendar.YEAR);
-        int ore = cal.get(Calendar.HOUR);
-        int minuti = cal.get(Calendar.MINUTE);
-        return new Data(giorno, mese, anno, ore, minuti);
+    public Date getDataOra() {
+        return new Date(timeStamp.getTime());
     }
 
     /**
