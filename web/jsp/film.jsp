@@ -84,7 +84,7 @@
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
                                 <c:set var="tmpDataOra" value="${tmp1.getDataOra()}"></c:set>
-                                <li><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOra()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></li>
+                                <li><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOre()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></li>
                                 </c:forEach>
                         </ul></p>
                     </div>
