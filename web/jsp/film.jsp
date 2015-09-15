@@ -9,6 +9,7 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -83,9 +84,8 @@
                         <p><c:out value="${tmpfilm.getTrama()}"></c:out><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[vedi dettagli]</a></p>
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
-                                <c:set var="tmpDataOra" value="${tmp1.getDataOra()}"></c:set>
-                                <li><c:out value="${tmpDataOra.getGiorno()}"></c:out>-<c:out value="${tmpDataOra.getMese()}"></c:out>-<c:out value="${tmpDataOra.getAnno()}"></c:out> <c:out value="${tmpDataOra.getOre()}"></c:out>:<c:out value="${tmpDataOra.getMinuti()}"></c:out></li>
-                                </c:forEach>
+                                <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/></li>
+                            </c:forEach>
                         </ul></p>
                     </div>
                 </div>

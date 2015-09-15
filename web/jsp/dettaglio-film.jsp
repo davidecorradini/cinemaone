@@ -6,6 +6,7 @@
     
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -77,7 +78,7 @@
                     <p><strong>Trama: </strong><c:out value="${tmpFilm.getTrama()}"></c:out></p>
                         <p><strong>Programmazione: </strong><br>
                         <c:forEach var="tmpSpettacolo" items="${tmp.getSpettacoli()}">
-                            <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><fmt:formatDate value="${tmpSpettacolo.getDataOra()}" pattern="yy-MMM-dd"/></a><br>
+                            <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><fmt:formatDate value="${tmpSpettacolo.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/></a><br>
                         </c:forEach>
                     </p>
                 </div>
