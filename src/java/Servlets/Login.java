@@ -28,6 +28,7 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Utente user = null;
+        String lastPageUrl = request.getHeader("Referer");
         try{
             user = manager.authenticate(username, password);
         }catch(SQLException ex){
@@ -40,13 +41,13 @@ public class Login extends HttpServlet {
         rd.forward(request, response);        
         }else{
             HttpSession session = request.getSession(true);
+            
             session.setAttribute("autenticato", true);
             session.setAttribute("user", user);
             System.out.println("redirigo a: " + (String)session.getAttribute("destination"));
             if(session.getAttribute("destination") != null){
                 response.sendRedirect((String)session.getAttribute("destination"));
-            }
-            else{
+            }else{
                 response.sendRedirect(request.getContextPath());
                 System.out.println("redirigo a: " + request.getContextPath());
             }

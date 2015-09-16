@@ -92,7 +92,6 @@ public class Film implements Serializable{
     public void setUrlTrailer(String urlTrailer) {
         //watch?v= ->  embed/
         this.urlTrailer = urlTrailer.replace("watch?v=", "embed/");
-        System.out.println("\n\n\turlTrailer: " + urlTrailer);
     }
 
     /**
