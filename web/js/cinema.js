@@ -1,12 +1,10 @@
 // Slider
 
-$(function() {
-    $('.banner').unslider({
-        speed: 500,
-        delay: 3000,
-        keys: true,
-        dots: true,
-        fluid: false
+$(document).ready(function(){
+    $('.bxslider').bxSlider({
+        auto: true,
+        pause: 6000,
+        easing: "ease-in-out"
     });
 });
 
@@ -14,9 +12,46 @@ $(function() {
 // Prenotazione
 
 function updatePosti (spettacolo) {
-    $.getJSON("http://192.168.1.5:8084/Multisala/statoPrenotazioni", "spettacolo=1", function (result) {
-        //$.each();
-        alert(result);
+    $.getJSON("http://web-dev.esy.es/cinemaone/statoPrenotazioni.php", "spettacolo=" + spettacolo, function (result) {
+        $(".posto").each(function (i, element) {
+            $(element).removeClass("occupato");
+            $(element).removeClass("occupato-tmp");
+            $(element).removeClass("selezionato");
+            $(element).addClass("libero");
+        });
+        $.each(result, function (key, val) {
+            var x, y, stato, timestamp, postoId;
+            $.each(val, function (key2, val2) {
+                if (key2 == "x") {
+                    if (parseInt(val2) >= 10) {
+                        x = val2;
+                    } else {
+                        x = "0" + val2;
+                    }
+                } else if (key2 == "y") {
+                    y = val2;
+                } else if (key2 == "stato") {
+                    stato = val2;
+                } else if (key2 == "timestamp") {
+                    timestamp = val2;
+                }
+                postoId = y + x;
+            });
+            $(".posto").each(function (i, element) {
+                if ($(element).text() == postoId) {
+                    if (stato == "tmp") {
+                        $(element).addClass("occupato-tmp");
+                    } else if (stato == "occupato") {
+                        $(element).addClass("occupato");
+                    } else if (stato == "tuo") {
+                        $(element).addClass("selezionato");
+                    }
+                }
+            });
+        });
+        setTimeout(updatePosti, 1000);
+    }).fail( function(d, textStatus, error) {
+        setTimeout(updatePosti, 5000);
     });
 }
 
@@ -41,6 +76,8 @@ function removeSelezionato (postoString) {
 }
 
 $(".posto").click(function (e) {
+    $("#prenota-posto-modal").modal();
+    /*
     var posto = e.target;
     var postoString = $(posto).text();
     if ($(posto).hasClass("libero")) {
@@ -51,5 +88,5 @@ $(".posto").click(function (e) {
         $(posto).addClass("libero");
         $(posto).removeClass("selezionato");
         removeSelezionato(postoString);
-    }
+    }*/
 });

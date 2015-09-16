@@ -78,7 +78,7 @@
                     <p><strong>Trama: </strong><c:out value="${tmpFilm.getTrama()}"></c:out></p>
                         <p><strong>Programmazione: </strong><br>
                         <c:forEach var="tmpSpettacolo" items="${tmp.getSpettacoli()}">
-                            <fmt:formatDate value="${tmpSpettacolo.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/><a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"> <i class="zmdi zmdi-calendar-check"></i> Prenota</a><br>
+                            <fmt:formatDate value="${tmpSpettacolo.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a><br>
                         </c:forEach>
                     </p>
                 </div>
