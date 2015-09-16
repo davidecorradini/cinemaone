@@ -8,7 +8,7 @@
     </head>
     <body>
         <div style="color: #FF0000">${message}</div>
-        <form method="POST" action="/Multisala/Login"> 
+        <form method="POST" action="/Multisala/check-login"> 
             <p>
                 username:
                 <input type="text" name="username" placeholder="username">
