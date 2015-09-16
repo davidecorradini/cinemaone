@@ -84,7 +84,7 @@
                         <p><c:out value="${tmpfilm.getTrama()}"></c:out><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[vedi dettagli]</a></p>
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
-                                <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/></li>
+                                <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/><a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"> <i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
                             </c:forEach>
                         </ul></p>
                     </div>
