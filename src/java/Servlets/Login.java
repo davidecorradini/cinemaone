@@ -29,6 +29,8 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         Utente user = null;
         String lastPageUrl = request.getHeader("Referer");
+        System.out.println("last visited page: " + lastPageUrl);
+        
         try{
             user = manager.authenticate(username, password);
         }catch(SQLException ex){
@@ -36,9 +38,9 @@ public class Login extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         if(user == null){
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
-        request.setAttribute("message", "Username/password non esistente");
-        rd.forward(request, response);        
+            RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
+            request.setAttribute("message", "Username/password non esistente");
+            rd.forward(request, response);
         }else{
             HttpSession session = request.getSession(true);
             
