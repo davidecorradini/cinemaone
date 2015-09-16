@@ -67,7 +67,7 @@
                     <div class="cover" style="background-image:url(img/slider/<c:out value="${tmp.getUriLocandina()}"></c:out>);">
                         <div class="cover-text">
                             <div class="container">
-                                <h1><c:out value="${tmp.getTitolo()}"></c:out> <small><c:out value="${tmp.getRegista()}"></c:out> &middot; <c:out value="${tmp.getRegista()}"></c:out> &middot; <c:out value="${tmp.getGenere()}"></c:out> &middot; <c:out value="${tmp.getDurata()}"></c:out>min</small></h1>
+                                <h1><c:out value="${tmp.getTitolo()}"></c:out> <small><c:out value="${tmp.getRegista()}"></c:out> &middot; <c:out value="${tmp.getAnno()}"></c:out> &middot; <c:out value="${tmp.getDurata()}"></c:out>min</small></h1>
                             </div>
                         </div>
                     </div>
