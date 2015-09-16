@@ -63,15 +63,17 @@
             
         <ul class="bxslider">
             <c:forEach var="tmp" items="${requestScope.filmsSlider}"> 
-                <a href="dettaglio-film.html?idfilm=<c:out value="${tmp.getIdFilm()}"></c:out>">
-                    <div class="cover" style="background-image:url(img/slider/<c:out value="${tmp.getUriLocandina()}"></c:out>);">
-                        <div class="cover-text">
-                            <div class="container">
-                                <h1><c:out value="${tmp.getTitolo()}"></c:out> <small><c:out value="${tmp.getRegista()}"></c:out> &middot; <c:out value="${tmp.getAnno()}"></c:out> &middot; <c:out value="${tmp.getDurata()}"></c:out>min</small></h1>
+                <li>
+                    <a href="dettaglio-film.html?idfilm=<c:out value="${tmp.getIdFilm()}"></c:out>">
+                        <div class="cover" style="background-image:url(img/slider/<c:out value="${tmp.getUriLocandina()}"></c:out>);">
+                                <div class="cover-text">
+                                    <div class="container">
+                                        <h1><c:out value="${tmp.getTitolo()}"></c:out> <small><c:out value="${tmp.getRegista()}"></c:out> &middot; <c:out value="${tmp.getAnno()}"></c:out> &middot; <c:out value="${tmp.getDurata()}"></c:out>min</small></h1>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </li>
             </c:forEach>
         </ul>
         <div class="container">
