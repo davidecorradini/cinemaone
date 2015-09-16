@@ -1,19 +1,13 @@
 // Slider
 
 $(document).ready(function(){
-    $('.bxslider').bxSlider();
-});
-/*
-$(function() {
-    $('.banner').unslider({
-        speed: 500,
-        delay: 3000,
-        keys: true,
-        dots: true,
-        fluid: false
+    $('.bxslider').bxSlider({
+        auto: true,
+        pause: 6000,
+        easing: "ease-in-out"
     });
 });
-*/
+
 
 // Prenotazione
 
