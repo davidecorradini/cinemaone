@@ -18,8 +18,6 @@ import javax.servlet.http.HttpSession;
 
 
 public class SessionFilter implements Filter {
-    private String lastID = null;
-    
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
@@ -105,7 +103,7 @@ public class SessionFilter implements Filter {
         
         HttpSession session = request.getSession(true);
         if(session.getAttribute("idUtente") == null){ //se non ha una sessione
-            session.setAttribute("idUtente", generaIdUtente());
+            session.setAttribute("idUtente", session.getId()); //user temp id = session id
         }
     }    
    
@@ -113,13 +111,4 @@ public class SessionFilter implements Filter {
     public void destroy() {
         this.filterConfig = null;
     }
-
-    private String generaIdUtente(){
-        if(lastID == null){
-            lastID = "";
-        }
-        //lastID = lastID.
-        return null;
-    }
-    
 }

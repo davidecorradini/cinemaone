@@ -83,7 +83,7 @@
                         <div class="media-body">
                                 <h3 class="media-heading"><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
                         <c:set var="string" value="${tmpfilm.getTrama()}"/>
-                        <c:set var="index" value="${fn:indexOf(string1, \".\")}"/>
+                        <c:set var="index" value="${fn:indexOf(string, \".\")}"/>
                         <c:out value="${index}"></c:out>
                         <c:set var="string1" value="" />
                         <c:set var="string2" value="${fn:substring(string1, 0, 15)}" />
