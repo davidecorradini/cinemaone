@@ -12,6 +12,7 @@ import java.sql.Timestamp;
  * @author enrico
  */
 public class SpettacoloSalaOrario {
+    private int idSpettacolo;
     private Film film;
     private Sala sala;
     private Genere genere;
@@ -101,6 +102,20 @@ public class SpettacoloSalaOrario {
      */
     public void setOra(String ora) {
         this.ora = ora;
+    }
+
+    /**
+     * @return the idSpettacolo
+     */
+    public int getIdSpettacolo() {
+        return idSpettacolo;
+    }
+
+    /**
+     * @param idSpettacolo the idSpettacolo to set
+     */
+    public void setIdSpettacolo(int idSpettacolo) {
+        this.idSpettacolo = idSpettacolo;
     }
     
 }
