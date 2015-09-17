@@ -4,7 +4,6 @@ import Database.DBManager;
 import Beans.Utente;
 import java.io.IOException;
 import java.sql.SQLException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +28,7 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         Utente user = null;
         String lastPageUrl = request.getHeader("Referer");
-        System.out.println("last visited page: " + lastPageUrl);
+        System.out.println("login requested from: " + lastPageUrl);
                 
         try{
             user = manager.authenticate(username, password);
@@ -37,23 +36,15 @@ public class Login extends HttpServlet {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        if(user == null){
-            RequestDispatcher rd = request.getRequestDispatcher("/jsp/login.jsp");
-            request.setAttribute("message", "Username/password non esistente");
-            rd.forward(request, response);
-        }else{
-            HttpSession session = request.getSession(true);
-            
+        HttpSession session = request.getSession(true);
+        if(user == null)
+            session.setAttribute("autenticato", false);
+        else{
             session.setAttribute("autenticato", true);
             session.setAttribute("user", user);
-            System.out.println("redirigo a: " + (String)session.getAttribute("destination"));
-            if(session.getAttribute("destination") != null){
-                response.sendRedirect((String)session.getAttribute("destination"));
-            }else{
-                response.sendRedirect(request.getContextPath());
-                System.out.println("redirigo a: " + request.getContextPath());
-            }
         }
+        
+        response.sendRedirect(lastPageUrl);
     }
     
     @Override
@@ -99,5 +90,18 @@ public class Login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+   
+    /**
+     * verifica se l'utente è autenticato, ha sbagliato password/utente oppure non ha ancor fatto richieste di login.
+     * @param request
+     * @return 1 se non ha fatto login, 0 se è loggato, -1 se ha sbagliato.
+     */
+    public static int checkAuthenticationStatus(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session == null) return 1; //if there is no session
+        if(session.getAttribute("autenticato") == null) return 1; //if there is no autenticato parameter
+        if(session.getAttribute("autenticato") instanceof Boolean && (boolean)session.getAttribute("autenticato")) return 0;
+        session.removeAttribute("autenticato");
+        return -1;
+    }
 }

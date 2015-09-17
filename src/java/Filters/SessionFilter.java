@@ -5,6 +5,7 @@
  */
 package Filters;
 
+import Servlets.Login;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -101,8 +102,12 @@ public class SessionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)requestS;
         HttpServletResponse response = (HttpServletResponse)responseS;
         
+        int status = Login.checkAuthenticationStatus(request);
+        if(status == -1)
+            request.setAttribute("login-error", true);
+        
         HttpSession session = request.getSession(true);
-        if(session.getAttribute("idUtente") == null){ //se non ha una sessione
+        if(session.getAttribute("idUtente") == null){ //se la sessione è appena stata creata.
             session.setAttribute("idUtente", session.getId()); //user temp id = session id
         }
     }    
