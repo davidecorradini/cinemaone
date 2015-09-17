@@ -44,7 +44,7 @@
                             <li class="active"><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
                             <li><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
                             <li><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
-                            <li class="dropdown <c:if test="${requestScope.login-error} != null">open</c:if>">
+                            <li class="dropdown <c:if test="${requestScope.login-error} == 't'">open</c:if>">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Area Clienti <i class="zmdi zmdi-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
                                     <form method="POST" action="/Multisala/check-login"> 
@@ -53,7 +53,7 @@
                                         <li>password:</li>
                                         <li><input type="password" name="password" placeholder="password"></li>
                                         <li><input type="submit" value="login"></li>
-                                    <c:if test="${requestScope.login-error} != null"><li>Username e/o password sbagliato/i</li></c:if>
+                                    <c:if test="${requestScope.login-error} == 't'"><li>Username e/o password sbagliato/i</li></c:if>
                                         <li><a href="#">Recupera password</a></li>
                                     </form>
                                 </ul>
