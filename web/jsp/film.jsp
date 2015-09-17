@@ -83,21 +83,29 @@
                         <div class="media-body">
                                 <h3 class="media-heading"><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
                         <c:set var="string" value="${tmpfilm.getTrama()}"/>
-                        <c:set var="index" value="${fn:indexOf(string, \".\")}"/>
-                        <c:set var="string1" value="${fn:substring(string, 0, index+1)}" />
                         <c:set var="indexend" value="${fn:length(string)}"/>
-                        <c:set var="string2" value="${fn:substring(string, index+2, indexend)}" />
-                        <p><c:out value="${string1}"></c:out>
-                            <a id="m<c:out value="${tmpfilm.getIdFilm()}"></c:out>" >[mostra tutto]</a>
-                        <div id="div<c:out value="${tmpfilm.getIdFilm()}"></c:out>" style="display: none;"><c:out value="${string2}"></c:out>
-                        <a id="n<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[nascondi]</a></div></p>
-                        
-                            <p>Programmazione<ul>
+                        <c:choose>
+                            <c:when test="${indexend < '250'}">
+                                <p><c:out value="${string}"></c:out></p>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set var="string1" value="${fn:substring(string, 0, 150)}" />
+                                <p>
+                                <div id="dm<c:out value="${tmpfilm.getIdFilm()}"></c:out>">
+                                    <c:out value="${string1}"></c:out>
+                                    <a id="m<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[mostra descrizione]</a>
+                                </div>
+                                <div id="div<c:out value="${tmpfilm.getIdFilm()}"></c:out>" style="display: none;"><c:out value="${string}"></c:out>
+                                    <a id="n<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[nascondi]</a></div></p>
+                                        
+                            </c:otherwise>
+                        </c:choose>      
+                        <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
                                 <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
-                            </c:forEach>
+                                </c:forEach>
                         </ul></p>
-                    </div>
+                        </div>
                 </div>
             </c:forEach>
             
@@ -127,11 +135,13 @@
                 var id = this.id.substring(1);
                 var prefix = this.id.substring(0,1);
                 if(prefix === 'm'){
-                    $('#'+this.id).hide();    
+                    $('#'+this.id).hide();
+                    $('#dm'+id).hide();
                     $('#div'+id).show();
                 }else{
                     $('#div'+id).hide();
                     $('#m' + id).show();
+                    $('#dm'+id).show();
                 }                
             })
         </script>

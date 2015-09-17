@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
         Utente user = null;
         String lastPageUrl = request.getHeader("Referer");
         System.out.println("last visited page: " + lastPageUrl);
-        
+                
         try{
             user = manager.authenticate(username, password);
         }catch(SQLException ex){
