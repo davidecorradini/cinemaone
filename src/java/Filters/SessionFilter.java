@@ -112,6 +112,9 @@ public class SessionFilter implements Filter {
         if(session.getAttribute("idUtente") == null){ //se la sessione è appena stata creata.
             session.setAttribute("idUtente", session.getId()); //user temp id = session id
         }
+        if(request.getParameter("logout")!=null)
+            if(request.getParameter("logout").equals("true"))
+                Login.Logout(request);
     }    
    
     @Override

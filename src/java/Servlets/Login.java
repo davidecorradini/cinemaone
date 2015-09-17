@@ -104,4 +104,9 @@ public class Login extends HttpServlet {
         session.removeAttribute("autenticato");
         return -1;
     }
+    
+    public static void Logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("autenticato");
+    }
 }
