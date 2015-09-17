@@ -84,10 +84,13 @@
                                 <h3 class="media-heading"><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
                         <c:set var="string" value="${tmpfilm.getTrama()}"/>
                         <c:set var="index" value="${fn:indexOf(string, \".\")}"/>
-                        <c:set var="string1" value="${fn:substring(string, 0, index)}" />
+                        <c:set var="string1" value="${fn:substring(string, 0, index+1)}" />
                         <c:set var="indexend" value="${fn:length(string)}"/>
-                        <c:set var="string2" value="${fn:substring(string, index+1, indexend)}" />
-                        <p><c:out value="${string1}"></c:out><div id="div<c:out value="${tmpfilm.getIdFilm()}"></c:out>" style="visibility: hidden;"><c:out value="${string2}"></c:out></div><a href="#" id="<c:out value="${tmpfilm.getIdFilm()}"></c:out>" onclick="">[mostra tutto]</a></p>
+                        <c:set var="string2" value="${fn:substring(string, index+2, indexend)}" />
+                        <p><c:out value="${string1}"></c:out>
+                            <a id="m<c:out value="${tmpfilm.getIdFilm()}"></c:out>" >[mostra tutto]</a>
+                        <div id="div<c:out value="${tmpfilm.getIdFilm()}"></c:out>" style="display: none;"><c:out value="${string2}"></c:out>
+                        <a id="n<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[nascondi]</a></div></p>
                         
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
@@ -121,8 +124,15 @@
         <script src="js/jquery.jcarousel.min.js"></script>
         <script>
             $('a').click(function(){
-                $('#div'+this.id).show();
-                $('#'+this.id).hide();
+                var id = this.id.substring(1);
+                var prefix = this.id.substring(0,1);
+                if(prefix === 'm'){
+                    $('#'+this.id).hide();    
+                    $('#div'+id).show();
+                }else{
+                    $('#div'+id).hide();
+                    $('#m' + id).show();
+                }                
             })
         </script>
     </body>
