@@ -105,7 +105,7 @@ public class SessionFilter implements Filter {
         int status = Login.checkAuthenticationStatus(request);
         System.out.println(request.getRequestURI() + " -> login-status: " + status);
         if(status == -1){
-            request.setAttribute("login-error", true);
+            request.setAttribute("loginerror", true);
             System.out.println("attibuto login-error settato");
         }
         HttpSession session = request.getSession(true);
