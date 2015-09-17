@@ -84,18 +84,11 @@
                                 <h3 class="media-heading"><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
                         <c:set var="string" value="${tmpfilm.getTrama()}"/>
                         <c:set var="index" value="${fn:indexOf(string, \".\")}"/>
-<<<<<<< HEAD
                         <c:set var="string1" value="${fn:substring(string, 0, index)}" />
                         <c:set var="indexend" value="${fn:length(string)}"/>
                         <c:set var="string2" value="${fn:substring(string, index+1, indexend)}" />
                         <p><c:out value="${string1}"></c:out><div id="div<c:out value="${tmpfilm.getIdFilm()}"></c:out>" style="visibility: hidden;"><c:out value="${string2}"></c:out></div><a href="#" id="<c:out value="${tmpfilm.getIdFilm()}"></c:out>" onclick="">[mostra tutto]</a></p>
-=======
-                        <c:out value="${index}"></c:out>
-                        <c:set var="string1" value="" />
-                        <c:set var="string2" value="${fn:substring(string1, 0, 15)}" />
-                        <p>Final sub string : ${string2}</p>
-                        <p><c:out value="${string}"></c:out><a href="#" onclick="">[mostra tutto]</a></p>
->>>>>>> b85211b3c7b02c7394b64974878f182d9d8a4ea5
+                        
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
                                 <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
