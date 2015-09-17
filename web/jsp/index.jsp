@@ -17,6 +17,7 @@
         <meta name="author" content="">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/material-design-iconic-font.min.css" rel="stylesheet">
+        <link href="css/jquery.bxslider.css" rel="stylesheet">
         <link href="css/cinema.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -124,7 +125,7 @@
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.jcarousel.min.js"></script>
-        <script src="js/unslider.min.js"></script>
+        <script src="js/jquery.bxslider.min.js"></script>
         <script src="js/cinema.js"></script>
     </body>
 </html>
