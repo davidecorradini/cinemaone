@@ -10,6 +10,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -81,7 +82,13 @@
                         </div>
                         <div class="media-body">
                                 <h3 class="media-heading"><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
-                        <p><c:out value="${tmpfilm.getTrama()}"></c:out><a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>">[vedi dettagli]</a></p>
+                        <c:set var="string" value="${tmpfilm.getTrama()}"/>
+                        <c:set var="index" value="${fn:indexOf(string1, \".\")}"/>
+                        <c:out value="${index}"></c:out>
+                        <c:set var="string1" value="" />
+                        <c:set var="string2" value="${fn:substring(string1, 0, 15)}" />
+                        <p>Final sub string : ${string2}</p>
+                        <p><c:out value="${string}"></c:out><a href="#" onclick="">[mostra tutto]</a></p>
                             <p>Programmazione<ul>
                             <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
                                 <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
