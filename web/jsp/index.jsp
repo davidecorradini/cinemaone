@@ -48,15 +48,23 @@
                             <li class="dropdown <c:if test="${requestScope.loginerror}">open</c:if>">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
-                                    <form method="POST" action="/Multisala/check-login"> 
-                                        <li>username:</li>
-                                        <li><input type="text" name="username" placeholder="username"></li>
-                                        <li>password:</li>
-                                        <li><input type="password" name="password" placeholder="password"></li>
-                                        <li><input type="submit" value="login"></li>
-                                    <c:if test="${requestScope.loginerror}"><li>Username e/o password sbagliato/i</li></c:if>
-                                        <li><a href="#">Recupera password</a></li>
-                                    </form>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.autenticato}">
+                                            <li><input type="button" value="Logout"></li>
+                                        </c:when>
+                                        <c:otherwise>                                            
+                                            <form method="POST" action="/Multisala/check-login"> 
+                                                <li>username:</li>
+                                                <li><input type="text" name="username" placeholder="username"></li>
+                                                <li>password:</li>
+                                                <li><input type="password" name="password" placeholder="password"></li>
+                                                <li><input type="submit" value="login"></li>
+                                                <c:if test="${requestScope.loginerror}"><li>Username e/o password sbagliato/i</li></c:if>
+                                                <li><a href="#">Recupera password</a></li>
+                                            </form>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    
                                 </ul>
                             </li>
                         </ul>

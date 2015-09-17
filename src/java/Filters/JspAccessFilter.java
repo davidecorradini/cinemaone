@@ -74,7 +74,7 @@ public class JspAccessFilter implements Filter {
     HashSet set = new HashSet<>();
     switch (uri) {
             case "/jsp/dettaglio-film.jsp":  set.add("idFilm");
-                     break;
+                     break;/*
             case 2:  monthString = "February";
                      break;
             case 3:  monthString = "March";
@@ -98,7 +98,7 @@ public class JspAccessFilter implements Filter {
             case 12: monthString = "December";
                      break;
             default: monthString = "Invalid month";
-                     break;
+                     break;*/
         }
     return set;
     }
