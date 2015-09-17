@@ -80,7 +80,7 @@
                         <td class="text-center"><c:out value="${tmp.getData()}"></c:out></td>
                         <td class="text-center"><c:out value="${tmp.getOra()}"></c:out></td>
                         <td class="text-center"><c:out value="${tmpSala.getNome()}"></c:out></td>
-                        <td class="text-center"><i class="zmdi zmdi-calendar-check"></i></td>
+                        <td class="text-center"><a href="prenotazione.html?idspettacolo=<c:out value="${tmp.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i></a></td>
                     </tr>
                 </c:forEach>
                 
