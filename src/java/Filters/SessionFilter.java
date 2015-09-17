@@ -101,11 +101,13 @@ public class SessionFilter implements Filter {
     private void doBeforeProcessing(ServletRequest requestS, ServletResponse responseS) {
         HttpServletRequest request = (HttpServletRequest)requestS;
         HttpServletResponse response = (HttpServletResponse)responseS;
-        
+        //check login status
         int status = Login.checkAuthenticationStatus(request);
-        if(status == -1)
-            request.setAttribute("login-error", true);
-        
+        System.out.println(request.getRequestURI() + " -> login-status: " + status);
+        if(status == -1){
+            request.setAttribute("login-error", "t");
+            System.out.println("attibuto login-error settato");
+        }
         HttpSession session = request.getSession(true);
         if(session.getAttribute("idUtente") == null){ //se la sessione è appena stata creata.
             session.setAttribute("idUtente", session.getId()); //user temp id = session id
