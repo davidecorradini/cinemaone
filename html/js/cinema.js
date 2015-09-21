@@ -76,10 +76,12 @@ function removeSelezionato (postoString) {
 }
 
 $(".posto").click(function (e) {
-    $("#prenota-posto-modal").modal();
-    /*
     var posto = e.target;
     var postoString = $(posto).text();
+    $(".modal-title").text("Prenotazione Posto " + postoString);
+    $("");
+    $("#prenota-posto-modal").modal();
+    /*
     if ($(posto).hasClass("libero")) {
         $(posto).removeClass("libero");
         $(posto).addClass("selezionato");
@@ -89,4 +91,21 @@ $(".posto").click(function (e) {
         $(posto).removeClass("selezionato");
         removeSelezionato(postoString);
     }*/
+});
+
+
+// Mostra/Nascondi
+
+$('a.mostranascondi').click(function(){
+    var id = this.id.substring(1);
+    var prefix = this.id.substring(0,1);
+    if(prefix === 'm'){
+        $('#'+this.id).hide();
+        $('#dm'+id).hide();
+        $('#div'+id).show();
+    }else{
+        $('#div'+id).hide();
+        $('#m' + id).show();
+        $('#dm'+id).show();
+    }
 });

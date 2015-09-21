@@ -56,6 +56,10 @@ h1 {
     font-weight: 300;
 }
 
+a.mostranascondi {
+    cursor: pointer;
+}
+
 .subtitle {
     font-size: 14px;
     padding-left: 4px;
