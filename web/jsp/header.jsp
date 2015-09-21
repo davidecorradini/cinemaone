@@ -50,10 +50,8 @@
                                 <ul class="dropdown-menu">
                                     <c:choose>
                                         <c:when test="${sessionScope.autenticato}">
-                                            <form method="POST" action="index.html">
-                                                <input type="hidden" name="logout" value="true">
-                                                <li><input type="submit" value="Logout"></li>
-                                            </form>
+                                            <li><a href="logout.html?backto=">Logout</a></li>
+                                            <li></li>
                                         </c:when>
                                         <c:otherwise>                                            
                                             <form method="POST" action="/Multisala/check-login"> 
@@ -67,7 +65,6 @@
                                             </form>
                                         </c:otherwise>
                                     </c:choose>
-                                    
                                 </ul>
                             </li>
                         </ul>

@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:import url="header.jsp"></c:import>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%@ include file="header.jsp" %>
 <ul class="bxslider">
     <c:forEach var="tmp" items="${requestScope.filmsSlider}"> 
         <li>
@@ -28,7 +30,7 @@
                         
                         <c:forEach var="tmp2" items="${requestScope.prezzi}">
                             
-                            <li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <c:out value="${tmp2.getPrezzo()}"></c:out></li>
+                            <li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <fmt:setLocale value="en_US"/><fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" /></li>
     
     
                         </c:forEach>
