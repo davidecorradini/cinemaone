@@ -979,14 +979,15 @@ public class DBManager implements Serializable {
     public FilmSpettacoli getFilmSpettacoli(int filmId) throws SQLException{
         FilmSpettacoli res = new FilmSpettacoli();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SP.ID_SPETTACOLO, SP.ID_FILM, SP.ID_SALA, SP.DATA_ORA\n" +
-                        "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM\n" +
+                "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SP.ID_SPETTACOLO, SP.ID_FILM, SP.ID_SALA, SP.DATA_ORA, G.DESCRIZIONE\n" +
+                        "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
                         "WHERE SP.DATA_ORA >= CURRENT_TIMESTAMP AND F.ID_FILM = ?\n" +
                         "ORDER BY SP.DATA_ORA");
         stm.setInt(1, filmId);
         ResultSet rs = stm.executeQuery();
         ArrayList<Spettacolo> tmpSpettacoli = null;
         Film tmpFilm = null;
+        Genere tmpGenere = null;
         if(rs.next()){
             tmpSpettacoli = new ArrayList<>();
             tmpFilm = new Film();
@@ -1000,6 +1001,10 @@ public class DBManager implements Serializable {
             tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
             tmpFilm.setAnno(rs.getInt("ANNO"));
             tmpFilm.setRegista(rs.getString("REGISTA"));
+            
+            tmpGenere = new Genere();
+            tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+            tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
             
             Spettacolo tmpSpettacolo = new Spettacolo();
             tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
@@ -1017,6 +1022,7 @@ public class DBManager implements Serializable {
             tmpSpettacoli.add(tmpSpettacolo);
         }
         res.setFilm(tmpFilm);
+        res.setGenere(tmpGenere);
         res.setSpettacoli(tmpSpettacoli);
         return res;
     }
