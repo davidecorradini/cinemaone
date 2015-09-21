@@ -103,7 +103,7 @@ public class SessionFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)responseS;
         //check login status
         int status = Login.checkAuthenticationStatus(request);
-        System.out.println(request.getRequestURI() + " -> login-status: " + status);
+        //System.out.println(request.getRequestURI() + " -> login-status: " + status);
         if(status == -1){
             request.setAttribute("loginerror", true);
             System.out.println("attibuto login-error settato");
