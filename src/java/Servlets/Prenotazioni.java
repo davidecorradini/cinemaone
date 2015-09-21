@@ -36,8 +36,8 @@ public class Prenotazioni extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("PRENOTAZIONI");
-        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
-        String idUtente = (String)request.getSession(false).getAttribute("idUtente");
+        int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
+        //String idUtente = (String)request.getSession(false).getAttribute("idUtente");
         InfoPrenotazione infoPrenotazione = null;
         try {
             infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);

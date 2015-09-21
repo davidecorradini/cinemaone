@@ -76,7 +76,7 @@
                     <c:set var="tmpSala" value="${tmp.getSala()}"/>
                     <c:set var="tmpGenere" value="${tmp.getGenere()}"/>
                     <tr>
-                        <td><c:out value="${tmpFilm.getTitolo()}"></c:out> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out></small></td>
+                        <td><a href="dettaglio-film.html?idfilm=<c:out value="${tmpFilm.getIdFilm()}"></c:out>"><c:out value="${tmpFilm.getTitolo()}"></c:out></a> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out></small></td>
                         <td class="text-center"><c:out value="${tmp.getData()}"></c:out></td>
                         <td class="text-center"><c:out value="${tmp.getOra()}"></c:out></td>
                         <td class="text-center"><c:out value="${tmpSala.getNome()}"></c:out></td>
