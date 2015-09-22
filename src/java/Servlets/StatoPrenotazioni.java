@@ -51,15 +51,18 @@ private DBManager manager;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession(true); //da mettere poi a false
+        HttpSession session = request.getSession(false); //da mettere poi a false
         //String idUtente = (String)session.getAttribute("idUtente");
         String idUtente = "sdascascasca";
         int idSpettacolo = 0;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
         }catch(NumberFormatException ex){
-            request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            response.setContentType("text/plain;charset=UTF-8\n");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("fail");
+            }
+            return;
         }
         
         ArrayList<PrenTmpPosto> result = null;
@@ -68,8 +71,11 @@ private DBManager manager;
             result = manager.getPrenotazioneTmp(idSpettacolo);
             occupied = manager.getPostiOccupati(idSpettacolo);
         } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            response.setContentType("text/plain;charset=UTF-8\n");
+            try (PrintWriter out = response.getWriter()) {
+                out.println("fail");
+            }
+            return;
         }
         
          
@@ -119,9 +125,9 @@ private DBManager manager;
                     }  
             }
         } catch (JSONException ex) {
-            //TO DO: handle error
-        }
-        
+            request.setAttribute("error", "errore nella creazione del json");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }        
         
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
