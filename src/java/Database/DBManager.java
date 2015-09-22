@@ -726,6 +726,7 @@ public class DBManager implements Serializable {
                 while(rs.next()){
                     PrenotazioneTmp tmp = new PrenotazioneTmp();
                     Posto posto = new Posto();
+                    
                     tmp.setIdUtente(rs.getString("ID_UTENTE"));
                     tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                     tmp.setIdPosto(rs.getInt("ID_POSTO"));
