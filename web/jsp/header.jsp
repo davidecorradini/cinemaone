@@ -35,8 +35,8 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/index.jsp'}"> class="active"</c:if>><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
-                            <li<c:if test="${pageContext.request.servletPath == '/jsp/film.jsp'}"> class="active"</c:if>><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
-                            <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/film.jsp' || pageContext.request.servletPath == '/jsp/dettaglio-film.jsp'}"> class="active"</c:if>><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp' || pageContext.request.servletPath == '/jsp/prenotazione.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
                             <li class="dropdown <c:if test="${requestScope.loginerror}">open</c:if>">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
@@ -47,10 +47,10 @@
                                             <li><a href="logout.html?backto="><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
                                         </c:when>
                                         <c:otherwise>
-                                            <li class="dropdown-header">Nuovo cliente</li>
+                                            <li class="dropdown-header">Nuovo Cliente</li>
                                             <li><a href="signup.html"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
                                             <li class="divider" role="separator"></li>
-                                            <li class="dropdown-header">Utente registrato</li>
+                                            <li class="dropdown-header">Cliente Registrato</li>
                                             <li><a href="#" data-toggle="modal" data-target="#login-modal"><i class="zmdi zmdi-hc-fw zmdi-sign-in zmdi-logout zmdi-right-8"></i>Accedi</a></li>
                                             <li><a href="password-recovery.html"><i class="zmdi zmdi-hc-fw zmdi-key zmdi-logout zmdi-right-8"></i>Recupera Password</a></li>
                                         </c:otherwise>
