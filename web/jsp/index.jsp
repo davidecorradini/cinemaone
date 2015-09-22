@@ -30,7 +30,7 @@
                         
                         <c:forEach var="tmp2" items="${requestScope.prezzi}">
                             
-                            <li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <fmt:setLocale value="en_US"/><fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" /></li>
+                            <li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" currencySymbol="&euro;" /></li>
     
     
                         </c:forEach>

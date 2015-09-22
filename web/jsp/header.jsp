@@ -1,12 +1,5 @@
-<%-- 
-    Document   : index
-    Created on : Aug 21, 2015, 12:38:33 PM
-    Author     : enrico
---%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -50,10 +43,11 @@
                                 <ul class="dropdown-menu">
                                     <c:choose>
                                         <c:when test="${sessionScope.autenticato}">
-                                            <li><a href="logout.html?backto=">Logout</a></li>
-                                            <li></li>
+                                            <li><a href="profile.html"><i class="zmdi zmdi-settings zmdi-right-8"></i> Impostazioni</a></li>
+                                            <li><a href="logout.html?backto="><i class="zmdi zmdi-logout zmdi-right-8"></i> Logout</a></li>
                                         </c:when>
-                                        <c:otherwise>                                            
+                                        <c:otherwise>
+                                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Accedi</a></li>
                                             <form method="POST" action="/Multisala/check-login"> 
                                                 <li>username:</li>
                                                 <li><input type="text" name="username" placeholder="username"></li>
@@ -72,3 +66,24 @@
                 </div>
             </nav>
         </header>
+        <c:out value="${pageContext.request.servletPath}"></c:out>
+        <div class="modal fade" id="login-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Accesso Clienti</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <input type="email" class="form-control" placeholder="Indirizzo e-mail">
+                            <input type="password" class="form-control" placeholder="Password">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
