@@ -90,3 +90,17 @@ $(".posto").click(function (e) {
         removeSelezionato(postoString);
     }*/
 });
+
+$('a.mostranascondi').click(function(){
+    var id = this.id.substring(1);
+    var prefix = this.id.substring(0,1);
+    if(prefix === 'm'){
+        $('#'+this.id).hide();
+        $('#dm'+id).hide();
+        $('#div'+id).show();
+    }else{
+        $('#div'+id).hide();
+        $('#m' + id).show();
+        $('#dm'+id).show();
+    }                
+}); 

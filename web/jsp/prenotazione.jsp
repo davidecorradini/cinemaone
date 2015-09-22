@@ -3,256 +3,167 @@
     Created on : Aug 21, 2015, 12:40:44 PM
     Author     : enrico
 --%>
-
+    
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/material-design-iconic-font.min.css" rel="stylesheet">
-        <link href="css/cinema.css" rel="stylesheet">
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <title>Cinema One</title>
-    </head>
-    <body>
-        <header>
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
-                            <li><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
-                            <li><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Area Clienti <i class="zmdi zmdi-chevron-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <div class="container">
-            <div class="page-header">
-                <h1>Prenotazione</h1>
-                <span class="subtitle"><strong>I Fantastici 4</strong> &middot; 7 Agosto 2015, ore 21.00 &middot; Sala 3</span>
-            </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="sala">
-                        <div>
-                            <button class="posto libero">A01</button>
-                            <button class="posto libero">A02</button>
-                            <button class="posto libero">A03</button>
-                            <button class="posto libero">A04</button>
-                            <button class="posto libero">A05</button>
-                            <button class="posto libero">A06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">A07</button>
-                            <button class="posto libero">A08</button>
-                            <button class="posto libero">A09</button>
-                            <button class="posto libero">A10</button>
-                            <button class="posto libero">A11</button>
-                            <button class="posto libero">A12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">B01</button>
-                            <button class="posto libero">B02</button>
-                            <button class="posto libero">B03</button>
-                            <button class="posto libero">B04</button>
-                            <button class="posto libero">B05</button>
-                            <button class="posto libero">B06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">B07</button>
-                            <button class="posto libero">B08</button>
-                            <button class="posto libero">B09</button>
-                            <button class="posto libero">B10</button>
-                            <button class="posto libero">B11</button>
-                            <button class="posto libero">B12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">C01</button>
-                            <button class="posto libero">C02</button>
-                            <button class="posto libero">C03</button>
-                            <button class="posto libero">C04</button>
-                            <button class="posto libero">C05</button>
-                            <button class="posto libero">C06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">C07</button>
-                            <button class="posto libero">C08</button>
-                            <button class="posto libero">C09</button>
-                            <button class="posto libero">C10</button>
-                            <button class="posto libero">C11</button>
-                            <button class="posto libero">C12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">D01</button>
-                            <button class="posto libero">D02</button>
-                            <button class="posto libero">D03</button>
-                            <button class="posto libero">D04</button>
-                            <button class="posto libero">D05</button>
-                            <button class="posto libero">D06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">D07</button>
-                            <button class="posto libero">D08</button>
-                            <button class="posto libero">D09</button>
-                            <button class="posto libero">D10</button>
-                            <button class="posto libero">D11</button>
-                            <button class="posto libero">D12</button>
-                        </div>
-                        <div>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto invisibile"></button>
-                        </div>
-                        <div>
-                            <button class="posto libero">E01</button>
-                            <button class="posto libero">E02</button>
-                            <button class="posto libero">E03</button>
-                            <button class="posto libero">E04</button>
-                            <button class="posto libero">E05</button>
-                            <button class="posto libero">E06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">E07</button>
-                            <button class="posto libero">E08</button>
-                            <button class="posto libero">E09</button>
-                            <button class="posto libero">E10</button>
-                            <button class="posto libero">E11</button>
-                            <button class="posto libero">E12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">F01</button>
-                            <button class="posto libero">F02</button>
-                            <button class="posto libero">F03</button>
-                            <button class="posto libero">F04</button>
-                            <button class="posto libero">F05</button>
-                            <button class="posto libero">F06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">F07</button>
-                            <button class="posto libero">F08</button>
-                            <button class="posto libero">F09</button>
-                            <button class="posto libero">F10</button>
-                            <button class="posto libero">F11</button>
-                            <button class="posto libero">F12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">G01</button>
-                            <button class="posto libero">G02</button>
-                            <button class="posto libero">G03</button>
-                            <button class="posto libero">G04</button>
-                            <button class="posto libero">G05</button>
-                            <button class="posto libero">G06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">G07</button>
-                            <button class="posto libero">G08</button>
-                            <button class="posto libero">G09</button>
-                            <button class="posto libero">G10</button>
-                            <button class="posto libero">G11</button>
-                            <button class="posto libero">G12</button>
-                        </div>
-                        <div>
-                            <button class="posto libero">H01</button>
-                            <button class="posto libero">H02</button>
-                            <button class="posto libero">H03</button>
-                            <button class="posto libero">H04</button>
-                            <button class="posto libero">H05</button>
-                            <button class="posto libero">H06</button>
-                            <button class="posto invisibile"></button>
-                            <button class="posto libero">H07</button>
-                            <button class="posto libero">H08</button>
-                            <button class="posto libero">H09</button>
-                            <button class="posto libero">H10</button>
-                            <button class="posto libero">H11</button>
-                            <button class="posto libero">H12</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" id="posti-selezionati">
-                    <strong>Posti selezionati</strong>
-                    <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
-                </div>
-            </div>
-            
-            <br><br><br>
+<c:import url="header.jsp"></c:import>
+    <div class="container">
+        <div class="page-header">
+            <h1>Prenotazione</h1>
+        <c:set var="InfoPrenotzione" value="${requestScope.infoPrenotazione}"/>
+        <c:set var="Film" value="${infoPrenotazione.getFilm()}"/>
+        <c:set var="Spettacolo" value="${infoPrenotazione.getSpettacolo()}"/>
+        <c:set var="Sala" value="${infoPrenotazione.getSala()}"/>
+        <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy hh:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
         </div>
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <span class="footer-brand">Cinema One s.r.l.</span><br>
-                        <i class="zmdi zmdi-pin zmdi-hc-fw zmdi-right-4"></i>Viale A. Degasperi 95, 38023 Cles TN<br>
-                        <i class="zmdi zmdi-email zmdi-hc-fw zmdi-right-4"></i>info@cinemaone.it<br>
-                        <i class="zmdi zmdi-phone zmdi-hc-fw zmdi-right-4"></i>+39 347 244 3532
+        <div class="row">
+            <div class="col-md-8">
+                <div class="sala">
+                    <div>
+                        <button class="posto libero">A01</button>
+                        <button class="posto libero">A02</button>
+                        <button class="posto libero">A03</button>
+                        <button class="posto libero">A04</button>
+                        <button class="posto libero">A05</button>
+                        <button class="posto libero">A06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">A07</button>
+                        <button class="posto libero">A08</button>
+                        <button class="posto libero">A09</button>
+                        <button class="posto libero">A10</button>
+                        <button class="posto libero">A11</button>
+                        <button class="posto libero">A12</button>
                     </div>
-                    <div class="col-md-6">
-                        <span class="text-right">Copyright &copy; 2015 Cinema One. Tutti i diritti riservati.</span>
+                    <div>
+                        <button class="posto libero">B01</button>
+                        <button class="posto libero">B02</button>
+                        <button class="posto libero">B03</button>
+                        <button class="posto libero">B04</button>
+                        <button class="posto libero">B05</button>
+                        <button class="posto libero">B06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">B07</button>
+                        <button class="posto libero">B08</button>
+                        <button class="posto libero">B09</button>
+                        <button class="posto libero">B10</button>
+                        <button class="posto libero">B11</button>
+                        <button class="posto libero">B12</button>
+                    </div>
+                    <div>
+                        <button class="posto libero">C01</button>
+                        <button class="posto libero">C02</button>
+                        <button class="posto libero">C03</button>
+                        <button class="posto libero">C04</button>
+                        <button class="posto libero">C05</button>
+                        <button class="posto libero">C06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">C07</button>
+                        <button class="posto libero">C08</button>
+                        <button class="posto libero">C09</button>
+                        <button class="posto libero">C10</button>
+                        <button class="posto libero">C11</button>
+                        <button class="posto libero">C12</button>
+                    </div>
+                    <div>
+                        <button class="posto libero">D01</button>
+                        <button class="posto libero">D02</button>
+                        <button class="posto libero">D03</button>
+                        <button class="posto libero">D04</button>
+                        <button class="posto libero">D05</button>
+                        <button class="posto libero">D06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">D07</button>
+                        <button class="posto libero">D08</button>
+                        <button class="posto libero">D09</button>
+                        <button class="posto libero">D10</button>
+                        <button class="posto libero">D11</button>
+                        <button class="posto libero">D12</button>
+                    </div>
+                    <div>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto invisibile"></button>
+                    </div>
+                    <div>
+                        <button class="posto libero">E01</button>
+                        <button class="posto libero">E02</button>
+                        <button class="posto libero">E03</button>
+                        <button class="posto libero">E04</button>
+                        <button class="posto libero">E05</button>
+                        <button class="posto libero">E06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">E07</button>
+                        <button class="posto libero">E08</button>
+                        <button class="posto libero">E09</button>
+                        <button class="posto libero">E10</button>
+                        <button class="posto libero">E11</button>
+                        <button class="posto libero">E12</button>
+                    </div>
+                    <div>
+                        <button class="posto libero">F01</button>
+                        <button class="posto libero">F02</button>
+                        <button class="posto libero">F03</button>
+                        <button class="posto libero">F04</button>
+                        <button class="posto libero">F05</button>
+                        <button class="posto libero">F06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">F07</button>
+                        <button class="posto libero">F08</button>
+                        <button class="posto libero">F09</button>
+                        <button class="posto libero">F10</button>
+                        <button class="posto libero">F11</button>
+                        <button class="posto libero">F12</button>
+                    </div>
+                    <div>
+                        <button class="posto libero">G01</button>
+                        <button class="posto libero">G02</button>
+                        <button class="posto libero">G03</button>
+                        <button class="posto libero">G04</button>
+                        <button class="posto libero">G05</button>
+                        <button class="posto libero">G06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">G07</button>
+                        <button class="posto libero">G08</button>
+                        <button class="posto libero">G09</button>
+                        <button class="posto libero">G10</button>
+                        <button class="posto libero">G11</button>
+                        <button class="posto libero">G12</button>
+                    </div>
+                    <div>
+                        <button class="posto libero">H01</button>
+                        <button class="posto libero">H02</button>
+                        <button class="posto libero">H03</button>
+                        <button class="posto libero">H04</button>
+                        <button class="posto libero">H05</button>
+                        <button class="posto libero">H06</button>
+                        <button class="posto invisibile"></button>
+                        <button class="posto libero">H07</button>
+                        <button class="posto libero">H08</button>
+                        <button class="posto libero">H09</button>
+                        <button class="posto libero">H10</button>
+                        <button class="posto libero">H11</button>
+                        <button class="posto libero">H12</button>
                     </div>
                 </div>
             </div>
-        </footer>
-        <div class="modal fade" id="prenota-posto-modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Modal title</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>One fine body&hellip;</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
+            <div class="col-md-4" id="posti-selezionati">
+                <strong>Posti selezionati</strong>
+                <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
             </div>
         </div>
-        <script src="js/jquery-1.11.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.jcarousel.min.js"></script>
-        <script src="js/unslider.min.js"></script>
-        <script src="js/cinema.js"></script>
-        <script>
-            $(document).ready(function () {
-                var spettacolo = 1; // Sostiture 1 con l'id dello spettacolo via JSP
-                updatePosti(spettacolo);
-            });
-        </script>
-    </body>
-</html>
+                
+        <br><br><br>
+    </div>
+<c:import url="footer.jsp"></c:import>    
