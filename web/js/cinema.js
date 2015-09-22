@@ -9,6 +9,15 @@ $(document).ready(function(){
 });
 
 
+// Login
+
+$("#login-form").submit(function(event) {
+    event.preventDefault();
+    $("#login-button").attr("disabled","disabled");
+    $("#login-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Accesso");
+});
+
+
 // Prenotazione
 
 function updatePosti (spettacolo) {

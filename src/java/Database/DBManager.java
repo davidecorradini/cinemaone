@@ -408,7 +408,7 @@ public class DBManager implements Serializable {
         Ruolo ruolo = null;
         PreparedStatement stm = con.prepareStatement(
                 "SELECT U.ID_UTENTE, U.CREDITO, U.ID_RUOLO, P.RUOLO\n" +
-                        "FROM UTENTE U JOIN POSTO P ON U.ID_RUOLO = P.ID_RUOLO\n" +
+                        "FROM UTENTE U JOIN RUOLO P ON U.ID_RUOLO = P.ID_RUOLO\n" +
                         "WHERE EMAIL = ? AND PASSWORD = ?");
         try{
             stm.setString(1, email);
