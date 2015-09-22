@@ -9,12 +9,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import static java.util.Collections.enumeration;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -22,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -49,58 +44,32 @@ public class JspAccessFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-            
-        Enumeration<String> a = request.getAttributeNames();
-        HashSet<String> attributes = new HashSet<>(Collections.list(a));    
+       
         String uri = ((HttpServletRequest)request).getRequestURI();
-        attributes.containsAll(attributi(uri));
+        String destination;
+        switch(uri) {
+            case "/Multisala/jsp/dettaglio-film.jsp": destination= "/Multisala/dettaglio-film.html";
+                break;
+            case "/Multisala/jsp/film.jsp": destination= "/Multisala/film.html";
+                break;
+            case "/Multisala/jsp/index.jsp": destination= "/Multisala/index.html";
+                break;
+           // case "/jsp/login.jsp": destination
+            //    break;
+            case "/Multisala/jsp/prenotazione.jsp": destination= "/Multisala/prenotazione.html";
+                break;
+            case "/Multisala/jsp/spettacoli.jsp": destination= "/Multisala/spettacoli.html";
+                break;
+            default: 
+                chain.doFilter(request, response);
+                return;
+            }
+        System.out.println("URI: "+ uri + "     Destination: "+ destination);
+         ((HttpServletResponse)response).sendRedirect(destination);
+       // ((HttpServletRequest)request).getSession().getServletContext().getRequestDispatcher(destination).forward(request, response);
         
-        Throwable problem = null;
-        try {
-            chain.doFilter(request, response);
-        } catch (Throwable t) {
-	    // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
         
-    }
-
-    
-    //dato un URI restituisce l'insieme di attributi che devono essere settati per la relativa jsp
-    private HashSet<String> attributi(String uri){
-    HashSet set = new HashSet<>();
-    switch (uri) {
-            case "/jsp/dettaglio-film.jsp":  set.add("idFilm");
-                     break;/*
-            case 2:  monthString = "February";
-                     break;
-            case 3:  monthString = "March";
-                     break;
-            case 4:  monthString = "April";
-                     break;
-            case 5:  monthString = "May";
-                     break;
-            case 6:  monthString = "June";
-                     break;
-            case 7:  monthString = "July";
-                     break;
-            case 8:  monthString = "August";
-                     break;
-            case 9:  monthString = "September";
-                     break;
-            case 10: monthString = "October";
-                     break;
-            case 11: monthString = "November";
-                     break;
-            case 12: monthString = "December";
-                     break;
-            default: monthString = "Invalid month";
-                     break;*/
-        }
-    return set;
+        
     }
     
     /**
