@@ -9,6 +9,7 @@
         <title>Error</title>
     </head>
     <body>
+        errorjsp
          <div style="color: #FF0000">${error}</div>
     </body>
 </html>
