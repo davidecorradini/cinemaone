@@ -20,6 +20,7 @@ import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
+import Beans.UtenteRuolo;
 import java.io.Serializable;
 import static java.lang.Math.random;
 import java.sql.Connection;
@@ -401,27 +402,34 @@ public class DBManager implements Serializable {
      * @return null se l'utente non è autenticato, un oggetto User se l'utente esiste ed è autenticato
      * @throws java.sql.SQLException
      */
-    public Utente authenticate(String email, String password) throws SQLException {
-        Utente res = null;
+    public UtenteRuolo authenticate(String email, String password) throws SQLException {
+        UtenteRuolo res = null;
+        Utente utente = null;
+        Ruolo ruolo = null;
         PreparedStatement stm = con.prepareStatement(
-                "SELECT ID_UTENTE, CREDITO, ID_RUOLO\n" +
-                        "FROM UTENTE\n" +
+                "SELECT U.ID_UTENTE, U.CREDITO, U.ID_RUOLO, P.RUOLO\n" +
+                        "FROM UTENTE U JOIN POSTO P ON U.ID_RUOLO = P.ID_RUOLO\n" +
                         "WHERE EMAIL = ? AND PASSWORD = ?");
         try{
             stm.setString(1, email);
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
             if (rs.next()){ //se c'è un elemento significa che è autenticato.
-                res = new Utente();
-                res.setIdUtente(rs.getInt("ID_UTENTE"));
-                res.setEmail(email);
-                res.setPassword(password);
-                res.setCredito(rs.getDouble("CREDITO"));
-                res.setIdRuolo(rs.getInt("ID_RUOLO"));
+                utente = new Utente();
+                utente.setIdUtente(rs.getInt("ID_UTENTE"));
+                utente.setEmail(email);
+                utente.setPassword(password);
+                utente.setCredito(rs.getDouble("CREDITO"));
+                utente.setIdRuolo(rs.getInt("ID_RUOLO"));
+                ruolo = new Ruolo();
+                ruolo.setIdRuolo(rs.getInt("ID_RUOLO"));
+                ruolo.setRuolo(rs.getString("RUOLO"));
             }
         }finally{
             stm.close();
         }
+        res.setRuolo(ruolo);
+        res.setUtente(utente);
         return res;
     }
     
