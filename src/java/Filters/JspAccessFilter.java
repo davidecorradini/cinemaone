@@ -48,21 +48,22 @@ public class JspAccessFilter implements Filter {
         String uri = ((HttpServletRequest)request).getRequestURI();
         String destination;
         switch(uri) {
-            case "/Multisala/jsp/dettaglio-film.jsp": destination= "Multisala/dettaglio-film.html";
+            case "/Multisala/jsp/dettaglio-film.jsp": destination= "/Multisala/dettaglio-film.html";
                 break;
-            case "/Multisala/jsp/film.jsp": destination= "Multisala/film.html";
+            case "/Multisala/jsp/film.jsp": destination= "/Multisala/film.html";
                 break;
-            case "/Multisala/jsp/index.jsp": destination= "Multisala/index.html";
+            case "/Multisala/jsp/index.jsp": destination= "/Multisala/index.html";
                 break;
-           // case "/Multisala/jsp/login.jsp": destination
+           // case "/jsp/login.jsp": destination
             //    break;
-            case "/Multisala/jsp/prenotazione.jsp": destination= "Multisala/prenotazione.html";
+            case "/Multisala/jsp/prenotazione.jsp": destination= "/Multisala/prenotazione.html";
                 break;
-            case "/Multisala/jsp/spettacoli.jsp": destination= "Multisala/spettacoli.html";
+            case "/Multisala/jsp/spettacoli.jsp": destination= "/Multisala/spettacoli.html";
                 break;
-            default: destination = uri;
-                break;
-        }
+            default: 
+                chain.doFilter(request, response);
+                return;
+            }
         System.out.println("URI: "+ uri + "     Destination: "+ destination);
          ((HttpServletResponse)response).sendRedirect(destination);
        // ((HttpServletRequest)request).getSession().getServletContext().getRequestDispatcher(destination).forward(request, response);
