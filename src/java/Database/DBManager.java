@@ -708,7 +708,8 @@ public class DBManager implements Serializable {
         ArrayList<PrenTmpPosto> PrenotazioniTmp = new ArrayList<>();
         stm = con.prepareStatement(
                 "SELECT *\n" +
-                        "FROM PRENOTAZIONETMP JOIN POSTO WHERE ID_SPETTACOLO = ?");
+                        "FROM PRENOTAZIONETMP PREN JOIN POSTO P ON P.ID_POSTO = PREN.ID_POSTO" +
+                        "WHERE ID_SPETTACOLO = ?");
         try {
             stm.setInt(1,id_spettacolo);
             ResultSet rs = stm.executeQuery();

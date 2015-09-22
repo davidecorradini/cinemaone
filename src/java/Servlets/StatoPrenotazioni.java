@@ -65,8 +65,8 @@ private DBManager manager;
             return;
         }
         
-        ArrayList<PrenTmpPosto> result = null;
-        ArrayList<PrenotazionePosto> occupied = null;
+        ArrayList<PrenTmpPosto> result;
+        ArrayList<PrenotazionePosto> occupied;
         try {
             result = manager.getPrenotazioneTmp(idSpettacolo);
             occupied = manager.getPostiOccupati(idSpettacolo);
