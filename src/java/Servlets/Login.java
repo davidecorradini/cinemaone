@@ -1,7 +1,9 @@
 package Servlets;
 
+import Beans.Ruolo;
 import Database.DBManager;
 import Beans.Utente;
+import Beans.UtenteRuolo;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -26,21 +28,23 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Utente user = null;
+        UtenteRuolo userRuolo = null;
         String lastPageUrl = request.getHeader("Referer");
         System.out.println("login requested from: " + lastPageUrl);
                 
         try{
-            user = manager.authenticate(username, password);
+            userRuolo = manager.authenticate(username, password);
         }catch(SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
+        Utente user = userRuolo.getUtente();
+        Ruolo ruolo = userRuolo.getRuolo();
         HttpSession session = request.getSession(true);
         if(user == null)
-            session.setAttribute("autenticato", false);
+            session.setAttribute("autenticato", "false");
         else{
-            session.setAttribute("autenticato", true);
+            session.setAttribute("autenticato", ruolo.getRuolo());
             session.setAttribute("user", user);
         }
         
@@ -100,7 +104,7 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
         if(session == null) return 1; //if there is no session
         if(session.getAttribute("autenticato") == null) return 1; //if there is no autenticato parameter
-        if(session.getAttribute("autenticato") instanceof Boolean && (boolean)session.getAttribute("autenticato")) return 0;
+        if(!((String)session.getAttribute("autenticato")).equals("false")) return 0;
         session.removeAttribute("autenticato");
         return -1;
     }

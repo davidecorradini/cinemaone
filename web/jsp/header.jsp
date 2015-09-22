@@ -49,12 +49,8 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
                                     <c:choose>
-                                        <c:when test="${sessionScope.autenticato}">
-                                            <form method="POST" action="index.html">
-                                                <input type="hidden" name="logout" value="true">
-                                                <li><input type="submit" value="Logout"></li>
-                                            </form>
-                                        </c:when>
+                                        <c:when test="${sessionScope.autenticato}">                                            
+                                            <a href="/Multisala/index.html?logout=true">Logout</a>                                     </c:when>
                                         <c:otherwise>                                            
                                             <form method="POST" action="/Multisala/check-login"> 
                                                 <li>username:</li>
