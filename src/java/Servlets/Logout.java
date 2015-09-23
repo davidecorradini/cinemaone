@@ -51,6 +51,7 @@ public class Logout extends HttpServlet {
         } catch (SQLException ex) {
             response.getWriter().println("fail");
         }
+        response.sendRedirect(request.getHeader("Referer"));
     }
 
     @Override
