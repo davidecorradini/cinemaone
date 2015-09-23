@@ -52,11 +52,11 @@ private DBManager manager;
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false); //da mettere poi a false
-        //String idUtente = (String)session.getAttribute("idUtente");
-        String idUtente = "sdascascasca";
+        String idUtente = (String)session.getAttribute("idUtente");
         int idSpettacolo = 0;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
+            System.out.println("idSpettacolo richiesto: " + idSpettacolo);
         }catch(NumberFormatException ex){
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
@@ -91,7 +91,10 @@ private DBManager manager;
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", posto.getRiga());
-                jsonObject.put("stato", "occupato");
+                String stato = "occupato";
+                if(res.getPrenotazione().getIdUtente().equals(idUtente))
+                    stato = "tuo-pagato";
+                jsonObject.put("stato", stato);
                 java.util.Date date= new java.util.Date();
                 jsonObject.put("timestamp", new Timestamp(date.getTime()));
                 
@@ -108,13 +111,10 @@ private DBManager manager;
                     
                     jsonObject.put("x", posto.getColonna());
                     jsonObject.put("y", posto.getRiga());
-                    String stato = null;
-                    if(idUtente.equals(pren.getIdUtente())){ //se ho fatto io quell prenotazionetmp
+                    String stato = "tmp";
+                    if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
                         stato = "tuo";
-                    }else{ //se l'ha fatta qualcun altro.
-                        stato = "tmp";
-                    }
-                    
+                                       
                     jsonObject.put("stato", stato);
                     java.util.Date date= new java.util.Date();
                     jsonObject.put("timestamp", new Timestamp(date.getTime()));
