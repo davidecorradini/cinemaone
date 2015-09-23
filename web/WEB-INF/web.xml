@@ -102,7 +102,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
-        <url-pattern>/logout.html</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

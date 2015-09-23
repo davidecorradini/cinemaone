@@ -37,25 +37,8 @@
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/index.jsp'}"> class="active"</c:if>><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/film.jsp' || pageContext.request.servletPath == '/jsp/dettaglio-film.jsp'}"> class="active"</c:if>><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp' || pageContext.request.servletPath == '/jsp/prenotazione.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato != null}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <c:choose>
-                                        <c:when test="${sessionScope.autenticato != null}">
-                                            <li><a href="profile.html"><i class="zmdi zmdi-hc-fw zmdi-settings zmdi-right-8"></i>Impostazioni</a></li>
-                                            <c:if test="${requestScope.autenticato == 'admin'}"><li><a href="admin.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
-                                            <li><a href="logout.html?backto="><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <li class="dropdown-header">Nuovo Cliente</li>
-                                            <li><a href="signup.html"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
-                                            <li class="divider" role="separator"></li>
-                                            <li class="dropdown-header">Cliente Registrato</li>
-                                            <li><a href="#" data-toggle="modal" data-target="#login-modal"><i class="zmdi zmdi-hc-fw zmdi-sign-in zmdi-logout zmdi-right-8"></i>Accedi</a></li>
-                                            <li><a href="password-recovery.html"><i class="zmdi zmdi-hc-fw zmdi-key zmdi-logout zmdi-right-8"></i>Recupera Password</a></li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </ul>
+                            <li class="dropdown" id="menu">
+                                <%@ include file="menu.jsp" %>
                             </li>
                         </ul>
                     </div>

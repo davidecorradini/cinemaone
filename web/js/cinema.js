@@ -21,11 +21,35 @@ $("#login-form").submit(function(event) {
         success: function(answer) {
             answer = answer.trim();
             if(answer == "success") {
-                // Access Granted
+                $("#login-modal").modal("hide");
+                $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
+                $.get("jsp/menu.jsp", function(data) {
+                    $("#menu").html(data);
+                });
             } else {
                 $("#login-button").html("Accedi");
                 $("#login-button").removeAttr("disabled");
                 $("#login-modal").effect("shake");
+            }
+        }
+    });
+});
+
+
+// AJAX Logout
+
+$("#logout-link").click(function(event) {
+    event.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: "logout",
+        success: function(answer) {
+            answer = answer.trim();
+            if(answer == "success") {
+                $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
+                $.get("jsp/menu.jsp", function(data) {
+                    $("#menu").html(data);
+                });
             }
         }
     });
