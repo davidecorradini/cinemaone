@@ -3,8 +3,7 @@
 $(document).ready(function(){
     $('.bxslider').bxSlider({
         auto: true,
-        pause: 6000,
-        easing: "ease-in-out"
+        pause: 6000
     });
 });
 
@@ -15,6 +14,19 @@ $("#login-form").submit(function(event) {
     event.preventDefault();
     $("#login-button").attr("disabled","disabled");
     $("#login-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Accesso");
+    $.ajax({
+        type: "POST",
+        url: "check-login",
+        data: "username=" + $("#input-email").val() + "&password=" + $("#input-password").val(),
+        success: function(answer) {
+            if(answer == "success") {
+            } else {
+                $("#login-button").html("Accedi");
+                $("#login-button").removeAttr("disabled");
+                $("#wrong-pwd-message").show();
+            }
+        }
+    });
 });
 
 

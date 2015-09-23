@@ -1,9 +1,3 @@
-<%-- 
-    Document   : spettacoli
-    Created on : Aug 21, 2015, 12:39:50 PM
-    Author     : enrico
---%>
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,12 +19,12 @@
             <c:set var="tmpSala" value="${tmp.getSala()}"/>
             <c:set var="tmpGenere" value="${tmp.getGenere()}"/>
             <tr>
-                <td><a href="dettaglio-film.html?idfilm=<c:out value="${tmpFilm.getIdFilm()}"></c:out>"><c:out value="${tmpFilm.getTitolo()}"></c:out></a> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out></small></td>
+                <td><a class="no-color" href="dettaglio-film.html?idfilm=<c:out value="${tmpFilm.getIdFilm()}"></c:out>"><c:out value="${tmpFilm.getTitolo()}"></c:out></a> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out></small></td>
                 <td class="text-center"><c:out value="${tmp.getData()}"></c:out></td>
                 <td class="text-center"><c:out value="${tmp.getOra()}"></c:out></td>
                 <td class="text-center"><c:out value="${tmpSala.getNome()}"></c:out></td>
-                <td class="text-center"><a href="prenotazione.html?idspettacolo=<c:out value="${tmp.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i></a></td>
-                </tr>
+                <td class="text-center"><a class="no-color" href="prenotazione.html?idspettacolo=<c:out value="${tmp.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i></a></td>
+            </tr>
         </c:forEach>
                     
     </table>        

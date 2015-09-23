@@ -26,15 +26,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Listino prezzi</div>
                 <div class="panel-body">
-                    <ul>
-                        
+                    <ul class="prices">
                         <c:forEach var="tmp2" items="${requestScope.prezzi}">
-                            
                             <li><strong><c:out value="${tmp2.getTipo()}"></c:out></strong> <fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" currencySymbol="&euro;" /></li>
-    
-    
-                        </c:forEach>
-                                        
+                        </c:forEach>                
                     </ul>
                 </div>
             </div>
