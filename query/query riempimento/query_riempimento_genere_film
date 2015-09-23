@@ -7,25 +7,25 @@ ALTER TABLE GENERE ALTER COLUMN ID_GENERE RESTART WITH 1;
 ALTER TABLE FILM ALTER COLUMN ID_FILM RESTART WITH 1;
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('comico');
+VALUES ('Comico');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('azione');
+VALUES ('Azione');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('commedia');
+VALUES ('Commedia');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('drammatico');
+VALUES ('Drammatico');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('thriller');
+VALUES ('Thriller');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('catastrofico');
+VALUES ('Catastrofico');
 
 INSERT INTO genere (DESCRIZIONE)
-VALUES ('fantasy');
+VALUES ('Fantasy');
 
 INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER,DURATA,TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA)
 VALUES ('I Fantastici 4',
@@ -89,7 +89,7 @@ VALUES ('Tracers',
 94,
 'Dopo essersi imbattuto casualmente in una bella ragazza di nome Nikki, Cam viene introdotto nella sua crew - una squadra che utilizza il parkour per scopi criminali. Cam si unisce subito al gruppo, sperando di poter guadagnare il denaro necessario a ripagare un debito contratto per curare sua madre. La posta in gioco diventa sempre più alta, le azioni sempre più pericolose, le ricompense sempre più alte, gli scopi delle azioni criminali sempre più misteriosi. Quando scoprirà i reali scopi della crew, Cam dovrà utilizzare tutta la sua abilità per restare vivo...',
 'tracers.jpg',
-FALSE,
+TRUE,
 2015,
 'Daniel Benmayor');
 
