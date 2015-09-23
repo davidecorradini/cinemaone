@@ -42,12 +42,13 @@ public class Login extends HttpServlet {
         Ruolo ruolo = userRuolo.getRuolo();
         HttpSession session = request.getSession(true);
         response.setContentType("text/plain");
-        if(user == null) {
-            session.setAttribute("autenticato", "false");
+        if(user == null)
             response.getWriter().println("fail");
-        } else {
+        else {
             session.setAttribute("autenticato", ruolo.getRuolo());
             session.setAttribute("user", user);
+            session.removeAttribute("idUtente");
+            session.setAttribute("idUtente", user.getIdUtente());
             response.getWriter().println("success");
         }
     }
@@ -100,15 +101,7 @@ public class Login extends HttpServlet {
      * verifica se l'utente è autenticato, ha sbagliato password/utente oppure non ha ancor fatto richieste di login.
      * @param request
      * @return 1 se non ha fatto login, 0 se è loggato, -1 se ha sbagliato.
-     */
-    public static int checkAuthenticationStatus(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        if(session == null) return 1; //if there is no session
-        if(session.getAttribute("autenticato") == null) return 1; //if there is no autenticato parameter
-        if(!((String)session.getAttribute("autenticato")).equals("false")) return 0;
-        session.removeAttribute("autenticato");
-        return -1;
-    }
+     */    
     
     public static void Logout(HttpServletRequest request){
         HttpSession session = request.getSession(false);
