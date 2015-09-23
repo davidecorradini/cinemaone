@@ -5,8 +5,12 @@
  */
 package Servlets;
 
+import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +22,14 @@ import javax.servlet.http.HttpSession;
  * @author alessandro
  */
 public class Logout extends HttpServlet {
+    private DBManager manager;
+    
+    @Override
+    public void init() throws ServletException{
+        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
+    }
 
+   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,8 +43,18 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         HttpSession session = request.getSession(true);
+        try {
+            manager.cancellaPrenotazioniTmp((int)session.getAttribute("idUtente"));
+        } catch (SQLException ex) {
+            response.getWriter().println("fail");
+        }
         session.invalidate();
         response.getWriter().println("success");
+    }
+
+    @Override
+    public void destroy(){
+        this.manager = null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
