@@ -8,7 +8,7 @@ $(document).ready(function(){
 });
 
 
-// Login
+// AJAX Login
 
 $("#login-form").submit(function(event) {
     event.preventDefault();
@@ -19,11 +19,13 @@ $("#login-form").submit(function(event) {
         url: "check-login",
         data: "username=" + $("#input-email").val() + "&password=" + $("#input-password").val(),
         success: function(answer) {
+            answer = answer.trim();
             if(answer == "success") {
+                // Access Granted
             } else {
                 $("#login-button").html("Accedi");
                 $("#login-button").removeAttr("disabled");
-                $("#wrong-pwd-message").show();
+                $("#login-modal").effect("shake");
             }
         }
     });

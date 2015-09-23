@@ -37,13 +37,13 @@
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/index.jsp'}"> class="active"</c:if>><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/film.jsp' || pageContext.request.servletPath == '/jsp/dettaglio-film.jsp'}"> class="active"</c:if>><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp' || pageContext.request.servletPath == '/jsp/prenotazione.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
-                            <li class="dropdown <c:if test="${requestScope.loginerror}">open</c:if>">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-account-circle zmdi-right-8"></i><c:choose><c:when test="${sessionScope.autenticato != null}"><c:out value="${sessionScope.user.getEmail()}"></c:out></c:when><c:otherwise>Area Clienti</c:otherwise></c:choose> <i class="zmdi zmdi-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
                                     <c:choose>
-                                        <c:when test="${sessionScope.autenticato}">
+                                        <c:when test="${sessionScope.autenticato != null}">
                                             <li><a href="profile.html"><i class="zmdi zmdi-hc-fw zmdi-settings zmdi-right-8"></i>Impostazioni</a></li>
-                                            <c:if test="${requestScope.autenticato == 2}"><li><a href="admin.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
+                                            <c:if test="${requestScope.autenticato == 'admin'}"><li><a href="admin.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
                                             <li><a href="logout.html?backto="><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
                                         </c:when>
                                         <c:otherwise>
@@ -77,7 +77,6 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" id="input-password" placeholder="Password">
                             </div>
-                            <span class="text-danger" id="wrong-pwd-message" style="display: none;"><strong>Email e/o password errata/i!</strong></span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>

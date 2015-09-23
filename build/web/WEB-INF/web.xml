@@ -64,7 +64,10 @@
         <servlet-name>aggiungiPrenTmp</servlet-name>
         <servlet-class>Servlets.aggiungiPrenTmp</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>Servlets.Logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -96,6 +99,10 @@
     <servlet-mapping>
         <servlet-name>aggiungiPrenTmp</servlet-name>
         <url-pattern>/input/aggiungiPrenotazioneTmp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
