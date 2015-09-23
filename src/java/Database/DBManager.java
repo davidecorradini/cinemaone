@@ -428,6 +428,7 @@ public class DBManager implements Serializable {
         }finally{
             stm.close();
         }
+        res = new UtenteRuolo();
         res.setRuolo(ruolo);
         res.setUtente(utente);
         return res;

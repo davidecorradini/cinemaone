@@ -72,11 +72,12 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" placeholder="Indirizzo e-mail">
+                                <input type="email" class="form-control" id="input-email" placeholder="Indirizzo e-mail">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="password" placeholder="Password">
+                                <input type="password" class="form-control" id="input-password" placeholder="Password">
                             </div>
+                            <span class="text-danger" id="wrong-pwd-message" style="display: none;"><strong>Email e/o password errata/i!</strong></span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>

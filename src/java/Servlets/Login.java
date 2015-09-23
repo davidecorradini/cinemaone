@@ -41,14 +41,15 @@ public class Login extends HttpServlet {
         Utente user = userRuolo.getUtente();
         Ruolo ruolo = userRuolo.getRuolo();
         HttpSession session = request.getSession(true);
-        if(user == null)
+        response.setContentType("text/plain");
+        if(user == null) {
             session.setAttribute("autenticato", "false");
-        else{
+            response.getWriter().println("fail");
+        } else {
             session.setAttribute("autenticato", ruolo.getRuolo());
             session.setAttribute("user", user);
+            response.getWriter().println("success");
         }
-        
-        response.sendRedirect(lastPageUrl);
     }
     
     @Override
