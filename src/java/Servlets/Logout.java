@@ -43,14 +43,14 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         HttpSession session = request.getSession(true);
-        int idUtente = (int)session.getAttribute("idUtente");
+        int idUtente = (int)session.getAttribute("idUtente");        
         try {
             manager.cancellaPrenotazioniTmp(idUtente);
+            session.invalidate();
+            response.getWriter().println("success");
         } catch (SQLException ex) {
             response.getWriter().println("fail");
         }
-        session.invalidate();
-        response.getWriter().println("success");
     }
 
     @Override

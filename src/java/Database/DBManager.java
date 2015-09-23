@@ -1149,9 +1149,9 @@ public class DBManager implements Serializable {
     
     public void cancellaPrenotazioniTmp(int id) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("DELETE * FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");
+        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");        
         try {
-            stm.setInt(1, id);
+            stm.setString(1, String.valueOf(id));
             stm.executeUpdate();
         } finally {
             stm.close();
