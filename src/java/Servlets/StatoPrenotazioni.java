@@ -92,8 +92,8 @@ private DBManager manager;
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", posto.getRiga());
                 String stato = "occupato";
-                if(res.getPrenotazione().getIdUtente().equals(idUtente))
-                    stato = "tuo-pagato";
+                /*if(res.getPrenotazione().getIdUtente().equals(idUtente))
+                    stato = "tuo-pagato";*/
                 jsonObject.put("stato", stato);
                 java.util.Date date= new java.util.Date();
                 jsonObject.put("timestamp", new Timestamp(date.getTime()));

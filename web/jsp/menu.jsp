@@ -4,17 +4,17 @@
     <ul class="dropdown-menu">
         <c:choose>
             <c:when test="${sessionScope.autenticato != null}">
-                                            <li><a href="profile.html"><i class="zmdi zmdi-hc-fw zmdi-settings zmdi-right-8"></i>Impostazioni</a></li>
-                                            <c:if test="${requestScope.autenticato == 'ADMIN'}"><li><a href="admin.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
-                                            <li><a href="#" id="logout-link"><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <li class="dropdown-header">Nuovo Cliente</li>
-                                            <li><a href="signup.html"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
-                                            <li class="divider" role="separator"></li>
-                                            <li class="dropdown-header">Cliente Registrato</li>
-                                            <li><a href="#" data-toggle="modal" data-target="#login-modal"><i class="zmdi zmdi-hc-fw zmdi-sign-in zmdi-logout zmdi-right-8"></i>Accedi</a></li>
-                                            <li><a href="password-recovery.html"><i class="zmdi zmdi-hc-fw zmdi-key zmdi-logout zmdi-right-8"></i>Recupera Password</a></li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </ul>
+                <li><a href="profile.html"><i class="zmdi zmdi-hc-fw zmdi-settings zmdi-right-8"></i>Impostazioni</a></li>
+                <c:if test="${sessionScope.autenticato == 'ADMIN'}"><li><a href="admin.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
+                <li><a href="" id="logout-link"><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
+            </c:when>
+            <c:otherwise>
+                <li class="dropdown-header">Nuovo Cliente</li>
+                <li><a href="signup.html"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
+                <li class="divider" role="separator"></li>
+                <li class="dropdown-header">Cliente Registrato</li>
+                <li><a href="#" data-toggle="modal" data-target="#login-modal"><i class="zmdi zmdi-hc-fw zmdi-sign-in zmdi-logout zmdi-right-8"></i>Accedi</a></li>
+                <li><a href="password-recovery.html"><i class="zmdi zmdi-hc-fw zmdi-key zmdi-logout zmdi-right-8"></i>Recupera Password</a></li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
