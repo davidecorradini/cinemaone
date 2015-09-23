@@ -29,8 +29,6 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UtenteRuolo userRuolo = null;
-        String lastPageUrl = request.getHeader("Referer");
-        System.out.println("login requested from: " + lastPageUrl);
                 
         try{
             userRuolo = manager.authenticate(username, password);
@@ -97,14 +95,4 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
    
-    /**
-     * verifica se l'utente è autenticato, ha sbagliato password/utente oppure non ha ancor fatto richieste di login.
-     * @param request
-     * @return 1 se non ha fatto login, 0 se è loggato, -1 se ha sbagliato.
-     */    
-    
-    public static void Logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        session.removeAttribute("autenticato");
-    }
 }
