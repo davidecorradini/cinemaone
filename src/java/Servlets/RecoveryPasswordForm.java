@@ -5,25 +5,25 @@
  */
 package Servlets;
 
+import Beans.EmailTimestamp;
 import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Davide
+ * @author alessandro
  */
-public class RecuperaPassword extends HttpServlet {
+public class RecoveryPasswordForm extends HttpServlet {
     private DBManager manager;
     
     @Override
@@ -43,25 +43,23 @@ public class RecuperaPassword extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date date = new Date();
-        String email = request.getParameter("email");
-        Timestamp time = new Timestamp(date.getTime());
-        String timestamp = time.toString();
-        MessageDigest md = null;
+        String md5 = request.getParameter("key");
+        EmailTimestamp info = null;
         try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex) {
-            //
+            info = manager.getInfoRecovery(md5);
+        } catch (SQLException ex) {
+            
         }
-        md.update((email + timestamp).getBytes());
-        byte[] md5 = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (byte b : md5) {
-            sb.append(String.format("%02x", b & 0xff));
-        }
-        String md5Str = sb.toString();
-        //manager.insertRecuperaPassword(md5Str,email,time);
-        //sendMail(email,md5Str);
+        String email = info.getEmail();
+        Timestamp time = info.getTimestamp();
+        Date date = new Date();
+        Timestamp currentTime = new Timestamp(date.getTime());
+        long diff = currentTime.getTime() - time.getTime();
+        if(diff <= 300000)
+            request.setAttribute("valida", true);
+        else
+            request.setAttribute("valida", false);
+        getServletContext().getRequestDispatcher("/jsp/recovery-password.jsp").forward(request, response);
     }
 
     @Override

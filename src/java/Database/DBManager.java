@@ -3,6 +3,7 @@ package Database;
 
 
 
+import Beans.EmailTimestamp;
 import Beans.Film;
 import Beans.FilmPrezzo;
 import Beans.FilmSpettacoli;
@@ -91,20 +92,20 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     public void cambiaPassword(Utente ut) throws SQLException{
-        cambiaPassword(ut.getIdUtente(), ut.getPassword());
+        cambiaPassword(ut.getEmail(), ut.getPassword());
     }
     /**
-     * assegna la password all'utente con id idUtente.
-     * @param idUtente
+     * assegna la password all'utente con e-mail email.
+     * @param email
      * @param password
      * @throws SQLException
      */
-    public void cambiaPassword(int idUtente, String password) throws SQLException{
+    public void cambiaPassword(String email, String password) throws SQLException{
         PreparedStatement stm = con.prepareStatement(
-                "UPDATE UTENTE SET PASSWORD = ? WHERE ID_UTENTE = ?");
+                "UPDATE UTENTE SET PASSWORD = ? WHERE EMAIL = ?");
         try {
             stm.setString(1, password);
-            stm.setInt(2, idUtente);
+            stm.setString(2, email);
             stm.executeUpdate();
         } finally {
             stm.close();
@@ -1156,6 +1157,19 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
+    }
+    
+    public EmailTimestamp getInfoRecovery(String md5) throws SQLException{
+        EmailTimestamp res = new EmailTimestamp();
+        PreparedStatement stm = stm = con.prepareStatement(
+                "SELECT * FROM PASSWORDRECOVERY WHERE MD5 = ?");
+        stm.setString(1, md5);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()){
+            res.setEmail(rs.getString("EMAIL"));
+            res.setTimestamp(rs.getTimestamp("TIME"));
+        }
+        return res;
     }
     
 }
