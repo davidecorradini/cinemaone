@@ -5,7 +5,7 @@
  */
 package Filters;
 
-import Servlets.Login;
+import Database.DBManager;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -41,7 +41,7 @@ public class SessionFilter implements Filter {
             FilterChain chain)
             throws IOException, ServletException {
         
-                
+        
         doBeforeProcessing(request, response);
         
         Throwable problem = null;
@@ -106,7 +106,7 @@ public class SessionFilter implements Filter {
         
         HttpSession session = request.getSession(true);
         if(session.getAttribute("idUtente") == null){ //se la sessione è appena stata creata.
-            session.setAttribute("idUtente", session.getId()); //user temp id = session id
+            session.setAttribute("idUtente", DBManager.encodeIdUtente(session.getId())); //userid temporaneo.
         }
     }    
    

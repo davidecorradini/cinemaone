@@ -47,7 +47,6 @@ public class DBManager implements Serializable {
         }
         Connection con = DriverManager.getConnection(dburl);
         this.con = con;
-        initBeans(con);
     }
     
     public static void shutdown() {
@@ -58,9 +57,7 @@ public class DBManager implements Serializable {
         }
     }
     
-    private void initBeans(Connection con){
-        
-    }
+    
     
     /**
      * inserisce una nuova prenotazione.
@@ -135,7 +132,6 @@ public class DBManager implements Serializable {
             stm.close();
             stm2.close();
         }
-        
     }
     
     /**
@@ -288,26 +284,70 @@ public class DBManager implements Serializable {
         }
     }
     
-    /**
+    
+     /**
      * aggiunge una prenotazione temporanea nel database.
      * @param pre prenotazionetmp da aggiungere
+     * @return
      * @throws SQLException
      */
-    public void aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
+    public int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?,?)");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?,CURRENT_TIMESTAMP)");
+        int result;
+        
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setString(2, pre.getIdUtente());
             stm.setInt(3, pre.getIdPosto());
-            Date currentDate = new Date();
-            stm.setTimestamp(4, new Timestamp(currentDate.getTime()));
-            stm.executeUpdate();
+            result=stm.executeUpdate();
+            
+        } finally {
+            stm.close();
+        }        
+        return result;
+    }
+    
+    
+     /**
+     *
+     * @param x coordinata x del posto
+     * @param y coordinata x del posto
+     * @param idSpettacolo
+     * @return l'id del posto con coordiante x e y nello spettacolo con idSpettacolo
+     * @throws SQLException
+     */
+    public int getIdPosto(int x, String y, int idSpettacolo) throws SQLException{
+        Integer idPosto = 0;
+        PreparedStatement stm;
+        stm = con.prepareStatement("SELECT P.ID_POSTO AS IDP FROM POSTO P, SALA S, SPETTACOLO SP WHERE P.RIGA=? AND P.COLONNA=? AND SP.ID_SPETTACOLO=? AND S.ID_SALA=SP.ID_SALA AND S.ID_SALA=P.ID_SALA");
+        
+        
+        try{
+            System.out.println("1");
+            stm.setInt(3,3);
+            System.out.println("2");
+            stm.setString(1,String.valueOf(y.charAt(0)));
+            stm.setInt(2, x);
+            System.out.println("3 "+idSpettacolo);
+            
+            System.out.println("7");
+            ResultSet rs = stm.executeQuery();
+            System.out.println("4");
+            if(rs.next()){
+                try {
+                    System.out.println("5");
+                    idPosto=rs.getInt("IDP");
+                    System.out.println("6");
+                }finally {
+                    rs.close();
+                }
+            }
         } finally {
             stm.close();
         }
+        return idPosto;
     }
-    
     
     /**
      * elimina le prenotazioni temporanee precedenti a tm.
@@ -322,8 +362,7 @@ public class DBManager implements Serializable {
             stm.executeUpdate();
         } finally {
             stm.close();
-        }
-        
+        }        
     }
     
     
@@ -403,7 +442,7 @@ public class DBManager implements Serializable {
      * @throws java.sql.SQLException
      */
     public UtenteRuolo authenticate(String email, String password) throws SQLException {
-        UtenteRuolo res = null;
+        UtenteRuolo res;
         Utente utente = null;
         Ruolo ruolo = null;
         PreparedStatement stm = con.prepareStatement(
@@ -503,7 +542,7 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     //aggiungere film.
-     
+    
     public ArrayList<SpettacoloSalaOrario> getSpettacoli() throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
@@ -1086,7 +1125,7 @@ public class DBManager implements Serializable {
         return res;
     }
     
-     /**
+    /**
      * setta la programmazione dei film in modo da metterli in serie
      * @param min numero di minuti tra uno spettacolo e l'altro
      * @throws SQLException
@@ -1096,7 +1135,7 @@ public class DBManager implements Serializable {
         int n=5; //numero di film per spettacolo
         
         Calendar calendar = Calendar.getInstance();
-       
+        
         PreparedStatement stmFilm;
         PreparedStatement stmSala;
         PreparedStatement stmUpdate;
@@ -1116,15 +1155,15 @@ public class DBManager implements Serializable {
         
         try {
             int nfilm=0;
-            while (rsSala.next()){ 
+            while (rsSala.next()){
                 
                 Calendar calendar2 = (Calendar) calendar.clone();
                 calendar2.add(Calendar.MINUTE, (int) (random() * min));
                 int id_sala= rsSala.getInt("ID_SALA");
-
+                
                 int id_film= film.remove(nfilm);
-             
-
+                
+                
                 for (int i=0; i<n; i++){
                     
                     Timestamp time = new Timestamp(calendar2.getTimeInMillis());
@@ -1136,7 +1175,7 @@ public class DBManager implements Serializable {
                     //aumento il tempo
                     calendar2.add(Calendar.MINUTE, min);
                 }
-             
+                
             }
         } finally {
             stmFilm.close();
@@ -1144,20 +1183,45 @@ public class DBManager implements Serializable {
             stmUpdate.close();
             rsFilm.close();
             rsSala.close();
-        }        
+        }
     }
     
-    public void cancellaPrenotazioniTmp(int id) throws SQLException{
+    public void cancellaPrenotazioniTmp(String id) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");        
+        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");
         try {
-            stm.setString(1, String.valueOf(id));
+            stm.setString(1, id);
             stm.executeUpdate();
         } finally {
             stm.close();
         }
     }
     
-}
     
+    public static String encodeIdUtente(Object obj){
+        
+        if(obj instanceof Integer){
+            return String.valueOf((char)1) + String.valueOf((int)obj);
+        }
+        if(obj instanceof String)
+            return "t" + (String)obj;
+        
+        return null;
+        
+    }
+    
+    public static Object decodeIdUtente(String s){
+        
+        if(s.length()>0 && s.charAt(0) == (char)1){
+            s=s.substring(1);
+            return Integer.parseInt(s);
+        }
+        
+        return s.substring(1);
+        
+    }
+    
+    
+}
+
 
