@@ -72,6 +72,10 @@
         <servlet-name>RecuperaPassword</servlet-name>
         <servlet-class>Servlets.RecuperaPassword</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SignUp</servlet-name>
+        <servlet-class>Servlets.SignUp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>RecuperaPassword</servlet-name>
         <url-pattern>/recuperaPassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/signUp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

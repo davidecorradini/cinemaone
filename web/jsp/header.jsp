@@ -69,6 +69,30 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="singup-modal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <form id="login-form">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Registrazione Nuovo Cliente</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="input-email" placeholder="Indirizzo e-mail">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="input-password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                            <button type="submit" class="btn btn-primary" id="login-button">Accedi</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="recovery-modal">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
