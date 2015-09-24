@@ -68,6 +68,10 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>Servlets.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RecuperaPassword</servlet-name>
+        <servlet-class>Servlets.RecuperaPassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -78,7 +82,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StatoPrenotazioni</servlet-name>
-        <url-pattern>/output/statoPrenotazioni</url-pattern>
+        <url-pattern>/statoPrenotazioni</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProgFilm</servlet-name>
@@ -102,7 +106,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
-        <url-pattern>/logout</url-pattern>
+        <url-pattern>/logout.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecuperaPassword</servlet-name>
+        <url-pattern>/recuperaPassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
