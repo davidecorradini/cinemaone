@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -60,7 +61,11 @@ public class RecuperaPassword extends HttpServlet {
             sb.append(String.format("%02x", b & 0xff));
         }
         String md5Str = sb.toString();
-        //manager.insertRecuperaPassword(md5Str,email,time);
+        try {
+            manager.insertRecuperaPassword(md5Str,email,time);
+        } catch (SQLException ex) {
+            
+        }
         //sendMail(email,md5Str);
     }
 

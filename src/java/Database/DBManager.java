@@ -1212,6 +1212,21 @@ public class DBManager implements Serializable {
         return res;
     }
     
+    public void insertRecuperaPassword(String md5, String email, Timestamp time) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement(
+                "INSERT INTO PRENOTAZIONE (MD5, EMAIL, TIME) VALUES (?, ?, ?)");
+        try{
+            stm.setString(1, md5);
+            stm.setString(2, email);
+            stm.setTimestamp(5, time);
+            
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
 
     
     public static String encodeIdUtente(Object obj){
