@@ -8,22 +8,19 @@ package Servlets;
 import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Davide
+ * @author alessandro
  */
-public class RecuperaPassword extends HttpServlet {
+public class ResetPassword extends HttpServlet {
     private DBManager manager;
     
     @Override
@@ -31,7 +28,6 @@ public class RecuperaPassword extends HttpServlet {
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
 
-   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,25 +39,20 @@ public class RecuperaPassword extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Date date = new Date();
+        response.setContentType("text/plain;charset=UTF-8");
         String email = request.getParameter("email");
-        Timestamp time = new Timestamp(date.getTime());
-        String timestamp = time.toString();
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex) {
-            //
+        String password1 = request.getParameter("password1");
+        String password2 = request.getParameter("password2");
+        if(!password1.equals(password2))
+            response.getWriter().println("fail");
+        else{
+            try {
+                manager.cambiaPassword(email, password2);
+                response.getWriter().println("success");
+            } catch (SQLException ex) {
+                response.getWriter().println("fail");
+            }
         }
-        md.update((email + timestamp).getBytes());
-        byte[] md5 = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (byte b : md5) {
-            sb.append(String.format("%02x", b & 0xff));
-        }
-        String md5Str = sb.toString();
-        //manager.insertRecuperaPassword(md5Str,email,time);
-        //sendMail(email,md5Str);
     }
 
     @Override

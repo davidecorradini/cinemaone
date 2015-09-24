@@ -5,12 +5,10 @@
  */
 package Servlets;
 
+import Beans.PrenotazioneTmp;
 import Database.DBManager;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,17 +17,17 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author alessandro
+ * @author roberto
  */
-public class Logout extends HttpServlet {
+public class PrenotaPosto extends HttpServlet {
+
     private DBManager manager;
-    
+
     @Override
-    public void init() throws ServletException{
-        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
+    public void init() throws ServletException {
+        this.manager = (DBManager) super.getServletContext().getAttribute("dbmanager");
     }
 
-   
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,23 +37,57 @@ public class Logout extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/plain;charset=UTF-8");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String result = "";
+
         HttpSession session = request.getSession(true);
-        String idUtente = (String)session.getAttribute("idUtente");        
+        String idUtente = (String) session.getAttribute("idUtente");
+
+        int x = 5;//Integer.parseInt(request.getParameter("x"));
+        String y = "b";//request.getParameter("y");
+        int idSpettacolo = 3;//Integer.parseInt(request.getParameter("spettacolo"));
+
+        int idPosto = 0;
         try {
-            manager.cancellaPrenotazioniTmp(idUtente);
-            session.invalidate();
-            response.getWriter().println("success");
+            idPosto = manager.getIdPosto(x, y, idSpettacolo);
         } catch (SQLException ex) {
-            response.getWriter().println("fail");
+            System.out.println("errore getIdPosto");
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        response.sendRedirect(request.getHeader("Referer"));
+        
+        if(idPosto==0){
+            throw new IllegalArgumentException("posto con coordinate "+x+","+y+" inesistente");
+        }
+        PrenotazioneTmp pre = new PrenotazioneTmp();
+        pre.setIdUtente(idUtente);
+        pre.setIdSpettacolo(idSpettacolo);
+        pre.setIdPosto(idPosto);
+        pre.setTimestamp(null);
+        System.out.println("prentmp: " + pre.getIdUtente() + " " + pre.getIdPosto() + " " + pre.getIdSpettacolo() + " " + pre.getTimestamp());
+
+        int inserito = 0;
+        try {
+            inserito = manager.aggiungiPrenotazioneTmp(pre);
+        } catch (SQLException ex) {
+            System.out.println("sql exc: " + ex);
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+          //  getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+
+        }
+
+        if (inserito > 0) {
+            result = "success";
+        } else {
+            result = "failed";
+        }
+
+        System.out.println(result);
+        response.getWriter().println(result);
     }
 
     @Override
-    public void destroy(){
+    public void destroy() {
         this.manager = null;
     }
 
@@ -96,6 +128,6 @@ public class Logout extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }
