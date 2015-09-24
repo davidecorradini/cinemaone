@@ -48,7 +48,7 @@
                 </c:choose>      
                 <p>Programmazione<ul>
                     <c:forEach var="tmp1" items="${tmp.getSpettacoli()}">
-                        <li><fmt:formatDate value="${tmp1.getDataOra()}" pattern="dd-MM-yyyy hh:mm"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
+                        <li><fmt:formatDate value="${tmp1.getDataOra()}" type="both" dateStyle="long" timeStyle="short"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmp1.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a></li>
                         </c:forEach>
                 </ul></p>
             </div>
