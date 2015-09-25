@@ -294,13 +294,15 @@ public class DBManager implements Serializable {
      */
     public int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP) VALUES (?,?,?,CURRENT_TIMESTAMP)");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, TIPO) VALUES (?,?,?,CURRENT_TIMESTAMP,?)");
         int result;
         
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setString(2, pre.getIdUtente());
             stm.setInt(3, pre.getIdPosto());
+            stm.setString(4, pre.getTipo());
+            
             result=stm.executeUpdate();
             
         } finally {
@@ -322,24 +324,18 @@ public class DBManager implements Serializable {
         Integer idPosto = 0;
         PreparedStatement stm;
         stm = con.prepareStatement("SELECT P.ID_POSTO AS IDP FROM POSTO P, SALA S, SPETTACOLO SP WHERE P.RIGA=? AND P.COLONNA=? AND SP.ID_SPETTACOLO=? AND S.ID_SALA=SP.ID_SALA AND S.ID_SALA=P.ID_SALA");
-        
-        
+                
         try{
-            System.out.println("1");
             stm.setInt(3,3);
-            System.out.println("2");
             stm.setString(1,String.valueOf(y.charAt(0)));
             stm.setInt(2, x);
-            System.out.println("3 "+idSpettacolo);
             
-            System.out.println("7");
             ResultSet rs = stm.executeQuery();
-            System.out.println("4");
+            
             if(rs.next()){
                 try {
-                    System.out.println("5");
                     idPosto=rs.getInt("IDP");
-                    System.out.println("6");
+                    
                 }finally {
                     rs.close();
                 }
