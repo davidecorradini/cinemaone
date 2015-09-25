@@ -157,14 +157,14 @@ VALUES ('Tre uomini e una gamba',
 'tre-uomini-e-una-gamba.jpg',
 FALSE,
 1997,
-'Aldo Baglio, Giacomo Poretti, Giovanni Storti, Massimo Venier');
+'Massimo Venier');
 
 INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER,DURATA,TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA)
 VALUES ('The day after tomorrow',
 6,
 'https://www.youtube.com/watch?v=Ku_IseK3xTc',
 124,
-'Il professor Jack Hall, specialista in paleo-climatologia, si rende conto che una nuova Era Glaciale sta per abbattersi sul pianeta Terra. Le ricerche effettuate da Hall indicano che il riscaldamento del globo terrestre potrebbe innescare un improvviso e catastrofico cambiamento del clima del nostro pianeta. Gli scavi da lui effettuati nei ghiacci dell''Antartide dimostrano che qualcosa del genere è già avvenuto, all''incirca 10.000 anni fa.<br>Hall da l''allarme al vicepresidente degli USA, ma non viene creduto. La catastrofe climatica inizia e Hall muove verso New York dove si trova il figlio diciassettenne Sam, asserragliato nella biblioteca comunale insieme ad un manipolo di superstiti. La popolazione terrorizzata viene evacuata verso gli stati del sud, e Hall si trova ad essere l''unico diretto a nord.',
+'Il professor Jack Hall, specialista in paleo-climatologia, si rende conto che una nuova Era Glaciale sta per abbattersi sul pianeta Terra. Le ricerche effettuate da Hall indicano che il riscaldamento del globo terrestre potrebbe innescare un improvviso e catastrofico cambiamento del clima del nostro pianeta. Gli scavi da lui effettuati nei ghiacci dell''Antartide dimostrano che qualcosa del genere è già avvenuto, all''incirca 10.000 anni fa. Hall da l''allarme al vicepresidente degli USA, ma non viene creduto. La catastrofe climatica inizia e Hall muove verso New York dove si trova il figlio diciassettenne Sam, asserragliato nella biblioteca comunale insieme ad un manipolo di superstiti. La popolazione terrorizzata viene evacuata verso gli stati del sud, e Hall si trova ad essere l''unico diretto a nord.',
 'the-day-after-tomorrow.jpg',
 FALSE,
 2004,
