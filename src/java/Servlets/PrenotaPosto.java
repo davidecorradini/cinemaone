@@ -43,10 +43,11 @@ public class PrenotaPosto extends HttpServlet {
         HttpSession session = request.getSession(true);
         String idUtente = (String) session.getAttribute("idUtente");
 
-        int x = 5;//Integer.parseInt(request.getParameter("x"));
-        String y = "b";//request.getParameter("y");
-        int idSpettacolo = 3;//Integer.parseInt(request.getParameter("spettacolo"));
-
+        int x = Integer.parseInt(request.getParameter("x"));
+        String y = request.getParameter("y");
+        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
+        String tipo=request.getParameter("tipo");
+        
         int idPosto = 0;
         try {
             idPosto = manager.getIdPosto(x, y, idSpettacolo);
@@ -64,17 +65,15 @@ public class PrenotaPosto extends HttpServlet {
         pre.setIdSpettacolo(idSpettacolo);
         pre.setIdPosto(idPosto);
         pre.setTimestamp(null);
-        System.out.println("prentmp: " + pre.getIdUtente() + " " + pre.getIdPosto() + " " + pre.getIdSpettacolo() + " " + pre.getTimestamp());
-
+        pre.setTipo(tipo);
+        
         int inserito = 0;
         try {
             inserito = manager.aggiungiPrenotazioneTmp(pre);
         } catch (SQLException ex) {
             System.out.println("sql exc: " + ex);
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-          //  getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-
-        }
+          }
 
         if (inserito > 0) {
             result = "success";
@@ -82,8 +81,7 @@ public class PrenotaPosto extends HttpServlet {
             result = "failed";
         }
 
-        System.out.println(result);
-        response.getWriter().println(result);
+         response.getWriter().println(result);
     }
 
     @Override
