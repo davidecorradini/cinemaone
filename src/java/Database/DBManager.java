@@ -301,7 +301,7 @@ public class DBManager implements Serializable {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setString(2, pre.getIdUtente());
             stm.setInt(3, pre.getIdPosto());
-            stm.setString(4, pre.getTipo());
+            stm.setInt(4, pre.getTipo());
             
             result=stm.executeUpdate();
             

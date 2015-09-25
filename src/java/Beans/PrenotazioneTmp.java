@@ -16,7 +16,7 @@ public class PrenotazioneTmp {
     private int idSpettacolo;
     private int idPosto;
     private Timestamp timestamp; 
-    private String tipo;
+    private int tipo;
 
     /**
      * @return the idUtente
@@ -77,14 +77,16 @@ public class PrenotazioneTmp {
     /**
      * @return the tipo
      */
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
     /**
      * @param tipo the tipo to set
      */
-    public void setTipo(String tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
+
+    
 }
