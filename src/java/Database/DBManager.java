@@ -117,7 +117,7 @@ public class DBManager implements Serializable {
      */
     public void deletePrenotazione (Prenotazione pr, Utente ut) throws SQLException{
         PreparedStatement stm = con.prepareStatement( "DELETE FROM PRENOTAZIONE P WHERE P.ID_PRENOTAZIONE=?");
-        PreparedStatement stm2 = con.prepareStatement( "UPDATE UTENTE SET CREDITO=CREDITO-? WHERE UTENTE_ID=?");
+        PreparedStatement stm2 = con.prepareStatement( "UPDATE UTENTE SET CREDITO=CREDITO+? WHERE UTENTE_ID=?");
         PreparedStatement stm3 = con.prepareStatement("SELECT P.PREZZO FROM PREZZO P WHERE P.ID_PREZZO =?");
         try {
             stm.setInt(1, pr.getIdPrenotazione());
@@ -1270,7 +1270,20 @@ public class DBManager implements Serializable {
             res = true;
         }
         return res;
-    }    
+    } 
+    
+    public void aggiornaIdTmpPrenotazione(String idTmp,int id) throws SQLException{
+        
+        PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.ID_UTENTE=? WHERE PT.ID_UTENTE=?");
+        try {
+            stm.setString(1, encodeIdUtente(id));
+            stm.setString(2, idTmp);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+        
+    } 
     
 }
 
