@@ -1259,6 +1259,10 @@ public class DBManager implements Serializable {
         
     }
     
+    public boolean emailValida(String email){
+        boolean res = false;
+        
+    }    
     
 }
 
