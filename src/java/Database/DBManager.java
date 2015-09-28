@@ -1207,12 +1207,13 @@ public class DBManager implements Serializable {
     
 
     public EmailTimestamp getInfoRecovery(String md5) throws SQLException{
-        EmailTimestamp res = new EmailTimestamp();
+        EmailTimestamp res = null;
         PreparedStatement stm = stm = con.prepareStatement(
                 "SELECT * FROM PASSWORDRECOVERY WHERE MD5 = ?");
         stm.setString(1, md5);
         ResultSet rs = stm.executeQuery();
         if(rs.next()){
+            res = new EmailTimestamp();
             res.setEmail(rs.getString("EMAIL"));
             res.setTimestamp(rs.getTimestamp("TIME"));
         }
