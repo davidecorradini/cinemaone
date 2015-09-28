@@ -54,6 +54,34 @@ $("#logout-link").click(function(event) {
 });
 
 
+// Password Recovery
+
+$("#recovery-form").submit(function(event) {
+    event.preventDefault();
+    $("#recovery-button").attr("disabled","disabled");
+    $("#recovery-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
+    $.ajax({
+        type: "POST",
+        url: "recuperaPassword",
+        data: "email=" + $("#recovery-email").val(),
+        success: function(answer) {
+            answer = answer.trim();
+            if(answer == "success") {
+                $("#login-modal").modal("hide");
+                $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
+                $.get("jsp/menu.jsp", function(data) {
+                    $("#menu").html(data);
+                });
+            } else {
+                $("#login-button").html("Accedi");
+                $("#login-button").removeAttr("disabled");
+                $("#login-modal").effect("shake");
+            }
+        }
+    });
+});
+
+
 // Prenotazione
 
 function updatePosti (spettacolo) {
@@ -120,20 +148,16 @@ function removeSelezionato (postoString) {
     $("#" + postoString).slideUp("fast");
 }
 
+/* x, y, spettacolo, tipo a /prenotaPosto */
+
 $(".posto").click(function (e) {
-    $("#prenota-posto-modal").modal();
-    /*
     var posto = e.target;
     var postoString = $(posto).text();
     if ($(posto).hasClass("libero")) {
-        $(posto).removeClass("libero");
-        $(posto).addClass("selezionato");
-        addSelezionato(postoString);
-    } else if ($(posto).hasClass("selezionato")) {
-        $(posto).addClass("libero");
-        $(posto).removeClass("selezionato");
-        removeSelezionato(postoString);
-    }*/
+        $("#posto-id").text(postoString);
+        $("#posto-id-2").text(postoString);
+        $("#prenotazione-modal").modal();
+    }
 });
 
 $('a.mostranascondi').click(function(){
