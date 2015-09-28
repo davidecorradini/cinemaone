@@ -1215,11 +1215,11 @@ public class DBManager implements Serializable {
     public void insertRecuperaPassword(String md5, String email, Timestamp time) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement(
-                "INSERT INTO PRENOTAZIONE (MD5, EMAIL, TIME) VALUES (?, ?, ?)");
+                "INSERT INTO PASSWORDRECOVERY (MD5, EMAIL, TIME) VALUES (?, ?, ?)");
         try{
             stm.setString(1, md5);
             stm.setString(2, email);
-            stm.setTimestamp(5, time);
+            stm.setTimestamp(3, time);
             
             stm.executeUpdate();
         } finally {

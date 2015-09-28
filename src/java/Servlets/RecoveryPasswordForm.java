@@ -8,12 +8,9 @@ package Servlets;
 import Beans.EmailTimestamp;
 import Database.DBManager;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +45,7 @@ public class RecoveryPasswordForm extends HttpServlet {
         try {
             info = manager.getInfoRecovery(md5);
         } catch (SQLException ex) {
-            
+            response.getWriter().println("fail");
         }
         String email = info.getEmail();
         Timestamp time = info.getTimestamp();
