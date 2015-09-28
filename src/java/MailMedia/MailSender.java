@@ -96,14 +96,15 @@ public class MailSender {
         this.sendMail(to, "Modifica Password CinemaOne", "Testo che verrà gentilmente editato da Davide Corradini \n"+ link, null);
     }
     
-    
+    /*
     public static void main(String[] args){
         try {
             MailSender instance = new MailSender();
-            instance.sendMail("massimiliano.flor@florinformatica.it", "test", "testtext", null);
             //instance.changePassword("stefano__1994@hotmail.it", "http://www.google.it");
+            //instance.sendMail("en.magnago@gmail.com", "test", "testtext", null);
+            instance.changePassword("fellin.roberto@hotmail.it", "http://www.google.it");
         } catch (MessagingException ex) {
            System.out.println("ERRORE NELL'INVIO DELLA MAIL" + ex);
         }
-    }
+    }*/
 }

@@ -142,7 +142,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PrenotaPosto</servlet-name>
-        <url-pattern>/PrenotaPosto</url-pattern>
+        <url-pattern>/prenotaPosto</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

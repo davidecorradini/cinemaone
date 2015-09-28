@@ -49,6 +49,7 @@ public class RecuperaPassword extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
         Date date = new Date();
         String email = request.getParameter("email");
+        
         Timestamp time = new Timestamp(date.getTime());
         String timestamp = time.toString();
         MessageDigest md = null;
