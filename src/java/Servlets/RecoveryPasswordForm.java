@@ -47,15 +47,18 @@ public class RecoveryPasswordForm extends HttpServlet {
         } catch (SQLException ex) {
             request.setAttribute("valida", false);
         }
-        String email = info.getEmail();
-        request.setAttribute("email", email);
-        Timestamp time = info.getTimestamp();
-        Date date = new Date();
-        Timestamp currentTime = new Timestamp(date.getTime());
-        long diff = currentTime.getTime() - time.getTime();
-        if(diff <= 300000)
-            request.setAttribute("valida", true);
-        else
+        if(info != null){
+            String email = info.getEmail();
+            request.setAttribute("email", email);
+            Timestamp time = info.getTimestamp();
+            Date date = new Date();
+            Timestamp currentTime = new Timestamp(date.getTime());
+            long diff = currentTime.getTime() - time.getTime();
+            if(diff <= 300000)
+                request.setAttribute("valida", true);
+            else
+                request.setAttribute("valida", false);
+        }else
             request.setAttribute("valida", false);
         getServletContext().getRequestDispatcher("/jsp/recovery-password.jsp").forward(request, response);
     }
