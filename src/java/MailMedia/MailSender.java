@@ -28,7 +28,7 @@ public class MailSender {
     private static final String username = "cinemaone.unitn@gmail.com";
     private static final String password = "pythoniWeb";
     
-    MailSender(){
+    public MailSender(){
         settings = System.getProperties();
         settings.put("mail.smtp.host", "smtp.gmail.com");
         settings.put("mail.smtp.port", "465");
@@ -60,7 +60,7 @@ public class MailSender {
         //Create a new message
         Message msg = new MimeMessage(session);
 //Set the FROM and TO fields –
-        msg.setFrom(new InternetAddress("info@cinemaOne.it"));
+        msg.setFrom(new InternetAddress("info@peermanagement.it"));
         msg.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to,false));
         msg.setSubject(subject);
@@ -96,15 +96,15 @@ public class MailSender {
         this.sendMail(to, "Modifica Password CinemaOne", "Testo che verrà gentilmente editato da Davide Corradini \n"+ link, null);
     }
     
-    
+    /*
     public static void main(String[] args){
         try {
             MailSender instance = new MailSender();
+            //instance.changePassword("stefano__1994@hotmail.it", "http://www.google.it");
             //instance.sendMail("en.magnago@gmail.com", "test", "testtext", null);
             instance.changePassword("fellin.roberto@hotmail.it", "http://www.google.it");
         } catch (MessagingException ex) {
            System.out.println("ERRORE NELL'INVIO DELLA MAIL" + ex);
         }
-    }
-    
+    }*/
 }

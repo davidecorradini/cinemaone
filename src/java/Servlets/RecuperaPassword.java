@@ -6,6 +6,7 @@
 package Servlets;
 
 import Database.DBManager;
+import MailMedia.MailSender;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -44,8 +46,10 @@ public class RecuperaPassword extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/plain;charset=UTF-8");
         Date date = new Date();
         String email = request.getParameter("email");
+        
         Timestamp time = new Timestamp(date.getTime());
         String timestamp = time.toString();
         MessageDigest md = null;
@@ -63,10 +67,19 @@ public class RecuperaPassword extends HttpServlet {
         String md5Str = sb.toString();
         try {
             manager.insertRecuperaPassword(md5Str,email,time);
+            MailSender instance = new MailSender();
+            try {
+                instance.changePassword(email, "http://localhost:8084/Multisala/password-recovery.html?key=" + md5Str);
+                response.getWriter().println("success");
+            } catch (MessagingException ex) {
+                response.getWriter().println("fail");
+            }
         } catch (SQLException ex) {
-            
+            response.getWriter().println("fail");
         }
-        //sendMail(email,md5Str);
+        
+        
+        
     }
 
     @Override

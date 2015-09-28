@@ -44,7 +44,7 @@ public class Home extends HttpServlet {
         try {
             films = manager.getFilmsSlider();
         } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina home, interrogazione al database fallita");
+            request.setAttribute("error", "impossibile caricare la pagina home, interrogazione al database fallita: " + ex);
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         request.setAttribute("filmsSlider", films);
