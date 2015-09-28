@@ -43,11 +43,12 @@ public class RecoveryPasswordForm extends HttpServlet {
         String md5 = request.getParameter("key");
         EmailTimestamp info = null;
         try {
-            info = manager.getInfoRecovery(md5);
+            info = manager.getInfoRecovery(md5);            
         } catch (SQLException ex) {
-            response.getWriter().println("fail");
+            request.setAttribute("valida", false);
         }
         String email = info.getEmail();
+        request.setAttribute("email", email);
         Timestamp time = info.getTimestamp();
         Date date = new Date();
         Timestamp currentTime = new Timestamp(date.getTime());
