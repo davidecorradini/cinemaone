@@ -49,37 +49,42 @@ public class RecuperaPassword extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8");
         Date date = new Date();
         String email = request.getParameter("email");
-        
-        Timestamp time = new Timestamp(date.getTime());
-        String timestamp = time.toString();
-        MessageDigest md = null;
+        boolean valido = false;
         try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex) {
-            //
+            valido = manager.emailValida(email);
+        } catch (SQLException ex) {
+            
         }
-        md.update((email + timestamp).getBytes());
-        byte[] md5 = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for (byte b : md5) {
-            sb.append(String.format("%02x", b & 0xff));
-        }
-        String md5Str = sb.toString();
-        try {
-            manager.insertRecuperaPassword(md5Str,email,time);
-            MailSender instance = new MailSender();
+        if(valido){
+            Timestamp time = new Timestamp(date.getTime());
+            String timestamp = time.toString();
+            MessageDigest md = null;
             try {
-                instance.changePassword(email, "http://localhost:8084/Multisala/password-recovery.html?key=" + md5Str);
-                response.getWriter().println("success");
-            } catch (MessagingException ex) {
+                md = MessageDigest.getInstance("MD5");
+            } catch (NoSuchAlgorithmException ex) {
+                //
+            }
+            md.update((email + timestamp).getBytes());
+            byte[] md5 = md.digest();
+            StringBuffer sb = new StringBuffer();
+            for (byte b : md5) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            String md5Str = sb.toString();
+            try {
+                manager.insertRecuperaPassword(md5Str,email,time);
+                MailSender instance = new MailSender();
+                try {
+                    instance.changePassword(email, "http://localhost:8084/Multisala/password-recovery.html?key=" + md5Str);
+                    response.getWriter().println("success");
+                } catch (MessagingException ex) {
+                    response.getWriter().println("fail");
+                }
+            } catch (SQLException ex) {
                 response.getWriter().println("fail");
             }
-        } catch (SQLException ex) {
-            response.getWriter().println("fail");
-        }
-        
-        
-        
+        }else
+            response.getWriter().println("noemail");      
     }
 
     @Override
