@@ -841,8 +841,19 @@ public class DBManager implements Serializable {
     public ArrayList<Film> getFilmsSlider() throws SQLException{
         ArrayList<Film> film = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA\n"+
-                        "FROM FILM WHERE IS_IN_SLIDER=TRUE");
+                "SELECT DISTINCT F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA "
+                        + "FROM FILM F JOIN SPETTACOLO S ON S.ID_FILM=F.ID_FILM WHERE F.IS_IN_SLIDER=TRUE AND S.DATA_ORA>?");
+                
+
+        Calendar calendar = Calendar.getInstance();
+        java.util.Date now = calendar.getTime();
+        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+        //System.out.println(currentTimestamp);
+        //System.out.println("1");
+        stm.setTimestamp(1, currentTimestamp);
+        //System.out.println("2");
+       //System.out.println(currentTimestamp);
+      
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -862,7 +873,7 @@ public class DBManager implements Serializable {
                     
                     film.add(tmp);
                 }
-            } finally {
+            }finally {
                 rs.close();
             }
         } finally {
