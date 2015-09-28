@@ -420,6 +420,8 @@ public class DBManager implements Serializable {
             try {
                 res[0]=rs.getInt("TOT_POSTI");
                 res[1]=rs.getInt("TOT_PREZZO");
+                if(res[1] == 0)
+                    res[1] = 0;
             } finally {
                 rs.close();
             }

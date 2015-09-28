@@ -72,7 +72,7 @@
         <div class="modal fade" id="singup-modal">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                    <form id="login-form">
+                    <form id="signup-form">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Registrazione Nuovo Cliente</h4>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                            <button type="submit" class="btn btn-primary" id="login-button">Accedi</button>
+                            <button type="submit" class="btn btn-primary" id="signup-button">Accedi</button>
                         </div>
                     </form>
                 </div>
@@ -96,7 +96,7 @@
         <div class="modal fade" id="recovery-modal">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
-                    <form id="login-form">
+                    <form id="recovery-form">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Recupera Password</h4>
@@ -104,12 +104,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="input-email">Indirizzo e-mail</label>
-                                <input type="email" class="form-control" id="input-email" placeholder="Indirizzo e-mail">
+                                <input type="email" class="form-control" id="recovery-email" placeholder="Indirizzo e-mail">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                            <button type="submit" class="btn btn-primary" id="login-button">Recupera</button>
+                            <button type="submit" class="btn btn-primary" id="recovery-button">Recupera</button>
                         </div>
                     </form>
                 </div>

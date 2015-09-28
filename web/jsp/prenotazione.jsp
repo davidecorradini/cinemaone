@@ -163,7 +163,44 @@
                 <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
             </div>
         </div>
-                
         <br><br><br>
+    </div>
+    <div class="modal fade" id="prenotazione-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Prenota posto <span id="posto-id">(nessun posto selezionato)</span></h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tr>
+                                <th>Posto</th>
+                                <th>Tipo</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="posto-id-2">
+                                </td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="1">Intero (€0.00)</option>
+                                        <option value="2">Ridotto (€0.00)</option>
+                                        <option value="3">Militare (€0.00)</option>
+                                        <option value="4">Disabile (€0.00)</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="alert alert-info" role="alert">Il posto ti verr&agrave; riservato per 5 minuti dalla conferma di prenotazione, entro i quali dovrai eseguire il pagamento!</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-primary">Conferma Prenotazione</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 <c:import url="footer.jsp"></c:import>    

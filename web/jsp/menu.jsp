@@ -10,7 +10,7 @@
             </c:when>
             <c:otherwise>
                 <li class="dropdown-header">Nuovo Cliente</li>
-                <li><a href="signup.html"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#signup-modal"><i class="zmdi zmdi-hc-fw zmdi-account-add zmdi-logout zmdi-right-8"></i>Registrati</a></li>
                 <li class="divider" role="separator"></li>
                 <li class="dropdown-header">Cliente Registrato</li>
                 <li><a href="#" data-toggle="modal" data-target="#login-modal"><i class="zmdi zmdi-hc-fw zmdi-sign-in zmdi-logout zmdi-right-8"></i>Accedi</a></li>
