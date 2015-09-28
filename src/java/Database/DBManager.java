@@ -1260,9 +1260,16 @@ public class DBManager implements Serializable {
         
     }
     
-    public boolean emailValida(String email){
+    public boolean emailValida(String email) throws SQLException{
         boolean res = false;
-        
+        PreparedStatement stm = stm = con.prepareStatement(
+                "SELECT * FROM UTENTE WHERE EMAIL = ?");
+        stm.setString(1, email);
+        ResultSet rs = stm.executeQuery();
+        if(rs.next()){
+            res = true;
+        }
+        return res;
     }    
     
 }
