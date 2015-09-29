@@ -5,8 +5,13 @@
  */
 package Servlets;
 
+import Beans.Utente;
+import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Davide
  */
 public class SignUp extends HttpServlet {
+    private DBManager manager;
 
+    @Override
+    public void init() throws ServletException{
+        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,12 +44,26 @@ public class SignUp extends HttpServlet {
         String email = request.getParameter("email");
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
-        if (password1 == password2){
-            // Inserisci nel database
-            response.getWriter().print("success");
+        if (password1.equals(password2)){
+            Utente ut = new Utente();
+            ut.setEmail(email);
+            ut.setPassword(password2);
+            ut.setIdRuolo(2);
+            ut.setCredito(0);
+            try {
+                manager.aggiugiUtente(ut);
+                response.getWriter().print("success");
+            } catch (SQLException ex) {
+                response.getWriter().print("fail");
+            }            
         } else {
             response.getWriter().print("fail");
         }
+    }
+    
+    @Override
+    public void destroy(){
+        this.manager = null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
