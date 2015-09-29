@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlets;
 
 import Beans.PrenotazioneTmp;
@@ -19,7 +14,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author roberto
  */
-public class PrenotaPosto extends HttpServlet {
+public class ConfermaPrenotazione extends HttpServlet {
 
     private DBManager manager;
 
@@ -43,45 +38,15 @@ public class PrenotaPosto extends HttpServlet {
         HttpSession session = request.getSession(false);
         String idUtente = (String) session.getAttribute("idUtente");
 
-        int x = Integer.parseInt(request.getParameter("x"));
-        String y =request.getParameter("y");
-        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
-        int idPrezzo=Integer.parseInt(request.getParameter("tipo"));
-        
-        int idPosto = 0;
         try {
-            idPosto = manager.getIdPosto(x, y, idSpettacolo);
+            manager.confermaPrenotazioni(idUtente);
         } catch (SQLException ex) {
             
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
-        if(idPosto==0){
-            throw new IllegalArgumentException("posto con coordinate "+x+","+y+" inesistente");
-        }
-        PrenotazioneTmp pre = new PrenotazioneTmp();
-        pre.setIdUtente(idUtente);
-        pre.setIdSpettacolo(idSpettacolo);
-        pre.setIdPosto(idPosto);
-        pre.setTimestamp(null);
-        pre.setIdPrezzo(idPrezzo);
-        
-        int inserito = 0;
-        try {
-            inserito = manager.aggiungiPrenotazioneTmp(pre);
-        } catch (SQLException ex) {
-           
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-          }
 
-        if (inserito > 0) {
-            result = "success";
-        } else {
-            result = "failed";
-        }
-
-         response.getWriter().println(result);
     }
 
     @Override

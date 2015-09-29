@@ -157,7 +157,7 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     public void inserisciFilm(Film fm) throws SQLException{
-        PreparedStatement stm = con.prepareStatement("INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER, DURATA, TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA) VALUES ('?',?,'?',?,'?','?',?,?,'?')");
+        PreparedStatement stm = con.prepareStatement("INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER, DURATA, TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA) VALUES (?,?,?,?,?,?,?,?,?)");
         try {
             stm.setString(1, fm.getTitolo());
             stm.setInt(2, fm.getIdGenere());
@@ -185,7 +185,7 @@ public class DBManager implements Serializable {
     public void inserisciSpettacolo(Spettacolo sp) throws SQLException{
         // possiamo farci passare tutta una classe spettacolo
         
-        PreparedStatement stm = con.prepareStatement("INSERT INTO SPETTACOLO (ID_FILM, ID_SALA, DATA_ORA) VALUES (?,?,'?') ");
+        PreparedStatement stm = con.prepareStatement("INSERT INTO SPETTACOLO (ID_FILM, ID_SALA, DATA_ORA) VALUES (?,?,?) ");
         try {
             stm.setInt(1, sp.getIdFilm());
             stm.setInt(2, sp.getIdSala());
@@ -218,9 +218,9 @@ public class DBManager implements Serializable {
      * @param rl ruolo da aggiungere
      * @throws SQLException
      */
-    public void aggiugiRuolo(Ruolo rl) throws SQLException{
+    public void aggiungiRuolo(Ruolo rl) throws SQLException{
         
-        PreparedStatement stm = con.prepareStatement("INSERT INTO RUOLO (RUOLO) VALUES ('?')");
+        PreparedStatement stm = con.prepareStatement("INSERT INTO RUOLO (RUOLO) VALUES (?)");
         try {
             stm.setString(1, rl.getRuolo());
             stm.executeUpdate();
@@ -234,9 +234,9 @@ public class DBManager implements Serializable {
      * @param ps posto da aggiungere
      * @throws SQLException
      */
-    public void aggiugiPosto(Posto ps) throws SQLException{
+    public void aggiungiPosto(Posto ps) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO POSTO (RIGA,COLONNA,STATO) VALUES ('?',?,?)");
+        stm = con.prepareStatement("INSERT INTO POSTO (RIGA,COLONNA,STATO) VALUES (?,?,?)");
         try {
             stm.setInt(1, ps.getRiga());
             stm.setInt(2, ps.getColonna());
@@ -253,7 +253,7 @@ public class DBManager implements Serializable {
      * @param ut utente da aggiungere
      * @throws SQLException
      */
-    public void aggiugiUtente(Utente ut) throws SQLException{
+    public void aggiungiUtente(Utente ut) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO UTENTE (ID_RUOLO, EMAIL, PASSWORD, CREDITO) VALUES (?,?,?,?)");
         try {
             stm.setInt(1, ut.getIdRuolo());
@@ -294,14 +294,14 @@ public class DBManager implements Serializable {
      */
     public int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, TIPO) VALUES (?,?,?,CURRENT_TIMESTAMP,?)");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, ID_PREZZO) VALUES (?,?,?,CURRENT_TIMESTAMP,?)");
         int result;
         
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setString(2, pre.getIdUtente());
             stm.setInt(3, pre.getIdPosto());
-            stm.setInt(4, pre.getTipo());
+            stm.setInt(4, pre.getIdPrezzo());
             
             result=stm.executeUpdate();
             
@@ -373,11 +373,11 @@ public class DBManager implements Serializable {
     public ArrayList<Posto> getPostiPiuPrenotati(int idSala, int n) throws SQLException{
         PreparedStatement stm;
         ArrayList<Posto> res = new ArrayList<>();
-        stm = con.prepareStatement(
-                "SELECT P2.ID_POSTO, P2.ID_SALA, P2.RIGA, P2.COLONNA, P2.STATO FROM (SELECT P.ID_POSTO, COUNT (*) AS TOT\n" +
-                        "FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n"+
-                        "WHERE P.ID_SALA=? GROUP BY P.ID_POSTO) P2\n" +
-                        "ORDER BY P2.TOT");
+        stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
+"                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
+"                        WHERE P.ID_SALA=? \n" +
+"                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
+"                        ORDER BY TOT ");
         try {
             stm.setInt(1, idSala);
             
@@ -440,7 +440,7 @@ public class DBManager implements Serializable {
      * @return null se l'utente non è autenticato, un oggetto User se l'utente esiste ed è autenticato
      * @throws java.sql.SQLException
      */
-    public UtenteRuolo authenticate(String email, String password) throws SQLException {
+    public UtenteRuolo authenticate(String email, String password,String idTmp) throws SQLException {
         UtenteRuolo res;
         Utente utente = null;
         Ruolo ruolo = null;
@@ -462,6 +462,9 @@ public class DBManager implements Serializable {
                 ruolo = new Ruolo();
                 ruolo.setIdRuolo(rs.getInt("ID_RUOLO"));
                 ruolo.setRuolo(rs.getString("RUOLO"));
+                
+                aggiornaIdPrenotazioneTmp(idTmp,utente.getIdUtente());
+                
             }
         }finally{
             stm.close();
@@ -479,7 +482,7 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     public ArrayList<Prezzo> getAllPrezzi() throws SQLException{
-        PreparedStatement stm = con.prepareStatement("SELECT ID_PREZZO, TIPO, PREZZO FROM PREZZO");
+        PreparedStatement stm = con.prepareStatement("SELECT ID_PREZZO, ID_PREZZO, PREZZO FROM PREZZO");
         ArrayList<Prezzo> prezzi = new ArrayList<>();
         try {
             ResultSet rs = stm.executeQuery();
@@ -488,7 +491,7 @@ public class DBManager implements Serializable {
                     Prezzo tmp = new Prezzo();
                     tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
                     tmp.setPrezzo(rs.getDouble("PREZZO"));
-                    tmp.setTipo(rs.getString("TIPO"));
+                    tmp.setTipo(rs.getString("ID_PREZZO"));
                     prezzi.add(tmp);
                 }
             } finally {
@@ -752,7 +755,7 @@ public class DBManager implements Serializable {
      */
     public ArrayList<PrenTmpPosto> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
         PreparedStatement stm;
-        ArrayList<PrenTmpPosto> PrenotazioniTmp = new ArrayList<>();
+        ArrayList<PrenTmpPosto> prenotazioniTmp = new ArrayList<>();
         stm = con.prepareStatement(
                 "SELECT *\n" +
                         "FROM PRENOTAZIONETMP PREN JOIN POSTO P ON P.ID_POSTO = PREN.ID_POSTO" +
@@ -769,7 +772,8 @@ public class DBManager implements Serializable {
                     tmp.setIdUtente(rs.getString("ID_UTENTE"));
                     tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                     tmp.setIdPosto(rs.getInt("ID_POSTO"));
-                    tmp.setTimestamp(rs.getTimestamp("DATA_ORA_OPERAZIONETmp"));
+                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    tmp.setTimestamp(rs.getTimestamp("DATA_ORA_OPERAZIONETMP"));
                     posto.setColonna(rs.getInt("COLONNA"));
                     posto.setRiga(rs.getString("RIGA").charAt(0));
                     posto.setIdPosto(rs.getInt("ID_POSTO"));
@@ -778,7 +782,7 @@ public class DBManager implements Serializable {
                     PrenTmpPosto res = new PrenTmpPosto();
                     res.setPren(tmp);
                     res.setPosto(posto);
-                    PrenotazioniTmp.add(res);
+                    prenotazioniTmp.add(res);
                 }
             } finally {
                 rs.close();
@@ -786,9 +790,40 @@ public class DBManager implements Serializable {
         } finally {
             stm.close();
         }
-        return PrenotazioniTmp;
+        return prenotazioniTmp;
     }
     
+    
+    public ArrayList<PrenotazioneTmp> getPrenotazioniTmp(String idUtente) throws SQLException{
+        PreparedStatement stm;
+        ArrayList<PrenotazioneTmp> prenotazioneTmp = new ArrayList<>();
+        stm = con.prepareStatement(
+                "SELECT *\n" +
+                        "FROM PRENOTAZIONETMP PREN " +
+                        "WHERE ID_UTENTE = ?");
+        try {
+            stm.setString(1,idUtente);
+            ResultSet rs = stm.executeQuery();
+            try {
+                
+                while(rs.next()){
+                    PrenotazioneTmp tmp = new PrenotazioneTmp();
+                                        
+                    tmp.setIdUtente(rs.getString("ID_UTENTE"));
+                    tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    tmp.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmp.setTimestamp(rs.getTimestamp("DATA_ORA_OPERAZIONETMP"));
+                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    prenotazioneTmp.add(tmp);
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return prenotazioneTmp;
+    }
     
     /**
      *
@@ -1274,7 +1309,7 @@ public class DBManager implements Serializable {
         return res;
     } 
     
-    public void aggiornaIdTmpPrenotazione(String idTmp,int id) throws SQLException{
+    public void aggiornaIdPrenotazioneTmp(String idTmp,int id) throws SQLException{
         
         PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.ID_UTENTE=? WHERE PT.ID_UTENTE=?");
         try {
@@ -1286,6 +1321,30 @@ public class DBManager implements Serializable {
         }
         
     } 
+    
+    /**
+     * 
+     * @param idUtente
+     * @throws SQLException 
+     */
+    public void confermaPrenotazioni(String idUtente) throws SQLException{
+        
+        // controllo se utente loggato
+        Object obj = decodeIdUtente(idUtente);
+        if (!(obj instanceof Integer))
+            throw new IllegalArgumentException("Conferma prenotazioni: invalid Id");
+                
+        int id = (int)obj;
+        
+        // get prenotazioniTmp di idUtente 
+        ArrayList<PrenotazioneTmp> prenTmp=getPrenotazioniTmp(idUtente);
+       
+        //e le cancello
+        
+        // le prendo e le importo in Prenotazioni
+        
+    
+    }
     
 }
 

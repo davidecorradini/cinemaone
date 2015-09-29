@@ -88,6 +88,10 @@
         <servlet-name>PrenotaPosto</servlet-name>
         <servlet-class>Servlets.PrenotaPosto</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfermaPrenotazione</servlet-name>
+        <servlet-class>Servlets.ConfermaPrenotazione</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -144,9 +148,13 @@
         <servlet-name>PrenotaPosto</servlet-name>
         <url-pattern>/prenotaPosto</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfermaPrenotazione</servlet-name>
+        <url-pattern>/ConfermaPrenotazione</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
-    </session-config>            
+    </session-config>
 </web-app>

@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
         UtenteRuolo userRuolo = null;
                 
         try{
-            userRuolo = manager.authenticate(username, password);
+            userRuolo = manager.authenticate(username, password, (String)request.getSession().getAttribute("idUtente"));
         }catch(SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
             session.setAttribute("autenticato", ruolo.getRuolo());
             session.setAttribute("user", user);
             session.removeAttribute("idUtente");
-            session.setAttribute("idUtente", user.getIdUtente());
+            session.setAttribute("idUtente", DBManager.encodeIdUtente(user.getIdUtente()));
             response.getWriter().println("success");
         }
     }
