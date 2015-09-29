@@ -5,26 +5,34 @@
 <c:import url="header.jsp"></c:import>
 <c:choose>
     <c:when test="${requestScope.valida}">
-        
-        <form method="POST" action="/Multisala/resetPassword"> 
-            <p>
-                Nuova password:
-                <input type="text" name="pw1" placeholder="password">
-            </p>
-            <p>
-                Ripeti password:
-                <input type="password" name="pw2" placeholder="password">
-            </p>
-            <p>
+        <div class="container">
+            <div class="page-header col-md-6 col-md-offset-3">
+                <h1>Cambia Password</h1>
+            </div>
+        <div class="col-md-6 col-md-offset-3">
+            <form method="POST" action="/Multisala/resetPassword" class="form-horizontal"> 
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Nuova password:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password1" placeholder="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Ripeti password:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" name="password2" placeholder="password">
+                    </div>
+                </div>
                 <input type="hidden" name="email" value="${requestScope.email}">
-            </p>
-            <p>
-                <input type="submit">
-            </p>
-                
-        </form>
-            
-            
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default">Modifica</button>
+                    </div>
+                </div>                
+            </form>
+        </div>
+        </div>
+           <br><br><br><br><br> 
     </c:when>
     <c:otherwise>
         <div class="container">
