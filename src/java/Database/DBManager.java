@@ -776,7 +776,7 @@ public class DBManager implements Serializable {
         stm = con.prepareStatement(
                 "SELECT *\n" +
                         "FROM PRENOTAZIONETMP PREN JOIN POSTO P ON P.ID_POSTO = PREN.ID_POSTO" +
-                        "WHERE ID_SPETTACOLO = ?");
+                        "WHERE PREN.ID_SPETTACOLO = ?");
         try {
             stm.setInt(1,id_spettacolo);
             ResultSet rs = stm.executeQuery();
@@ -1002,43 +1002,40 @@ public class DBManager implements Serializable {
      */
     public ArrayList<PostiSala> getAllPosti(int id_sala) throws SQLException{
         ArrayList<PostiSala> res = new ArrayList<>();
-       /* PreparedStatement stm = con.prepareStatement(
+        PreparedStatement stm = con.prepareStatement(
                 "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
                         "FROM POSTO P\n" +
-                        " WHERE P.ID_SALA = ?");
+                        " WHERE P.ID_SALA = ?\n" +
+                        " ORDER BY P.RIGA, P.COLONNA");
         try {
             stm.setInt(1, id_sala);
             ResultSet rs = stm.executeQuery();
             try {
+                
+                String tmpRiga="";
+                PostiSala tmpPostiSala=new PostiSala();
                 while(rs.next()){
-                    PrenotazionePosto tmp = new PrenotazionePosto();
-                    
-                    Prenotazione tmpPre = new Prenotazione();
-                    
-                    tmpPre.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
-                    tmpPre.setIdUtente(rs.getInt("ID_UTENTE"));
-                    tmpPre.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
-                    tmpPre.setIdPrezzo(rs.getInt("ID_PREZZO"));
-                    tmpPre.setIdPosto(rs.getInt("ID_POSTO"));
-                    tmpPre.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
-                    
                     Posto tmpPosto = new Posto();
+                    
                     tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
                     tmpPosto.setIdSala(rs.getInt("ID_SALA"));
                     tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
                     tmpPosto.setColonna(rs.getInt("COLONNA"));
                     tmpPosto.setStato(rs.getInt("STATO"));
                     
-                    tmp.setPrenotazione(tmpPre);
-                    tmp.setPosto(tmpPosto);
-                    res.add(tmp);
+                    if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga)){
+                        
+                    }
+                    tmpRiga=String.valueOf(tmpPosto.getRiga());
+                    
+                    
                 }
             } finally {
                 rs.close();
             }
         } finally {
             stm.close();
-        }*/
+        }
         return res;
     }
     
