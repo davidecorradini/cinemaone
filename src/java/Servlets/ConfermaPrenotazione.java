@@ -36,7 +36,7 @@ public class ConfermaPrenotazione extends HttpServlet {
         String result = "";
 
         HttpSession session = request.getSession(false);
-        String idUtente = (String) session.getAttribute("idUtente");
+        String idUtente =(String) session.getAttribute("idUtente");//DBManager.encodeIdUtente(10);
 
         try {
             manager.confermaPrenotazioni(idUtente);

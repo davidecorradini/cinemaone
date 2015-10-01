@@ -41,11 +41,11 @@ public class PrenotaPosto extends HttpServlet {
         String result = "";
 
         HttpSession session = request.getSession(false);
-        String idUtente = (String) session.getAttribute("idUtente");
+        String idUtente = (String) session.getAttribute("idUtente");//DBManager.encodeIdUtente(10);
 
-        int x = Integer.parseInt(request.getParameter("x"));
+        int x =Integer.parseInt(request.getParameter("x"));
         String y =request.getParameter("y");
-        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
+        int idSpettacolo =Integer.parseInt(request.getParameter("spettacolo"));
         int idPrezzo=Integer.parseInt(request.getParameter("tipo"));
         
         int idPosto = 0;
