@@ -486,7 +486,7 @@ public class DBManager implements Serializable {
      * @throws SQLException
      */
     public ArrayList<Prezzo> getAllPrezzi() throws SQLException{
-        PreparedStatement stm = con.prepareStatement("SELECT ID_PREZZO, ID_PREZZO, PREZZO FROM PREZZO");
+        PreparedStatement stm = con.prepareStatement("SELECT ID_PREZZO, TIPO, PREZZO FROM PREZZO");
         ArrayList<Prezzo> prezzi = new ArrayList<>();
         try {
             ResultSet rs = stm.executeQuery();
