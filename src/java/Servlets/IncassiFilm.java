@@ -5,28 +5,31 @@
  */
 package Servlets;
 
-import Beans.InfoPrenotazione;
-import Beans.PostiSala;
+import Beans.IncassoFilm;
 import Database.DBManager;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
-public class Prenotazioni extends HttpServlet {
+/**
+ *
+ * @author alessandro
+ */
+public class IncassiFilm extends HttpServlet {
     private DBManager manager;
-    
-    
+
     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,30 +39,22 @@ public class Prenotazioni extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("PRENOTAZIONI");
-        int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
-        InfoPrenotazione infoPrenotazione = null;
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ArrayList<IncassoFilm> incassoFilm = null;
         try {
-            infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
-        } catch (SQLException ex){
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            incassoFilm = manager.getFilmIncasso();
+        } catch (SQLException ex) {
+            
         }
-        
-        request.setAttribute("infoPrenotazione", infoPrenotazione);
-        ArrayList<PostiSala> postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
-        request.setAttribute("postiSala", postiSala);
-        
-        request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
-        }
-    
+        request.setAttribute("incassoFilm", incassoFilm);
+        getServletContext().getRequestDispatcher("/jsp/incasso-film.jsp").forward(request, response);
+    }
+
     @Override
     public void destroy(){
         this.manager = null;
     }
-    
-
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
