@@ -6,6 +6,7 @@
 package Servlets;
 
 import Beans.InfoPrenotazione;
+import Beans.PostiSala;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -47,7 +48,7 @@ public class Prenotazioni extends HttpServlet {
         }
         
         request.setAttribute("infoPrenotazione", infoPrenotazione);
-        ArrayList<char, ArrayList<Posto>> postiSala;
+        ArrayList<PostiSala> postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
         request.setAttribute("postiSala", postiSala);
         
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);

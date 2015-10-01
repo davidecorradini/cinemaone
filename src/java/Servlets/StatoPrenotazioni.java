@@ -52,7 +52,7 @@ private DBManager manager;
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false); //da mettere poi a false
-        String idUtente = (String)session.getAttribute("idUtente");
+        String idUtente = DBManager.encodeIdUtente(session.getAttribute("idUtente"));
         int idSpettacolo = 0;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
