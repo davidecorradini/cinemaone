@@ -1013,7 +1013,9 @@ public class DBManager implements Serializable {
             try {
                 
                 String tmpRiga="";
-                PostiSala tmpPostiSala=new PostiSala();
+                
+                int flag=0;
+                ArrayList<Integer> colonna=new ArrayList<>();
                 while(rs.next()){
                     Posto tmpPosto = new Posto();
                     
@@ -1024,7 +1026,15 @@ public class DBManager implements Serializable {
                     tmpPosto.setStato(rs.getInt("STATO"));
                     
                     if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga)){
+                        // aggiungi all' array int
+                    }
+                    else if(flag==0){
                         
+                    }
+                    else{
+                        PostiSala tmpPostiSala=new PostiSala();
+                        tmpPostiSala.setRiga(tmpRiga.charAt(0));
+                        tmpPostiSala.setColonna(colonna);
                     }
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                     
