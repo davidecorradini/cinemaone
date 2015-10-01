@@ -1,28 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Servlets;
 
-import Beans.PrenotazioneTmp;
+import Beans.IncassoFilm;
 import Database.DBManager;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author roberto
+ * @author alessandro
  */
-public class ConfermaPrenotazione extends HttpServlet {
-
+public class IncassiFilm extends HttpServlet {
     private DBManager manager;
 
     @Override
-    public void init() throws ServletException {
-        this.manager = (DBManager) super.getServletContext().getAttribute("dbmanager");
+    public void init() throws ServletException{
+        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,27 +39,23 @@ public class ConfermaPrenotazione extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String result = "";
-
-        HttpSession session = request.getSession(false);
-        String idUtente =(String) session.getAttribute("idUtente");//DBManager.encodeIdUtente(10);
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ArrayList<IncassoFilm> incassoFilm = null;
         try {
-            manager.confermaPrenotazioni(idUtente);
+            incassoFilm = manager.getFilmIncasso();
         } catch (SQLException ex) {
             
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        
-
+        request.setAttribute("incassoFilm", incassoFilm);
+        getServletContext().getRequestDispatcher("/jsp/incasso-film.jsp").forward(request, response);
     }
 
     @Override
-    public void destroy() {
+    public void destroy(){
         this.manager = null;
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -91,6 +94,6 @@ public class ConfermaPrenotazione extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
 
 }
