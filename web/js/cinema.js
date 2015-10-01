@@ -54,6 +54,14 @@ $("#logout-link").click(function(event) {
 });
 */
 
+
+// AJAX SignUp
+
+$("#recovery-form").submit(function(event) {
+    
+});
+
+
 // Password Recovery
 
 $("#recovery-form").submit(function(event) {
@@ -124,8 +132,6 @@ function updatePosti (spettacolo) {
     });
 }
 
-var postiSelezionati = [];
-
 function addSelezionato (postoString) {
     if (postiSelezionati.length == 0) {
         $("#no-selected").slideUp("fast");
@@ -144,17 +150,40 @@ function removeSelezionato (postoString) {
     $("#" + postoString).slideUp("fast");
 }
 
-/* x, y, spettacolo, tipo a /prenotaPosto */
-
-$(".posto").click(function (e) {
-    var posto = e.target;
-    var postoString = $(posto).text();
+$(".posto").click(function (event) {
+    var posto = event.target;
+    var postoString = $.trim($(posto).text());
     if ($(posto).hasClass("libero")) {
+        $("#x").val(postoString.substr(0, 1));
+        $("#y").val(parseInt(postoString.substr(1, 2)));
         $("#posto-id").text(postoString);
-        $("#posto-id-2").text(postoString);
+        $("#posto-id-2").val(postoString);
         $("#prenotazione-modal").modal();
     }
 });
+
+$("#prenota-form").submit(function (event) {
+    event.preventDefault();
+    var tipo = $("#prenotazione-tipo").val();
+    var posto_x = $("#x").val();
+    var posto_y = $("#y").val();
+    $.ajax({
+        type: "GET",
+        url: "aggiungiPrenotazioneTmp",
+        data: "spettacolo=" + id_spettacolo + "&x=" + posto_x + "&y=" + posto_y + "&tipo=" + tipo,
+        success: function(answer) {
+            answer = $.trim(answer);
+            if (answer == "success") {
+                // Prenotato!!!!!
+            } else {
+                alert("Errore");
+            }
+        }
+    });
+});
+
+
+// Link che mostra descrizione completa
 
 $('a.mostranascondi').click(function(){
     var id = this.id.substring(1);
@@ -168,4 +197,4 @@ $('a.mostranascondi').click(function(){
         $('#m' + id).show();
         $('#dm'+id).show();
     }                
-}); 
+});

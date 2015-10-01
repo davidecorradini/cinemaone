@@ -1,21 +1,17 @@
-<%-- 
-    Document   : prenotazione
-    Created on : Aug 21, 2015, 12:40:44 PM
-    Author     : enrico
---%>
-    
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<c:set var="InfoPrenotzione" value="${requestScope.infoPrenotazione}"/>
+<c:set var="Film" value="${infoPrenotazione.getFilm()}"/>
+<c:set var="Spettacolo" value="${infoPrenotazione.getSpettacolo()}"/>
+<c:set var="Sala" value="${infoPrenotazione.getSala()}"/>
 <c:import url="header.jsp"></c:import>
+    <script>
+        var id_spettacolo = <c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>;
+    </script>
     <div class="container">
         <div class="page-header">
             <h1>Prenotazione</h1>
-        <c:set var="InfoPrenotzione" value="${requestScope.infoPrenotazione}"/>
-        <c:set var="Film" value="${infoPrenotazione.getFilm()}"/>
-        <c:set var="Spettacolo" value="${infoPrenotazione.getSpettacolo()}"/>
-        <c:set var="Sala" value="${infoPrenotazione.getSala()}"/>
         <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy hh:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
         </div>
         <div class="row">
@@ -170,10 +166,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Prenota posto <span id="posto-id">(nessun posto selezionato)</span></h4>
+                    <h4 class="modal-title">Prenota Posto <span id="posto-id">(nessun posto selezionato)</span></h4>
                 </div>
-                <form>
+                <form id="prenota-form">
+                    <input type="hidden" id="x">
+                    <input type="hidden" id="y">
                     <div class="modal-body">
+                        <div class="alert alert-dismissible alert-info" role="alert">Il posto ti verr&agrave; riservato per 5 minuti dalla conferma di prenotazione, entro i quali dovrai effettuare il pagamento!</div>
                         <table class="table">
                             <tr>
                                 <th>Posto</th>
@@ -181,10 +180,10 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="text" id="posto-id-2">
+                                    <input type="text" class="form-control" id="posto-id-2" disabled="disabled">
                                 </td>
                                 <td>
-                                    <select class="form-control">
+                                    <select class="form-control" id="prenotazione-tipo">
                                         <option value="1">Intero (€0.00)</option>
                                         <option value="2">Ridotto (€0.00)</option>
                                         <option value="3">Militare (€0.00)</option>
@@ -193,11 +192,10 @@
                                 </td>
                             </tr>
                         </table>
-                        <div class="alert alert-info" role="alert">Il posto ti verr&agrave; riservato per 5 minuti dalla conferma di prenotazione, entro i quali dovrai eseguire il pagamento!</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                        <button type="button" class="btn btn-primary">Conferma Prenotazione</button>
+                        <button type="submit" class="btn btn-primary">Conferma Prenotazione</button>
                     </div>
                 </form>
             </div>
