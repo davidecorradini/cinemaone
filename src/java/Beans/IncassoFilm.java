@@ -10,21 +10,21 @@ package Beans;
  * @author enrico
  */
 public class IncassoFilm {
-    private int idFilm;
+    private Film film;
     private double incasso;
 
     /**
      * @return the idFilm
      */
-    public int getIdFilm() {
-        return idFilm;
+    public Film getIdFilm() {
+        return film;
     }
 
     /**
-     * @param idFilm the idFilm to set
+     * @param film the idFilm to set
      */
-    public void setIdFilm(int idFilm) {
-        this.idFilm = idFilm;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     /**

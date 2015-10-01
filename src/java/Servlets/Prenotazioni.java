@@ -9,6 +9,7 @@ import Beans.InfoPrenotazione;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,6 @@ public class Prenotazioni extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("PRENOTAZIONI");
         int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
-        //String idUtente = (String)request.getSession(false).getAttribute("idUtente");
         InfoPrenotazione infoPrenotazione = null;
         try {
             infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
@@ -47,6 +47,8 @@ public class Prenotazioni extends HttpServlet {
         }
         
         request.setAttribute("infoPrenotazione", infoPrenotazione);
+        ArrayList<char, ArrayList<Posto>> postiSala;
+        request.setAttribute("postiSala", postiSala);
         
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
         }
