@@ -69,8 +69,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="singup-modal">
-            <div class="modal-dialog modal-sm">
+        <div class="modal fade" id="signup-modal">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <form id="signup-form">
                         <div class="modal-header">
@@ -79,15 +79,27 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="email" class="form-control" id="input-email" placeholder="Indirizzo e-mail">
+                                <label for="signup-email">Indirizzo e-mail</label>
+                                <input type="email" class="form-control" id="signup-email" placeholder="Indirizzo e-mail">
                             </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" id="input-password" placeholder="Password">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="signup-password1">Password</label>
+                                        <input type="password" class="form-control" id="signup-password1" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="signup-password2">Ripeti Password</label>
+                                        <input type="password" class="form-control" id="signup-password2" placeholder="Ripeti Password">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                            <button type="submit" class="btn btn-primary" id="signup-button">Accedi</button>
+                            <button type="submit" class="btn btn-primary" id="signup-button">Registrati</button>
                         </div>
                     </form>
                 </div>
@@ -105,6 +117,9 @@
                             <div class="form-group">
                                 <label for="input-email">Indirizzo e-mail</label>
                                 <input type="email" class="form-control" id="recovery-email" placeholder="Indirizzo e-mail">
+                                <span class="text-danger" id="recovery-sent" style="display: none;">Un link di recupero &egrave; stato inviato all'indirizzo e-mail inserito.</span>
+                                <span class="text-danger" id="recovery-no-email" style="display: none;">L'indirizzo e-mail inserito non è presente nei nostri sistemi.</span>
+                                <span class="text-danger" id="recovery-error" style="display: none;">Errore non specificato, riprova pi&ugrave; tardi.</span>
                             </div>
                         </div>
                         <div class="modal-footer">

@@ -37,7 +37,7 @@ $("#login-form").submit(function(event) {
 
 
 // AJAX Logout
-
+/*
 $("#logout-link").click(function(event) {
     event.preventDefault();
     $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
@@ -52,7 +52,7 @@ $("#logout-link").click(function(event) {
     });
     return false;
 });
-
+*/
 
 // Password Recovery
 
@@ -66,16 +66,12 @@ $("#recovery-form").submit(function(event) {
         data: "email=" + $("#recovery-email").val(),
         success: function(answer) {
             answer = answer.trim();
-            if(answer == "success") {
-                $("#login-modal").modal("hide");
-                $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
-                $.get("jsp/menu.jsp", function(data) {
-                    $("#menu").html(data);
-                });
+            if (answer == "success") {
+                $("#recovery-sent").slideDown("slow");
+            } else if (answer == "noemail") {
+                $("#recovery-no-email").slideDown("slow");
             } else {
-                $("#login-button").html("Accedi");
-                $("#login-button").removeAttr("disabled");
-                $("#login-modal").effect("shake");
+                $("#recovery-error").slideDown("slow");
             }
         }
     });
