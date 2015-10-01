@@ -51,7 +51,7 @@ public class SignUp extends HttpServlet {
             ut.setIdRuolo(2);
             ut.setCredito(0);
             try {
-                manager.aggiugiUtente(ut);
+                manager.aggiungiUtente(ut);
                 response.getWriter().print("success");
             } catch (SQLException ex) {
                 response.getWriter().print("fail");
