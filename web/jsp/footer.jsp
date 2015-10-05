@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <footer>
             <div class="container">
                 <div class="row">
@@ -19,11 +20,12 @@
         <script src="js/jquery.jcarousel.min.js"></script>
         <script src="js/jquery.bxslider.min.js"></script>
         <script src="js/cinema.js"></script>
-        <!--<script>
-            $(document).ready(function () {
-                var spettacolo = 1; // Sostiture 1 con l'id dello spettacolo via JSP
-                updatePosti(spettacolo);
-            });
-        </script>-->
+        <c:if test="${pageContext.request.servletPath == '/jsp/prenotazione.jsp'}">
+            <script>
+                $(document).ready(function () {
+                    updatePosti(id_spettacolo);
+                });
+            </script>
+        </c:if>
     </body>
 </html>

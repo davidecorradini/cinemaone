@@ -60,7 +60,7 @@ private DBManager manager;
         }catch(NumberFormatException ex){
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
-                out.println("fail");
+                out.println("fail " + ex);
             }
             return;
         }
@@ -73,7 +73,7 @@ private DBManager manager;
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
-                out.println("fail");
+                out.println("fail " + ex);
             }
             return;
         }
@@ -90,7 +90,7 @@ private DBManager manager;
                 Prenotazione pren = res.getPrenotazione();
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("x", posto.getColonna());
-                jsonObject.put("y", posto.getRiga());
+                jsonObject.put("y", String.valueOf(posto.getRiga()));
                 String stato = "occupato";
                 /*if(res.getPrenotazione().getIdUtente().equals(idUtente))
                     stato = "tuo-pagato";*/
@@ -110,7 +110,7 @@ private DBManager manager;
                     JSONObject jsonObject= new JSONObject();
                     
                     jsonObject.put("x", posto.getColonna());
-                    jsonObject.put("y", posto.getRiga());
+                    jsonObject.put("y", String.valueOf(posto.getRiga()));
                     String stato = "tmp";
                     if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
                         stato = "tuo";

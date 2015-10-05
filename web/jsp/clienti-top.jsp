@@ -10,21 +10,19 @@
 <%@ include file="header-admin.jsp" %>
 <div class="container">
     <div class="page-header">
-        <h1>Incassi per film</h1>
+        <h1>Lista clienti top</h1>
     </div>
     <table class="table table-bordered table-striped">
         <tr class="active">
-            <th>Film</th>
-            <th class="text-center">IncassoTotale</th>
-            <th class="text-center">Numero Spettacoli</th>
-            <th class="text-center">Incasso medio</th>
+            <th>Utente</th>
+            <th class="text-center">Numero Prenotazioni</th>
+            <th class="text-center">Totale spesa</th>
         </tr>
         <c:forEach var="tmp" items="${requestScope.incassoFilm}">
             <c:set var="tmpFilm" value="${tmp.getFilm()}"/>
             <tr>
-                <td><a class="no-color" href="dettaglio-film.html?idfilm=<c:out value="${tmpFilm.getIdFilm()}"></c:out>"><c:out value="${tmpFilm.getTitolo()}"></c:out></a> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out>min</small></td>
+                <td><c:out value="${tmpFilm.getDurata()}"></c:out></td>
                 <td class="text-center"><c:out value="${tmp.getIncasso()}"></c:out></td>
-                <td class="text-center"></td>
                 <td class="text-center"></td>
             </tr>
         </c:forEach>
