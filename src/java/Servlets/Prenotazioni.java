@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.InfoPrenotazione;
 import Beans.PostiSala;
+import Beans.Posto;
 import Database.DBManager;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,15 +41,18 @@ public class Prenotazioni extends HttpServlet {
         System.out.println("PRENOTAZIONI");
         int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
         InfoPrenotazione infoPrenotazione = null;
+        ArrayList<PostiSala> postiSala = null;
         try {
             infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
+            postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
         } catch (SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
+        postiSala = formattaInfoSala(postiSala);
+         
         request.setAttribute("infoPrenotazione", infoPrenotazione);
-        ArrayList<PostiSala> postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
         request.setAttribute("postiSala", postiSala);
         
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
@@ -59,7 +63,29 @@ public class Prenotazioni extends HttpServlet {
         this.manager = null;
     }
     
-
+    ArrayList<PostiSala> formattaInfoSala(ArrayList<PostiSala> incompleteList){
+        if(incompleteList.isEmpty()) return null;
+        char startC = incompleteList.get(0).getRiga();
+        char endC = incompleteList.get(incompleteList.size()-1).getRiga();
+        if(endC - startC == 0) return null;
+        int startN = Integer.MAX_VALUE, endN = Integer.MIN_VALUE;
+        for(PostiSala it : incompleteList){
+           for(Integer[] col : it.getColonnaStato()){
+               if(col[0]<startN) startN = col[0];
+               if(col[0]>endN) endN = col[0];
+           }
+        }
+        if(endN-startN == 0) return null;
+        
+        ArrayList<PostiSala> res = new ArrayList<>();
+        for(char c=startC; c<=endC; c++){
+            int stato = Posto.INESISTENTE_STATUS;
+            PostiSala posto = new PostiSala();
+            posto.setRiga(c);
+            ArrayList<Integer[]> colonnaStato = new ArrayList<>();
+        }
+        return res;
+    }
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

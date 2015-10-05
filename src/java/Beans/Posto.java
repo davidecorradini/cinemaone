@@ -12,11 +12,14 @@ import java.io.Serializable;
  * @author enrico
  */
 public class Posto implements Serializable{
+    public static final int OK_STATUS = 0;
+    public static final int ROTTO_STATUS = -1;
+    public static final int INESISTENTE_STATUS = 1;
     private int idPosto;
     private int idSala;
     private char riga;
     private int colonna;
-    private int stato; //semantica stato: 0 ok, -1 rotto.
+    private int stato; //semantica stato: 0 ok, -1 rotto, 1 inesistente.
 
     /**
      * @return the idPosto

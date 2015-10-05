@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class PostiSala {
     private char riga;
-    private ArrayList<Integer> colonna;
+    private ArrayList<Integer[]> colonnaStato; //in 0 il numero di colonna, in 1 lo stato
 
     /**
      * @return the riga
@@ -30,16 +30,16 @@ public class PostiSala {
     }
 
     /**
-     * @return the colonna
+     * @return the colonnaStato
      */
-    public ArrayList<Integer> getColonna() {
-        return colonna;
+    public ArrayList<Integer[]> getColonnaStato() {
+        return colonnaStato;
     }
 
     /**
-     * @param colonna the colonna to set
+     * @param colonna the colonnaStato to set
      */
-    public void setColonna(ArrayList<Integer> colonna) {
-        this.colonna = colonna;
+    public void setColonna(ArrayList<Integer[]> colonna) {
+        this.colonnaStato = colonna;
     }
 }
