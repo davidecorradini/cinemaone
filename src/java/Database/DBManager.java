@@ -1015,7 +1015,8 @@ public class DBManager implements Serializable {
                 String tmpRiga="";
                 
                 int flag=0;
-                ArrayList<Integer> colonna=new ArrayList<>();
+                ArrayList<Integer[]> colonnaStato=new ArrayList<>();
+                
                 while(rs.next()){
                     Posto tmpPosto = new Posto();
                     
@@ -1026,15 +1027,37 @@ public class DBManager implements Serializable {
                     tmpPosto.setStato(rs.getInt("STATO"));
                     
                     if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga)){
-                        // aggiungi all' array int
+                        
+                        Integer[] l=new Integer[2];
+                        l[0]=tmpPosto.getColonna();
+                        l[1]=tmpPosto.getStato();
+                        colonnaStato.add(l);
+                        
                     }
                     else if(flag==0){
                         
+                        Integer[] l=new Integer[2];
+                        l[0]=tmpPosto.getColonna();
+                        l[1]=tmpPosto.getStato();
+                        colonnaStato.add(l);
+                        flag=1;
                     }
                     else{
-                        PostiSala tmpPostiSala=new PostiSala();
-                        tmpPostiSala.setRiga(tmpRiga.charAt(0));
-                        tmpPostiSala.setColonna(colonna);
+                        
+                        PostiSala ps=new PostiSala();
+                        ps.setRiga(tmpRiga.charAt(0));
+                        ps.setColonna(colonnaStato);
+                        colonnaStato=new ArrayList<>();
+                        
+                        res.add(ps);
+                        
+                        Integer[] l=new Integer[2];
+                        l[0]=tmpPosto.getColonna();
+                        l[1]=tmpPosto.getStato();
+                        colonnaStato.add(l);
+                        
+                        
+                        
                     }
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                     
