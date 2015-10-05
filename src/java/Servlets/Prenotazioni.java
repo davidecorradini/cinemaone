@@ -54,6 +54,8 @@ public class Prenotazioni extends HttpServlet {
          
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         request.setAttribute("postiSala", postiSala);
+        //ArrayList<PostiSala> postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
+        //request.setAttribute("postiSala", postiSala);
         
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
         }

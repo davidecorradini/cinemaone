@@ -126,7 +126,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>aggiungiPrenTmp</servlet-name>
-        <url-pattern>/input/aggiungiPrenotazioneTmp</url-pattern>
+        <url-pattern>/aggiungiPrenotazioneTmp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
