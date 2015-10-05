@@ -114,7 +114,7 @@ $("#recovery-form").submit(function(event) {
 // Prenotazione
 
 function updatePosti (spettacolo) {
-    $.getJSON("http://web-dev.esy.es/cinemaone/statoPrenotazioni.php", "spettacolo=" + spettacolo, function (result) {
+    $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
         $(".posto").each(function (i, element) {
             $(element).removeClass("occupato");
             $(element).removeClass("occupato-tmp");
@@ -131,7 +131,7 @@ function updatePosti (spettacolo) {
                         x = "0" + val2;
                     }
                 } else if (key2 == "y") {
-                    y = val2;
+                    y = val2.toString().toUpperCase();
                 } else if (key2 == "stato") {
                     stato = val2;
                 } else if (key2 == "timestamp") {
@@ -142,10 +142,13 @@ function updatePosti (spettacolo) {
             $(".posto").each(function (i, element) {
                 if ($(element).text() == postoId) {
                     if (stato == "tmp") {
+                        $(element).removeClass("libero");
                         $(element).addClass("occupato-tmp");
                     } else if (stato == "occupato") {
+                        $(element).removeClass("libero");
                         $(element).addClass("occupato");
                     } else if (stato == "tuo") {
+                        $(element).removeClass("libero");
                         $(element).addClass("selezionato");
                     }
                 }
