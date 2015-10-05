@@ -85,6 +85,16 @@ public class Prenotazioni extends HttpServlet {
             PostiSala posto = new PostiSala();
             posto.setRiga(c);
             ArrayList<Integer[]> colonnaStato = new ArrayList<>();
+            for(int col=startN; col<=endN; col++){
+                Integer[] postoStato = new Integer[2];
+                postoStato[0] = col;
+                postoStato[1] = stato;
+                colonnaStato.add(postoStato);
+            }
+        }
+        
+        for(PostiSala posto : incompleteList){
+            char c = posto.getRiga();
         }
         return res;
     }
