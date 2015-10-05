@@ -12,7 +12,7 @@ package Beans;
 public class SpesaUtente {
     private Utente ut;
     private int numPrenotazioni;
-    private int spesaTot;
+    private double spesaTot;
 
     /**
      * @return the ut
@@ -45,14 +45,14 @@ public class SpesaUtente {
     /**
      * @return the spesaTot
      */
-    public int getSpesaTot() {
+    public double getSpesaTot() {
         return spesaTot;
     }
 
     /**
      * @param spesaTot the spesaTot to set
      */
-    public void setSpesaTot(int spesaTot) {
+    public void setSpesaTot(double spesaTot) {
         this.spesaTot = spesaTot;
     }
 }
