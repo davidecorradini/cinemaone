@@ -117,13 +117,13 @@
                             <div class="form-group">
                                 <label for="input-email">Indirizzo e-mail</label>
                                 <input type="email" class="form-control" id="recovery-email" placeholder="Indirizzo e-mail">
+                            </div>
                                 <span class="text-danger" id="recovery-sent" style="display: none;">Un link di recupero &egrave; stato inviato all'indirizzo e-mail inserito.</span>
                                 <span class="text-danger" id="recovery-no-email" style="display: none;">L'indirizzo e-mail inserito non è presente nei nostri sistemi.</span>
                                 <span class="text-danger" id="recovery-error" style="display: none;">Errore non specificato, riprova pi&ugrave; tardi.</span>
-                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                            <button type="button" class="btn btn-default" id="recovery-cancel" data-dismiss="modal">Annulla</button>
                             <button type="submit" class="btn btn-primary" id="recovery-button">Recupera</button>
                         </div>
                     </form>
