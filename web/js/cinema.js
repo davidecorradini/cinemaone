@@ -57,8 +57,24 @@ $("#logout-link").click(function(event) {
 
 // AJAX SignUp
 
-$("#recovery-form").submit(function(event) {
-    
+$("#signup-form").submit(function(event) {
+    event.preventDefault();
+    $("#signup-button").attr("disabled", "disabled");
+    $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
+    $.ajax({
+        type: "POST",
+        url: "signUp",
+        data: "username=" + $("#signup-email").val() + "&password1=" + $("#signup-password1").val() + "&password2=" + $("#signup-password2").val(),
+        success: function(answer) {
+            answer = answer.trim();
+            if(answer == "success") {
+                $("#signup-button").removeAttr("disabled");
+                $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
+            } else {
+                
+            }
+        }
+    });
 });
 
 
@@ -66,7 +82,10 @@ $("#recovery-form").submit(function(event) {
 
 $("#recovery-form").submit(function(event) {
     event.preventDefault();
-    $("#recovery-button").attr("disabled","disabled");
+    $("#recovery-sent").slideUp("fast");
+    $("#recovery-no-email").slideUp("fast");
+    $("#recovery-error").slideUp("fast");
+    $("#recovery-button").attr("disabled", "disabled");
     $("#recovery-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
     $.ajax({
         type: "POST",
@@ -76,10 +95,16 @@ $("#recovery-form").submit(function(event) {
             answer = answer.trim();
             if (answer == "success") {
                 $("#recovery-sent").slideDown("slow");
+                $("#recovery-button").hide();
+                $("#recovery-cancel").text("Chiudi");
             } else if (answer == "noemail") {
                 $("#recovery-no-email").slideDown("slow");
+                $("#recovery-button").removeAttr("disabled");
+                $("#recovery-button").html("Recupera");
             } else {
                 $("#recovery-error").slideDown("slow");
+                $("#recovery-button").removeAttr("disabled");
+                $("#recovery-button").html("Recupera");
             }
         }
     });
@@ -89,7 +114,7 @@ $("#recovery-form").submit(function(event) {
 // Prenotazione
 
 function updatePosti (spettacolo) {
-    $.getJSON("http://web-dev.esy.es/cinemaone/statoPrenotazioni.php", "spettacolo=" + spettacolo, function (result) {
+    $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
         $(".posto").each(function (i, element) {
             $(element).removeClass("occupato");
             $(element).removeClass("occupato-tmp");
@@ -106,7 +131,7 @@ function updatePosti (spettacolo) {
                         x = "0" + val2;
                     }
                 } else if (key2 == "y") {
-                    y = val2;
+                    y = val2.toString().toUpperCase();
                 } else if (key2 == "stato") {
                     stato = val2;
                 } else if (key2 == "timestamp") {
@@ -117,10 +142,13 @@ function updatePosti (spettacolo) {
             $(".posto").each(function (i, element) {
                 if ($(element).text() == postoId) {
                     if (stato == "tmp") {
+                        $(element).removeClass("libero");
                         $(element).addClass("occupato-tmp");
                     } else if (stato == "occupato") {
+                        $(element).removeClass("libero");
                         $(element).addClass("occupato");
                     } else if (stato == "tuo") {
+                        $(element).removeClass("libero");
                         $(element).addClass("selezionato");
                     }
                 }
