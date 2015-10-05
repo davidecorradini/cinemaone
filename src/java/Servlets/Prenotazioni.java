@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package Servlets;
 
 import Beans.InfoPrenotazione;
@@ -27,7 +27,7 @@ public class Prenotazioni extends HttpServlet {
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,14 +51,11 @@ public class Prenotazioni extends HttpServlet {
         }
         
         postiSala = formattaInfoSala(postiSala);
-         
+        
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         request.setAttribute("postiSala", postiSala);
-        //ArrayList<PostiSala> postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
-        //request.setAttribute("postiSala", postiSala);
-        
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
-        }
+    }
     
     @Override
     public void destroy(){
@@ -72,10 +69,10 @@ public class Prenotazioni extends HttpServlet {
         if(endC - startC == 0) return null;
         int startN = Integer.MAX_VALUE, endN = Integer.MIN_VALUE;
         for(PostiSala it : incompleteList){
-           for(Integer[] col : it.getColonnaStato()){
-               if(col[0]<startN) startN = col[0];
-               if(col[0]>endN) endN = col[0];
-           }
+            for(Integer[] col : it.getColonnaStato()){
+                if(col[0]<startN) startN = col[0];
+                if(col[0]>endN) endN = col[0];
+            }
         }
         if(endN-startN == 0) return null;
         
@@ -95,11 +92,20 @@ public class Prenotazioni extends HttpServlet {
         
         for(PostiSala posto : incompleteList){
             char c = posto.getRiga();
+            int indiceRiga = c - startC +1;
+            ArrayList<Integer[]> colonna = res.get(indiceRiga).getColonnaStato();
+            for(Integer[] postoStato : posto.getColonnaStato()){
+                int indiceColonna = postoStato[0] - startN + 1;
+                Integer[] postoStatoN = colonna.get(indiceColonna);
+                //se tutto è ok postoStatoN[0] == postoStato[0] deve essere true;
+                postoStatoN[1] = postoStato[1];
+                
+            }
         }
         return res;
     }
-
-
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -114,7 +120,7 @@ public class Prenotazioni extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -128,7 +134,7 @@ public class Prenotazioni extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Returns a short description of the servlet.
      *
@@ -138,5 +144,5 @@ public class Prenotazioni extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }
