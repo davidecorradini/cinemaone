@@ -16,7 +16,7 @@ public class IncassoFilm {
     /**
      * @return the idFilm
      */
-    public Film getIdFilm() {
+    public Film getFilm() {
         return film;
     }
 
