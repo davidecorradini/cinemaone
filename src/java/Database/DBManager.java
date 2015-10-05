@@ -775,7 +775,7 @@ public class DBManager implements Serializable {
         ArrayList<PrenTmpPosto> prenotazioniTmp = new ArrayList<>();
         stm = con.prepareStatement(
                 "SELECT *\n" +
-                        "FROM PRENOTAZIONETMP PREN JOIN POSTO P ON P.ID_POSTO = PREN.ID_POSTO" +
+                        "FROM PRENOTAZIONETMP PREN JOIN POSTO P ON P.ID_POSTO = PREN.ID_POSTO " +
                         "WHERE PREN.ID_SPETTACOLO = ?");
         try {
             stm.setInt(1,id_spettacolo);
