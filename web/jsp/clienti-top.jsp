@@ -19,7 +19,7 @@
             <th class="text-center">Totale spesa</th>
         </tr>
         <c:forEach var="tmp" items="${requestScope.utenti}">
-            <c:set var="tmpUt" value="${tmp.getUtente()}"/>
+            <c:set var="tmpUt" value="${tmp.getUt()}"/>
             <tr>
                 <td><c:out value="${tmpUt.getEmail()}"></c:out></td>
                 <td class="text-center"><c:out value="${tmp.getNumPrenotazioni()}"></c:out></td>

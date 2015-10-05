@@ -5,13 +5,10 @@
  */
 package Servlets;
 
-import Beans.SpesaUtente;
-import Database.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,14 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author alessandro
  */
-public class ClientiTop extends HttpServlet {
-    private DBManager manager;
+@WebServlet(name = "AdminHome", urlPatterns = {"/admin/index.html"})
+public class AdminHome extends HttpServlet {
 
-    @Override
-    public void init() throws ServletException{
-        this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
-    }
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,21 +31,8 @@ public class ClientiTop extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<SpesaUtente> utenti = null;
-        try {
-            utenti = manager.getClientiTop(10);
-        } catch (SQLException ex) {
-            
-        }
-        request.setAttribute("utenti", utenti);
-        getServletContext().getRequestDispatcher("/jsp/clienti-top.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/admin-index.jsp").forward(request, response);
     }
-
-    @Override
-    public void destroy(){
-        this.manager = null;
-    }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
