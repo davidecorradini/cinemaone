@@ -695,9 +695,10 @@ public class DBManager implements Serializable {
     public ArrayList<IncassoFilm> getFilmIncasso() throws SQLException{
         ArrayList<IncassoFilm> res = new ArrayList<>();
         PreparedStatement stm;
-        stm = con.prepareStatement(" SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SUM (PR.PREZZO) AS TOT\n" +
-"FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO\n" +
-"GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA ");
+        stm = con.prepareStatement("SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SUM (PR.PREZZO) AS TOT, TMP.NUM\n" +
+"FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO JOIN (SELECT ID_FILM, COUNT(ID_SPETTACOLO) AS NUM FROM SPETTACOLO GROUP BY ID_FILM) AS TMP ON S.ID_FILM = TMP.ID_FILM\n" +
+"WHERE S.DATA_ORA < CURRENT_TIMESTAMP\n" +
+"GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA,TMP.NUM");
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -718,7 +719,14 @@ public class DBManager implements Serializable {
                     
                     
                     tmp.setFilm(film);
-                    tmp.setIncasso(rs.getDouble("TOT"));
+                    double incasso=rs.getDouble("TOT");
+                    int num = rs.getInt("NUM");
+                    double incassoMedio = incasso/num;
+                    
+                    tmp.setIncasso(incasso);
+                    tmp.setNumSpett(num);
+                    tmp.setIncassoMedio(incassoMedio);
+                    
                     res.add(tmp);
                 }
             } finally {
