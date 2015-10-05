@@ -60,7 +60,7 @@ private DBManager manager;
         }catch(NumberFormatException ex){
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
-                out.println("fail");
+                out.println("fail " + ex);
             }
             return;
         }
@@ -73,7 +73,7 @@ private DBManager manager;
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
-                out.println("fail");
+                out.println("fail " + ex);
             }
             return;
         }

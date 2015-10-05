@@ -57,8 +57,24 @@ $("#logout-link").click(function(event) {
 
 // AJAX SignUp
 
-$("#recovery-form").submit(function(event) {
-    
+$("#signup-form").submit(function(event) {
+    event.preventDefault();
+    $("#signup-button").attr("disabled", "disabled");
+    $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
+    $.ajax({
+        type: "POST",
+        url: "signUp",
+        data: "username=" + $("#signup-email").val() + "&password1=" + $("#signup-password1").val() + "&password2=" + $("#signup-password2").val(),
+        success: function(answer) {
+            answer = answer.trim();
+            if(answer == "success") {
+                $("#signup-button").removeAttr("disabled");
+                $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
+            } else {
+                
+            }
+        }
+    });
 });
 
 
@@ -66,7 +82,10 @@ $("#recovery-form").submit(function(event) {
 
 $("#recovery-form").submit(function(event) {
     event.preventDefault();
-    $("#recovery-button").attr("disabled","disabled");
+    $("#recovery-sent").slideUp("fast");
+    $("#recovery-no-email").slideUp("fast");
+    $("#recovery-error").slideUp("fast");
+    $("#recovery-button").attr("disabled", "disabled");
     $("#recovery-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
     $.ajax({
         type: "POST",
@@ -76,10 +95,16 @@ $("#recovery-form").submit(function(event) {
             answer = answer.trim();
             if (answer == "success") {
                 $("#recovery-sent").slideDown("slow");
+                $("#recovery-button").hide();
+                $("#recovery-cancel").text("Chiudi");
             } else if (answer == "noemail") {
                 $("#recovery-no-email").slideDown("slow");
+                $("#recovery-button").removeAttr("disabled");
+                $("#recovery-button").html("Recupera");
             } else {
                 $("#recovery-error").slideDown("slow");
+                $("#recovery-button").removeAttr("disabled");
+                $("#recovery-button").html("Recupera");
             }
         }
     });
