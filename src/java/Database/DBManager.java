@@ -19,6 +19,7 @@ import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
 import Beans.Sala;
+import Beans.SpesaUtente;
 import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
@@ -744,20 +745,29 @@ public class DBManager implements Serializable {
      * @return ArrayList contenente i num clienti migliori (quelli che hanno/hanno fatto più prenotazioni).
      * @throws SQLException
      */
-    public ArrayList<Utente> getClientiTop(int num) throws SQLException{
-        ArrayList<Utente> clienti = new ArrayList<>();
+    public ArrayList<SpesaUtente> getClientiTop(int num) throws SQLException{
+        ArrayList<SpesaUtente> clienti = new ArrayList<>();
         int i=0;
         PreparedStatement stm = con.prepareStatement(
-                "SELECT U.ID_UTENTE\n" +
-                        "FROM UTENTE U JOIN PRENOTAZIONE PR ON U.ID_UTENTE=PR.ID_UTENTE\n" +
-                        "GROUP BY U.ID_UTENTE ORDER BY COUNT(*) DESC");
+                "SELECT U.ID_UTENTE, U.EMAIL, U.CREDITO, U.ID_RUOLO, SUM (P.PREZZO) AS TOT, COUNT (*) AS NUM\n" +
+"FROM UTENTE U JOIN PRENOTAZIONE PR ON U.ID_UTENTE=PR.ID_UTENTE JOIN PREZZO P ON PR.ID_PREZZO=P.ID_PREZZO\n" +
+"GROUP BY U.ID_UTENTE, U.EMAIL, U.PASSWORD, U.CREDITO, U.ID_RUOLO ORDER BY COUNT(*) DESC, SUM (P.PREZZO) DESC");
         try {
             ResultSet rs = stm.executeQuery();
             try {
+                SpesaUtente utenti = null;
+                Utente tmp;
                 while(rs.next() && i<num){
-                    Utente tmp = new Utente();
+                    utenti = new SpesaUtente();
+                    tmp = new Utente();
                     tmp.setIdUtente(rs.getInt("ID_UTENTE"));
-                    clienti.add(tmp);
+                    tmp.setEmail(rs.getString("EMAIL"));
+                    tmp.setCredito(rs.getDouble("CREDITO"));
+                    tmp.setIdRuolo(rs.getInt("ID_RUOLO"));                    
+                    utenti.setUt(tmp);
+                    utenti.setNumPrenotazioni(rs.getInt("NUM"));
+                    utenti.setSpesaTot(rs.getDouble("TOT"));
+                    clienti.add(utenti);
                     i++;
                 }
             } finally {
