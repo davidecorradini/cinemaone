@@ -34,13 +34,11 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.logging.Logger;
 
 public class DBManager implements Serializable {
     // transient = non viene serializzato
     
-    private final transient Connection con;
+    final transient Connection con;
     
     public DBManager(String dburl) throws SQLException {
         try {
@@ -56,7 +54,7 @@ public class DBManager implements Serializable {
         try {
             DriverManager.getConnection("jdbc:derby:;shutdown=true");
         } catch (SQLException ex) {
-            Logger.getLogger(DBManager.class.getName()).info(ex.getMessage());
+            throw new RuntimeException(ex.toString(), ex);
         }
     }
     
@@ -289,7 +287,7 @@ public class DBManager implements Serializable {
     }
     
     
-     /**
+    /**
      * aggiunge una prenotazione temporanea nel database.
      * @param pre prenotazionetmp da aggiungere
      * @return
@@ -311,12 +309,12 @@ public class DBManager implements Serializable {
             
         } finally {
             stm.close();
-        }        
+        }
         return result;
     }
     
     
-     /**
+    /**
      *
      * @param x coordinata x del posto
      * @param y coordinata x del posto
@@ -328,7 +326,7 @@ public class DBManager implements Serializable {
         Integer idPosto = 0;
         PreparedStatement stm;
         stm = con.prepareStatement("SELECT P.ID_POSTO AS IDP FROM POSTO P, SALA S, SPETTACOLO SP WHERE P.RIGA=? AND P.COLONNA=? AND SP.ID_SPETTACOLO=? AND S.ID_SALA=SP.ID_SALA AND S.ID_SALA=P.ID_SALA");
-                
+        
         try{
             stm.setInt(3,3);
             stm.setString(1,String.valueOf(y.charAt(0)));
@@ -363,7 +361,7 @@ public class DBManager implements Serializable {
             stm.executeUpdate();
         } finally {
             stm.close();
-        }        
+        }
     }
     
     
@@ -378,10 +376,10 @@ public class DBManager implements Serializable {
         PreparedStatement stm;
         ArrayList<Posto> res = new ArrayList<>();
         stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
-"                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
-"                        WHERE P.ID_SALA=? \n" +
-"                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
-"                        ORDER BY TOT ");
+                "                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
+                "                        WHERE P.ID_SALA=? \n" +
+                "                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
+                "                        ORDER BY TOT ");
         try {
             stm.setInt(1, idSala);
             
@@ -696,8 +694,8 @@ public class DBManager implements Serializable {
         ArrayList<IncassoFilm> res = new ArrayList<>();
         PreparedStatement stm;
         stm = con.prepareStatement(" SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SUM (PR.PREZZO) AS TOT\n" +
-"FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO\n" +
-"GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA ");
+                "FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO\n" +
+                "GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA ");
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -825,7 +823,7 @@ public class DBManager implements Serializable {
                 
                 while(rs.next()){
                     PrenotazioneTmp tmp = new PrenotazioneTmp();
-                                        
+                    
                     tmp.setIdUtente(rs.getString("ID_UTENTE"));
                     tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                     tmp.setIdPosto(rs.getInt("ID_POSTO"));
@@ -841,7 +839,7 @@ public class DBManager implements Serializable {
         }
         
         cancellaPrenotazioniTmp(idUtente);
-                
+        
         return prenotazioneTmp;
     }
     
@@ -900,8 +898,8 @@ public class DBManager implements Serializable {
         PreparedStatement stm = con.prepareStatement(
                 "SELECT DISTINCT F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA "
                         + "FROM FILM F JOIN SPETTACOLO S ON S.ID_FILM=F.ID_FILM WHERE F.IS_IN_SLIDER=TRUE AND S.DATA_ORA>?");
-                
-
+        
+        
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
         java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
@@ -909,8 +907,8 @@ public class DBManager implements Serializable {
         //System.out.println("1");
         stm.setTimestamp(1, currentTimestamp);
         //System.out.println("2");
-       //System.out.println(currentTimestamp);
-      
+        //System.out.println(currentTimestamp);
+        
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -1342,7 +1340,7 @@ public class DBManager implements Serializable {
         }
     }
     
-
+    
     public EmailTimestamp getInfoRecovery(String md5) throws SQLException{
         EmailTimestamp res = null;
         PreparedStatement stm = stm = con.prepareStatement(
@@ -1372,7 +1370,7 @@ public class DBManager implements Serializable {
         }
     }
     
-
+    
     
     public static String encodeIdUtente(Object obj){
         
@@ -1407,7 +1405,7 @@ public class DBManager implements Serializable {
             res = true;
         }
         return res;
-    } 
+    }
     
     public void aggiornaIdPrenotazioneTmp(String idTmp,int id) throws SQLException{
         
@@ -1420,12 +1418,12 @@ public class DBManager implements Serializable {
             stm.close();
         }
         
-    } 
+    }
     
     /**
-     * 
+     *
      * @param idUtente
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void confermaPrenotazioni(String idUtente) throws SQLException{
         
@@ -1433,12 +1431,12 @@ public class DBManager implements Serializable {
         Object obj = decodeIdUtente(idUtente);
         if (!(obj instanceof Integer))
             throw new IllegalArgumentException("Conferma prenotazioni: invalid Id");
-                
+        
         int id = (int)obj;
         
         // get prenotazioniTmp di idUtente e le cancello
         ArrayList<PrenotazioneTmp> prenTmp=getAndDeletePrenotazioniTmp(idUtente);
-         
+        
         // le prendo e le importo in Prenotazioni
         
         for(PrenotazioneTmp tmp: prenTmp){
@@ -1448,7 +1446,7 @@ public class DBManager implements Serializable {
             pren.setIdPosto(tmp.getIdPosto());
             pren.setIdSpettacolo(tmp.getIdSpettacolo());
             pren.setIdPrezzo(tmp.getIdPrezzo());
-                   
+            
             this.aggiungiPrenotazione(pren);
         }
     }
