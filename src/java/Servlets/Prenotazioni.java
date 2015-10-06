@@ -75,7 +75,6 @@ public class Prenotazioni extends HttpServlet {
             }
         }
         if(endN-startN == 0) return null;
-        
         ArrayList<PostiSala> res = new ArrayList<>();
         for(char c=startC; c<=endC; c++){
             int stato = Posto.INESISTENTE_STATUS;
@@ -88,14 +87,17 @@ public class Prenotazioni extends HttpServlet {
                 postoStato[1] = stato;
                 colonnaStato.add(postoStato);
             }
+            posto.setColonna(colonnaStato);
+            res.add(posto);
         }
         
         for(PostiSala posto : incompleteList){
             char c = posto.getRiga();
-            int indiceRiga = c - startC +1;
+            int indiceRiga = c - startC;
+            System.out.println("indiceRiga: " + indiceRiga + " ; size: " + res.size());
             ArrayList<Integer[]> colonna = res.get(indiceRiga).getColonnaStato();
             for(Integer[] postoStato : posto.getColonnaStato()){
-                int indiceColonna = postoStato[0] - startN + 1;
+                int indiceColonna = postoStato[0] - startN;
                 Integer[] postoStatoN = colonna.get(indiceColonna);
                 //se tutto è ok postoStatoN[0] == postoStato[0] deve essere true;
                 postoStatoN[1] = postoStato[1];
