@@ -102,7 +102,7 @@ function updatePosti (spettacolo) {
             $(element).addClass("libero");
         });
         $.each(result, function (key, val) {
-            var x, y, stato, timestamp, postoId;
+            var x, y, stato, timestamp, postoName;
             $.each(val, function (key2, val2) {
                 if (key2 == "x") {
                     if (parseInt(val2) >= 10) {
@@ -117,10 +117,10 @@ function updatePosti (spettacolo) {
                 } else if (key2 == "timestamp") {
                     timestamp = val2;
                 }
-                postoId = y + x;
+                postoName = y + x;
             });
             $(".posto").each(function (i, element) {
-                if ($(element).text() == postoId) {
+                if ($(element).text() == postoName) {
                     if (stato == "tmp") {
                         $(element).removeClass("libero");
                         $(element).addClass("occupato-tmp");
@@ -162,9 +162,9 @@ function removeSelezionato (postoString) {
 $(".posto").click(function (event) {
     var posto = event.target;
     var postoString = $.trim($(posto).text());
+    var postoId = $(posto).attr("id").substring(6);
     if ($(posto).hasClass("libero")) {
-        $("#x").val(postoString.substr(0, 1));
-        $("#y").val(parseInt(postoString.substr(1, 2)));
+        $("#prenotazione-posto-id").val(postoId);
         $("#posto-id").text(postoString);
         $("#posto-id-2").val(postoString);
         $("#prenotazione-modal").modal();
@@ -174,16 +174,15 @@ $(".posto").click(function (event) {
 $("#prenota-form").submit(function (event) {
     event.preventDefault();
     var tipo = $("#prenotazione-tipo").val();
-    var posto_x = $("#x").val();
-    var posto_y = $("#y").val();
+    var postoId = $("#prenotazione-posto-id").val();
     $.ajax({
         type: "GET",
         url: "aggiungiPrenotazioneTmp",
-        data: "spettacolo=" + id_spettacolo + "&x=" + posto_x + "&y=" + posto_y + "&tipo=" + tipo,
+        data: "spettacolo=" + id_spettacolo + "&idPosto=" + postoId + "&prezzo=" + tipo,
         success: function(answer) {
             answer = $.trim(answer);
             if (answer == "success") {
-                // Prenotato!!!!!
+                alert("Prenotato");
             } else {
                 alert("Errore");
             }

@@ -35,20 +35,21 @@ public class aggiungiPrenTmp extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/plain");
         int idPosto = Integer.parseInt(request.getParameter("idPosto"));
         int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
-        request.getParameter("prezzo");
+        int idPrezzo = Integer.parseInt(request.getParameter("prezzo"));
         PrenotazioneTmp prenTmp = new PrenotazioneTmp();
         prenTmp.setIdPosto(idPosto);
         prenTmp.setIdSpettacolo(idSpettacolo);
         prenTmp.setIdUtente(request.getSession(false).getId());
         prenTmp.setTimestamp(null);
-        
+        prenTmp.setIdPrezzo(idPrezzo);
         try {
             manager.aggiungiPrenotazioneTmp(prenTmp);
+            response.getWriter().println("success");
         } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            response.getWriter().println("fail " + ex);
         }
     }
     
