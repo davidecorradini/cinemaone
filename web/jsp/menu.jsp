@@ -6,7 +6,7 @@
             <c:when test="${sessionScope.autenticato != null}">
                 <li><a href="profile.html"><i class="zmdi zmdi-hc-fw zmdi-settings zmdi-right-8"></i>Impostazioni</a></li>
                 <c:if test="${sessionScope.autenticato == 'ADMIN'}"><li><a href="admin/index.html"><i class="zmdi zmdi-hc-fw zmdi-flag zmdi-right-8"></i> Amministratore</a></li></c:if>
-                <li><a href="logout.html" id="logout-link"><i class="zmdi zmdi-hc-fw zmdi-logout zmdi-right-8"></i>Logout</a></li>
+                <li><a href="logout.html" id="logout-link"><i class="zmdi zmdi-hc-fw zmdi-close-circle-o zmdi-right-8"></i>Logout</a></li>
             </c:when>
             <c:otherwise>
                 <li class="dropdown-header">Cliente Registrato</li>

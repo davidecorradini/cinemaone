@@ -44,20 +44,30 @@ public class SignUp extends HttpServlet {
         String email = request.getParameter("email");
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
-        if (password1.equals(password2)){
-            Utente ut = new Utente();
-            ut.setEmail(email);
-            ut.setPassword(password2);
-            ut.setIdRuolo(2);
-            ut.setCredito(0);
-            try {
-                manager.aggiungiUtente(ut);
-                response.getWriter().print("success");
-            } catch (SQLException ex) {
-                response.getWriter().print("fail");
-            }            
-        } else {
-            response.getWriter().print("fail");
+        
+        try {
+            if(!manager.emailValida(email)){
+                if (password1.equals(password2)){
+                    Utente ut = new Utente();
+                    ut.setEmail(email);
+                    ut.setPassword(password2);
+                    ut.setIdRuolo(2);
+                    ut.setCredito(0);
+                    try {
+                        manager.aggiungiUtente(ut);
+                        response.getWriter().print("success");
+                    } catch (SQLException ex) {
+                        response.getWriter().print("fail");
+                    }
+                } else {
+                    response.getWriter().print("wrong-password");
+                }
+            }
+            else{
+                response.getWriter().print("existing");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

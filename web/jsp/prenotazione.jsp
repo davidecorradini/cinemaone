@@ -18,139 +18,139 @@
             <div class="col-md-8">
                 <div class="sala">
                     <div>
-                        <button class="posto libero">A01</button>
-                        <button class="posto libero">A02</button>
-                        <button class="posto libero">A03</button>
-                        <button class="posto libero">A04</button>
-                        <button class="posto libero">A05</button>
-                        <button class="posto libero">A06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">A07</button>
-                        <button class="posto libero">A08</button>
-                        <button class="posto libero">A09</button>
-                        <button class="posto libero">A10</button>
-                        <button class="posto libero">A11</button>
-                        <button class="posto libero">A12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A12</button>
                     </div>
                     <div>
-                        <button class="posto libero">B01</button>
-                        <button class="posto libero">B02</button>
-                        <button class="posto libero">B03</button>
-                        <button class="posto libero">B04</button>
-                        <button class="posto libero">B05</button>
-                        <button class="posto libero">B06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">B07</button>
-                        <button class="posto libero">B08</button>
-                        <button class="posto libero">B09</button>
-                        <button class="posto libero">B10</button>
-                        <button class="posto libero">B11</button>
-                        <button class="posto libero">B12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">B12</button>
                     </div>
                     <div>
-                        <button class="posto libero">C01</button>
-                        <button class="posto libero">C02</button>
-                        <button class="posto libero">C03</button>
-                        <button class="posto libero">C04</button>
-                        <button class="posto libero">C05</button>
-                        <button class="posto libero">C06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">C07</button>
-                        <button class="posto libero">C08</button>
-                        <button class="posto libero">C09</button>
-                        <button class="posto libero">C10</button>
-                        <button class="posto libero">C11</button>
-                        <button class="posto libero">C12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">C12</button>
                     </div>
                     <div>
-                        <button class="posto libero">D01</button>
-                        <button class="posto libero">D02</button>
-                        <button class="posto libero">D03</button>
-                        <button class="posto libero">D04</button>
-                        <button class="posto libero">D05</button>
-                        <button class="posto libero">D06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">D07</button>
-                        <button class="posto libero">D08</button>
-                        <button class="posto libero">D09</button>
-                        <button class="posto libero">D10</button>
-                        <button class="posto libero">D11</button>
-                        <button class="posto libero">D12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">D12</button>
                     </div>
                     <div>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto invisibile"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
                     </div>
                     <div>
-                        <button class="posto libero">E01</button>
-                        <button class="posto libero">E02</button>
-                        <button class="posto libero">E03</button>
-                        <button class="posto libero">E04</button>
-                        <button class="posto libero">E05</button>
-                        <button class="posto libero">E06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">E07</button>
-                        <button class="posto libero">E08</button>
-                        <button class="posto libero">E09</button>
-                        <button class="posto libero">E10</button>
-                        <button class="posto libero">E11</button>
-                        <button class="posto libero">E12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">E12</button>
                     </div>
                     <div>
-                        <button class="posto libero">F01</button>
-                        <button class="posto libero">F02</button>
-                        <button class="posto libero">F03</button>
-                        <button class="posto libero">F04</button>
-                        <button class="posto libero">F05</button>
-                        <button class="posto libero">F06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">F07</button>
-                        <button class="posto libero">F08</button>
-                        <button class="posto libero">F09</button>
-                        <button class="posto libero">F10</button>
-                        <button class="posto libero">F11</button>
-                        <button class="posto libero">F12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">F12</button>
                     </div>
                     <div>
-                        <button class="posto libero">G01</button>
-                        <button class="posto libero">G02</button>
-                        <button class="posto libero">G03</button>
-                        <button class="posto libero">G04</button>
-                        <button class="posto libero">G05</button>
-                        <button class="posto libero">G06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">G07</button>
-                        <button class="posto libero">G08</button>
-                        <button class="posto libero">G09</button>
-                        <button class="posto libero">G10</button>
-                        <button class="posto libero">G11</button>
-                        <button class="posto libero">G12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">G12</button>
                     </div>
                     <div>
-                        <button class="posto libero">H01</button>
-                        <button class="posto libero">H02</button>
-                        <button class="posto libero">H03</button>
-                        <button class="posto libero">H04</button>
-                        <button class="posto libero">H05</button>
-                        <button class="posto libero">H06</button>
-                        <button class="posto invisibile"></button>
-                        <button class="posto libero">H07</button>
-                        <button class="posto libero">H08</button>
-                        <button class="posto libero">H09</button>
-                        <button class="posto libero">H10</button>
-                        <button class="posto libero">H11</button>
-                        <button class="posto libero">H12</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H01</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H02</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H03</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H04</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H05</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H06</button>
+                        <button id="posto-1" class="posto invisibile" data-toggle="tooltip" data-placement="top"></button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H07</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H08</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H09</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H10</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H11</button>
+                        <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">H12</button>
                     </div>
                 </div>
             </div>

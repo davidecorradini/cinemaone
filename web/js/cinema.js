@@ -1,13 +1,3 @@
-// Slider
-
-$(document).ready(function(){
-    $('.bxslider').bxSlider({
-        auto: true,
-        pause: 6000
-    });
-});
-
-
 // AJAX Login
 
 $("#login-form").submit(function(event) {
@@ -36,25 +26,6 @@ $("#login-form").submit(function(event) {
 });
 
 
-// AJAX Logout
-/*
-$("#logout-link").click(function(event) {
-    event.preventDefault();
-    $("#menu").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Caricamento...");
-    $.ajax({
-        type: "GET",
-        url: "logout",
-        success: function(answer) {
-            $.get("jsp/menu.jsp", function(data) {
-                $("#menu").html(data);
-            });
-        }
-    });
-    return false;
-});
-*/
-
-
 // AJAX SignUp
 
 $("#signup-form").submit(function(event) {
@@ -68,10 +39,14 @@ $("#signup-form").submit(function(event) {
         success: function(answer) {
             answer = answer.trim();
             if(answer == "success") {
+                $("#signup-button").hide();
+                $("#signup-success").slideDown("slow");
+            } else if (answer == "existing") {
                 $("#signup-button").removeAttr("disabled");
-                $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
-            } else {
-                
+                $("#signup-button").html("Registrati");
+                $("#signup-existing").slideDown("slow");
+            } else if (answer == "wrong-password") {
+                /* DA FINIRE */
             }
         }
     });
@@ -144,6 +119,7 @@ function updatePosti (spettacolo) {
                     if (stato == "tmp") {
                         $(element).removeClass("libero");
                         $(element).addClass("occupato-tmp");
+                        
                     } else if (stato == "occupato") {
                         $(element).removeClass("libero");
                         $(element).addClass("occupato");
