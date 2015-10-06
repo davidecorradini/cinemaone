@@ -12,6 +12,8 @@ package Beans;
 public class IncassoFilm {
     private Film film;
     private double incasso;
+    private int numSpett;
+    private double incassoMedio;
 
     /**
      * @return the idFilm
@@ -39,5 +41,33 @@ public class IncassoFilm {
      */
     public void setIncasso(double incasso) {
         this.incasso = incasso;
+    }
+
+    /**
+     * @return the numSpett
+     */
+    public int getNumSpett() {
+        return numSpett;
+    }
+
+    /**
+     * @param numSpett the numSpett to set
+     */
+    public void setNumSpett(int numSpett) {
+        this.numSpett = numSpett;
+    }
+
+    /**
+     * @return the incassoMedio
+     */
+    public double getIncassoMedio() {
+        return incassoMedio;
+    }
+
+    /**
+     * @param incassoMedio the incassoMedio to set
+     */
+    public void setIncassoMedio(double incassoMedio) {
+        this.incassoMedio = incassoMedio;
     }
 }

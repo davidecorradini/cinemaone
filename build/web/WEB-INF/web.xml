@@ -166,7 +166,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ClientiTop</servlet-name>
-        <url-pattern>/admin/clienti-top</url-pattern>
+        <url-pattern>/admin/clienti-top.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

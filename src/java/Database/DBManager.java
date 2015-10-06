@@ -19,6 +19,7 @@ import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
 import Beans.Sala;
+import Beans.SpesaUtente;
 import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
@@ -693,9 +694,11 @@ public class DBManager implements Serializable {
     public ArrayList<IncassoFilm> getFilmIncasso() throws SQLException{
         ArrayList<IncassoFilm> res = new ArrayList<>();
         PreparedStatement stm;
-        stm = con.prepareStatement(" SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SUM (PR.PREZZO) AS TOT\n" +
-                "FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO\n" +
-                "GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA ");
+        stm = con.prepareStatement("SELECT DISTINCT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SUM (PR.PREZZO) AS TOT, TMP.NUM\n" +
+"FROM FILM F JOIN SPETTACOLO S ON F.ID_FILM = S.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = S.ID_SPETTACOLO JOIN PREZZO PR ON PR.ID_PREZZO = P.ID_PREZZO JOIN (SELECT ID_FILM, COUNT(ID_SPETTACOLO) AS NUM FROM SPETTACOLO GROUP BY ID_FILM) AS TMP ON S.ID_FILM = TMP.ID_FILM\n" +
+"WHERE S.DATA_ORA < CURRENT_TIMESTAMP\n" +
+"GROUP BY F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA,F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.ANNO, F.REGISTA,TMP.NUM");
+
         try {
             ResultSet rs = stm.executeQuery();
             try {
@@ -716,7 +719,14 @@ public class DBManager implements Serializable {
                     
                     
                     tmp.setFilm(film);
-                    tmp.setIncasso(rs.getDouble("TOT"));
+                    double incasso=rs.getDouble("TOT");
+                    int num = rs.getInt("NUM");
+                    double incassoMedio = incasso/num;
+                    
+                    tmp.setIncasso(incasso);
+                    tmp.setNumSpett(num);
+                    tmp.setIncassoMedio(incassoMedio);
+                    
                     res.add(tmp);
                 }
             } finally {
@@ -735,20 +745,29 @@ public class DBManager implements Serializable {
      * @return ArrayList contenente i num clienti migliori (quelli che hanno/hanno fatto più prenotazioni).
      * @throws SQLException
      */
-    public ArrayList<Utente> getClientiTop(int num) throws SQLException{
-        ArrayList<Utente> clienti = new ArrayList<>();
+    public ArrayList<SpesaUtente> getClientiTop(int num) throws SQLException{
+        ArrayList<SpesaUtente> clienti = new ArrayList<>();
         int i=0;
         PreparedStatement stm = con.prepareStatement(
-                "SELECT U.ID_UTENTE\n" +
-                        "FROM UTENTE U JOIN PRENOTAZIONE PR ON U.ID_UTENTE=PR.ID_UTENTE\n" +
-                        "GROUP BY U.ID_UTENTE ORDER BY COUNT(*) DESC");
+                "SELECT U.ID_UTENTE, U.EMAIL, U.CREDITO, U.ID_RUOLO, SUM (P.PREZZO) AS TOT, COUNT (*) AS NUM\n" +
+"FROM UTENTE U JOIN PRENOTAZIONE PR ON U.ID_UTENTE=PR.ID_UTENTE JOIN PREZZO P ON PR.ID_PREZZO=P.ID_PREZZO\n" +
+"GROUP BY U.ID_UTENTE, U.EMAIL, U.PASSWORD, U.CREDITO, U.ID_RUOLO ORDER BY COUNT(*) DESC, SUM (P.PREZZO) DESC");
         try {
             ResultSet rs = stm.executeQuery();
             try {
+                SpesaUtente utenti = null;
+                Utente tmp;
                 while(rs.next() && i<num){
-                    Utente tmp = new Utente();
+                    utenti = new SpesaUtente();
+                    tmp = new Utente();
                     tmp.setIdUtente(rs.getInt("ID_UTENTE"));
-                    clienti.add(tmp);
+                    tmp.setEmail(rs.getString("EMAIL"));
+                    tmp.setCredito(rs.getDouble("CREDITO"));
+                    tmp.setIdRuolo(rs.getInt("ID_RUOLO"));                    
+                    utenti.setUt(tmp);
+                    utenti.setNumPrenotazioni(rs.getInt("NUM"));
+                    utenti.setSpesaTot(rs.getDouble("TOT"));
+                    clienti.add(utenti);
                     i++;
                 }
             } finally {

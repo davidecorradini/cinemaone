@@ -18,12 +18,12 @@
             <th class="text-center">Numero Prenotazioni</th>
             <th class="text-center">Totale spesa</th>
         </tr>
-        <c:forEach var="tmp" items="${requestScope.incassoFilm}">
-            <c:set var="tmpFilm" value="${tmp.getFilm()}"/>
+        <c:forEach var="tmp" items="${requestScope.utenti}">
+            <c:set var="tmpUt" value="${tmp.getUt()}"/>
             <tr>
-                <td><c:out value="${tmpFilm.getDurata()}"></c:out></td>
-                <td class="text-center"><c:out value="${tmp.getIncasso()}"></c:out></td>
-                <td class="text-center"></td>
+                <td><c:out value="${tmpUt.getEmail()}"></c:out></td>
+                <td class="text-center"><c:out value="${tmp.getNumPrenotazioni()}"></c:out></td>
+                <td class="text-center"><c:out value="${tmp.getSpesaTot()}"></c:out></td>
             </tr>
         </c:forEach>
     </table>
