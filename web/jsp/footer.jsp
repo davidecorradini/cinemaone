@@ -14,17 +14,17 @@
                 </div>
             </div>
         </footer>
-        <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/jquery-ui.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.jcarousel.min.js"></script>
-        <script src="js/jquery.bxslider.min.js"></script>
         <script src="js/cinema.js"></script>
         <c:if test="${pageContext.request.servletPath == '/jsp/prenotazione.jsp'}">
             <script>
                 $(document).ready(function () {
                     updatePosti(id_spettacolo);
                 });
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
             </script>
         </c:if>
     </body>

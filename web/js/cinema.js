@@ -1,13 +1,3 @@
-// Slider
-
-$(document).ready(function(){
-    $('.bxslider').bxSlider({
-        auto: true,
-        pause: 6000
-    });
-});
-
-
 // AJAX Login
 
 $("#login-form").submit(function(event) {
@@ -144,6 +134,7 @@ function updatePosti (spettacolo) {
                     if (stato == "tmp") {
                         $(element).removeClass("libero");
                         $(element).addClass("occupato-tmp");
+                        
                     } else if (stato == "occupato") {
                         $(element).removeClass("libero");
                         $(element).addClass("occupato");

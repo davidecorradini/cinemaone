@@ -17,6 +17,14 @@
         </li>
     </c:forEach>
 </ul>
+<script>
+    $(document).ready(function(){
+    $('.bxslider').bxSlider({
+        auto: true,
+        pause: 6000
+    });
+});
+</script>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
