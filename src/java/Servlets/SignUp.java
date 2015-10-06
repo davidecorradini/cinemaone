@@ -67,7 +67,7 @@ public class SignUp extends HttpServlet {
                 response.getWriter().print("existing");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+            response.getWriter().print("fail");
         }
     }
     

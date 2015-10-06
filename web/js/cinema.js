@@ -30,23 +30,28 @@ $("#login-form").submit(function(event) {
 
 $("#signup-form").submit(function(event) {
     event.preventDefault();
+    $("#signup-existing").slideUp("fast");
+    $("#signup-wrong-password").slideUp("fast");
+    $("#signup-success").slideUp("fast");
     $("#signup-button").attr("disabled", "disabled");
     $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
     $.ajax({
         type: "POST",
         url: "signUp",
-        data: "username=" + $("#signup-email").val() + "&password1=" + $("#signup-password1").val() + "&password2=" + $("#signup-password2").val(),
+        data: "email=" + $("#signup-email").val() + "&password1=" + $("#signup-password1").val() + "&password2=" + $("#signup-password2").val(),
         success: function(answer) {
             answer = answer.trim();
             if(answer == "success") {
                 $("#signup-button").hide();
                 $("#signup-success").slideDown("slow");
             } else if (answer == "existing") {
-                $("#signup-button").removeAttr("disabled");
-                $("#signup-button").html("Registrati");
                 $("#signup-existing").slideDown("slow");
+                $("#signup-button").html("Registrati");
+                $("#signup-button").removeAttr("disabled");
             } else if (answer == "wrong-password") {
-                /* DA FINIRE */
+                $("#signup-wrong-password").slideDown("slow");
+                $("#signup-button").html("Registrati");
+                $("#signup-button").removeAttr("disabled");
             }
         }
     });
