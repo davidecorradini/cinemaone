@@ -5,7 +5,6 @@
  */
 package Popolamento;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +17,7 @@ import java.sql.SQLException;
  */
 public class Posti {
     
-    private transient Connection con;
+    private final transient Connection con;
         
     public Posti(String dburl) throws SQLException{
     try {
