@@ -44,7 +44,7 @@ public class SpesaUtenteQueries {
         try {
             ResultSet rs = stm.executeQuery();
             try {
-                SpesaUtente utenti = null;
+                SpesaUtente utenti;
                 Utente tmp;
                 while(rs.next() && i<num){
                     utenti = new SpesaUtente();

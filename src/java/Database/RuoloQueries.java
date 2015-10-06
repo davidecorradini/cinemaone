@@ -29,6 +29,7 @@ public class RuoloQueries {
     /**
      * aggiunge un ruolo.
      * @param rl ruolo da aggiungere
+     * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws SQLException
      */
     public void aggiungiRuolo(Ruolo rl) throws SQLIntegrityConstraintViolationException, SQLException{

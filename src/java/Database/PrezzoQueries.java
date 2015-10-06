@@ -46,10 +46,9 @@ public class PrezzoQueries {
                     prezzi.add(tmp);
                 }
             } finally {
-                // ricordarsi SEMPRE di chiudere i ResultSet in un blocco finally
                 rs.close();
             }
-        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally
+        } finally {
             stm.close();
         }
         return prezzi;

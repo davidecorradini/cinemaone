@@ -122,6 +122,12 @@ public class PrenotazioneTmpQueries {
         return prenotazioniTmp;
     }
     
+    /**
+     * ritorna e cancella le prenotazioniTmp di un utente.
+     * @param idUtente l'utente di cui si vogliono confermare le prenotazioni temporanee
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<PrenotazioneTmp> getAndDeletePrenotazioniTmp(String idUtente) throws SQLException{
         PreparedStatement stm;
         ArrayList<PrenotazioneTmp> prenotazioneTmp = new ArrayList<>();
@@ -155,7 +161,11 @@ public class PrenotazioneTmpQueries {
         
         return prenotazioneTmp;
     }
-    
+    /**
+     * cancella le prenotazioniTmp di un dato utente.
+     * @param id
+     * @throws SQLException 
+     */
     public void cancellaPrenotazioniTmp(String id) throws SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");
@@ -167,6 +177,12 @@ public class PrenotazioneTmpQueries {
         }
     }
     
+    /**
+     * aggiorna l'idUtente delle prenotazioni tmp, dall'id temporaneo all'id "loggato"
+     * @param idTmp
+     * @param id
+     * @throws SQLException 
+     */
     public void aggiornaIdPrenotazioneTmp(String idTmp,int id) throws SQLException{
         
         PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.ID_UTENTE=? WHERE PT.ID_UTENTE=?");
@@ -181,7 +197,7 @@ public class PrenotazioneTmpQueries {
     }
     
     /**
-     *
+     * trasferisce le prenotazioni di un utente da temporanee a definitive.
      * @param idUtente
      * @throws SQLException
      */

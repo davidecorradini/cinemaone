@@ -26,11 +26,17 @@ public class EmailTimestampQueries{
         this.con = con;
     }
     
-    public EmailTimestamp getInfoRecovery(String md5) throws SQLException{
+    /**
+     * dato un hash ritorna la entry nella tabella passwordrecovery con quell'hash.
+     * @param hash
+     * @return
+     * @throws SQLException 
+     */
+    public EmailTimestamp getInfoRecovery(String hash) throws SQLException{
         EmailTimestamp res = null;
         PreparedStatement stm = stm = con.prepareStatement(
                 "SELECT * FROM PASSWORDRECOVERY WHERE MD5 = ?");
-        stm.setString(1, md5);
+        stm.setString(1, hash);
         ResultSet rs = stm.executeQuery();
         if(rs.next()){
             res = new EmailTimestamp();

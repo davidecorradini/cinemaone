@@ -50,12 +50,16 @@ public class UtenteQueries {
     
     public boolean emailValida(String email) throws SQLException{
         boolean res = false;
-        PreparedStatement stm = stm = con.prepareStatement(
+        PreparedStatement stm = con.prepareStatement(
                 "SELECT * FROM UTENTE WHERE EMAIL = ?");
+        try{
         stm.setString(1, email);
         ResultSet rs = stm.executeQuery();
         if(rs.next()){
             res = true;
+        }
+        }finally{
+            stm.close();
         }
         return res;
     }

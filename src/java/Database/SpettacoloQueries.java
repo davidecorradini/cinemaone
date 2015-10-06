@@ -35,6 +35,7 @@ public class SpettacoloQueries {
      /**
      * inserisce un nuovo spettacolo nel database.
      * @param sp spettacolo da inserire nel database
+     * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws SQLException
      */
     public void inserisciSpettacolo(Spettacolo sp) throws SQLIntegrityConstraintViolationException, SQLException{

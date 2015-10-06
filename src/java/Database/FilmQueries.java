@@ -32,6 +32,7 @@ public class FilmQueries{
     /**
      * inserisce un nuovo film nel database
      * @param fm film da inserire nel database
+     * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws SQLException
      */
     public void inserisciFilm(Film fm) throws SQLIntegrityConstraintViolationException, SQLException{
@@ -69,11 +70,7 @@ public class FilmQueries{
         Calendar calendar = Calendar.getInstance();
         java.util.Date now = calendar.getTime();
         java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-        //System.out.println(currentTimestamp);
-        //System.out.println("1");
         stm.setTimestamp(1, currentTimestamp);
-        //System.out.println("2");
-        //System.out.println(currentTimestamp);
         
         try {
             ResultSet rs = stm.executeQuery();
