@@ -17,7 +17,8 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="sala">
-                    <div>
+                    <c:import url="sala.jsp"></c:import>
+                <%--<div>
                         <button id="posto-1" class="posto libero" data-toggle="tooltip" data-placement="top">A01</button>
                         <button id="posto-2" class="posto libero" data-toggle="tooltip" data-placement="top">A02</button>
                         <button id="posto-3" class="posto libero" data-toggle="tooltip" data-placement="top">A03</button>
@@ -151,7 +152,7 @@
                         <button id="posto-115" class="posto libero" data-toggle="tooltip" data-placement="top">H10</button>
                         <button id="posto-116" class="posto libero" data-toggle="tooltip" data-placement="top">H11</button>
                         <button id="posto-117" class="posto libero" data-toggle="tooltip" data-placement="top">H12</button>
-                    </div>
+                    </div>--%>
                 </div>
             </div>
             <div class="col-md-4" id="posti-selezionati">
