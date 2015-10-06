@@ -18,4 +18,8 @@ public class GenereQueries{
         this.con = manager.con;
     }
     
+    public GenereQueries(Connection con){
+        this.con = con;
+    }
+    
 }

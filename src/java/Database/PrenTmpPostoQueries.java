@@ -17,4 +17,8 @@ public class PrenTmpPostoQueries {
     public PrenTmpPostoQueries(DBManager manager){
         this.con = manager.con;
     }
+    
+    public PrenTmpPostoQueries(Connection con){
+        this.con = con;
+    }
 }

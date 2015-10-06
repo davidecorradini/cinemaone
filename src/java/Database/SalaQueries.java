@@ -17,4 +17,8 @@ public class SalaQueries {
     public SalaQueries(DBManager manager){
         this.con = manager.con;
     }
+    
+    public SalaQueries(Connection con){
+        this.con = con;
+    }
 }

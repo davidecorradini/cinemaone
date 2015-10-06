@@ -5,7 +5,12 @@
 */
 package Database;
 
+import Beans.Prezzo;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,5 +21,37 @@ public class PrezzoQueries {
     
     public PrezzoQueries(DBManager manager){
         this.con = manager.con;
+    }
+    
+    public PrezzoQueries(Connection con){
+        this.con = con;
+    }
+    
+    /**
+     * ritorna una lista di tutti i tipi di prezzi
+     * @return lista di tutti i prezzi possibili
+     * @throws SQLException
+     */
+    public ArrayList<Prezzo> getAllPrezzi() throws SQLException{
+        PreparedStatement stm = con.prepareStatement("SELECT ID_PREZZO, TIPO, PREZZO FROM PREZZO");
+        ArrayList<Prezzo> prezzi = new ArrayList<>();
+        try {
+            ResultSet rs = stm.executeQuery();
+            try {
+                while(rs.next()){
+                    Prezzo tmp = new Prezzo();
+                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    tmp.setPrezzo(rs.getDouble("PREZZO"));
+                    tmp.setTipo(rs.getString("TIPO"));
+                    prezzi.add(tmp);
+                }
+            } finally {
+                // ricordarsi SEMPRE di chiudere i ResultSet in un blocco finally
+                rs.close();
+            }
+        } finally { // ricordarsi SEMPRE di chiudere i PreparedStatement in un blocco finally
+            stm.close();
+        }
+        return prezzi;
     }
 }

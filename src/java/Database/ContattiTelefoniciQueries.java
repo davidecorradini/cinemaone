@@ -18,4 +18,8 @@ public class ContattiTelefoniciQueries {
         this.con = manager.con;
     }
     
+    public ContattiTelefoniciQueries(Connection con){
+        this.con = con;
+    }
+    
 }
