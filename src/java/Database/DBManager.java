@@ -1013,7 +1013,7 @@ public class DBManager implements Serializable {
     
     /**
      *
-     * @param id_spettacolo ID dello spettacolo di cui si vuole vedere la lista dei posti occupati
+     * @param id_sala ID dello spettacolo di cui si vuole vedere la lista dei posti occupati
      * @return ritorna una lista di postioccupati.
      * @throws SQLException
      */
