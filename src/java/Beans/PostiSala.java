@@ -40,14 +40,6 @@ public class PostiSala {
         this.riga = riga;
     }
     
-    public void setColonna(ArrayList<Integer[]> colonnaStato){
-        this.colonnaStato = colonnaStato;
-    }
-    
-    public ArrayList<Integer[]> getColonnaStato(){
-        return this.colonnaStato;
-    }
-    
     public void addNewPosto(int idPosto, int colonna, int stato){
         if(colonnaStato == null)
             colonnaStato = new ArrayList<>();
@@ -57,6 +49,14 @@ public class PostiSala {
     public int getSize(){
         return colonnaStato.size();
     }
+    /**
+     * modifica un posto esistente
+     * @param idPosto
+     * @param colonna
+     * @param stato
+     * @param index
+     * @return 
+     */
     public boolean setPosto(int idPosto, int colonna, int stato, int index){
         if(index >= getSize())
             return false;
