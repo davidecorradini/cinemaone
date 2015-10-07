@@ -9,6 +9,8 @@ import Beans.InfoPrenotazione;
 import Beans.PostiSala;
 import Beans.Posto;
 import Database.DBManager;
+import Database.InfoPrenotazioneQueries;
+import Database.PostiSalaQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,8 +45,10 @@ public class Prenotazioni extends HttpServlet {
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;
         try {
-            infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
-            postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
+            InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
+            PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
+            infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+            postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala());
         } catch (SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
