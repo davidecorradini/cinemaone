@@ -57,7 +57,7 @@ public class PrenotazioneQueries{
      * @param ut utente a cui rimborsare il costo della prenotazione
      * @throws SQLException
      */
-    public void deletePrenotazione (Prenotazione pr, Utente ut) throws SQLException{
+    public void deletePrenotazione (Prenotazione pr) throws SQLException{
         PreparedStatement stm = con.prepareStatement( "DELETE FROM PRENOTAZIONE P WHERE P.ID_PRENOTAZIONE=?");
         PreparedStatement stm2 = con.prepareStatement( "UPDATE UTENTE SET CREDITO=CREDITO+? WHERE UTENTE_ID=?");
         PreparedStatement stm3 = con.prepareStatement("SELECT P.PREZZO FROM PREZZO P WHERE P.ID_PREZZO =?");
@@ -69,7 +69,7 @@ public class PrenotazioneQueries{
             if(prezzo.next())
                 rimborso = prezzo.getDouble("PREZZO") * 0.8; //rimborso dell'80% del prezzo.
             stm2.setDouble(1, rimborso);
-            stm2.setInt(2, ut.getIdUtente());
+            stm2.setInt(2, pr.getIdUtente());
             stm2.executeUpdate();
         } finally {
             stm.close();
@@ -95,5 +95,43 @@ public class PrenotazioneQueries{
         } finally {
             stm.close();
         }
+    }
+    
+    
+    /**
+     * aggiunge una prenotazione nel database.
+     * @param pre prenotazione da aggiungere
+     * @throws java.sql.SQLIntegrityConstraintViolationException
+     * @throws SQLException
+     */
+    public Prenotazione getPrenotazione(int idPrenotazione) throws SQLIntegrityConstraintViolationException, SQLException{
+       
+        Prenotazione pre= new Prenotazione();
+        PreparedStatement stm = con.prepareStatement(" select P.ID_PRENOTAZIONE,P.ID_UTENTE,P.ID_SPETTACOLO,P.ID_PREZZO,P.ID_POSTO,P.DATA_ORA_OPERAZIONE from PYTHONI.PRENOTAZIONE P\n" +
+                "where P.ID_PRENOTAZIONE=1\n");
+        try {
+            stm.setInt(1, idPrenotazione);
+            
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    
+                    pre.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                    pre.setIdPosto(rs.getInt("ID_PREZZO"));
+                    pre.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                    pre.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                    pre.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                    pre.setIdUtente(rs.getInt("ID_UTENTE"));
+                    
+                   
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        return pre;
     }
 }

@@ -100,6 +100,10 @@
         <servlet-name>ClientiTop</servlet-name>
         <servlet-class>Servlets.ClientiTop</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeletePrenotazione</servlet-name>
+        <servlet-class>Servlets.DeletePrenotazione</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>ClientiTop</servlet-name>
         <url-pattern>/admin/clienti-top.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePrenotazione</servlet-name>
+        <url-pattern>/DeletePrenotazione</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
