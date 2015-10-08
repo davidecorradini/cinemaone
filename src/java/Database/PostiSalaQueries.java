@@ -49,8 +49,7 @@ public class PostiSalaQueries{
                 String tmpRiga="";
                 
                 int flag=0;
-                ArrayList<Integer[]> colonnaStato=new ArrayList<>();
-                
+                PostiSala ps=new PostiSala();
                 while(rs.next()){
                     Posto tmpPosto = new Posto();
                     
@@ -60,42 +59,15 @@ public class PostiSalaQueries{
                     tmpPosto.setColonna(rs.getInt("COLONNA"));
                     tmpPosto.setStato(rs.getInt("STATO"));
                     
-                    if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga)){
-                        
-                        Integer[] l=new Integer[2];
-                        l[0]=tmpPosto.getColonna();
-                        l[1]=tmpPosto.getStato();
-                        colonnaStato.add(l);
-                        
-                    }
-                    else if(flag==0){
-                        
-                        Integer[] l=new Integer[2];
-                        l[0]=tmpPosto.getColonna();
-                        l[1]=tmpPosto.getStato();
-                        colonnaStato.add(l);
-                        flag=1;
-                    }
-                    else{
-                        
-                        PostiSala ps=new PostiSala();
+                    if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga) || flag == 0){
+                        flag = 1;
+                    }else{
                         ps.setRiga(tmpRiga.charAt(0));
-                        ps.setColonna(colonnaStato);
-                        colonnaStato=new ArrayList<>();
-                        
                         res.add(ps);
-                        
-                        Integer[] l=new Integer[2];
-                        l[0]=tmpPosto.getColonna();
-                        l[1]=tmpPosto.getStato();
-                        colonnaStato.add(l);
-                        
-                        
-                        
+                        ps=new PostiSala();
                     }
+                    ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato());
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
-                    
-                    
                 }
             } finally {
                 rs.close();

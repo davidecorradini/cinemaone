@@ -9,6 +9,8 @@ import Beans.InfoPrenotazione;
 import Beans.PostiSala;
 import Beans.Posto;
 import Database.DBManager;
+import Database.InfoPrenotazioneQueries;
+import Database.PostiSalaQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -43,8 +45,10 @@ public class Prenotazioni extends HttpServlet {
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;
         try {
-            infoPrenotazione = manager.getInfoPrenotazione(idSpettacolo);
-            postiSala = manager.getAllPosti(infoPrenotazione.getSala().getIdSala());
+            InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
+            PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
+            infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+            postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala());
         } catch (SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
@@ -68,40 +72,35 @@ public class Prenotazioni extends HttpServlet {
         char endC = incompleteList.get(incompleteList.size()-1).getRiga();
         if(endC - startC == 0) return null;
         int startN = Integer.MAX_VALUE, endN = Integer.MIN_VALUE;
-        for(PostiSala it : incompleteList){
-            for(Integer[] col : it.getColonnaStato()){
-                if(col[0]<startN) startN = col[0];
-                if(col[0]>endN) endN = col[0];
+        for(PostiSala postiSala : incompleteList){
+            for(int i=0; i<postiSala.getSize(); i++){
+                int col = postiSala.getColonna(i);
+                if(col < startN) startN = col;
+                if(col > endN) endN = col;
             }
         }
         if(endN-startN == 0) return null;
         ArrayList<PostiSala> res = new ArrayList<>();
+        //riempimento a vuoto, inserisco tutti i posti come inesistenti con un id fantoccio -1;
         for(char c=startC; c<=endC; c++){
             int stato = Posto.INESISTENTE_STATUS;
             PostiSala posto = new PostiSala();
             posto.setRiga(c);
             ArrayList<Integer[]> colonnaStato = new ArrayList<>();
             for(int col=startN; col<=endN; col++){
-                Integer[] postoStato = new Integer[2];
-                postoStato[0] = col;
-                postoStato[1] = stato;
-                colonnaStato.add(postoStato);
+                posto.addNewPosto(-1, col, stato);
             }
-            posto.setColonna(colonnaStato);
             res.add(posto);
         }
-        
+        //vado a settare i posti esistenti come tali.
         for(PostiSala posto : incompleteList){
             char c = posto.getRiga();
             int indiceRiga = c - startC;
-            System.out.println("indiceRiga: " + indiceRiga + " ; size: " + res.size());
-            ArrayList<Integer[]> colonna = res.get(indiceRiga).getColonnaStato();
-            for(Integer[] postoStato : posto.getColonnaStato()){
-                int indiceColonna = postoStato[0] - startN;
-                Integer[] postoStatoN = colonna.get(indiceColonna);
-                //se tutto è ok postoStatoN[0] == postoStato[0] deve essere true;
-                postoStatoN[1] = postoStato[1];
-                
+            PostiSala resPostoSala = res.get(indiceRiga);
+            for(int i=0; i<posto.getSize(); i++){
+               int indiceColonna = posto.getColonna(i) - startN;
+               if(!resPostoSala.setPosto(posto.getIdPosto(i), posto.getColonna(i), posto.getStato(i), indiceColonna))
+                   throw new RuntimeException("programming error nella Prenotazioni.java riga 102");
             }
         }
         return res;
