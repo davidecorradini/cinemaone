@@ -5,10 +5,12 @@
  */
 package Servlets;
 
+import Beans.PasswordRecovery;
 import Database.DBManager;
+import Database.PasswordRecoveryQueries;
+import Database.UtenteQueries;
 import MailMedia.MailSender;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -18,8 +20,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
 
 /**
@@ -50,8 +50,9 @@ public class RecuperaPassword extends HttpServlet {
         Date date = new Date();
         String email = request.getParameter("email");
         boolean valido = false;
+        UtenteQueries uq = new UtenteQueries(manager);
         try {
-            valido = manager.emailValida(email);
+            valido = uq.emailValida(email);
         } catch (SQLException ex) {
             
         }
@@ -71,8 +72,13 @@ public class RecuperaPassword extends HttpServlet {
                 sb.append(String.format("%02x", b & 0xff));
             }
             String md5Str = sb.toString();
+            PasswordRecoveryQueries prq = new PasswordRecoveryQueries(manager);
             try {
-                manager.insertRecuperaPassword(md5Str,email,time);
+                PasswordRecovery pr = new PasswordRecovery();
+                pr.setHash(md5Str);
+                pr.setEmail(email);
+                pr.setTime(time);
+                prq.insertRecuperaPassword(pr);
                 MailSender instance = new MailSender();
                 try {
                     instance.changePassword(email, "http://localhost:8084/Multisala/password-recovery.html?key=" + md5Str);

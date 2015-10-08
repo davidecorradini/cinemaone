@@ -6,6 +6,7 @@
 package Servlets;
 
 import Database.DBManager;
+import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -43,9 +44,10 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain;charset=UTF-8");
         HttpSession session = request.getSession(true);
-        String idUtente = (String)session.getAttribute("idUtente");        
+        String idUtente = (String)session.getAttribute("idUtente"); 
+        PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
         try {
-            manager.cancellaPrenotazioniTmp(idUtente);
+            ptq.cancellaPrenotazioniTmp(idUtente);
             session.invalidate();
             response.getWriter().println("success");
         } catch (SQLException ex) {

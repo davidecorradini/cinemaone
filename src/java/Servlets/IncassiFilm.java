@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.IncassoFilm;
 import Database.DBManager;
+import Database.IncassoFilmQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -42,8 +43,9 @@ public class IncassiFilm extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<IncassoFilm> incassoFilm = null;
+        IncassoFilmQueries ifq = new IncassoFilmQueries(manager);
         try {
-            incassoFilm = manager.getFilmIncasso();
+            incassoFilm = ifq.getFilmIncasso();
         } catch (SQLException ex) {
             
         }

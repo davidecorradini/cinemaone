@@ -2,6 +2,7 @@ package Servlets;
 
 import Beans.PrenotazioneTmp;
 import Database.DBManager;
+import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -37,9 +38,9 @@ public class ConfermaPrenotazione extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         String idUtente =(String) session.getAttribute("idUtente");//DBManager.encodeIdUtente(10);
-
+        PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
         try {
-            manager.confermaPrenotazioni(idUtente);
+            ptm.confermaPrenotazioni(idUtente);
         } catch (SQLException ex) {
             
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");

@@ -7,6 +7,8 @@ package Servlets;
 
 import Beans.PrenotazioneTmp;
 import Database.DBManager;
+import Database.PostoQueries;
+import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -49,8 +51,9 @@ public class PrenotaPosto extends HttpServlet {
         int idPrezzo=Integer.parseInt(request.getParameter("tipo"));
         
         int idPosto = 0;
+        PostoQueries pq = new PostoQueries(manager);
         try {
-            idPosto = manager.getIdPosto(x, y, idSpettacolo);
+            idPosto = pq.getIdPosto(x, y, idSpettacolo);
         } catch (SQLException ex) {
             
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
@@ -68,8 +71,9 @@ public class PrenotaPosto extends HttpServlet {
         pre.setIdPrezzo(idPrezzo);
         
         int inserito = 0;
+        PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
         try {
-            inserito = manager.aggiungiPrenotazioneTmp(pre);
+            inserito = ptq.aggiungiPrenotazioneTmp(pre);
         } catch (SQLException ex) {
            
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");

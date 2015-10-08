@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.PrenotazioneTmp;
 import Database.DBManager;
+import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -45,8 +46,9 @@ public class aggiungiPrenTmp extends HttpServlet {
         prenTmp.setIdUtente(request.getSession(false).getId());
         prenTmp.setTimestamp(null);
         prenTmp.setIdPrezzo(idPrezzo);
+        PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
         try {
-            manager.aggiungiPrenotazioneTmp(prenTmp);
+            ptq.aggiungiPrenotazioneTmp(prenTmp);
             response.getWriter().println("success");
         } catch (SQLException ex) {
             response.getWriter().println("fail " + ex);

@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.SpesaUtente;
 import Database.DBManager;
+import Database.SpesaUtenteQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ *
  *
  * @author alessandro
  */
@@ -40,8 +42,9 @@ public class ClientiTop extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<SpesaUtente> utenti = null;
+        SpesaUtenteQueries suq = new SpesaUtenteQueries(manager);
         try {
-            utenti = manager.getClientiTop(10);
+            utenti = suq.getClientiTop(10);
         } catch (SQLException ex) {
             
         }

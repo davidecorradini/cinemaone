@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.EmailTimestamp;
 import Database.DBManager;
+import Database.EmailTimestampQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -42,8 +43,9 @@ public class RecoveryPasswordForm extends HttpServlet {
             throws ServletException, IOException {
         String md5 = request.getParameter("key");
         EmailTimestamp info = null;
+        EmailTimestampQueries etsq = new EmailTimestampQueries(manager);
         try {
-            info = manager.getInfoRecovery(md5);            
+            info = etsq.getInfoRecovery(md5);            
         } catch (SQLException ex) {
             request.setAttribute("valida", false);
         }

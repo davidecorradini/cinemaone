@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.Utente;
 import Database.DBManager;
+import Database.UtenteQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -45,8 +46,9 @@ public class SignUp extends HttpServlet {
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
         
+        UtenteQueries uq = new UtenteQueries(manager);
         try {
-            if(!manager.emailValida(email)){
+            if(!uq.emailValida(email)){
                 if (password1.equals(password2)){
                     Utente ut = new Utente();
                     ut.setEmail(email);
@@ -54,7 +56,7 @@ public class SignUp extends HttpServlet {
                     ut.setIdRuolo(2);
                     ut.setCredito(0);
                     try {
-                        manager.aggiungiUtente(ut);
+                        uq.aggiungiUtente(ut);
                         response.getWriter().print("success");
                     } catch (SQLException ex) {
                         response.getWriter().print("fail");

@@ -8,6 +8,8 @@ package Servlets;
 import Beans.Film;
 import Beans.Prezzo;
 import Database.DBManager;
+import Database.FilmQueries;
+import Database.PrezzoQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,9 +42,9 @@ public class Home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("HOME");
         ArrayList<Film> films = null;
-       
+        FilmQueries fq = new FilmQueries(manager);
         try {
-            films = manager.getFilmsSlider();
+            films = fq.getFilmsSlider();
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina home, interrogazione al database fallita: " + ex);
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
@@ -50,8 +52,9 @@ public class Home extends HttpServlet {
         request.setAttribute("filmsSlider", films);
         ArrayList<Prezzo> prezzi = null;
         
+        PrezzoQueries pq = new PrezzoQueries(manager);
         try {
-            prezzi = manager.getAllPrezzi();
+            prezzi = pq.getAllPrezzi();
         } catch (SQLException ex) {
              request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
              getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

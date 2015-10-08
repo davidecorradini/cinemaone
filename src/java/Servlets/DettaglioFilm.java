@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.FilmSpettacoli;
 import Database.DBManager;
+import Database.FilmSpettacoliQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -42,8 +43,9 @@ public class DettaglioFilm extends HttpServlet {
             request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
+        FilmSpettacoliQueries fsp = new FilmSpettacoliQueries(manager);
         try {
-            dettaglioFilm = manager.getFilmSpettacoli(idFilm);
+            dettaglioFilm = fsp.getFilmSpettacoli(idFilm);
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita" + ex);
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

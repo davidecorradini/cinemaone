@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.FilmSpettacoli;
 import Database.DBManager;
+import Database.FilmSpettacoliQueries;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,9 +38,10 @@ public class ProgFilm extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("PROGFILM");
         ArrayList<FilmSpettacoli> film = new ArrayList<>();
+        FilmSpettacoliQueries fsq = new FilmSpettacoliQueries(manager);
         try {
             //TO DO seleziona solo i primi 3 spettacoli ad ogni film.
-            film = manager.getFilmSpettacoli();
+            film = fsq.getFilmSpettacoli();
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

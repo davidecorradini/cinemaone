@@ -4,6 +4,7 @@ import Beans.Ruolo;
 import Database.DBManager;
 import Beans.Utente;
 import Beans.UtenteRuolo;
+import Database.UtenteRuoloQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -29,9 +30,10 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UtenteRuolo userRuolo = null;
+        UtenteRuoloQueries urq = new UtenteRuoloQueries(manager);
                 
         try{
-            userRuolo = manager.authenticate(username, password, (String)request.getSession().getAttribute("idUtente"));
+            userRuolo = urq.authenticate(username, password, (String)request.getSession().getAttribute("idUtente"));
         }catch(SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

@@ -7,6 +7,7 @@ package Servlets;
 
 import Beans.SpettacoloSalaOrario;
 import Database.DBManager;
+import Database.SpettacoloSalaOrarioQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,9 +37,10 @@ public class Spettacoli extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("SPETTACOLI");
         ArrayList<SpettacoloSalaOrario> spettacoli = null; 
+        SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
         try {
             //TO DO aggiungere film
-            spettacoli = manager.getSpettacoli(); 
+            spettacoli = sq.getSpettacoli(); 
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
