@@ -8,9 +8,11 @@ package Servlets;
 import Beans.InfoPrenotazione;
 import Beans.PostiSala;
 import Beans.Posto;
+import Beans.Prezzo;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
 import Database.PostiSalaQueries;
+import Database.PrezzoQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,22 +46,25 @@ public class Prenotazioni extends HttpServlet {
         int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;
+        ArrayList<Prezzo> prezzi = null;
         try {
             InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
             PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
+            PrezzoQueries prezziQ = new PrezzoQueries(manager);
             infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
             postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala());
+            prezzi = prezziQ.getAllPrezzi();
         } catch (SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-        }
-        
+        } 
         stampaPostiSala(postiSala);
         postiSala = formattaInfoSala(postiSala);
         System.out.println("\n\n after:\n\n");
         stampaPostiSala(postiSala);
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         request.setAttribute("postiSala", postiSala);
+        request.setAttribute("prezzi", prezzi);
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
     }
     
