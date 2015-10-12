@@ -200,7 +200,7 @@ public class PrenotazioneTmpQueries {
      * @param idUtente
      * @throws SQLException
      */
-    public void confermaPrenotazioni(String idUtente) throws SQLException{
+    public void confermaPrenotazioni(String idUtente) throws SQLException, IllegalArgumentException{
         
         // controllo se utente loggato
         Object obj = Utente.decodeIdUtente(idUtente);

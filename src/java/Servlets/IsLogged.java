@@ -1,9 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Servlets;
 
-import Database.DBManager;
-import Database.PrenotazioneTmpQueries;
+import Beans.Utente;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,16 +16,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author roberto
+ * @author enrico
  */
-public class ConfermaPrenotazione extends HttpServlet {
-
-    private DBManager manager;
-
-    @Override
-    public void init() throws ServletException {
-        this.manager = (DBManager) super.getServletContext().getAttribute("dbmanager");
-    }
+public class IsLogged extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,30 +29,20 @@ public class ConfermaPrenotazione extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String result = "";
-
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/plain;charset=UTF-8");
+        String res = "true";
         HttpSession session = request.getSession(false);
-        String idUtente = (String)session.getAttribute("idUtente");
-        PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
-        try {
-            ptm.confermaPrenotazioni(idUtente);
-        } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-        }catch(IllegalArgumentException ex){
-            request.setAttribute("error", "l'utente deve essere loggato per poter prenotare posti");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        Object autenticato = session.getAttribute("autenticato");
+        if(autenticato == null)
+            res = "false";
+        try (PrintWriter out = response.getWriter()) {
+           out.print(res);
         }
-        
-        getServletContext().getRequestDispatcher("/jsp/prenotazioneEffettuata.jsp").forward(request, response);
     }
 
-    @Override
-    public void destroy() {
-        this.manager = null;
-    }
-
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -83,4 +70,15 @@ public class ConfermaPrenotazione extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }
