@@ -48,7 +48,7 @@ public class Login extends HttpServlet {
             session.setAttribute("autenticato", ruolo.getRuolo());
             session.setAttribute("user", user);
             session.removeAttribute("idUtente");
-            session.setAttribute("idUtente", DBManager.encodeIdUtente(user.getIdUtente()));
+            session.setAttribute("idUtente", Utente.encodeIdUtente(user.getIdUtente()));
             response.getWriter().println("success");
         }
     }

@@ -10,6 +10,7 @@ import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
 import Beans.PrenotazionePosto;
 import Beans.PrenotazioneTmp;
+import Beans.Utente;
 import Database.DBManager;
 import Database.PrenTmpPostoQueries;
 import Database.PrenotazionePostoQueries;
@@ -54,7 +55,7 @@ private DBManager manager;
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false); //da mettere poi a false
-        String idUtente = DBManager.encodeIdUtente(session.getAttribute("idUtente"));
+        String idUtente = Utente.encodeIdUtente(session.getAttribute("idUtente"));
         int idSpettacolo = 0;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
