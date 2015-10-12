@@ -35,7 +35,11 @@ import org.json.JSONObject;
  * formato json in dettaglio: {"$idPosto" : {"x" : $x, "y" : $y, "stato" : "tmp", "timestamp" : $timestamp}}
  */
 public class StatoPrenotazioni extends HttpServlet {
-private DBManager manager;
+    private DBManager manager;
+    private static final String postoTuo = "tuo";
+    private static final String postoTuoTmp = "tuo-tmp";
+    private static final String postoOccupato = "occupato";
+    private static final String postoOccupatoTmp = "occupato-tmp";
     
     @Override
     public void init() throws ServletException{
@@ -67,12 +71,12 @@ private DBManager manager;
             return;
         }
         
-        ArrayList<PrenTmpPosto> result;
+        ArrayList<PrenTmpPosto> occupiedTmp;
         ArrayList<PrenotazionePosto> occupied;
         PrenTmpPostoQueries ptpq = new PrenTmpPostoQueries(manager);
         PrenotazionePostoQueries ppq = new PrenotazionePostoQueries(manager);
         try {
-            result = ptpq.getPrenotazioneTmp(idSpettacolo);
+            occupiedTmp = ptpq.getPrenotazioneTmp(idSpettacolo);
             occupied = ppq.getPostiOccupati(idSpettacolo);
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
@@ -85,7 +89,7 @@ private DBManager manager;
          
         ArrayList<Posto> postiSettati = new ArrayList<>();
         
-//creazione json, serializzo il result...trova una libreria decente.
+//creazione json, serializzo i posti occupati
         JSONObject json = new JSONObject();
         try {
             for(PrenotazionePosto res : occupied){
@@ -95,9 +99,10 @@ private DBManager manager;
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", String.valueOf(posto.getRiga()));
-                String stato = "occupato";
-                /*if(res.getPrenotazione().getIdUtente().equals(idUtente))
-                    stato = "tuo-pagato";*/
+                String stato = postoOccupato;
+                Object decodedId = Utente.decodeIdUtente(idUtente);
+                if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId).intValue())
+                    stato = postoTuo;
                 jsonObject.put("stato", stato);
                 java.util.Date date= new java.util.Date();
                 jsonObject.put("timestamp", new Timestamp(date.getTime()));
@@ -105,37 +110,32 @@ private DBManager manager;
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
             
-            for(PrenTmpPosto res : result){ //cicla su prenotazioniTmp.
+            for(PrenTmpPosto res : occupiedTmp){ //cicla su prenotazioniTmp.
                 Posto posto = res.getPosto();
-               
-                if(!postiSettati.contains(posto)){ //non dovrebbe mai essere vera.                   
-                    
-                    PrenotazioneTmp pren = res.getPren();
-                    JSONObject jsonObject= new JSONObject();
-                    
-                    jsonObject.put("x", posto.getColonna());
-                    jsonObject.put("y", String.valueOf(posto.getRiga()));
-                    String stato = "tmp";
-                    if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
-                        stato = "tuo";
-                                       
-                    jsonObject.put("stato", stato);
-                    java.util.Date date= new java.util.Date();
-                    jsonObject.put("timestamp", new Timestamp(date.getTime()));
-                    
-                    json.put(Integer.toString(posto.getIdPosto()), jsonObject);
-                }else{
-                    //errore
-                    }  
+                PrenotazioneTmp pren = res.getPren();
+                JSONObject jsonObject= new JSONObject();
+                
+                jsonObject.put("x", posto.getColonna());
+                jsonObject.put("y", String.valueOf(posto.getRiga()));
+                String stato = postoOccupatoTmp;
+                if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
+                    stato = postoTuoTmp;
+                
+                jsonObject.put("stato", stato);
+                java.util.Date date= new java.util.Date();
+                jsonObject.put("timestamp", new Timestamp(date.getTime()));
+                
+                json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
         } catch (JSONException ex) {
             request.setAttribute("error", "errore nella creazione del json");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }        
-        
+        String jsonStr = json.toString();
+        System.out.println("json: " + jsonStr);
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
-            out.println(json.toString());
+            out.println(jsonStr);
         }
     }
     
