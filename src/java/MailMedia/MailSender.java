@@ -93,18 +93,8 @@ public class MailSender {
     }
     
     public void changePassword(String to, String link) throws MessagingException{        
-        this.sendMail(to, "Modifica Password CinemaOne", "Testo che verrà gentilmente editato da Davide Corradini \n"+ link, null);
+        this.sendMail(to, "Modifica Password CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di recupero password\n"
+                + "se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto:\n"
+                + link, null);
     }
-    
-    /*
-    public static void main(String[] args){
-        try {
-            MailSender instance = new MailSender();
-            //instance.changePassword("stefano__1994@hotmail.it", "http://www.google.it");
-            //instance.sendMail("en.magnago@gmail.com", "test", "testtext", null);
-            instance.changePassword("fellin.roberto@hotmail.it", "http://www.google.it");
-        } catch (MessagingException ex) {
-           System.out.println("ERRORE NELL'INVIO DELLA MAIL" + ex);
-        }
-    }*/
 }
