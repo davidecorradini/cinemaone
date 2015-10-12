@@ -9,8 +9,7 @@ import Beans.Posto;
 import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
 import Beans.PrenotazioneTmp;
-import static Database.DBManager.decodeIdUtente;
-import static Database.DBManager.encodeIdUtente;
+import Beans.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -187,7 +186,7 @@ public class PrenotazioneTmpQueries {
         
         PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.ID_UTENTE=? WHERE PT.ID_UTENTE=?");
         try {
-            stm.setString(1, encodeIdUtente(id));
+            stm.setString(1, Utente.encodeIdUtente(id));
             stm.setString(2, idTmp);
             stm.executeUpdate();
         } finally {
@@ -204,7 +203,7 @@ public class PrenotazioneTmpQueries {
     public void confermaPrenotazioni(String idUtente) throws SQLException{
         
         // controllo se utente loggato
-        Object obj = decodeIdUtente(idUtente);
+        Object obj = Utente.decodeIdUtente(idUtente);
         if (!(obj instanceof Integer))
             throw new IllegalArgumentException("Conferma prenotazioni: invalid Id");
         

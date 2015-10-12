@@ -30,30 +30,7 @@ public class DBManager implements Serializable {
             throw new RuntimeException(ex.toString(), ex);
         }
     }
-    
-    public static String encodeIdUtente(Object obj){
         
-        if(obj instanceof Integer){
-            return String.valueOf((char)1) + String.valueOf((int)obj);
-        }
-        if(obj instanceof String)
-            return "t" + (String)obj;
-        
-        return null;
-        
-    }
-    
-    public static Object decodeIdUtente(String s){
-        
-        if(s.length()>0 && s.charAt(0) == (char)1){
-            s=s.substring(1);
-            return Integer.parseInt(s);
-        }
-        
-        return s.substring(1);
-        
-    }
-    
     
 //    /**
 //     * inserisce una nuova prenotazione.

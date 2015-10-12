@@ -17,6 +17,38 @@ public class Utente implements Serializable{
     private String password;
     private double credito;
     private int idRuolo;
+    
+    /**
+     * fa l'encode dell'id-utente.
+     * @param obj id utente: Integer or String.
+     * @return encoded id utente.
+     */
+    public static String encodeIdUtente(Object obj){
+        
+        if(obj instanceof Integer){
+            return String.valueOf((char)1) + String.valueOf((int)obj);
+        }
+        if(obj instanceof String)
+            return "t" + (String)obj;
+        
+        return null;
+        
+    }
+    
+    /**
+     * dall' encoded id all'id. 
+     * @param s encoded id
+     * @return oggetto di tipo string se id temporaneo, integer altrimenti.
+     */
+    public static Object decodeIdUtente(String s){
+        
+        if(s.length()>0 && s.charAt(0) == (char)1){
+            s=s.substring(1);
+            return Integer.parseInt(s);
+        }
+        
+        return s.substring(1);
+    }
 
     /**
      * @return the idUtente
