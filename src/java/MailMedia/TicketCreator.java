@@ -6,6 +6,7 @@
 package MailMedia;
 
 import Beans.Film;
+import Beans.Posto;
 import Beans.Prenotazione;
 import Beans.Sala;
 import Beans.Spettacolo;
@@ -41,7 +42,7 @@ public class TicketCreator {
     this.destinationPath = destinationPath;
     }
     
-    public String generaTicket(Utente utente, Prenotazione prenotazione, Spettacolo spettacolo, Film film, Sala sala) throws DocumentException, FileNotFoundException, IOException{
+    public String generaTicket(Utente utente, Prenotazione prenotazione, Spettacolo spettacolo, Film film, Sala sala, Posto posto) throws DocumentException, FileNotFoundException, IOException{
                 
         Paragraph titlePar = new Paragraph(new Phrase("cinemaOne\n" + film.getTitolo() + "\n\n", FontFactory.getFont(titleFont, titleSize)));
         titlePar.setAlignment(Element.ALIGN_CENTER);
@@ -99,22 +100,4 @@ public class TicketCreator {
         document.close();
         return fileName;
     }
-   
-    /*
-    public static void main(String[] args) throws DocumentException, IOException{
-        TicketCreator ticketCreator = new TicketCreator("/home/enrico/Downloads/");
-        Utente user = new Utente();
-        user.setEmail("miaemail@mail.m");
-        Film film = new Film();
-        film.setTitolo("titolo film");
-        film.setRegista("regista film");
-        Spettacolo spett = new Spettacolo();
-        spett.setDataOra(Timestamp.from(Instant.now()));
-        Sala sala = new Sala();
-        sala.setNome("sala bellissima");
-        Prenotazione pren = new Prenotazione();
-        pren.setIdPrenotazione(12345);
-        ticketCreator.generaTicket(user, pren, spett, film, sala);
-    }
-    */
 }

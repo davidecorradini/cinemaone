@@ -59,7 +59,7 @@ public class MailSender {
         Session session = getSession();
         //Create a new message
         Message msg = new MimeMessage(session);
-//Set the FROM and TO fields –
+//Set the FROM and TO fields
         msg.setFrom(new InternetAddress("info@peermanagement.it"));
         msg.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to,false));
