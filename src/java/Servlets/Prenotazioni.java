@@ -54,8 +54,10 @@ public class Prenotazioni extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
+        stampaPostiSala(postiSala);
         postiSala = formattaInfoSala(postiSala);
-        
+        System.out.println("\n\n after:\n\n");
+        stampaPostiSala(postiSala);
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         request.setAttribute("postiSala", postiSala);
         request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
@@ -64,6 +66,18 @@ public class Prenotazioni extends HttpServlet {
     @Override
     public void destroy(){
         this.manager = null;
+    }
+    
+    private void stampaPostiSala(ArrayList<PostiSala> postiSala){
+        for(PostiSala posto : postiSala){
+            System.out.println("postoSala:");
+            for(int i=0; i<posto.getSize(); i++){
+                System.out.print("\tidPosto: " + posto.getIdPosto(i));
+                System.out.print("\tstato: " + posto.getStato(i));
+                System.out.print("\tcolonna: " + posto.getColonna(i));
+                System.out.println("\triga: " + posto.getRiga());
+            }
+        }
     }
     
     ArrayList<PostiSala> formattaInfoSala(ArrayList<PostiSala> incompleteList){

@@ -22,7 +22,7 @@ public class PostiSala {
         Integer[] array = new Integer[3];
         array[idPostoIndex] = idPosto;
         array[columnIndex] = colonna;
-        array[statoIndex] = statoIndex;
+        array[statoIndex] = stato;
         return array;
     }
     
