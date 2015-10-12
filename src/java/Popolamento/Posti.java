@@ -42,48 +42,73 @@ public class Posti {
     
     public void inserisciPosti() throws SQLException{
         PreparedStatement stm;
-        for (char i='a'; i<'a'+5; i++){
-            for(int j=1;j<=10;j++){
-                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(1,?,?,0)");
+        for (char i='a'; i<='a'+5; i++){
+            for(int j=1;j<=10;j++){               
+                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(1,?,?,?)");
                 stm.setString(1, String.valueOf(i));
                 stm.setInt(2, j);
-		stm.executeUpdate();
+                if (((i=='a') && ((j==1)||(j==2)||(j==9)||j==10)) || ((i=='b') && ((j==1)||(j==10)))){
+                    stm.setInt(3, 1);
+                } else {
+                    stm.setInt(3, 0);
+                }
+                stm.executeUpdate();
             }
         }
         
-        for (char i='a';i<='a'+9;i++){
+        for (char i='a';i<='a'+10;i++){
             for(int j=1;j<=10;j++){
                 
-                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(2,?,?,0)");
+                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(2,?,?,?)");
                 stm.setString(1, String.valueOf(i));
                 stm.setInt(2, j);
+                if ((i=='f') || ((i=='a') && ((j==1)||(j==2)||(j==9)||j==10)) || ((i=='b') && ((j==1)||(j==10)))){
+                    stm.setInt(3, 1);
+                } else {
+                    stm.setInt(3, 0);
+                }
 		stm.executeUpdate();
             }
         }
         
-        for (char i='a';i<='a'+9;i++){
+        for (char i='a';i<='a'+10;i++){
             for(int j=1;j<=10;j++){
-                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(3,?,?,0)");
+                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(3,?,?,?)");
                 stm.setString(1, String.valueOf(i));
                 stm.setInt(2, j);
+                if ((i=='f') || ((i=='a') && ((j==1)||(j==2)||(j==9)||j==10)) || ((i=='b') && ((j==1)||(j==10)))){
+                    stm.setInt(3, 1);
+                } else {
+                    stm.setInt(3, 0);
+                }
+		stm.executeUpdate();
+            }
+        }
+        
+        for (char i='a';i<='a'+10;i++){
+            for(int j=1;j<=21;j++){
+                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(4,?,?,?)");
+                stm.setString(1, String.valueOf(i));
+                stm.setInt(2, j);
+                if ((j==11) || (i=='f') || ((i=='a') && ((j==1)||(j==2)||(j==9)||j==10)) || ((i=='b') && ((j==1)||(j==21)))){
+                    stm.setInt(3, 1);
+                } else {
+                    stm.setInt(3, 0);
+                }
 		stm.executeUpdate();
             }
         }
         
         for (char i='a';i<='a'+9;i++){
             for(int j=1;j<=20;j++){
-                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(4,?,?,0)");
+                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(5,?,?,?)");
                 stm.setString(1, String.valueOf(i));
                 stm.setInt(2, j);
-		stm.executeUpdate();
-            }
-        }
-        
-        for (char i='a';i<='a'+9;i++){
-            for(int j=1;j<=20;j++){
-                stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(5,?,?,0)");
-                stm.setString(1, String.valueOf(i));
-                stm.setInt(2, j);
+                if ((j==11) || (i=='f') || ((i=='a') && ((j==1)||(j==2)||(j==9)||j==10)) || ((i=='b') && ((j==1)||(j==21)))){
+                    stm.setInt(3, 1);
+                } else {
+                    stm.setInt(3, 0);
+                }
 		stm.executeUpdate();
             }
         }
