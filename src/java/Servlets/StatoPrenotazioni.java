@@ -86,8 +86,6 @@ public class StatoPrenotazioni extends HttpServlet {
             return;
         }
         
-         
-               
 //creazione json, serializzo i posti occupati
         JSONObject json = new JSONObject();
         try {
@@ -102,8 +100,7 @@ public class StatoPrenotazioni extends HttpServlet {
                 if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId))
                     stato = postoTuo;
                 jsonObject.put("stato", stato);
-                java.util.Date date= new java.util.Date();
-                jsonObject.put("timestamp", new Timestamp(date.getTime()));
+                jsonObject.put("timestamp", tempoRimanente(res.getPrenotazione().getDataOraOperazione()));
                 
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
@@ -121,8 +118,7 @@ public class StatoPrenotazioni extends HttpServlet {
                     stato = postoTuoTmp;
                 
                 jsonObject.put("stato", stato);
-                java.util.Date date= new java.util.Date();
-                jsonObject.put("timestamp", new Timestamp(date.getTime()));
+                jsonObject.put("timestamp", tempoRimanente(res.getPren().getTimestamp()));
                 
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
@@ -140,6 +136,11 @@ public class StatoPrenotazioni extends HttpServlet {
     @Override
     public void destroy(){
         this.manager = null;
+    }
+    
+    private Timestamp tempoRimanente(Timestamp prenTime){
+        long tempoRestante = prenTime.getTime() + PrenotazioneTmp.validity*60*1000 - System.currentTimeMillis();
+        return new Timestamp(tempoRestante);
     }
 
 
