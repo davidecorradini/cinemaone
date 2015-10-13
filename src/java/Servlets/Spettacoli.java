@@ -35,7 +35,6 @@ public class Spettacoli extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("SPETTACOLI");
         ArrayList<SpettacoloSalaOrario> spettacoli = null; 
         SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
         try {

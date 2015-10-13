@@ -8,7 +8,6 @@ package Servlets;
 import Beans.FilmSpettacoli;
 import Database.DBManager;
 import Database.FilmSpettacoliQueries;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,9 +33,7 @@ public class ProgFilm extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        System.out.println("PROGFILM");
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<FilmSpettacoli> film = new ArrayList<>();
         FilmSpettacoliQueries fsq = new FilmSpettacoliQueries(manager);
         try {

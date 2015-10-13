@@ -40,10 +40,10 @@ public class PrenotaPosto extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String result = "";
+        String result;
 
         HttpSession session = request.getSession(false);
-        String idUtente = (String) session.getAttribute("idUtente");//DBManager.encodeIdUtente(10);
+        String idUtente = (String) session.getAttribute("idUtente");
 
         int x =Integer.parseInt(request.getParameter("x"));
         String y =request.getParameter("y");
@@ -121,15 +121,4 @@ public class PrenotaPosto extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }
