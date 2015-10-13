@@ -43,7 +43,7 @@ public class aggiungiPrenTmp extends HttpServlet {
         PrenotazioneTmp prenTmp = new PrenotazioneTmp();
         prenTmp.setIdPosto(idPosto);
         prenTmp.setIdSpettacolo(idSpettacolo);
-        prenTmp.setIdUtente(request.getSession(false).getId()); //encoded ID.
+        prenTmp.setIdUtente((String)request.getSession(false).getAttribute("idUtente")); //encoded ID.
         prenTmp.setTimestamp(null);
         prenTmp.setIdPrezzo(idPrezzo);
         PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
