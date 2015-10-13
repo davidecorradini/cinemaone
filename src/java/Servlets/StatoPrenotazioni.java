@@ -59,7 +59,7 @@ public class StatoPrenotazioni extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession(false); //da mettere poi a false
-        String idUtente = Utente.encodeIdUtente(session.getAttribute("idUtente"));
+        String idUtente = (String)(session.getAttribute("idUtente"));
         int idSpettacolo = 0;
         try{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
@@ -87,21 +87,19 @@ public class StatoPrenotazioni extends HttpServlet {
         }
         
          
-        ArrayList<Posto> postiSettati = new ArrayList<>();
-        
+               
 //creazione json, serializzo i posti occupati
         JSONObject json = new JSONObject();
         try {
             for(PrenotazionePosto res : occupied){
                 Posto posto = res.getPosto();
-                postiSettati.add(posto);
                 Prenotazione pren = res.getPrenotazione();
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", String.valueOf(posto.getRiga()));
                 String stato = postoOccupato;
-                Object decodedId = Utente.decodeIdUtente(idUtente);
-                if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId).intValue())
+                Object decodedId = Utente.decodeIdUtente(idUtente); //nella tabella prenotazioni c'è l'id come intero (non encoded)
+                if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId))
                     stato = postoTuo;
                 jsonObject.put("stato", stato);
                 java.util.Date date= new java.util.Date();
@@ -118,6 +116,7 @@ public class StatoPrenotazioni extends HttpServlet {
                 jsonObject.put("x", posto.getColonna());
                 jsonObject.put("y", String.valueOf(posto.getRiga()));
                 String stato = postoOccupatoTmp;
+                //in prenotazioneTmp c'è l'id encoded.
                 if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
                     stato = postoTuoTmp;
                 
