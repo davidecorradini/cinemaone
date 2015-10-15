@@ -57,10 +57,7 @@ public class Prenotazioni extends HttpServlet {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         } 
-        stampaPostiSala(postiSala);
         postiSala = formattaInfoSala(postiSala);
-        System.out.println("\n\n after:\n\n");
-        stampaPostiSala(postiSala);
         request.setAttribute("infoPrenotazione", infoPrenotazione);
         request.setAttribute("postiSala", postiSala);
         request.setAttribute("prezzi", prezzi);
@@ -72,17 +69,6 @@ public class Prenotazioni extends HttpServlet {
         this.manager = null;
     }
     
-    private void stampaPostiSala(ArrayList<PostiSala> postiSala){
-        for(PostiSala posto : postiSala){
-            System.out.println("postoSala:");
-            for(int i=0; i<posto.getSize(); i++){
-                System.out.print("\tidPosto: " + posto.getIdPosto(i));
-                System.out.print("\tstato: " + posto.getStato(i));
-                System.out.print("\tcolonna: " + posto.getColonna(i));
-                System.out.println("\triga: " + posto.getRiga());
-            }
-        }
-    }
     
     ArrayList<PostiSala> formattaInfoSala(ArrayList<PostiSala> incompleteList){
         if(incompleteList.isEmpty()) return null;
@@ -122,8 +108,7 @@ public class Prenotazioni extends HttpServlet {
             }
         }
         return res;
-    }
-    
+    }    
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

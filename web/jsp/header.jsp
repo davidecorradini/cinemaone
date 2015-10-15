@@ -38,7 +38,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/index.jsp'}"> class="active"</c:if>><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
                             <li<c:if test="${pageContext.request.servletPath == '/jsp/film.jsp' || pageContext.request.servletPath == '/jsp/dettaglio-film.jsp'}"> class="active"</c:if>><a href="film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Film</a></li>
-                            <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp' || pageContext.request.servletPath == '/jsp/prenotazione.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettcaoli</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/spettacoli.jsp' || pageContext.request.servletPath == '/jsp/prenotazione.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettacoli</a></li>
                             <li class="dropdown" id="menu">
                                 <%@ include file="menu.jsp" %>
                             </li>

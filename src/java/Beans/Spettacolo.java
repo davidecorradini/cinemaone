@@ -7,6 +7,7 @@ package Beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -81,4 +82,22 @@ public class Spettacolo implements Serializable{
     public void setDataOra(Timestamp timeStamp) {
        this.timeStamp = timeStamp;
     }    
+    
+    /**
+     * @return the data
+     */
+    public String getData(){
+        Date date = new Date(this.getTimeStamp().getTime());
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        return df.format(date);    
+    }
+
+    /**
+     * @return the ora
+     */
+    public String getOra(){
+        Date date = new Date(this.getTimeStamp().getTime());
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+        return df.format(date);
+    }
 }

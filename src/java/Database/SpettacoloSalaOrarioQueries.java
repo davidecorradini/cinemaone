@@ -8,6 +8,7 @@ package Database;
 import Beans.Film;
 import Beans.Genere;
 import Beans.Sala;
+import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,9 +50,7 @@ public class SpettacoloSalaOrarioQueries {
         try {
             while(rs.next()){
                 SpettacoloSalaOrario tmp = new SpettacoloSalaOrario();
-                Film tmpFilm = new Film();
-                Sala tmpSala = new Sala();
-                Timestamp dataOra;
+                Film tmpFilm = new Film();             
                 tmpFilm.setDurata(rs.getInt("DURATA"));
                 tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                 tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
@@ -67,20 +66,20 @@ public class SpettacoloSalaOrarioQueries {
                 tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
                 tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
                 
+                Spettacolo spett = new Spettacolo();
+                spett.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                spett.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
+                Sala tmpSala = new Sala();
                 tmpSala.setDescrizione(rs.getString("DESCRIZIONE2"));
                 tmpSala.setIdSala(rs.getInt("ID_SALA"));
                 tmpSala.setNome(rs.getString("NOME"));
-                dataOra = rs.getTimestamp("DATA_ORA");
+                
                 tmp.setFilm(tmpFilm);
                 tmp.setSala(tmpSala);
                 tmp.setGenere(tmpGenere);
-                tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
-                tmp.setDataOra(dataOra);
-                
-                String data = dataOra.toString().substring(0, 10);
-                String[] data1 = data.split("-");
-                tmp.setData(data1[2] + "-" + data1[1] + "-" + data1[0]);
-                tmp.setOra(dataOra.toString().substring(11, 16));
+                tmp.setSpettacolo(spett);
+             
                 res.add(tmp);
             }
         } finally {

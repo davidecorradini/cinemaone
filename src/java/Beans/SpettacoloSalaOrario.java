@@ -6,19 +6,18 @@
 package Beans;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
  * @author enrico
  */
 public class SpettacoloSalaOrario {
-    private int idSpettacolo;
+    private Spettacolo spettacolo;
     private Film film;
     private Sala sala;
     private Genere genere;
-    private Timestamp dataOra;
-    private String data;
-    private String ora;
 
     /**
      * @return the film
@@ -52,14 +51,17 @@ public class SpettacoloSalaOrario {
      * @return the dataOra
      */
     public Timestamp getDataOra() {
-        return dataOra;
+        return spettacolo.getTimeStamp();
     }
 
     /**
      * @param dataOra the dataOra to set
      */
     public void setDataOra(Timestamp dataOra) {
-        this.dataOra = dataOra;
+        if(spettacolo == null){
+            spettacolo = new Spettacolo();
+        }
+        spettacolo.setDataOra(dataOra);
     }
 
     /**
@@ -77,45 +79,13 @@ public class SpettacoloSalaOrario {
     }
 
     /**
-     * @return the data
-     */
-    public String getData() {
-        return data;
-    }
-
-    /**
-     * @param data the data to set
-     */
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    /**
-     * @return the ora
-     */
-    public String getOra() {
-        return ora;
-    }
-
-    /**
-     * @param ora the ora to set
-     */
-    public void setOra(String ora) {
-        this.ora = ora;
-    }
-
-    /**
      * @return the idSpettacolo
      */
-    public int getIdSpettacolo() {
-        return idSpettacolo;
-    }
-
-    /**
-     * @param idSpettacolo the idSpettacolo to set
-     */
-    public void setIdSpettacolo(int idSpettacolo) {
-        this.idSpettacolo = idSpettacolo;
+    public Spettacolo getSpettacolo() {
+        return spettacolo;
     }
     
+    public void setSpettacolo(Spettacolo spettacolo){
+        this.spettacolo = spettacolo;
+    }
 }

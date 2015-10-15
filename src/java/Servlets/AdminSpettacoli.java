@@ -9,7 +9,6 @@ import Beans.SpettacoloSalaOrario;
 import Database.DBManager;
 import Database.SpettacoloSalaOrarioQueries;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -39,7 +38,6 @@ public class AdminSpettacoli extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ADMIN-SPETTACOLI");
         String idSpettacoloStr = request.getParameter("idspettacolo");
         if(idSpettacoloStr != null){
            /*  int idSpettacolo = Integer.parseInt(idSpettacoloStr);
