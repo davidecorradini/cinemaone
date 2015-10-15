@@ -40,7 +40,6 @@ public class Home extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("HOME");
         ArrayList<Film> films = null;
         FilmQueries fq = new FilmQueries(manager);
         try {

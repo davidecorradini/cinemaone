@@ -94,51 +94,57 @@ $("#recovery-form").submit(function(event) {
 // Prenotazione
 
 function updatePosti (spettacolo) {
-    $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
-        $(".posto").each(function (i, element) {
-            $(element).removeClass("occupato");
-            $(element).removeClass("occupato-tmp");
-            $(element).removeClass("selezionato");
-            $(element).addClass("libero");
-        });
-        $.each(result, function (key, val) {
-            var x, y, stato, timestamp, postoName;
-            $.each(val, function (key2, val2) {
-                if (key2 == "x") {
-                    if (parseInt(val2) >= 10) {
-                        x = val2;
-                    } else {
-                        x = "0" + val2;
-                    }
-                } else if (key2 == "y") {
-                    y = val2.toString().toUpperCase();
-                } else if (key2 == "stato") {
-                    stato = val2;
-                } else if (key2 == "timestamp") {
-                    timestamp = val2;
-                }
-                postoName = y + x;
-            });
+    var interval = 1000;
+    setInterval(function () {
+        $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
             $(".posto").each(function (i, element) {
-                if ($(element).text() == postoName) {
-                    if (stato == "tmp") {
-                        $(element).removeClass("libero");
-                        $(element).addClass("occupato-tmp");
-                        
-                    } else if (stato == "occupato") {
-                        $(element).removeClass("libero");
-                        $(element).addClass("occupato");
-                    } else if (stato == "tuo") {
-                        $(element).removeClass("libero");
-                        $(element).addClass("selezionato");
-                    }
-                }
+                $(element).removeClass("occupato");
+                $(element).removeClass("occupato-tmp");
+                $(element).removeClass("selezionato");
+                $(element).addClass("libero");
+                $(element).prop('title', '');
             });
+            $.each(result, function (key, val) {
+                var x, y, stato, timestamp, postoName;
+                $.each(val, function (key2, val2) {
+                    if (key2 == "x") {
+                        if (parseInt(val2) >= 10) {
+                            x = val2;
+                        } else {
+                            x = "0" + val2;
+                        }
+                    } else if (key2 == "y") {
+                        y = val2.toString().toUpperCase();
+                    } else if (key2 == "stato") {
+                        stato = val2;
+                    } else if (key2 == "timestamp") {
+                        timestamp = val2;
+                    }
+                    postoName = y + x;
+                });
+                $(".posto").each(function (i, element) {
+                    if ($(element).text() == postoName) {
+                        if (stato == "occupato-tmp") {
+                            $(element).removeClass("libero");
+                            $(element).addClass("occupato-tmp");
+                            $(element).prop('title', timestamp);
+                        } else if (stato == "occupato") {
+                            $(element).removeClass("libero");
+                            $(element).addClass("occupato");
+                            $(element).prop('title', '');
+                        } else if (stato == "tuo") {
+                            $(element).removeClass("libero");
+                            $(element).addClass("selezionato");
+                            $(element).prop('title', '');
+                        }
+                    }
+                });
+            });
+            interval = 1000;
+        }).fail( function(d, textStatus, error) {
+            interval = 5000;
         });
-        setTimeout(updatePosti, 1000);
-    }).fail( function(d, textStatus, error) {
-        setTimeout(updatePosti, 5000);
-    });
+    }, interval);
 }
 
 function addSelezionato (postoString) {

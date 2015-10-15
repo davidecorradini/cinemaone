@@ -34,7 +34,6 @@ public class DettaglioFilm extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("DETTAGLIOFILM");
         FilmSpettacoli dettaglioFilm = new FilmSpettacoli();
         Integer idFilm = null;
         try{

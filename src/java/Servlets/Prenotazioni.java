@@ -42,7 +42,6 @@ public class Prenotazioni extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("PRENOTAZIONI");
         int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;

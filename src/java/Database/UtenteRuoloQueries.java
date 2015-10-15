@@ -29,10 +29,11 @@ public class UtenteRuoloQueries {
      *
      * @param email l'indirizzo e-mail dell'utente
      * @param password la password
+     * @param idTmp idTemporaneo
      * @return null se l'utente non è autenticato, un oggetto User se l'utente esiste ed è autenticato
      * @throws java.sql.SQLException
      */
-    public UtenteRuolo authenticate(String email, String password,String idTmp) throws SQLException {
+    public UtenteRuolo authenticate(String email, String password, String idTmp) throws SQLException {
         UtenteRuolo res;
         Utente utente = null;
         Ruolo ruolo = null;
@@ -54,9 +55,10 @@ public class UtenteRuoloQueries {
                 ruolo = new Ruolo();
                 ruolo.setIdRuolo(rs.getInt("ID_RUOLO"));
                 ruolo.setRuolo(rs.getString("RUOLO"));
-                PrenotazioneTmpQueries prenTmpQ = new PrenotazioneTmpQueries(con);
-                prenTmpQ.aggiornaIdPrenotazioneTmp(idTmp,utente.getIdUtente());
-                
+                if(idTmp != null){
+                    PrenotazioneTmpQueries prenTmpQ = new PrenotazioneTmpQueries(con);
+                    prenTmpQ.aggiornaIdPrenotazioneTmp(idTmp,utente.getIdUtente());
+                }                
             }
         }finally{
             stm.close();

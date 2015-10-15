@@ -12,6 +12,7 @@ import java.sql.Timestamp;
  * @author enrico
  */
 public class PrenotazioneTmp {
+    public static final int validity = 5; //minutes
     private String idUtente;
     private int idSpettacolo;
     private int idPosto;
