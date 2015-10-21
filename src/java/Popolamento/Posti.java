@@ -42,7 +42,7 @@ public class Posti {
     
     public void inserisciPosti() throws SQLException{
         PreparedStatement stm;
-        for (char i='a'; i<='a'+10; i++){
+        for (char i='a'; i<='a'+9; i++){
             for(int j=1;j<=13;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=3) && (j<=11))) || 
                         (((i>='c') && (i<='d')) && ((j>=2) && (j<=12))) ||
@@ -57,7 +57,7 @@ public class Posti {
             }
         }
         
-       for (char i='a'; i<='a'+10; i++){
+       for (char i='a'; i<='a'+9; i++){
             for(int j=1;j<=13;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=3) && (j<=11))) || 
                         (((i>='c') && (i<='d')) && ((j>=2) && (j<=12))) ||
@@ -73,7 +73,7 @@ public class Posti {
         }
         
         
-        for (char i='a'; i<='a'+8; i++){
+        for (char i='a'; i<='a'+7; i++){
             for(int j=1;j<=11;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=2) && (j<=10) && (j!=6))) || 
                         (((i>='c') && (i<='d')) && ((j!=6))) ||
@@ -89,7 +89,7 @@ public class Posti {
             }
         }
         
-        for (char i='a'; i<='a'+8; i++){
+        for (char i='a'; i<='a'+7; i++){
             for(int j=1;j<=11;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=2) && (j<=10) && (j!=6))) || 
                         (((i>='c') && (i<='d')) && ((j!=6))) ||
@@ -105,7 +105,7 @@ public class Posti {
             }
         }
         
-        for (char i='a'; i<='a'+8; i++){
+        for (char i='a'; i<='a'+7; i++){
             for(int j=1;j<=13;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=3) && (j<=11))) || 
                         (((i>='d') && (i<='e')) && ((j>=2) && (j<=12))) ||
