@@ -127,6 +127,7 @@ public class StatoPrenotazioni extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }        
         String jsonStr = json.toString();
+        System.out.println("\n\n\tstato prenotazioni:\n"+json);
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
