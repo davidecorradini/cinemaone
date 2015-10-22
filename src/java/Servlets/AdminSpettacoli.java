@@ -66,13 +66,13 @@ public class AdminSpettacoli extends HttpServlet {
         }else{
             ArrayList<SpettacoloSalaOrario> spettacoli = null;
             SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
-            try {
-                //TO DO aggiungere film
-                spettacoli = sq.getSpettacoli();
-            } catch (SQLException ex) {
-                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-            }
+//            try {
+//                //TO DO aggiungere film
+//                spettacoli = sq.getSpettacoli();
+//            } catch (SQLException ex) {
+//                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+//                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+//            }
             request.setAttribute("spettacoli", spettacoli);
             getServletContext().getRequestDispatcher("/jsp/admin-spettacoli.jsp").forward(request, response);
         }

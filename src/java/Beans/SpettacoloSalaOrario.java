@@ -6,13 +6,7 @@
 package Beans;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-/**
- *
- * @author enrico
- */
 public class SpettacoloSalaOrario {
     private Spettacolo spettacolo;
     private Film film;
