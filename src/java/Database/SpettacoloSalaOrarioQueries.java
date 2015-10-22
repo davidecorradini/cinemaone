@@ -272,8 +272,7 @@ public class SpettacoloSalaOrarioQueries {
         if(ruoloRuolo != null){
             stm.setString(index, ruoloRuolo);
             index++;
-        }
-        
+        }        
         return stm;
     }
 }
