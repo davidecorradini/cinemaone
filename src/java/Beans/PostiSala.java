@@ -15,14 +15,16 @@ public class PostiSala {
     private static final int idPostoIndex = 0;
     private static final int columnIndex = 1;
     private static final int statoIndex = 2;
+    private static final int percIndex = 3;
     private char riga;
     private ArrayList<Integer[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
     
-    private Integer[] setArray(int idPosto, int colonna, int stato){
-        Integer[] array = new Integer[3];
+    private Integer[] setArray(int idPosto, int colonna, int stato, int perc){
+        Integer[] array = new Integer[4];
         array[idPostoIndex] = idPosto;
         array[columnIndex] = colonna;
         array[statoIndex] = stato;
+        array[percIndex] = perc;
         return array;
     }
     
@@ -40,10 +42,10 @@ public class PostiSala {
         this.riga = riga;
     }
     
-    public void addNewPosto(int idPosto, int colonna, int stato){
+    public void addNewPosto(int idPosto, int colonna, int stato, int perc){
         if(colonnaStato == null)
             colonnaStato = new ArrayList<>();
-        colonnaStato.add(setArray(idPosto, colonna, stato));
+        colonnaStato.add(setArray(idPosto, colonna, stato, perc));
     }
     
     public int getSize(){
@@ -57,10 +59,10 @@ public class PostiSala {
      * @param index
      * @return 
      */
-    public boolean setPosto(int idPosto, int colonna, int stato, int index){
+    public boolean setPosto(int idPosto, int colonna, int stato, int index, int perc){
         if(index >= getSize())
             return false;
-        colonnaStato.set(index, setArray(idPosto, colonna, stato));
+        colonnaStato.set(index, setArray(idPosto, colonna, stato,perc));
         return true;
     }
     /**
