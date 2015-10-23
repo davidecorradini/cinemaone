@@ -77,6 +77,7 @@ public class PostiSalaQueries{
             int perc=rs.getInt("TOT")/totale;
             ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
             tmpRiga=String.valueOf(tmpPosto.getRiga());
+            res.add(ps);
             
         } finally {
             stm.close();

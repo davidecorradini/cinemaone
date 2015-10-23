@@ -92,7 +92,7 @@ public class Prenotazioni extends HttpServlet {
             posto.setRiga(c);
             ArrayList<Integer[]> colonnaStato = new ArrayList<>();
             for(int col=startN; col<=endN; col++){
-                posto.addNewPosto(-1, col, stato);
+                posto.addNewPosto(-1, col, stato,0);
             }
             res.add(posto);
         }
