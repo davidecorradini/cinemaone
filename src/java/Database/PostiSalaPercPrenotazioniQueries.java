@@ -6,6 +6,7 @@
 package Database;
 
 import Beans.PostiSala;
+import Beans.PostiSalaPercPrenotazioni;
 import Beans.Posto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,37 +45,45 @@ public class PostiSalaPercPrenotazioniQueries {
                 "                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
                 "                        ORDER BY P.RIGA, P.COLONNA ");
         try {
+            
             stm.setInt(1, id_sala);
-            String tmpRiga="";
-            int flag=0;
-            PostiSala ps=new PostiSala();
             ResultSet rs = stm.executeQuery();
-            Posto tmpPosto = new Posto();
-            
-            tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
-            tmpPosto.setIdSala(rs.getInt("ID_SALA"));
-            tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
-            tmpPosto.setColonna(rs.getInt("COLONNA"));
-            tmpPosto.setStato(rs.getInt("STATO"));
-            
-            if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga) || flag == 0){
-                flag = 1;
-            }else{
-                ps.setRiga(tmpRiga.charAt(0));
-                res.add(ps);
-                ps=new PostiSala();
+            try {
+                
+                String tmpRiga="";
+                
+                int flag=0;
+                PostiSalaPercPrenotazioni ps=new PostiSalaPercPrenotazioni();
+                while(rs.next()){
+                    Posto tmpPosto = new Posto();
+                    
+                    tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
+                    tmpPosto.setIdSala(rs.getInt("ID_SALA"));
+                    tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
+                    tmpPosto.setColonna(rs.getInt("COLONNA"));
+                    tmpPosto.setStato(rs.getInt("STATO"));
+                    
+                    if(String.valueOf(tmpPosto.getRiga()).equals(tmpRiga) || flag == 0){
+                        flag = 1;
+                    }else{
+                        ps.setRiga(tmpRiga.charAt(0));
+                        res.add(ps);
+                        ps=new PostiSalaPercPrenotazioni();
+                    }
+                    PreparedStatement stm2 = con.prepareStatement("SELECT COUNT (PR.ID_PRENOTAZIONE) AS TOT \n" +
+                            "FROM  PRENOTAZIONE PR JOIN SPETTACOLO S ON PR.ID_SPETTACOLO=S.ID_SPETTACOLO  \n" +
+                            "WHERE S.ID_SALA=?");
+                    stm2.setInt(1, id_sala);
+                    ResultSet rs2 = stm2.executeQuery();
+                    int totale = rs2.getInt("TOT");
+                    double perc=((double)rs.getInt("TOT"))/totale;
+                    ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
+                    tmpRiga=String.valueOf(tmpPosto.getRiga());
+                }
+            } finally {
+                rs.close();
             }
-            PreparedStatement stm2 = con.prepareStatement("SELECT COUNT (PR.ID_PRENOTAZIONE) AS TOT \n" +
-                    "FROM  PRENOTAZIONE PR JOIN SPETTACOLO S ON PR.ID_SPETTACOLO=S.ID_SPETTACOLO  \n" +
-                    "WHERE S.ID_SALA=?");
-            stm2.setInt(1, id_sala);
-            ResultSet rs2 = stm2.executeQuery();
-            int totale = rs2.getInt("TOT");
-            int perc=rs.getInt("TOT")/totale;
-            ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
-            tmpRiga=String.valueOf(tmpPosto.getRiga());
-            res.add(ps);
-            
+                        
         } finally {
             stm.close();
         }
