@@ -139,9 +139,9 @@ public class StatoPrenotazioni extends HttpServlet {
         this.manager = null;
     }
     
-    private Timestamp tempoRimanente(Timestamp prenTime){
-        long tempoRestante = prenTime.getTime() + PrenotazioneTmp.validity*60*1000 - System.currentTimeMillis();
-        return new Timestamp(tempoRestante);
+    private long tempoRimanente(Timestamp prenTime){
+        long tempoRestante = (prenTime.getTime() - System.currentTimeMillis())/1000 + PrenotazioneTmp.validity*60;
+        return tempoRestante;
     }
 
 
