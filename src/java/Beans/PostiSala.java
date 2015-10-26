@@ -7,24 +7,19 @@ package Beans;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
+
 public class PostiSala {
     private static final int idPostoIndex = 0;
     private static final int columnIndex = 1;
     private static final int statoIndex = 2;
-    private static final int percIndex = 3;
     private char riga;
     private ArrayList<Integer[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
     
-    private Integer[] setArray(int idPosto, int colonna, int stato, int perc){
+    private Integer[] setArray(int idPosto, int colonna, int stato){
         Integer[] array = new Integer[4];
         array[idPostoIndex] = idPosto;
         array[columnIndex] = colonna;
         array[statoIndex] = stato;
-        array[percIndex] = perc;
         return array;
     }
     
@@ -42,10 +37,10 @@ public class PostiSala {
         this.riga = riga;
     }
     
-    public void addNewPosto(int idPosto, int colonna, int stato, int perc){
+    public void addNewPosto(int idPosto, int colonna, int stato){
         if(colonnaStato == null)
             colonnaStato = new ArrayList<>();
-        colonnaStato.add(setArray(idPosto, colonna, stato, perc));
+        colonnaStato.add(setArray(idPosto, colonna, stato));
     }
     
     public int getSize(){
@@ -57,13 +52,14 @@ public class PostiSala {
      * @param colonna
      * @param stato
      * @param index
+     * @param percPren
      * @return 
      */
-    public boolean setPosto(int idPosto, int colonna, int stato, int index, int perc){
-        if(index >= getSize())
-            return false;
-        colonnaStato.set(index, setArray(idPosto, colonna, stato,perc));
-        return true;
+    public boolean setPosto(int idPosto, int colonna, int stato, int index){
+        boolean res = index < getSize();
+        if(res)
+            colonnaStato.set(index, setArray(idPosto, colonna, stato));
+        return res;
     }
     /**
      * ritorna l'id del posto ad un dato indice.
