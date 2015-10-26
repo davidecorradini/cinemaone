@@ -70,6 +70,8 @@ public class PostiSalaQueries{
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato());
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                 }
+                ps.setRiga(tmpRiga.charAt(0));
+                res.add(ps);
             } finally {
                 rs.close();
             }
