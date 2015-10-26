@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -36,6 +37,11 @@ public class PrenTmpPostoQueries {
      * @throws SQLException
      */
     public ArrayList<PrenTmpPosto> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
+        PrenotazioneTmpQueries prenTmpQuery = new PrenotazioneTmpQueries(con);
+        long tempo = System.currentTimeMillis() - Beans.PrenotazioneTmp.validity*60*1000;
+        Timestamp validityLimit = new Timestamp(tempo);
+        prenTmpQuery.cancellaPrenotazioniTmp(validityLimit);
+        
         PreparedStatement stm;
         ArrayList<PrenTmpPosto> prenotazioniTmp = new ArrayList<>();
         stm = con.prepareStatement(

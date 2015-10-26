@@ -177,6 +177,22 @@ public class PrenotazioneTmpQueries {
     }
     
     /**
+     * cancella le prenotazioniTmp di un dato utente.
+     * @param time
+     * @throws SQLException 
+     */
+    public void cancellaPrenotazioniTmp(Timestamp time) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP PTMP WHERE PTMP.DATA_ORA_OPERAZIONETMP < ?");
+        try {
+            stm.setTimestamp(1, time);
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
+    /**
      * aggiorna l'idUtente delle prenotazioni tmp, dall'id temporaneo all'id "loggato"
      * @param idTmp
      * @param id

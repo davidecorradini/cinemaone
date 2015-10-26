@@ -57,8 +57,7 @@ public class StatoPrenotazioni extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(false); //da mettere poi a false
+        HttpSession session = request.getSession(false);
         String idUtente = (String)(session.getAttribute("idUtente"));
         int idSpettacolo = 0;
         try{
@@ -66,6 +65,7 @@ public class StatoPrenotazioni extends HttpServlet {
         }catch(NumberFormatException ex){
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
+                System.err.println("stato prenotazioni: " + ex);
                 out.println("fail " + ex);
             }
             return;
@@ -81,6 +81,7 @@ public class StatoPrenotazioni extends HttpServlet {
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
+                System.err.println("stato prenotazioni: " + ex);
                 out.println("fail " + ex);
             }
             return;
@@ -100,8 +101,6 @@ public class StatoPrenotazioni extends HttpServlet {
                 if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId))
                     stato = postoTuo;
                 jsonObject.put("stato", stato);
-                jsonObject.put("timestamp", tempoRimanente(res.getPrenotazione().getDataOraOperazione()));
-                
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
             
@@ -119,7 +118,7 @@ public class StatoPrenotazioni extends HttpServlet {
                 
                 jsonObject.put("stato", stato);
                 jsonObject.put("timestamp", tempoRimanente(res.getPren().getTimestamp()));
-                
+              
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
         } catch (JSONException ex) {
@@ -127,6 +126,7 @@ public class StatoPrenotazioni extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }        
         String jsonStr = json.toString();
+        
         System.out.println("\n\n\tstato prenotazioni:\n"+json);
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
@@ -140,7 +140,7 @@ public class StatoPrenotazioni extends HttpServlet {
     }
     
     private long tempoRimanente(Timestamp prenTime){
-        long tempoRestante = (prenTime.getTime() - System.currentTimeMillis())/1000 + PrenotazioneTmp.validity*60;
+        long tempoRestante = PrenotazioneTmp.validity*60 - (System.currentTimeMillis() - prenTime.getTime())/1000;
         return tempoRestante;
     }
 
