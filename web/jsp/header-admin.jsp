@@ -49,6 +49,7 @@
                             <li><a href="incassi-film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Incassi Film</a></li>
                             <li><a href="clienti-top.html"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Clienti Top</a></li>
                             <li><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettacoli</a></li>
+                            <li><a href="sale.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Sale</a></li>
                             <li><a href="../index.html"><i class="zmdi zmdi-close zmdi-right-8"></i>Esci</a></li>
                         </ul>
                     </div>
