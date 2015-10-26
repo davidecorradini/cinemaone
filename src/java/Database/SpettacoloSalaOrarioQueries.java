@@ -36,8 +36,7 @@ public class SpettacoloSalaOrarioQueries {
      * per ogni spettacolo, ancora da eseguire, specifica quando e in che sala avranno luogo.
      * @return uno spettacolo che sarà fatto in una determinata sala ad uno specifico orario.
      * @throws SQLException
-     */
-    
+     */    
     public ArrayList<SpettacoloSalaOrario> getSpettacoliFuturi() throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
