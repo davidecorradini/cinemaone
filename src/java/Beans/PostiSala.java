@@ -9,14 +9,15 @@ import java.util.ArrayList;
 
 
 public class PostiSala {
-    private static final int idPostoIndex = 0;
-    private static final int columnIndex = 1;
-    private static final int statoIndex = 2;
-    private char riga;
-    private ArrayList<Integer[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
+    protected static final int size = 3;
+    protected static final int idPostoIndex = 0;
+    protected static final int columnIndex = 1;
+    protected static final int statoIndex = 2;
+    protected char riga;
+    protected ArrayList<Number[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
     
     private Integer[] setArray(int idPosto, int colonna, int stato){
-        Integer[] array = new Integer[4];
+        Integer[] array = new Integer[size];
         array[idPostoIndex] = idPosto;
         array[columnIndex] = colonna;
         array[statoIndex] = stato;
@@ -52,7 +53,6 @@ public class PostiSala {
      * @param colonna
      * @param stato
      * @param index
-     * @param percPren
      * @return 
      */
     public boolean setPosto(int idPosto, int colonna, int stato, int index){
@@ -67,7 +67,7 @@ public class PostiSala {
      * @return
      */
     public int getIdPosto(int index){
-        return colonnaStato.get(index)[idPostoIndex];
+        return (int)colonnaStato.get(index)[idPostoIndex];
     }
     
     /**
@@ -76,7 +76,7 @@ public class PostiSala {
      * @return
      */
     public int getColonna(int index){
-        return colonnaStato.get(index)[columnIndex];
+        return (int)colonnaStato.get(index)[columnIndex];
     }
     
     /**
@@ -85,7 +85,7 @@ public class PostiSala {
      * @return
      */
     public int getStato(int index){
-        return colonnaStato.get(index)[statoIndex];
+        return (int)colonnaStato.get(index)[statoIndex];
     }
     
 }
