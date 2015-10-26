@@ -1,11 +1,12 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Database;
 
 import Beans.PostiSala;
+import Beans.PostiSalaPercPrenotazioni;
 import Beans.Posto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,16 +16,16 @@ import java.util.ArrayList;
 
 /**
  *
- * @author enrico
+ * @author alessandro
  */
-public class PostiSalaQueries{
+public class PostiSalaPercPrenotazioniQueries {
     private final transient Connection con;
     
-    public PostiSalaQueries(DBManager manager){
+    public PostiSalaPercPrenotazioniQueries(DBManager manager){
         this.con = manager.con;
     }
     
-    public PostiSalaQueries(Connection con){
+    public PostiSalaPercPrenotazioniQueries(Connection con){
         this.con = con;
     }
     
@@ -37,12 +38,14 @@ public class PostiSalaQueries{
     public ArrayList<PostiSala> getAllPosti(int id_sala) throws SQLException{
         ArrayList<PostiSala> res = new ArrayList<>();
         
-        PreparedStatement stm = con.prepareStatement(
-                "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
-                        "FROM POSTO P\n" +
-                        " WHERE P.ID_SALA = ?\n" +
-                        " ORDER BY P.RIGA, P.COLONNA");
+        
+        PreparedStatement stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
+                "                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
+                "                        WHERE P.ID_SALA=? \n" +
+                "                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
+                "                        ORDER BY P.RIGA, P.COLONNA ");
         try {
+            
             stm.setInt(1, id_sala);
             ResultSet rs = stm.executeQuery();
             try {
@@ -50,7 +53,7 @@ public class PostiSalaQueries{
                 String tmpRiga="";
                 
                 int flag=0;
-                PostiSala ps=new PostiSala();
+                PostiSalaPercPrenotazioni ps=new PostiSalaPercPrenotazioni();
                 while(rs.next()){
                     Posto tmpPosto = new Posto();
                     
@@ -65,19 +68,27 @@ public class PostiSalaQueries{
                     }else{
                         ps.setRiga(tmpRiga.charAt(0));
                         res.add(ps);
-                        ps=new PostiSala();
+                        ps=new PostiSalaPercPrenotazioni();
                     }
-                    ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato());
+                    PreparedStatement stm2 = con.prepareStatement("SELECT COUNT (PR.ID_PRENOTAZIONE) AS TOT \n" +
+                            "FROM  PRENOTAZIONE PR JOIN SPETTACOLO S ON PR.ID_SPETTACOLO=S.ID_SPETTACOLO  \n" +
+                            "WHERE S.ID_SALA=?");
+                    stm2.setInt(1, id_sala);
+                    ResultSet rs2 = stm2.executeQuery();
+                    int totale = rs2.getInt("TOT");
+                    double perc=((double)rs.getInt("TOT"))/totale;
+                    ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                 }
-                ps.setRiga(tmpRiga.charAt(0));
-                res.add(ps);
             } finally {
                 rs.close();
             }
+                        
         } finally {
             stm.close();
         }
+        
+        
         return res;
     }
 }
