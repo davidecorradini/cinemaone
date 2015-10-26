@@ -39,20 +39,23 @@ public class PostiSalaQueries{
      */
     public ArrayList<PostiSala> getAllPosti(int id_sala) throws SQLException{
         ArrayList<PostiSala> res = new ArrayList<>();
-
         
-        PreparedStatement stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
-                "                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
-                "                        WHERE P.ID_SALA=? \n" +
-                "                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
-                "                        ORDER BY P.RIGA, P.COLONNA ");
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
+                        "FROM POSTO P\n" +
+                        " WHERE P.ID_SALA = ?\n" +
+                        " ORDER BY P.RIGA, P.COLONNA");
         try {
-            stm.setInt(1, id_sala);             
-            String tmpRiga="";                
-            int flag=0;
-            PostiSala ps=new PostiSala();
+            stm.setInt(1, id_sala);
             ResultSet rs = stm.executeQuery();
-             Posto tmpPosto = new Posto();
+            try {
+                
+                String tmpRiga="";
+                
+                int flag=0;
+                PostiSala ps=new PostiSala();
+                while(rs.next()){
+                    Posto tmpPosto = new Posto();
                     
                     tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
                     tmpPosto.setIdSala(rs.getInt("ID_SALA"));
@@ -67,24 +70,18 @@ public class PostiSalaQueries{
                         res.add(ps);
                         ps=new PostiSala();
                     }
-            PreparedStatement stm2 = con.prepareStatement(" COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
-                "                        FROM  PRENOTAZIONE PR\n" +
-                "                        WHERE PR.ID_SALA=? \n" +
-                "                        GROUP BY PR.ID_SALA\n");
-            stm2.setInt(1, id_sala);
-            ResultSet rs2 = stm2.executeQuery();
-            int totale = rs2.getInt("TOT");
-            int perc=rs.getInt("TOT")/totale;
-            ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
-            tmpRiga=String.valueOf(tmpPosto.getRiga());
-            res.add(ps);
-            
+                    
+                    ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato());
+                    tmpRiga=String.valueOf(tmpPosto.getRiga());
+                }
+            } finally {
+                rs.close();
+            }
         } finally {
             stm.close();
         }
-        
-       
-        return res;  
-        }
-    
-        
+        return res;
+    }
+}
+
+
