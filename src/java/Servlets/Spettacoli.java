@@ -39,7 +39,7 @@ public class Spettacoli extends HttpServlet {
         SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
         try {
             //TO DO aggiungere film
-            spettacoli = sq.getSpettacoli(); 
+            spettacoli = sq.getSpettacoliFuturi(); 
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

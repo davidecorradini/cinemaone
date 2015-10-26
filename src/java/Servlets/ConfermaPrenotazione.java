@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author roberto
- */
 public class ConfermaPrenotazione extends HttpServlet {
 
     private DBManager manager;
