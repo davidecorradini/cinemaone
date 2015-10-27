@@ -32,10 +32,11 @@ public class PostiSalaPercPrenotazioniQueries {
     /**
      *
      * @param id_sala ID dello spettacolo di cui si vuole vedere la lista dei posti occupati
+     * @param aggiungiInvisibili aggiunge posti invisibili per rendere la sala rettangolare.
      * @return ritorna una lista di postioccupati.
      * @throws SQLException
      */
-    public ArrayList<PostiSala> getAllPosti(int id_sala) throws SQLException{
+    public ArrayList<PostiSala> getAllPosti(int id_sala, boolean aggiungiInvisibili) throws SQLException{
         ArrayList<PostiSala> res = new ArrayList<>();
         
         
@@ -76,7 +77,7 @@ public class PostiSalaPercPrenotazioniQueries {
                     stm2.setInt(1, id_sala);
                     ResultSet rs2 = stm2.executeQuery();
                     int totale = rs2.getInt("TOT");
-                    double perc=((double)rs.getInt("TOT"))/totale;
+                    double perc = ((double)rs.getInt("TOT"))/totale;
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                 }
@@ -87,8 +88,8 @@ public class PostiSalaPercPrenotazioniQueries {
         } finally {
             stm.close();
         }
-        
-        
+        if(aggiungiInvisibili)
+            res = PostiSala.formattaInfoSala(res);
         return res;
     }
 }
