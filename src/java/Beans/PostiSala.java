@@ -5,6 +5,7 @@
 */
 package Beans;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 
 
@@ -15,6 +16,21 @@ public class PostiSala {
     protected static final int statoIndex = 2;
     protected char riga;
     protected ArrayList<Number[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
+    
+    static class ParameterClass<T extends PostiSala>{
+        public T getInstance(){
+            ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
+            Class<T> type = (Class<T>) superClass.getActualTypeArguments()[0];
+            T instance;
+            try {
+                instance = type.newInstance();
+            } catch (InstantiationException | IllegalAccessException ex) {
+                throw new RuntimeException("the class: " + type.toString() + " must implement a default constructor");
+            }
+            
+            return instance;
+        }
+    }
     
     private Integer[] setArray(int idPosto, int colonna, int stato){
         Integer[] array = new Integer[size];
@@ -53,7 +69,7 @@ public class PostiSala {
      * @param colonna
      * @param stato
      * @param index
-     * @return 
+     * @return
      */
     public boolean setPosto(int idPosto, int colonna, int stato, int index){
         boolean res = index < getSize();
@@ -88,7 +104,7 @@ public class PostiSala {
         return (int)colonnaStato.get(index)[statoIndex];
     }
     
-    public static ArrayList<? extends PostiSala> formattaInfoSala(ArrayList<? extends PostiSala> incompleteList){
+    public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList){
         if(incompleteList.isEmpty()) return null;
         char startC = incompleteList.get(0).getRiga();
         char endC = incompleteList.get(incompleteList.size()-1).getRiga();
@@ -102,11 +118,13 @@ public class PostiSala {
             }
         }
         if(endN-startN == 0) return null;
-        ArrayList<PostiSala> res = new ArrayList<>();
+        ArrayList<T> res = new ArrayList<>();
         //riempimento a vuoto, inserisco tutti i posti come inesistenti con un id fantoccio -1;
+        
+        ParameterClass<T> tInstances = new ParameterClass<>();
         for(char c=startC; c<=endC; c++){
             int stato = Posto.INESISTENTE_STATUS;
-            PostiSala posto = new PostiSala();
+            T posto = tInstances.getInstance();
             posto.setRiga(c);
             ArrayList<Integer[]> colonnaStato = new ArrayList<>();
             for(int col=startN; col<=endN; col++){
@@ -126,5 +144,5 @@ public class PostiSala {
             }
         }
         return res;
-    }        
+    }
 }
