@@ -79,7 +79,6 @@ public class PostiSalaQueries{
         } finally {
             stm.close();
         }
-        
         if(aggiungiInvisibili)
             res = PostiSala.formattaInfoSala(res);
         return res;

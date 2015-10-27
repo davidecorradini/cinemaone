@@ -10,9 +10,10 @@ import java.util.ArrayList;
 
 public class PostiSalaPercPrenotazioni extends PostiSala{
     public static final int percPrenIndex = PostiSala.size;
+    protected static final int size = 4;
     
     private Number[] setArray(int idPosto, int colonna, int stato, double percPren){
-        Number[] array = new Integer[size];
+        Number[] array = new Number[size];
         array[idPostoIndex] = idPosto;
         array[columnIndex] = colonna;
         array[statoIndex] = stato;
