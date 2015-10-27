@@ -80,7 +80,7 @@ public class PostiSalaQueries{
             stm.close();
         }
         if(aggiungiInvisibili)
-            res = PostiSala.formattaInfoSala(res);
+            res = PostiSala.formattaInfoSala(res, PostiSala.class);
         return res;
     }
 }

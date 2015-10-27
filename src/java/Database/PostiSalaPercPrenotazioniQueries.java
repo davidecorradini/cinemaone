@@ -92,7 +92,7 @@ public class PostiSalaPercPrenotazioniQueries {
             stm.close();
         }
         if(aggiungiInvisibili)
-            res = PostiSala.formattaInfoSala(res);
+            res = PostiSala.formattaInfoSala(res, PostiSalaPercPrenotazioni.class);
         return res;
     }
 }

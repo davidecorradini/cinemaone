@@ -5,7 +5,7 @@
 */
 package Beans;
 
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
@@ -17,24 +17,6 @@ public class PostiSala {
     protected char riga;
     protected ArrayList<Number[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
     
-    /**
-     * classe interna per poter ottenere un'istanza della classe generica T.
-     * @param <T> 
-     */
-    private static class ParameterClass<T extends PostiSala>{
-        public T getInstance(){
-            ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
-            Class<T> type = (Class<T>) superClass.getActualTypeArguments()[0];
-            System.out.println("T is: " + type);
-            T instance;
-            try {
-                instance = type.newInstance();
-            } catch (InstantiationException | IllegalAccessException ex) {
-                throw new RuntimeException("the class: " + type.toString() + " must implement a default constructor");
-            }            
-            return instance;
-        }
-    }
     
     private Integer[] setArray(int idPosto, int colonna, int stato){
         Integer[] array = new Integer[size];
@@ -108,7 +90,7 @@ public class PostiSala {
         return (int)colonnaStato.get(index)[statoIndex];
     }
     
-    public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList){
+    public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList, Class<T> paramClass){
         if(incompleteList.isEmpty()) return null;
         char startC = incompleteList.get(0).getRiga();
         char endC = incompleteList.get(incompleteList.size()-1).getRiga();
@@ -124,11 +106,21 @@ public class PostiSala {
         if(endN-startN == 0) return null;
         ArrayList<T> res = new ArrayList<>();
         //riempimento a vuoto, inserisco tutti i posti come inesistenti con un id fantoccio -1;
-        
-        ParameterClass<T> tInstances = new ParameterClass<>();
+       
         for(char c=startC; c<=endC; c++){
             int stato = Posto.INESISTENTE_STATUS;
-            T posto = tInstances.getInstance();
+            T posto;
+            
+            try {
+                try {
+                    posto = paramClass.getConstructor().newInstance();
+                } catch (NoSuchMethodException | SecurityException ex) {
+                    throw new RuntimeException("class: " + paramClass + " must implement default constructor");
+                }
+            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                throw new RuntimeException("can NOT create a new instance of: " + paramClass);
+            }
+           
             posto.setRiga(c);
             ArrayList<Integer[]> colonnaStato = new ArrayList<>();
             for(int col=startN; col<=endN; col++){
