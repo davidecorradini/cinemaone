@@ -36,7 +36,7 @@ public class SpettacoloSalaOrarioQueries {
      * per ogni spettacolo, ancora da eseguire, specifica quando e in che sala avranno luogo.
      * @return uno spettacolo che sarà fatto in una determinata sala ad uno specifico orario.
      * @throws SQLException
-     */    
+     */
     public ArrayList<SpettacoloSalaOrario> getSpettacoliFuturi() throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
@@ -108,7 +108,7 @@ public class SpettacoloSalaOrarioQueries {
      * @throws SQLException
      */
     public ArrayList<SpettacoloSalaOrario> getSpettacoli(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
-        ArrayList<SpettacoloSalaOrario> res = new ArrayList<>(); 
+        ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = createQuery(genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh, prenotazioneDataOraLow, prenotazioneDataOraHigh, prezzoTipo, salaNome, postoRiga, postoColonna, utenteEmail, ruoloRuolo);
         ResultSet rs = stm.executeQuery();
         try {
@@ -156,21 +156,21 @@ public class SpettacoloSalaOrarioQueries {
     private PreparedStatement createQuery(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
         String query =  "SELECT *\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE";
-       
+        
         String queryWhere = null;
         if(genereDescrizione != null || filmTitolo != null || filmDurataLow != null || filmDurataHigh != null || filmRegista != null || spettacoloDataOraLow != null || spettacoloDataOraHigh != null || prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || salaNome != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
             queryWhere = "WHERE ";
             
             if(genereDescrizione != null)
-                queryWhere += "UPPER(G.DESCRIZIONE) = UPPER(?) AND ";
+                queryWhere += "UPPER(G.DESCRIZIONE) LIKE UPPER(?) AND ";
             if(filmTitolo != null)
-                queryWhere += "UPPER(F.TITOLO) = UPPER(?) AND ";
+                queryWhere += "UPPER(F.TITOLO) = LIKE UPPER(?) AND ";
             if(filmDurataLow != null)
                 queryWhere += "F.DURATA >= ? AND ";
             if(filmDurataHigh != null)
                 queryWhere += "F.DURATA <= ? AND ";
             if(filmRegista != null)
-                queryWhere += "UPPER(F.REGISTA) = UPPER(?) AND ";
+                queryWhere += "UPPER(F.REGISTA) LIKE UPPER(?) AND ";
             if(spettacoloDataOraLow != null)
                 queryWhere += "SP.DATA_ORA >= ? AND ";
             if(spettacoloDataOraHigh != null)
@@ -210,17 +210,17 @@ public class SpettacoloSalaOrarioQueries {
         query += "\n";
         if(queryWhere != null)
             query += queryWhere.substring(0, queryWhere.length()-5) + "\n";
-      
+        
         
         PreparedStatement stm = con.prepareStatement(query);
         
         int index = 1;
         if(genereDescrizione != null){
-            stm.setString(index, genereDescrizione);
+            stm.setString(index, "%" + genereDescrizione + "%");
             index++;
         }
         if(filmTitolo != null){
-            stm.setString(index, filmTitolo);
+            stm.setString(index, "%" + filmTitolo + "%");
             index++;
         }
         if(filmDurataLow != null){
@@ -232,7 +232,7 @@ public class SpettacoloSalaOrarioQueries {
             index++;
         }
         if(filmRegista != null){
-            stm.setString(index, filmRegista);
+            stm.setString(index, "%" + filmRegista + "%");
             index++;
         }
         if(spettacoloDataOraLow != null){
@@ -274,7 +274,7 @@ public class SpettacoloSalaOrarioQueries {
         if(ruoloRuolo != null){
             stm.setString(index, ruoloRuolo);
             index++;
-        }        
+        }
         return stm;
     }
 }

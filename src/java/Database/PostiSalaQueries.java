@@ -81,7 +81,7 @@ public class PostiSalaQueries{
         }
         
         if(aggiungiInvisibili)
-            res = PostiSala.formattaInfoSala(res);
+            res = (ArrayList<PostiSala>)PostiSala.formattaInfoSala(res);
         return res;
     }
 }
