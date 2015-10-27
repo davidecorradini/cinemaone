@@ -17,17 +17,21 @@ public class PostiSala {
     protected char riga;
     protected ArrayList<Number[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
     
-    static class ParameterClass<T extends PostiSala>{
+    /**
+     * classe interna per poter ottenere un'istanza della classe generica T.
+     * @param <T> 
+     */
+    private static class ParameterClass<T extends PostiSala>{
         public T getInstance(){
             ParameterizedType superClass = (ParameterizedType) getClass().getGenericSuperclass();
             Class<T> type = (Class<T>) superClass.getActualTypeArguments()[0];
+            System.out.println("T is: " + type);
             T instance;
             try {
                 instance = type.newInstance();
             } catch (InstantiationException | IllegalAccessException ex) {
                 throw new RuntimeException("the class: " + type.toString() + " must implement a default constructor");
-            }
-            
+            }            
             return instance;
         }
     }
