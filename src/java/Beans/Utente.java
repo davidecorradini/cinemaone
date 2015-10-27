@@ -6,6 +6,11 @@
 package Beans;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -24,14 +29,41 @@ public class Utente implements Serializable{
      * @return encoded id utente.
      */
     public static String encodeIdUtente(Object obj){
-        
+        final int dbFieldSize = 128;
+        final String dateFormat = "MMddHHmmssSSS";
+        String res;
         if(obj instanceof Integer){
-            return String.valueOf((char)1) + String.valueOf((int)obj);
-        }
-        if(obj instanceof String)
-            return "t" + (String)obj;
+            res = String.valueOf((char)1) + String.valueOf((int)obj);
+        }else
+            res = "t" + (String)obj;
         
-        return null;
+        //check that the idUtente can be stored in the database.
+        if(res.length()>dbFieldSize){
+            MessageDigest messageDigest = null;
+            try {
+                messageDigest = MessageDigest.getInstance("SHA-512", "BC");
+            } catch (NoSuchAlgorithmException | NoSuchProviderException ex) {
+                try {
+                    messageDigest = MessageDigest.getInstance("SHA-256");
+                } catch (NoSuchAlgorithmException ex1) {
+                    res = res.substring(0, dbFieldSize - dateFormat.length());
+                }
+            }
+            if(messageDigest != null){
+                messageDigest.update(res.getBytes());
+                res = "t" + new String(messageDigest.digest());
+                if(res.length()>dbFieldSize){
+                    res = res.substring(0, dbFieldSize - dateFormat.length());
+                }
+            }
+            if(res.length() + dateFormat.length() <= dbFieldSize){
+                SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+                Date date = new Date(System.currentTimeMillis());
+                System.out.println("date: " + df.format(date));
+                res += df.format(date);
+            }
+        }
+        return res;
         
     }
     
