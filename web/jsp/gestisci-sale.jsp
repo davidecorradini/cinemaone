@@ -7,7 +7,11 @@
     <div>        
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#sala1" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            
+            <c:forEach var="tmp" items="${requestScope.sale}">
+                <li role="presentation" ><a href="#sala-<c:out value="${tmp.getIdSala()}"></c:out>" aria-controls="home" role="tab" data-toggle="tab"><c:out value="${tmp.getNome()}"></c:out></a></li>
+                
+            </c:forEach>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
