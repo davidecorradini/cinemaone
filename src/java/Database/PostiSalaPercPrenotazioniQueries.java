@@ -36,8 +36,8 @@ public class PostiSalaPercPrenotazioniQueries {
      * @return ritorna una lista di postioccupati.
      * @throws SQLException
      */
-    public ArrayList<PostiSala> getAllPosti(int id_sala, boolean aggiungiInvisibili) throws SQLException{
-        ArrayList<PostiSala> res = new ArrayList<>();
+    public ArrayList<PostiSalaPercPrenotazioni> getAllPosti(int id_sala, boolean aggiungiInvisibili) throws SQLException{
+        ArrayList<PostiSalaPercPrenotazioni> res = new ArrayList<>();
         
         
         PreparedStatement stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
@@ -90,7 +90,7 @@ public class PostiSalaPercPrenotazioniQueries {
         }
        
         if(aggiungiInvisibili)
-            res = (ArrayList<PostiSala>)PostiSala.formattaInfoSala(res);
+            res = (ArrayList<PostiSalaPercPrenotazioni>)PostiSala.formattaInfoSala(res);
         return res;
     }
 }

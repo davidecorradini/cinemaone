@@ -5,9 +5,19 @@
  */
 package Servlets;
 
+import Beans.PostiSala;
+import Beans.PostiSalaPercPrenotazioni;
+import Beans.Sala;
 import Database.DBManager;
+import Database.PostiSalaPercPrenotazioniQueries;
+import Database.PostiSalaQueries;
+import Database.SalaQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +49,29 @@ public class GestisciSale extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        SalaQueries salaQueries = new SalaQueries(manager);
+        PostiSalaPercPrenotazioniQueries postiSalaQ = new PostiSalaPercPrenotazioniQueries(manager);
+        ArrayList<Sala> sale = null;
+        try {
+            sale = salaQueries.getSale();
+        } catch (SQLException ex) {
+            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
+        ArrayList<ArrayList<PostiSalaPercPrenotazioni>> postiSale = new ArrayList<>();
+        ArrayList<PostiSalaPercPrenotazioni> postiSala = new ArrayList<>();
+        for(Sala sala : sale){
+            try {
+                postiSala = postiSalaQ.getAllPosti(sala.getIdSala(), true);
+            } catch (SQLException ex) {
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
+            postiSale.add(postiSala);
+            postiSala = new ArrayList<>();
+        }
+        request.setAttribute("sale", sale);
+        request.setAttribute("postiSale", postiSale);
         request.getRequestDispatcher("/jsp/gestisci-sale.jsp").forward(request, response);
     }
 
