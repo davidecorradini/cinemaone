@@ -29,7 +29,7 @@ public class SalaQueries {
     
     public ArrayList<Sala> getSale() throws SQLException{
         ArrayList<Sala> sale = new ArrayList();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM SALA;");        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM SALA");        
         Sala sala = new Sala();
         try {
             ResultSet rs = stm.executeQuery();

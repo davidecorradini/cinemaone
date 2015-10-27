@@ -40,13 +40,12 @@ public class PostiSalaPercPrenotazioniQueries {
         ArrayList<PostiSalaPercPrenotazioni> res = new ArrayList<>();
         
         
-        PreparedStatement stm = con.prepareStatement(" SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
-                "                        FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
-                "                        WHERE P.ID_SALA=? \n" +
-                "                        GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA\n" +
-                "                        ORDER BY P.RIGA, P.COLONNA ");
+        PreparedStatement stm = con.prepareStatement("SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
+                "FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
+                "WHERE P.ID_SALA=?\n" +
+                "GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
+                "ORDER BY P.RIGA, P.COLONNA");
         try {
-            
             stm.setInt(1, id_sala);
             ResultSet rs = stm.executeQuery();
             try {
@@ -55,6 +54,15 @@ public class PostiSalaPercPrenotazioniQueries {
                 
                 int flag=0;
                 PostiSalaPercPrenotazioni ps=new PostiSalaPercPrenotazioni();
+                PreparedStatement stm2 = con.prepareStatement("SELECT COUNT(*) AS TOT\n" +
+                        "FROM PRENOTAZIONE PR JOIN SPETTACOLO S ON PR.ID_SPETTACOLO=S.ID_SPETTACOLO\n" +
+                        "WHERE S.ID_SALA=?");
+                stm2.setInt(1, id_sala);
+                ResultSet rs2 = stm2.executeQuery();
+                int totale = 1;
+                if(rs2.next())
+                    totale = rs2.getInt("TOT");
+                
                 while(rs.next()){
                     Posto tmpPosto = new Posto();
                     
@@ -71,12 +79,7 @@ public class PostiSalaPercPrenotazioniQueries {
                         res.add(ps);
                         ps=new PostiSalaPercPrenotazioni();
                     }
-                    PreparedStatement stm2 = con.prepareStatement("SELECT COUNT (PR.ID_PRENOTAZIONE) AS TOT \n" +
-                            "FROM  PRENOTAZIONE PR JOIN SPETTACOLO S ON PR.ID_SPETTACOLO=S.ID_SPETTACOLO  \n" +
-                            "WHERE S.ID_SALA=?");
-                    stm2.setInt(1, id_sala);
-                    ResultSet rs2 = stm2.executeQuery();
-                    int totale = rs2.getInt("TOT");
+                    
                     double perc = ((double)rs.getInt("TOT"))/totale;
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
@@ -88,8 +91,8 @@ public class PostiSalaPercPrenotazioniQueries {
         } finally {
             stm.close();
         }
-        if(aggiungiInvisibili)
-            res = PostiSalaPercPrenotazioni.formattaInfoSala(res);
+        //if(aggiungiInvisibili)
+        //    res = PostiSalaPercPrenotazioni.formattaInfoSala(res);
         return res;
     }
 }
