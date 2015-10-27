@@ -122,7 +122,7 @@ public class PostiSala {
             for(int i=0; i<posto.getSize(); i++){
                 int indiceColonna = posto.getColonna(i) - startN;
                 if(!resPostoSala.setPosto(posto.getIdPosto(i), posto.getColonna(i), posto.getStato(i), indiceColonna))
-                    throw new RuntimeException("programming error nella Prenotazioni.java riga 102");
+                    throw new RuntimeException("errore nell'inserimento dei posti invisibili");
             }
         }
         return res;
