@@ -155,40 +155,43 @@ public class SpettacoloSalaOrarioQueries {
     
     private PreparedStatement createQuery(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
         String query =  "SELECT *\n" +
-                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE";
+                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE";
        
         String queryWhere = null;
         if(genereDescrizione != null || filmTitolo != null || filmDurataLow != null || filmDurataHigh != null || filmRegista != null || spettacoloDataOraLow != null || spettacoloDataOraHigh != null || prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || salaNome != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
             queryWhere = "WHERE ";
             
             if(genereDescrizione != null)
-                queryWhere += "G.DESCRIZIONE = ? AND ";
+                queryWhere += "UPPER(G.DESCRIZIONE) = UPPER(?) AND ";
             if(filmTitolo != null)
-                queryWhere += "F.TITOLO = ? AND ";
+                queryWhere += "UPPER(F.TITOLO) = UPPER(?) AND ";
             if(filmDurataLow != null)
                 queryWhere += "F.DURATA >= ? AND ";
             if(filmDurataHigh != null)
                 queryWhere += "F.DURATA <= ? AND ";
             if(filmRegista != null)
-                queryWhere += "F.REGISTA = ? AND ";
+                queryWhere += "UPPER(F.REGISTA) = UPPER(?) AND ";
             if(spettacoloDataOraLow != null)
                 queryWhere += "SP.DATA_ORA >= ? AND ";
             if(spettacoloDataOraHigh != null)
                 queryWhere += "SP.DATA_ORA <= ? AND ";
-            if(prenotazioneDataOraLow != null)
-                queryWhere += "P.DATA_ORA_OPERAZIONE >= ? AND ";
-            if(prenotazioneDataOraHigh != null)
-                queryWhere += "P.DATA_ORA_OPERAZIONE <= ? AND ";
+            if(prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
+                query += " JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO";
+                if(prenotazioneDataOraLow != null)
+                    queryWhere += "P.DATA_ORA_OPERAZIONE >= ? AND ";
+                if(prenotazioneDataOraHigh != null)
+                    queryWhere += "P.DATA_ORA_OPERAZIONE <= ? AND ";
+            }
             if(prezzoTipo != null){
                 query += " JOIN PREZZO PREZ ON PREZ.ID_PREZZO = P.ID_PREZZO";
-                queryWhere += "PREZ.TIPO = ? AND ";
+                queryWhere += "UPPER(PREZ.TIPO) = UPPER(?) AND ";
             }
             if(salaNome != null)
-                queryWhere += "S.NOME = ? AND ";
+                queryWhere += "UPPER(S.NOME) = UPPER(?) AND ";
             if(postoRiga != null || postoColonna != null){
                 query += " JOIN POSTO POST ON POST.ID_POSTO = P.ID_POSTO";
                 if(postoRiga != null)
-                    queryWhere += "POST.RIGA = ? AND ";
+                    queryWhere += "UPPER(POST.RIGA) = UPPER(?) AND ";
                 if(postoColonna != null)
                     queryWhere += "POST.COLONNA = ? AND ";
             }
@@ -199,7 +202,7 @@ public class SpettacoloSalaOrarioQueries {
                     queryWhere += "UT.EMAIL = ? AND ";
                 if(ruoloRuolo != null){
                     query += " JOIN RUOLO RUO ON RUO.ID_RUOLO = UT.ID_RUOLO";
-                    queryWhere += "RUO.RUOLO = ? AND ";
+                    queryWhere += "UPPER(RUO.RUOLO) = UPPER(?) AND ";
                 }
             }
         }
