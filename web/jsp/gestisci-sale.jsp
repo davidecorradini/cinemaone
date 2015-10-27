@@ -7,18 +7,22 @@
     <div>        
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            
+            <c:set var="first" value="1"></c:set>
             <c:forEach var="tmp" items="${requestScope.sale}">
-                <li role="presentation" ><a href="#sala-<c:out value="${tmp.getIdSala()}"></c:out>" aria-controls="home" role="tab" data-toggle="tab"><c:out value="${tmp.getNome()}"></c:out></a></li>
-                
+                <li role="presentation" <c:if test="${first == 1}">class="active"</c:if>><a href="#sala-<c:out value="${tmp.idSala}"></c:out>" aria-controls="home" role="tab" data-toggle="tab"><c:out value="${tmp.nome}"></c:out></a></li>
+                <c:set var="first" value="0"></c:set>
             </c:forEach>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="home">...</div>
-            <div role="tabpanel" class="tab-pane" id="profile">...</div>
-            <div role="tabpanel" class="tab-pane" id="messages">...</div>
-            <div role="tabpanel" class="tab-pane" id="settings">...</div>
+            <c:forEach var="i"  begin="0" end="${requestScope.sale.getSize()-1}">
+                <div role="tabpanel" class="tab-pane<c:if test="${first == 0}"> active</c:if>" id="sala-<c:out value="${requestScope.sale[i].idSala}"></c:out>">
+                    <c:out value="${requestScope.sale[i].nome}"></c:out>
+                    <c:set var="postiSala" value="${requestScope.postiSale[i]}"/>
+                    <c:import url="sala.jsp"></c:import>
+                </div>
+                <c:set var="first" value="1"></c:set>
+            </c:forEach>
         </div>
     </div>
 </div>

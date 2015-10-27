@@ -17,6 +17,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="sala">
+                    <c:set var="postiSala" value="${requestScope.postiSala}"/>
                     <c:import url="sala.jsp"></c:import>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:forEach var="tmp" items="${requestScope.postiSala}">
+<c:forEach var="tmp" items="${postiSala}">
     <div class="row">
         <c:forEach var="i"  begin="0" end="${tmp.getSize()-1}">
             
