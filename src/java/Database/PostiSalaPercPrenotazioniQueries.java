@@ -88,8 +88,9 @@ public class PostiSalaPercPrenotazioniQueries {
         } finally {
             stm.close();
         }
+       
         if(aggiungiInvisibili)
-            res = PostiSala.formattaInfoSala(res);
+            res = (ArrayList<PostiSala>)PostiSala.formattaInfoSala(res);
         return res;
     }
 }

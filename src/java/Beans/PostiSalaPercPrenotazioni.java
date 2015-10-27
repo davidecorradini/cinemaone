@@ -20,10 +20,41 @@ public class PostiSalaPercPrenotazioni extends PostiSala{
         return array;
     }
     
+    /**
+     * aggiunge un posto con percentuale di prenotazioni 0.
+     * @param idPosto
+     * @param colonna
+     * @param stato 
+     */
+    @Override
+     public void addNewPosto(int idPosto, int colonna, int stato){
+        this.addNewPosto(idPosto, colonna, stato, 0);
+    }
+    
+     /**
+      * aggiunge un posto.
+      * @param idPosto
+      * @param colonna
+      * @param stato
+      * @param percPren 
+      */
     public void addNewPosto(int idPosto, int colonna, int stato, double percPren){
         if(colonnaStato == null)
             colonnaStato = new ArrayList<>();
         colonnaStato.add(setArray(idPosto, colonna, stato, percPren));
+    }
+    
+    /**
+     * modifica un posto esistente, setta la percentuale a 0
+     * @param idPosto
+     * @param colonna
+     * @param stato
+     * @param index
+     * @return 
+     */
+    @Override
+    public boolean setPosto(int idPosto, int colonna, int stato, int index){
+        return this.setPosto(idPosto, colonna, stato, index, 0);
     }
     
     /**

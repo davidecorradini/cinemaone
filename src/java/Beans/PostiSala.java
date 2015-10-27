@@ -88,7 +88,7 @@ public class PostiSala {
         return (int)colonnaStato.get(index)[statoIndex];
     }
     
-    public static ArrayList<PostiSala> formattaInfoSala(ArrayList<PostiSala> incompleteList){
+    public static ArrayList<? extends PostiSala> formattaInfoSala(ArrayList<? extends PostiSala> incompleteList){
         if(incompleteList.isEmpty()) return null;
         char startC = incompleteList.get(0).getRiga();
         char endC = incompleteList.get(incompleteList.size()-1).getRiga();
