@@ -33,7 +33,7 @@ public class PrenotazioneTmpQueries {
      * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws SQLException
      */
-    public synchronized int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLIntegrityConstraintViolationException, SQLException{
+    public int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLIntegrityConstraintViolationException, SQLException{
         PreparedStatement stm;
         stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, ID_PREZZO) VALUES (?,?,?,CURRENT_TIMESTAMP,?)");
         int result;
