@@ -10,6 +10,7 @@ import Database.DBManager;
 import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,13 @@ public class aggiungiPrenTmp extends HttpServlet {
             ptq.aggiungiPrenotazioneTmp(prenTmp);
             response.getWriter().println("success");
         } catch (SQLException ex) {
-            response.getWriter().println("fail " + ex);
+            if(ex instanceof SQLIntegrityConstraintViolationException){
+                response.getWriter().println("db-fail");
+                System.err.println("constraint violation: " + ex);
+            }else{
+                response.getWriter().println("fail");
+                System.err.println("sqlException: " + ex);
+            }
         }
     }
     
