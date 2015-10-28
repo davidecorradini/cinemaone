@@ -40,11 +40,18 @@ public class PostiSalaPercPrenotazioniQueries {
         ArrayList<PostiSalaPercPrenotazioni> res = new ArrayList<>();
         
         
-        PreparedStatement stm = con.prepareStatement("SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
+        PreparedStatement stm = con.prepareStatement("SELECT *\n" +
+                "FROM (SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO, COUNT (PR.ID_PRENOTAZIONE) AS TOT\n" +
                 "FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO\n" +
-                "WHERE P.ID_SALA=?\n" +
                 "GROUP BY P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
-                "ORDER BY P.RIGA, P.COLONNA");
+                "UNION\n" +
+                "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO, 0 AS TOT\n" +
+                "FROM POSTO P\n" +
+                "WHERE P.ID_POSTO NOT IN (SELECT P.ID_POSTO\n" +
+                "FROM POSTO P JOIN PRENOTAZIONE PR ON PR.ID_POSTO=P.ID_POSTO)\n" +
+                ") AS T\n" +
+                "WHERE T.ID_SALA = ?\n" +
+                "ORDER BY T.RIGA, T.COLONNA");
         try {
             stm.setInt(1, id_sala);
             ResultSet rs = stm.executeQuery();
@@ -81,9 +88,13 @@ public class PostiSalaPercPrenotazioniQueries {
                     }
                     
                     double perc = ((double)rs.getInt("TOT"))/totale;
+                    System.out.println(perc);
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
-                }
+                }           
+                     
+                ps.setRiga(tmpRiga.charAt(0));
+                res.add(ps);
             } finally {
                 rs.close();
             }
@@ -91,6 +102,7 @@ public class PostiSalaPercPrenotazioniQueries {
         } finally {
             stm.close();
         }
+        res = PostiSalaPercPrenotazioni.normalizzaPercentuali(res);
         if(aggiungiInvisibili)
             res = PostiSala.formattaInfoSala(res, PostiSalaPercPrenotazioni.class);
         return res;

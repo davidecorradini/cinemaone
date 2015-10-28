@@ -83,6 +83,23 @@ ul.prices {
     outline: none;
 }
 
+.rotto {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    float: left;
+    margin: 3px;
+    padding: 0;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    outline: none;
+}
+
 .posto:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
     transition-duration: 500ms;

@@ -77,4 +77,27 @@ public class PostiSalaPercPrenotazioni extends PostiSala{
     public double getPrecentualePrenotazioni(int index){
         return (double)colonnaStato.get(index)[percPrenIndex];
     }
+    
+    public static ArrayList<PostiSalaPercPrenotazioni> normalizzaPercentuali(ArrayList<PostiSalaPercPrenotazioni> sala){
+        double max=0;
+        double min=1;
+        for(PostiSalaPercPrenotazioni fila : sala){
+            for(int i = 0; i < fila.getSize(); i++){
+                double perc = fila.getPrecentualePrenotazioni(i);
+                if(perc > max)
+                    max = perc;
+                else if(perc < min)
+                    min = perc;
+            }
+        }
+        for(PostiSalaPercPrenotazioni fila : sala){
+            for(int i = 0; i < fila.getSize(); i++){
+                double perc = fila.getPrecentualePrenotazioni(i);
+                if(max != min)
+                    perc = (fila.getPrecentualePrenotazioni(i) - min)/(max-min);
+                fila.setPosto(fila.getIdPosto(i), fila.getColonna(i), fila.getStato(i), i, perc);
+            }
+        }
+        return sala;
+    }
 }
