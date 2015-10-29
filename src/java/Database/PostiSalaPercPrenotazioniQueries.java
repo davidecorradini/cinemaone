@@ -28,7 +28,7 @@ public class PostiSalaPercPrenotazioniQueries {
     public PostiSalaPercPrenotazioniQueries(Connection con){
         this.con = con;
     }
-    
+      
     /**
      *
      * @param id_sala ID dello spettacolo di cui si vuole vedere la lista dei posti occupati
