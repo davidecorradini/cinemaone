@@ -13,4 +13,4 @@
         <h1>Pannello di controllo</h1>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
+<%@ include file="footer-admin.jsp" %>

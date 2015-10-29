@@ -68,62 +68,7 @@ public class AdminSpettacoli extends HttpServlet {
             request.setAttribute("prezzi", prezzi);
             request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);*/
         }else{ //mega query
-            ArrayList<SpettacoloSalaOrario> spettacoli = null;
-            SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
-            try {
-                String genereDescrizione = request.getParameter("genere_descrizione");
-                String filmTitolo = request.getParameter("film_titolo");
-                 Integer filmDurataLow;
-                 Integer filmDurataHigh;
-                try{
-                    filmDurataLow = new Integer(request.getParameter("film_durata_low"));
-                    filmDurataHigh = new Integer(request.getParameter("film_durata_high"));
-                }catch(NumberFormatException ex){ //ignore malformed.
-                    filmDurataLow = null;
-                    filmDurataHigh = null;
-                }
-                String filmRegista = request.getParameter("film_regista");
-                DateFormat dateParser = new SimpleDateFormat("dd/MM/yyyy"); //controllare formato data
-                Timestamp spettacoloDataOraLow = null;
-                Timestamp spettacoloDataOraHigh = null;
-                Timestamp prenotazioneDataOraLow = null;
-                Timestamp prenotazioneDataOraHigh = null;
-                try {
-                    String spettacoloDataOraLowString = request.getParameter("spettacolo_data_ora_low");
-                    if(spettacoloDataOraLowString != null)
-                        spettacoloDataOraLow = new Timestamp(dateParser.parse(spettacoloDataOraLowString).getTime());
-                    
-                    String spettacoloDataOraHighString = request.getParameter("spettacolo_data_ora_high");
-                    if(spettacoloDataOraHighString != null)
-                        spettacoloDataOraHigh = new Timestamp(dateParser.parse(spettacoloDataOraHighString).getTime());
-                    
-                    String prenotazioneDataOraLowString = request.getParameter("prenotazione_data_ora_low");
-                    if(prenotazioneDataOraLowString != null)
-                        prenotazioneDataOraLow = new Timestamp(dateParser.parse(prenotazioneDataOraLowString).getTime());
-                    
-                    String prenotazioneDataOraHighString = request.getParameter("prenotazione_data_ora_high");
-                    if(prenotazioneDataOraHighString != null)
-                        prenotazioneDataOraHigh = new Timestamp(dateParser.parse(prenotazioneDataOraHighString).getTime());
-                    
-                } catch (ParseException ex) { //ignore malformed.
-                    spettacoloDataOraLow = null;
-                    spettacoloDataOraHigh = null;
-                    prenotazioneDataOraLow = null;
-                    prenotazioneDataOraHigh = null;
-                }
-                
-                String prezzoTipo = request.getParameter("prezzo_tipo");
-                String salaNome = request.getParameter("sala_nome");
-                Character postoRiga = request.getParameter("posto_riga").charAt(0);
-                Integer postoColonna = new Integer(request.getParameter("posto_colonna"));
-                String utenteEmail = request.getParameter("utente_email");
-                String ruoloRuolo = request.getParameter("ruolo_ruolo");
-                spettacoli = sq.getSpettacoli(genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh, prenotazioneDataOraLow, prenotazioneDataOraHigh, prezzoTipo, salaNome, postoRiga, postoColonna, utenteEmail, ruoloRuolo);
-            } catch (SQLException ex) {
-                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-            }
-            request.setAttribute("spettacoli", spettacoli);
+            
             getServletContext().getRequestDispatcher("/jsp/admin-spettacoli.jsp").forward(request, response);
         }
     }

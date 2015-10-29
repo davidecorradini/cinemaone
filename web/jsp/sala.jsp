@@ -9,7 +9,7 @@
                         id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto libero"
                     </c:when>
                     <c:when test="${tmp.getStato(i) == -1}">
-                        id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto occupato"
+                        id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="rotto occupato"
                     </c:when>
                     <c:otherwise>
                         class="posto invisibile"
