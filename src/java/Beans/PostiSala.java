@@ -110,14 +110,13 @@ public class PostiSala {
                 if(col > endN) endN = col;
             }
         }
-         System.out.println("primo getSize passato");
+         
         if(endN-startN == 0) return null;
         ArrayList<T> res = new ArrayList<>();
         int indexN = 0;
         //startC è la prossima riga che deve essere inserita
         char startC = incompleteList.get(0).getRiga(); 
         for (T incompleteList1 : incompleteList) {
-            System.out.println("inizio ciclo su incompleteList");
             char endC = incompleteList1.getRiga(); //prossima riga già presente.
             //inserisci righe mancanti all'incomplete list
             for(char nextRiga = startC; nextRiga < endC; nextRiga++){ //aggiungi le righe che mancano interamente.
@@ -132,12 +131,10 @@ public class PostiSala {
                     throw new RuntimeException("can NOT create a new instance of: " + paramClass);
                 }
                 riga.setRiga(nextRiga);
-                for(int nextColonna = startN; nextColonna <= endN; nextColonna++) //inserisce tutte le colonna
+                for(int nextColonna = startN; nextColonna <= endN; nextColonna++) //inserisce tutte le colonne
                     riga.addNewPosto(-1, nextColonna, Posto.INESISTENTE_STATUS);
-                res.add(riga); //aggiungo la colonna.
-                System.out.println("aggiunta riga: " + riga.getRiga());
+                res.add(riga); //aggiungo la riga.
             }
-            System.out.println("fine creazione righe non esistenti: nextRiga: " + endC);
             //completa la riga endC dell'incompleteList
             T incompleteC = incompleteList1;
             T colonna;
@@ -152,27 +149,32 @@ public class PostiSala {
             }
             colonna.setRiga(endC);
             //copia i posti da incompleteC a colonna.
-            System.out.println("\n\nvado col secondo: inCompleteC.size() = " + incompleteC.getSize());
+            int startColonna = startN;
             for(int indiceColonna = 0; indiceColonna < incompleteC.getSize(); indiceColonna++){ 
-                System.out.println("indiceColonna = " + indiceColonna);
                 //aggiungo i posti nella colonna non presenti in incompleteC
-                for(int nextColonna = startN; nextColonna < incompleteC.getColonna(indiceColonna); nextColonna++){
+                for(int nextColonna = startColonna; nextColonna < incompleteC.getColonna(indiceColonna); nextColonna++){
                     colonna.addNewPosto(-1, nextColonna, Posto.INESISTENTE_STATUS);
                 }
-                //copio quelli il posto con colonna incompleteC.getColonna(indiceColonna);
-               
+                //copio i posti con colonna incompleteC.getColonna(indiceColonna);
+                
                 Number[] stato = incompleteC.getColonnaStato(indiceColonna);
+                
                 colonna.addNewPosto(stato); //copio il contenuto.
-                startN = incompleteC.getColonna(indiceColonna)+1;
+                startColonna = incompleteC.getColonna(indiceColonna)+1;
             }
+            //aggiungo posti infondo per arrivare fino all'ultima colonna: endN.
+            for(int last = colonna.getColonna(colonna.getSize()-1)+1; last <= endN; last++){
+                colonna.addNewPosto(-1, last, Posto.INESISTENTE_STATUS);
+            }
+           
             res.add(colonna);
-            startC = endC++;
+            startC = ++endC;
         }
         
         for(T obj : res){
             System.out.println("riga: " + obj.getRiga());
             for(int i=0; i<obj.getSize(); i++){
-                System.out.println("\tcolonna: " + obj.getColonna(i));
+                System.out.println("\tcolonna: " + obj.getColonna(i) + " stato: " + obj.getStato(i));
             }
         }
         return res;
