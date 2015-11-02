@@ -232,3 +232,18 @@ $('a.mostranascondi').click(function(){
         $('#dm'+id).show();
     }                
 });
+
+
+// Admin
+
+$(".posto-admin").click(function (event) {
+    var posto = event.target;
+    var postoString = $.trim($(posto).text());
+    var postoId = $(posto).attr("id").substring(6);
+    if ($(posto).hasClass("libero")) {
+        $("#cambia-stato-posto-id").val(postoId);
+        $("#posto-id").text(postoString);
+        $("#posto-id-2").val(postoString);
+        $("#cambia-stato-modal").modal();
+    }
+});
