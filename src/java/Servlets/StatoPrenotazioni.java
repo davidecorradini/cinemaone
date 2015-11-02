@@ -113,12 +113,15 @@ public class StatoPrenotazioni extends HttpServlet {
                 jsonObject.put("y", String.valueOf(posto.getRiga()));
                 String stato = postoOccupatoTmp;
                 //in prenotazioneTmp c'è l'id encoded.
-                if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
+                int prezzo = -1;
+                if(idUtente.equals(pren.getIdUtente())){ //se ho fatto io quella prenotazionetmp
                     stato = postoTuoTmp;
-                
+                    prezzo = pren.getIdPrezzo();
+                }
                 jsonObject.put("stato", stato);
+                jsonObject.put("prezzo", prezzo);
                 jsonObject.put("timestamp", tempoRimanente(res.getPren().getTimestamp()));
-              
+                
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
         } catch (JSONException ex) {
