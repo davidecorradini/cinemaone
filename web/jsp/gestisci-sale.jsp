@@ -98,6 +98,41 @@
         </div>
     </div>
 </div>
-
+            <div class="modal fade" id="cambia-stato-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="sale.html" method="POST">
+                            <input type="hidden" name="id-posto" id="cambia-stato-posto-id">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Cambia stato</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <tr>
+                                        <th>Posto</th>
+                                        <th>Stato</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" id="posto-id-2" disabled="disabled">
+                                        </td>
+                                        <td>
+                                            <select class="form-control" name="id-stato" id="stato-id">
+                                                <option value="-1">Rotto</option>
+                                                <option value="0">Aggiustato</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" id="recovery-cancel" data-dismiss="modal">Annulla</button>
+                                <button type="submit" class="btn btn-primary">Conferma</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 <%@ include file="footer-admin.jsp" %>
