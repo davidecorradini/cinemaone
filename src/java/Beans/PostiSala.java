@@ -170,67 +170,14 @@ public class PostiSala {
             res.add(colonna);
             startC = ++endC;
         }
-        
+       /* 
         for(T obj : res){
             System.out.println("riga: " + obj.getRiga());
             for(int i=0; i<obj.getSize(); i++){
                 System.out.println("\tcolonna: " + obj.getColonna(i) + " stato: " + obj.getStato(i));
             }
         }
+               */
         return res;
-     }
-     
-    /*
-    public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList, Class<T> paramClass){
-        if(incompleteList.isEmpty()) return null;
-        char startC = incompleteList.get(0).getRiga();
-        char endC = incompleteList.get(incompleteList.size()-1).getRiga();
-        if(endC - startC == 0) return null;
-        int startN = Integer.MAX_VALUE, endN = Integer.MIN_VALUE;
-        for(PostiSala postiSala : incompleteList){
-            for(int i=0; i<postiSala.getSize(); i++){
-                int col = postiSala.getColonna(i);
-                if(col < startN) startN = col;
-                if(col > endN) endN = col;
-            }
-        }
-        if(endN-startN == 0) return null;
-        ArrayList<T> res = new ArrayList<>();
-        //riempimento a vuoto, inserisco tutti i posti come inesistenti con un id fantoccio -1;
-        
-        for(char c=startC; c<=endC; c++){
-            int stato = Posto.INESISTENTE_STATUS;
-            T posto;
-            
-            try {
-                try {
-                    posto = paramClass.getConstructor().newInstance();
-                } catch (NoSuchMethodException | SecurityException ex) {
-                    throw new RuntimeException("class: " + paramClass + " must implement default constructor");
-                }
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                throw new RuntimeException("can NOT create a new instance of: " + paramClass);
-            }
-            
-            posto.setRiga(c);
-            ArrayList<Integer[]> colonnaStato = new ArrayList<>();
-            for(int col=startN; col<=endN; col++){
-                posto.addNewPosto(-1, col, stato);
-            }
-            res.add(posto);
-        }
-        //vado a settare i posti esistenti come tali.
-        for(PostiSala posto : incompleteList){
-            char c = posto.getRiga();
-            int indiceRiga = c - startC;
-            PostiSala resPostoSala = res.get(indiceRiga);
-            for(int i=0; i<posto.getSize(); i++){
-                int indiceColonna = posto.getColonna(i) - startN;
-                if(!resPostoSala.setPosto(posto.getIdPosto(i), posto.getColonna(i), posto.getStato(i), indiceColonna))
-                    throw new RuntimeException("errore nell'inserimento dei posti invisibili");
-            }
-        }
-        return res;
-    }
-    */
-}
+     }     
+  }
