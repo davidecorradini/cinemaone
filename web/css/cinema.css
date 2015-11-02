@@ -283,5 +283,6 @@ ul.nav.navbar-nav.navbar-right li a {
 }
 
 .gradient-rotto {
-    border: 1px #000 solid !important;
+    border: 2px #000 solid !important;
+    line-height: 30px;
 }

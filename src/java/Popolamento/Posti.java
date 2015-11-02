@@ -41,7 +41,16 @@ public class Posti {
     
     
     public void inserisciPosti() throws SQLException{
+        
+        
+        
         PreparedStatement stm;
+        stm = con.prepareStatement("DELETE FROM POSTO" );
+        stm.executeUpdate();
+        
+        stm = con.prepareStatement("ALTER TABLE POSTO ALTER COLUMN \"ID_POSTO\" RESTART WITH 1" );
+        stm.executeUpdate();
+        
         for (char i='a'; i<='a'+9; i++){
             for(int j=1;j<=13;j++){                               
                 if (    (((i>='a') && (i<='b')) && ((j>=3) && (j<=11))) || 
@@ -59,8 +68,8 @@ public class Posti {
         
        for (char i='a'; i<='a'+9; i++){
             for(int j=1;j<=13;j++){                               
-                if (    (((i>='a') && (i<='b')) && ((j>=3) && (j<=11))) || 
-                        (((i>='c') && (i<='d')) && ((j>=2) && (j<=12))) ||
+                if (    (((i>='a') && (i<='b')) && ((j>=4) && (j<=10))) || 
+                        (((i>='c') && (i<='d')) && ((j>=3) && (j<=11))) ||
                         (((i>='f') && (i<='g')) && (((j>=2)&&(j<=6))||((j>=8) && (j<=12)))) ||
                         (((i>='h') && (i<='j')) && (j!=7))  )
                         {
@@ -90,12 +99,12 @@ public class Posti {
         }
         
         for (char i='a'; i<='a'+7; i++){
-            for(int j=1;j<=11;j++){                               
-                if (    (((i>='a') && (i<='b')) && ((j>=2) && (j<=10) && (j!=6))) || 
-                        (((i>='c') && (i<='d')) && ((j!=6))) ||
-                        ((i=='f') && ((j>=2)&&(j<=10))) ||
-                        ((i=='g') && ((j>=3)&&(j<=9))) ||
-                        ((i=='h') && ((j>=4)&&(j<=8))) )
+            for(int j=1;j<=13;j++){                               
+                if (    (((i>='a') && (i<='b')) && ((j>=2) && (j<=12) && (j!=7))) || 
+                        (((i>='c') && (i<='d')) && ((j!=7))) ||
+                        ((i=='f') && ((j>=2)&&(j<=12))) ||
+                        ((i=='g') && ((j>=3)&&(j<=11))) ||
+                        ((i=='h') && ((j>=4)&&(j<=10))) )
                         {
                 stm = con.prepareStatement("INSERT INTO POSTO (ID_SALA, RIGA, COLONNA, STATO) VALUES(4,?,?,0)");
                 stm.setString(1, String.valueOf(i));

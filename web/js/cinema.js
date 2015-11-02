@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 // AJAX Login
 
 $("#login-form").submit(function(event) {
@@ -118,7 +122,17 @@ function updatePosti (spettacolo) {
                     } else if (key2 == "stato") {
                         stato = val2;
                     } else if (key2 == "timestamp") {
-                        timestamp = val2;
+                        var remaining = parseInt(val2);
+                        var m = remaining % 60;
+                        var s = remaining - m * 60;
+                        var mm = "0" + m;
+                        var ss;
+                        if (s < 10) {
+                            ss = "0" + s;
+                        } else {
+                            ss = s;
+                        }
+                        timestamp = mm + ":" + ss;
                     }
                     postoName = y + x;
                 });
@@ -136,6 +150,10 @@ function updatePosti (spettacolo) {
                             $(element).removeClass("libero");
                             $(element).addClass("selezionato");
                             $(element).prop('title', '');
+                        } else if (stato == "tuo-tmp") {
+                            $(element).removeClass("libero");
+                            $(element).addClass("selezionato");
+                            $(element).prop('title', timestamp);
                         }
                     }
                 });
@@ -146,6 +164,8 @@ function updatePosti (spettacolo) {
         });
     }, interval);
 }
+
+// db-fail: errore nel database, probabile posto doppio
 
 function addSelezionato (postoString) {
     if (postiSelezionati.length == 0) {
@@ -188,7 +208,7 @@ $("#prenota-form").submit(function (event) {
         success: function(answer) {
             answer = $.trim(answer);
             if (answer == "success") {
-                alert("Prenotato");
+                alert("OK");
             } else {
                 alert("Errore");
             }

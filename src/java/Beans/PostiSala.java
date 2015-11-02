@@ -1,8 +1,3 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
 package Beans;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +11,7 @@ public class PostiSala {
     protected static final int statoIndex = 2;
     protected char riga;
     protected ArrayList<Number[]> colonnaStato; //in 0 l'idPosto, in 1 il numero di colonna e in 2 lo stato
-      
+    
     public Number[] getColonnaStato(int index){
         return colonnaStato.get(index);
     }
@@ -49,7 +44,7 @@ public class PostiSala {
         colonnaStato.add(setArray(idPosto, colonna, stato));
     }
     
-     public void addNewPosto(Number[] newStato){
+    public void addNewPosto(Number[] newStato){
         if(colonnaStato == null)
             colonnaStato = new ArrayList<>();
         colonnaStato.add(newStato);
@@ -100,7 +95,7 @@ public class PostiSala {
         return (int)colonnaStato.get(index)[statoIndex];
     }
     
-     public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList, Class<T> paramClass){
+    public static<T extends PostiSala> ArrayList<T> formattaInfoSala(ArrayList<T> incompleteList, Class<T> paramClass){
         if(incompleteList.isEmpty()) return null;
         int startN = Integer.MAX_VALUE, endN = Integer.MIN_VALUE;
         for(PostiSala postiSala : incompleteList){
@@ -110,12 +105,12 @@ public class PostiSala {
                 if(col > endN) endN = col;
             }
         }
-         
+        
         if(endN-startN == 0) return null;
         ArrayList<T> res = new ArrayList<>();
         int indexN = 0;
         //startC è la prossima riga che deve essere inserita
-        char startC = incompleteList.get(0).getRiga(); 
+        char startC = incompleteList.get(0).getRiga();
         for (T incompleteList1 : incompleteList) {
             char endC = incompleteList1.getRiga(); //prossima riga già presente.
             //inserisci righe mancanti all'incomplete list
@@ -150,7 +145,7 @@ public class PostiSala {
             colonna.setRiga(endC);
             //copia i posti da incompleteC a colonna.
             int startColonna = startN;
-            for(int indiceColonna = 0; indiceColonna < incompleteC.getSize(); indiceColonna++){ 
+            for(int indiceColonna = 0; indiceColonna < incompleteC.getSize(); indiceColonna++){
                 //aggiungo i posti nella colonna non presenti in incompleteC
                 for(int nextColonna = startColonna; nextColonna < incompleteC.getColonna(indiceColonna); nextColonna++){
                     colonna.addNewPosto(-1, nextColonna, Posto.INESISTENTE_STATUS);
@@ -166,18 +161,18 @@ public class PostiSala {
             for(int last = colonna.getColonna(colonna.getSize()-1)+1; last <= endN; last++){
                 colonna.addNewPosto(-1, last, Posto.INESISTENTE_STATUS);
             }
-           
+            
             res.add(colonna);
             startC = ++endC;
         }
-       /* 
+        /*
         for(T obj : res){
-            System.out.println("riga: " + obj.getRiga());
-            for(int i=0; i<obj.getSize(); i++){
-                System.out.println("\tcolonna: " + obj.getColonna(i) + " stato: " + obj.getStato(i));
-            }
+        System.out.println("riga: " + obj.getRiga());
+        for(int i=0; i<obj.getSize(); i++){
+        System.out.println("\tcolonna: " + obj.getColonna(i) + " stato: " + obj.getStato(i));
         }
-               */
+        }
+        */
         return res;
-     }     
-  }
+    }
+}

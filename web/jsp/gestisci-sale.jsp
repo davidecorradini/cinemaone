@@ -22,7 +22,7 @@
             <c:set var="sale" value="${requestScope.sale}"></c:set>
             <c:forEach var="i"  begin="0" end="${sale.size()-1}">
                 <div role="tabpanel" class="tab-pane<c:if test="${first == 0}"> active</c:if>" id="sala-<c:out value="${requestScope.sale[i].idSala}"></c:out>">
-                    <div class="container">
+                    <div class="sala">
                     <c:set var="postiSala" value="${requestScope.postiSale[i]}"/>
                     <c:forEach var="tmp" items="${requestScope.postiSale[i]}">
                         <div class="row">
@@ -30,56 +30,56 @@
                                 
                                 <button <c:choose>
                                         <c:when test="${tmp.getStato(i) == 0}">
-                                            id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto libero 
+                                            id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto-admin 
                                             <c:set var="perc" value="${tmp.getPrecentualePrenotazioni(i)}"/>
                                             <c:choose>
                                                 <c:when test="${perc < 0.15}">
-                                                    classe1
+                                                    gradient-7
                                                 </c:when>
                                                 <c:when test="${perc >= 0.15 && perc < 0.30}">
-                                                    classe2
+                                                    gradient-6
                                                 </c:when>
                                                 <c:when test="${perc >= 0.30 && perc <0.45}">
-                                                    classe3
+                                                    gradient-5
                                                 </c:when>
                                                 <c:when test="${perc >= 0.45 && perc <0.60}">
-                                                    classe4
+                                                    gradient-4
                                                 </c:when>
                                                 <c:when test="${perc >= 0.60 && perc <0.75}">
-                                                    classe5
+                                                    gradient-3
                                                 </c:when>
                                                 <c:when test="${perc >= 0.75 && perc <0.90}">
-                                                    classe6
+                                                    gradient-2
                                                 </c:when>
                                                 <c:otherwise>
-                                                    classe7
+                                                    gradient-1
                                                 </c:otherwise>
                                             </c:choose>"
                                         </c:when>
                                         <c:when test="${tmp.getStato(i) == -1}">
-                                            id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto occupato
+                                            id="posto-<c:out value="${tmp.getIdPosto(i)}"></c:out>" class="posto-admin gradient-rotto
                                             <c:set var="perc" value="${tmp.getPrecentualePrenotazioni(i)}"/>
                                             <c:choose>
                                                 <c:when test="${perc < 0.15}">
-                                                    classe1
+                                                    gradient-7
                                                 </c:when>
                                                 <c:when test="${perc >= 0.15 && perc < 0.30}">
-                                                    classe2
+                                                    gradient-6
                                                 </c:when>
                                                 <c:when test="${perc >= 0.30 && perc <0.45}">
-                                                    classe3
+                                                    gradient-5
                                                 </c:when>
                                                 <c:when test="${perc >= 0.45 && perc <0.60}">
-                                                    classe4
+                                                    gradient-4
                                                 </c:when>
                                                 <c:when test="${perc >= 0.60 && perc <0.75}">
-                                                    classe5
+                                                    gradient-3
                                                 </c:when>
                                                 <c:when test="${perc >= 0.75 && perc <0.90}">
-                                                    classe6
+                                                    gradient-2
                                                 </c:when>
                                                 <c:otherwise>
-                                                    classe7
+                                                    gradient-1
                                                 </c:otherwise>
                                             </c:choose>"
                                         </c:when>
