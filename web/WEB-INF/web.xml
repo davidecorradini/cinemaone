@@ -112,6 +112,10 @@
         <servlet-name>AdminSpettacoli</servlet-name>
         <servlet-class>Servlets.AdminSpettacoli</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InfoPrenotazioniUtente</servlet-name>
+        <servlet-class>Servlets.InfoPrenotazioniUtente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -191,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>AdminSpettacoli</servlet-name>
         <url-pattern>/admin/spettacoli.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InfoPrenotazioniUtente</servlet-name>
+        <url-pattern>/profile.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
