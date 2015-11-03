@@ -105,6 +105,10 @@
         <servlet-class>Servlets.DeletePrenotazione</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>DeletePrenotazioneTmp</servlet-name>
+        <servlet-class>Servlets.DeletePrenotazioneTmp</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>IsLogged</servlet-name>
         <servlet-class>Servlets.IsLogged</servlet-class>
     </servlet>
@@ -199,6 +203,10 @@
     <servlet-mapping>
         <servlet-name>DeletePrenotazione</servlet-name>
         <url-pattern>/DeletePrenotazione</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>DeletePrenotazioneTmp</servlet-name>
+        <url-pattern>/DeletePrenotazioneTmp</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IsLogged</servlet-name>

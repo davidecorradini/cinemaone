@@ -131,7 +131,6 @@ public class StatoPrenotazioni extends HttpServlet {
         }        
         String jsonStr = json.toString();
         
-        System.out.println("\n\n\tstato prenotazioni:\n"+json);
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
@@ -177,15 +176,5 @@ public class StatoPrenotazioni extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
