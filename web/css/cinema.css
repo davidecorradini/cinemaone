@@ -160,8 +160,8 @@ ul.prices {
     background-color: #e8f5e9;
     border-radius: 3px;
     color: #388e3c;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 12px;
+    line-height: 24px;
     margin-bottom: 6px;
 }
 
@@ -181,6 +181,11 @@ ul.prices {
     outline: none;
     transition-duration: 500ms;
     transition-timing-function: ease;
+}
+
+.delete-posto {
+    float: right;
+    margin-right: 6px;
 }
 
 footer {
