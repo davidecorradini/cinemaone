@@ -30,8 +30,10 @@
                 <strong>Posti selezionati</strong>
                 <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
                 <div id="posti-selezionati-list"></div>
-                TOTALE: <strong id="totale"></strong>
-                <button class="btn btn-primary btn-sm pull-right">Procedi</button>
+                <div id="totale-bottone" style="display: none;">
+                    TOTALE: <strong id="totale"></strong>
+                    <button class="btn btn-primary btn-sm pull-right">Procedi</button>
+                </div>
             </div>
         </div>
         <br><br><br>
