@@ -138,6 +138,7 @@ function updatePosti (spettacolo) {
                 });
                 var mieiTmpN = 0;
                 $("#no-selected").show();
+                $("#totale-bottone").hide();
                 $(".posto").each(function (i, element) {
                     if ($(element).text() == postoName) {
                         if (stato == "occupato-tmp") {
@@ -166,8 +167,10 @@ function updatePosti (spettacolo) {
                     }
                 });
                 $("#totale").html("&euro; " + totale.toFixed(2));
-                if (mieiTmpN > 0)
+                if (mieiTmpN > 0) {
                     $("#no-selected").hide();
+                    $("#totale-bottone").show();
+                }
             });
             interval = 1000;
         }).fail( function(d, textStatus, error) {
