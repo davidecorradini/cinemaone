@@ -291,3 +291,7 @@ ul.nav.navbar-nav.navbar-right li a {
     border: 2px #000 solid !important;
     line-height: 30px;
 }
+
+#totale {
+    line-height: 33px;
+}

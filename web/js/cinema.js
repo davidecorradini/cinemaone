@@ -96,6 +96,7 @@ $("#recovery-form").submit(function(event) {
 function updatePosti (spettacolo) {
     var interval = 1000;
     setInterval(function () {
+        var totale = 0;
         $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
             $(".posto").each(function (i, element) {
                 $(element).removeClass("occupato");
@@ -104,7 +105,7 @@ function updatePosti (spettacolo) {
                 $(element).addClass("libero");
                 $(element).prop('title', '');
             });
-            $("#posti-selezionati").html("");
+            $("#posti-selezionati-list").html("");
             $.each(result, function (key, val) {
                 var x, y, stato, timestamp, postoName, prezzo;
                 $.each(val, function (key2, val2) {
@@ -135,12 +136,14 @@ function updatePosti (spettacolo) {
                     }
                     postoName = y + x;
                 });
+                var mieiTmpN = 0;
+                $("#no-selected").show();
                 $(".posto").each(function (i, element) {
                     if ($(element).text() == postoName) {
                         if (stato == "occupato-tmp") {
                             $(element).removeClass("libero");
                             $(element).addClass("occupato-tmp");
-                            
+                            // TODO: mostra timer
                         } else if (stato == "occupato") {
                             $(element).removeClass("libero");
                             $(element).addClass("occupato");
@@ -155,10 +158,16 @@ function updatePosti (spettacolo) {
                             $(element).removeClass("libero");
                             $(element).addClass("selezionato");
                             //$(element).attr('title', timestamp).tooltip('fixTitle').data('bs.tooltip').$tip.find('.tooltip-inner').text(timestamp);
-                            $("#posti-selezionati").append("<div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\">" + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div>");
+                            var price = parseFloat(prezzi[prezzo][1].substr(7).replace(",", "."));
+                            totale = totale + price;
+                            $("#posti-selezionati-list").append("<div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\">" + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div>");
+                            mieiTmpN++;
                         }
                     }
                 });
+                $("#totale").html("&euro; " + totale.toFixed(2));
+                if (mieiTmpN > 0)
+                    $("#no-selected").hide();
             });
             interval = 1000;
         }).fail( function(d, textStatus, error) {

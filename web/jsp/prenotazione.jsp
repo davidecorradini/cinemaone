@@ -28,8 +28,10 @@
             </div>
             <div class="col-md-4" id="posti-selezionati">
                 <strong>Posti selezionati</strong>
-                <div id="3no-selected" class="text-muted small">Nessun posto selezionato.</div>
-                <button class="btn btn-default">Procedi</button>
+                <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
+                <div id="posti-selezionati-list"></div>
+                TOTALE: <strong id="totale"></strong>
+                <button class="btn btn-primary btn-sm pull-right">Procedi</button>
             </div>
         </div>
         <br><br><br>
