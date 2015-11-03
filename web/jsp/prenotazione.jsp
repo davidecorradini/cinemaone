@@ -8,6 +8,10 @@
 <c:import url="header.jsp"></c:import>
     <script>
         var id_spettacolo = <c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>;
+        var prezzi = new Array();
+        <c:forEach var="tmp20" items="${requestScope.prezzi}">
+        prezzi[<c:out value="${tmp20.getIdPrezzo()}"></c:out>] = new Array("<c:out value="${tmp20.getTipo()}"></c:out>", "<fmt:formatNumber value="${tmp20.getPrezzo()}" type="currency" currencySymbol="&euro;" />");
+        </c:forEach>
     </script>
     <div class="container">
         <div class="page-header">
@@ -20,11 +24,16 @@
                     <c:set var="postiSala" value="${requestScope.postiSala}"/>
                     <c:import url="sala.jsp"></c:import>
                 </div>
+                <br><br><br>
             </div>
             <div class="col-md-4" id="posti-selezionati">
                 <strong>Posti selezionati</strong>
-                <div id="3no-selected" class="text-muted small">Nessun posto selezionato.</div>
-                <button class="btn btn-default">Procedi</button>
+                <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
+                <div id="posti-selezionati-list"></div>
+                <div id="totale-bottone" style="display: none;">
+                    TOTALE: <strong id="totale"></strong>
+                    <button class="btn btn-primary btn-sm pull-right">Procedi</button>
+                </div>
             </div>
         </div>
         <br><br><br>
@@ -67,4 +76,4 @@
             </div>
         </div>
     </div>
-<c:import url="footer.jsp"></c:import>    
+<c:import url="footer.jsp"></c:import>

@@ -5,12 +5,15 @@
 */
 package Database;
 
+import Beans.Film;
 import Beans.Utente;
+import Beans.PrenotazioniUtente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
 /**
  *
@@ -123,5 +126,54 @@ public class UtenteQueries {
         } finally {
             stm.close();
         }
+    }
+
+    public ArrayList<PrenotazioniUtente> getInfoPrenotazioniUtente(int idUtente) throws SQLIntegrityConstraintViolationException, SQLException{
+     ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = new ArrayList<>();
+        PreparedStatement stm = con.prepareStatement(" SELECT F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA,DATA_ORA_OPERAZIONE,DATA_ORA,NOME, COUNT(*) AS NUM_BIGLIETTI, SUM(PREZ.PREZZO) AS TOT\n" +
+"FROM PRENOTAZIONE PRE JOIN SPETTACOLO S ON S.ID_SPETTACOLO=PRE.ID_SPETTACOLO JOIN FILM F ON S.ID_FILM=F.ID_FILM JOIN SALA SA ON SA.ID_SALA=S.ID_SALA JOIN PREZZO PREZ ON PREZ.ID_PREZZO=PRE.ID_PREZZO\n" +
+"WHERE PRE.ID_UTENTE=?\n" +
+"GROUP BY  PRE.ID_SPETTACOLO,F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA,DATA_ORA_OPERAZIONE,DATA_ORA,NOME ");
+        
+        
+         stm.setInt(1, idUtente);
+        
+        try {
+            ResultSet rs = stm.executeQuery();
+            try {
+                
+                while(rs.next()){
+                    PrenotazioniUtente tmp = new PrenotazioniUtente();
+                    
+                    Film tmpFilm=new Film();
+                    tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+                    tmpFilm.setTitolo(rs.getString("TITOLO"));
+                    tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+                    tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                    tmpFilm.setDurata(rs.getInt("DURATA"));
+                    tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                    tmpFilm.setTrama(rs.getString("TRAMA"));
+                    tmpFilm.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                    tmpFilm.setRegista(rs.getString("REGISTA"));
+                    tmpFilm.setAnno(rs.getInt("ANNO"));
+                    
+                    tmp.setFilm(tmpFilm);
+                    tmp.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                    tmp.setDataOraSpettacolo(rs.getTimestamp("DATA_ORA"));
+                    tmp.setNomeSala(rs.getString("NOME"));
+                    tmp.setNumBiglietti(rs.getInt("NUM_BIGLIETTI"));
+                    tmp.setTot(rs.getInt("TOT"));
+                    
+                    infoPrenotazioniUtente.add(tmp);
+                }
+            }finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return infoPrenotazioniUtente;
+    
+    
     }
 }
