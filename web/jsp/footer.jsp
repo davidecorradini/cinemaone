@@ -110,9 +110,9 @@
                 $(document).ready(function () {
                     updatePosti(id_spettacolo);
                 });
-                $(function () {
-                    $('[data-toggle="tooltip"]').tooltip()
-                })
+                /*$(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                });*/
             </script>
         </c:if>
     </body>

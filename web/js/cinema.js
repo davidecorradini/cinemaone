@@ -1,7 +1,3 @@
-$(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-});
-
 // AJAX Login
 
 $("#login-form").submit(function(event) {
@@ -108,8 +104,9 @@ function updatePosti (spettacolo) {
                 $(element).addClass("libero");
                 $(element).prop('title', '');
             });
+            $("#posti-selezionati").html("");
             $.each(result, function (key, val) {
-                var x, y, stato, timestamp, postoName;
+                var x, y, stato, timestamp, postoName, prezzo;
                 $.each(val, function (key2, val2) {
                     if (key2 == "x") {
                         if (parseInt(val2) >= 10) {
@@ -123,8 +120,8 @@ function updatePosti (spettacolo) {
                         stato = val2;
                     } else if (key2 == "timestamp") {
                         var remaining = parseInt(val2);
-                        var m = remaining % 60;
-                        var s = remaining - m * 60;
+                        var m = Math.floor(remaining / 60);
+                        var s = remaining % 60;
                         var mm = "0" + m;
                         var ss;
                         if (s < 10) {
@@ -133,6 +130,8 @@ function updatePosti (spettacolo) {
                             ss = s;
                         }
                         timestamp = mm + ":" + ss;
+                    } else if (key2 == "prezzo") {
+                        prezzo = parseInt(val2);
                     }
                     postoName = y + x;
                 });
@@ -141,19 +140,22 @@ function updatePosti (spettacolo) {
                         if (stato == "occupato-tmp") {
                             $(element).removeClass("libero");
                             $(element).addClass("occupato-tmp");
-                            $(element).prop('title', timestamp);
+                            
                         } else if (stato == "occupato") {
                             $(element).removeClass("libero");
                             $(element).addClass("occupato");
                             $(element).prop('title', '');
+                            $(element).prop('data-original-title', '');
                         } else if (stato == "tuo") {
                             $(element).removeClass("libero");
                             $(element).addClass("selezionato");
                             $(element).prop('title', '');
+                            $(element).prop('data-original-title', '');
                         } else if (stato == "tuo-tmp") {
                             $(element).removeClass("libero");
                             $(element).addClass("selezionato");
-                            $(element).prop('title', timestamp);
+                            //$(element).attr('title', timestamp).tooltip('fixTitle').data('bs.tooltip').$tip.find('.tooltip-inner').text(timestamp);
+                            $("#posti-selezionati").append("<div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\">" + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div>");
                         }
                     }
                 });
@@ -168,10 +170,6 @@ function updatePosti (spettacolo) {
 // db-fail: errore nel database, probabile posto doppio
 
 function addSelezionato (postoString) {
-    if (postiSelezionati.length == 0) {
-        $("#no-selected").slideUp("fast");
-    }
-    postiSelezionati.push(postoString);
     $("#posti-selezionati").append("<div class=\"selezionato-container\" id=\"" + postoString + "\"><div class=\"posto-side selezionato\">" + postoString + "</div>Intero €9.00</div>");
     $("#" + postoString).slideDown("fast");
 }
@@ -208,7 +206,7 @@ $("#prenota-form").submit(function (event) {
         success: function(answer) {
             answer = $.trim(answer);
             if (answer == "success") {
-                alert("OK");
+                $("#prenotazione-modal").modal("hide");
             } else {
                 alert("Errore");
             }
