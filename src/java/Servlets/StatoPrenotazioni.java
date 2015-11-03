@@ -101,6 +101,7 @@ public class StatoPrenotazioni extends HttpServlet {
                 if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId))
                     stato = postoTuo;
                 jsonObject.put("stato", stato);
+                jsonObject.put("prezzo", -1);
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
             
