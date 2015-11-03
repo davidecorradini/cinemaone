@@ -170,6 +170,23 @@ public class PrenotazioneTmpQueries {
     }
     
     /**
+     * cancella la prenotazioneTmp per quel posto in quello spettacolo.
+     * @param idSpettacolo
+     * @param idPosto
+     * @throws SQLException 
+     */
+    public void deletePrenotazioneTmp(int idSpettacolo, int idPosto) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP P WHERE P.ID_SPETTACOLO = ? AND P.ID_POSTO = ?");
+        try{
+            stm.setInt(1, idSpettacolo);
+            stm.setInt(2, idPosto);
+        }finally{
+            stm.close();
+        }
+    }
+    
+    /**
      * cancella le prenotazioniTmp di un dato utente.
      * @param time
      * @throws SQLException 
