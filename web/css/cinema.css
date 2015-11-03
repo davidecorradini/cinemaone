@@ -295,3 +295,7 @@ ul.nav.navbar-nav.navbar-right li a {
 #totale {
     line-height: 33px;
 }
+
+#posti-selezionati-list {
+    margin: 8px 0;
+}
