@@ -10,10 +10,12 @@
     <div>        
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <c:set var="first" value="1"></c:set>
+            <c:set var="first" value="${requestScope.sala}"></c:set>
             <c:forEach var="tmp" items="${requestScope.sale}">
-                <li role="presentation" <c:if test="${first == 1}">class="active"</c:if>><a href="#sala-<c:out value="${tmp.idSala}"></c:out>" aria-controls="home" role="tab" data-toggle="tab"><c:out value="${tmp.nome}"></c:out></a></li>
-                <c:set var="first" value="0"></c:set>
+                <c:if test="${first == null}">
+                    <c:set var="first" value="${tmp.idSala}"></c:set>
+                </c:if>
+                <li role="presentation" <c:if test="${first == tmp.idSala}">class="active"</c:if>><a href="#sala-<c:out value="${tmp.idSala}"></c:out>" aria-controls="home" role="tab" data-toggle="tab"><c:out value="${tmp.nome}"></c:out></a></li>
             </c:forEach>
         </ul>
         <!-- Tab panes -->
@@ -21,7 +23,7 @@
             <br>
             <c:set var="sale" value="${requestScope.sale}"></c:set>
             <c:forEach var="i"  begin="0" end="${sale.size()-1}">
-                <div role="tabpanel" class="tab-pane<c:if test="${first == 0}"> active</c:if>" id="sala-<c:out value="${requestScope.sale[i].idSala}"></c:out>">
+                <div role="tabpanel" class="tab-pane<c:if test="${first == requestScope.sale[i].idSala}"> active</c:if>" id="sala-<c:out value="${requestScope.sale[i].idSala}"></c:out>">
                     <div class="sala">
                     <c:set var="postiSala" value="${requestScope.postiSale[i]}"/>
                     <c:forEach var="tmp" items="${requestScope.postiSale[i]}">
@@ -92,7 +94,6 @@
                     </c:forEach>
                     </div>
                 </div>
-                <c:set var="first" value="1"></c:set>
             </c:forEach>
             <br>
         </div>
