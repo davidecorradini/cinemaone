@@ -1,6 +1,7 @@
 package Servlets;
 
 import Beans.PrenotazioniUtente;
+import Beans.Utente;
 import Database.DBManager;
 import Database.UtenteQueries;
 import java.io.IOException;
@@ -33,21 +34,26 @@ public class InfoPrenotazioniUtente extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         
-        HttpSession session = request.getSession(false);
-        int idUtente=(int)request.getSession(false).getAttribute("idUtente"); //encoded ID.
         
-        ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = null;
-        UtenteQueries sq = new UtenteQueries(manager);
-        try {
-            infoPrenotazioniUtente = sq.getInfoPrenotazioniUtente(idUtente);
-        } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+        HttpSession session = request.getSession(false);
+        Utente user = (Utente)session.getAttribute("user");
+        if(user!=null){
+            int idUtente=user.getIdUtente(); //encoded ID.
+            
+            ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = null;
+            UtenteQueries sq = new UtenteQueries(manager);
+            try {
+                infoPrenotazioniUtente = sq.getInfoPrenotazioniUtente(idUtente);
+            } catch (SQLException ex) {
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
+            request.setAttribute("infoPrenotazioniUtente", infoPrenotazioniUtente);
+            getServletContext().getRequestDispatcher("/jsp/infoPrenotazioniUtente.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "impossibile caricare la pagina, nessun utente loggato");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        request.setAttribute("infoPrenotazioniUtente", infoPrenotazioniUtente);
-        getServletContext().getRequestDispatcher("/jsp/infoPrenotazioniUtente.jsp").forward(request, response);
-  
     }
     
      @Override

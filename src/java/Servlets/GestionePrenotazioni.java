@@ -6,8 +6,8 @@
 package Servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author alessandro
  */
-@WebServlet(name = "AdminHome", urlPatterns = {"/admin/index.html"})
-public class AdminHome extends HttpServlet {
+public class GestionePrenotazioni extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +33,7 @@ public class AdminHome extends HttpServlet {
         HttpSession session = request.getSession(false);
         String ruolo = (String)session.getAttribute("autenticato");
         if(ruolo!=null && ruolo.equals("ADMIN")){
-            getServletContext().getRequestDispatcher("/jsp/admin-index.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/gestione-prenotazioni.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

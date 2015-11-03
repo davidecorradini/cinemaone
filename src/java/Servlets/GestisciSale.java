@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package Servlets;
 
 import Beans.PostiSala;
@@ -25,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,55 +52,62 @@ public class GestisciSale extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getParameter("id-posto") != null && request.getParameter("id-stato") != null){
-            int idPosto = Integer.parseInt(request.getParameter("id-posto"));
-            int stato = Integer.parseInt(request.getParameter("id-stato"));
-            PostoQueries postoQueries = new PostoQueries(manager);
-            Posto posto2 = new Posto();
+        HttpSession session = request.getSession(false);
+        String ruolo = (String)session.getAttribute("autenticato");
+        if(ruolo!=null && ruolo.equals("ADMIN")){
+            if(request.getParameter("id-posto") != null && request.getParameter("id-stato") != null){
+                int idPosto = Integer.parseInt(request.getParameter("id-posto"));
+                int stato = Integer.parseInt(request.getParameter("id-stato"));
+                PostoQueries postoQueries = new PostoQueries(manager);
+                Posto posto2 = new Posto();
+                try {
+                    posto2 = postoQueries.getPosto(idPosto);
+                } catch (SQLException ex) {
+                    request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
+                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                }
+                request.setAttribute("sala", posto2.getIdSala());
+                Posto posto = new Posto();
+                posto.setIdPosto(idPosto);
+                posto.setStato(stato);
+                try {
+                    postoQueries.cambiaStato(posto);
+                } catch (SQLException ex) {
+                    request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
+                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                }
+            }
+            SalaQueries salaQueries = new SalaQueries(manager);
+            PostiSalaPercPrenotazioniQueries postiSalaQ = new PostiSalaPercPrenotazioniQueries(manager);
+            ArrayList<Sala> sale = null;
             try {
-                posto2 = postoQueries.getPosto(idPosto);
+                sale = salaQueries.getSale();
             } catch (SQLException ex) {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                 getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
-            request.setAttribute("sala", posto2.getIdSala());
-            Posto posto = new Posto();
-            posto.setIdPosto(idPosto);
-            posto.setStato(stato);
-            try {
-                postoQueries.cambiaStato(posto);
-            } catch (SQLException ex) {
-                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
-                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            ArrayList<ArrayList<PostiSalaPercPrenotazioni>> postiSale = new ArrayList<>();
+            ArrayList<PostiSalaPercPrenotazioni> postiSala = new ArrayList<>();
+            for(Sala sala : sale){
+                try {
+                    System.out.println(sala.getIdSala());
+                    postiSala = postiSalaQ.getAllPosti(sala.getIdSala(), true);
+                } catch (SQLException ex) {
+                    request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita2"+ex);
+                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                }
+                postiSale.add(postiSala);
+                postiSala = new ArrayList<>();
             }
-        }
-        SalaQueries salaQueries = new SalaQueries(manager);
-        PostiSalaPercPrenotazioniQueries postiSalaQ = new PostiSalaPercPrenotazioniQueries(manager);
-        ArrayList<Sala> sale = null;
-        try {
-            sale = salaQueries.getSale();
-        } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
+            request.setAttribute("sale", sale);
+            request.setAttribute("postiSale", postiSale);
+            request.getRequestDispatcher("/jsp/gestisci-sale.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "non disponi dei permessi necessari");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        ArrayList<ArrayList<PostiSalaPercPrenotazioni>> postiSale = new ArrayList<>();
-        ArrayList<PostiSalaPercPrenotazioni> postiSala = new ArrayList<>();
-        for(Sala sala : sale){
-            try {
-                System.out.println(sala.getIdSala());
-                postiSala = postiSalaQ.getAllPosti(sala.getIdSala(), true);
-            } catch (SQLException ex) {
-                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita2"+ex);
-                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-            }
-            postiSale.add(postiSala);
-            postiSala = new ArrayList<>();
-        }
-        request.setAttribute("sale", sale);
-        request.setAttribute("postiSale", postiSale);
-        request.getRequestDispatcher("/jsp/gestisci-sale.jsp").forward(request, response);
     }
-
+    
     @Override
     public void destroy(){
         this.manager = null;
@@ -119,7 +127,7 @@ public class GestisciSale extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -133,7 +141,7 @@ public class GestisciSale extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Returns a short description of the servlet.
      *
@@ -143,5 +151,5 @@ public class GestisciSale extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

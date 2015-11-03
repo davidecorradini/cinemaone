@@ -58,7 +58,7 @@ public class SpettacoloQueries {
      * @return array di Integer il cui primo elemento è il numero di posti prenotati e il secondo è l'incasso
      * @throws SQLException
      */
-    public Integer[] getPostiIncasso(Spettacolo sp) throws SQLException{
+    public Integer[] getPostiIncasso(int idSpettacolo) throws SQLException{
         Integer res[]=new Integer[2];
         PreparedStatement stm;
         stm = con.prepareStatement(
@@ -66,14 +66,16 @@ public class SpettacoloQueries {
                         "FROM PREZZO AS PR JOIN PRENOTAZIONE AS P ON PR.ID_PREZZO=P.ID_PREZZO\n" +
                         "WHERE P.ID_SPETTACOLO=?");
         try{
-            stm.setInt(1, sp.getIdSpettacolo());
+            stm.setInt(1, idSpettacolo);
             
             ResultSet rs = stm.executeQuery();
             try {
-                res[0]=rs.getInt("TOT_POSTI");
-                res[1]=rs.getInt("TOT_PREZZO");
-                if(res[1] == 0)
-                    res[1] = 0;
+                if(rs.next()){
+                    res[0]=rs.getInt("TOT_POSTI");
+                    res[1]=rs.getInt("TOT_PREZZO");
+                    if(res[1] == 0)
+                        res[1] = 0;
+                }
             } finally {
                 rs.close();
             }

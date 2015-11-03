@@ -18,11 +18,17 @@
         
         <script src="../js/jquery-ui.min.js"></script>
         <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/cinema.js"></script>
-        <c:if test="${pageContext.request.servletPath == '/jsp/prenotazione.jsp'}">
+        <script src="../js/cinema.js"></script>        
+        <script src="../js/bootstrap-datepicker.min.js"></script>
+        <script>
+            $('.input-daterange').datepicker({
+                format: "dd/mm/yyyy"
+            });
+        </script>
+        <c:if test="${pageContext.request.servletPath == '/jsp/dettaglio-spettacolo.jsp'}">
             <script>
                 $(document).ready(function () {
-                    updatePosti(id_spettacolo);
+                    updatePostiAdmin(id_spettacolo);
                 });
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()

@@ -4,43 +4,66 @@
 <%@ include file="header-admin.jsp" %>
 <div class="container">
     <div class="page-header">
-        <h1>Gestione spettacoli</h1>
+        <h1>Info spettacoli</h1>
     </div>
-    
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-                <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+    <br>
+    <form>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Titolo film</label>
+                    <input type="text" class="form-control" name="titolo" placeholder="titolo">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Genere film</label>
+                    <input type="text" class="form-control" name="genere" placeholder="genere">
+                </div> 
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Regista film</label>
+                    <input type="text" class="form-control" name="regista" placeholder="regista">
+                </div> 
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Sala spettacolo</label>
+                    <input type="text" class="form-control" name="sala" placeholder="sala">
+                </div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Durata minima</label>
+                    <input type="text" class="form-control" name="durataMin" placeholder="durata minima">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"> Remember me
-                        </label>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Durata massima</label>
+                    <input type="text" class="form-control" name="durataMax" placeholder="durata massima">
+                </div> 
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>In programmazione</label>
+                    <div class="input-daterange input-group" id="datepicker">
+                        <span class="input-group-addon">da</span>
+                        <input type="text" class="input-sm form-control" name="start" />
+                        <span class="input-group-addon">a</span>
+                        <input type="text" class="input-sm form-control" name="end" />
                     </div>
-                </div>
+                </div> 
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">Sign in</button>
-                </div>
-            </div>
-        </form>
-    
+        </div>
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </form>
+    <br>
     <div class="panel-heading">
             <h3 class="panel-title">Spettacoli</h3>
-            <div class="pull-right">
-                <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
-            </div>
         </div>
     <table class="table table-bordered table-striped">
         
@@ -52,19 +75,13 @@
             <th class="text-center">Visualizza</th>
         </tr>
             
-            
-        <c:forEach var="tmp" items="${requestScope.spettacoli}">
-            <c:set var="tmpFilm" value="${tmp.getFilm()}"/>
-            <c:set var="tmpSala" value="${tmp.getSala()}"/>
-            <c:set var="tmpGenere" value="${tmp.getGenere()}"/>
-            <tr>
-                <td><a class="no-color" href="dettaglio-film.html?idfilm=<c:out value="${tmpFilm.getIdFilm()}"></c:out>"><c:out value="${tmpFilm.getTitolo()}"></c:out></a> <small class="text-muted"><c:out value="${tmpFilm.getRegista()}"></c:out> &middot; <c:out value="${tmpFilm.getAnno()}"></c:out> &middot; <c:out value="${tmpGenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpFilm.getDurata()}"></c:out>min</small></td>
-                <td class="text-center"><c:out value="${tmp.getData()}"></c:out></td>
-                <td class="text-center"><c:out value="${tmp.getOra()}"></c:out></td>
-                <td class="text-center"><c:out value="${tmpSala.getNome()}"></c:out></td>
-                <td class="text-center"><a class="no-color" href="spettacoli.html?idspettacolo=<c:out value="${tmp.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i></a></td>
-            </tr>
-        </c:forEach>
+        <tr>
+            <td><a class="no-color" href="../dettaglio-film.html?idfilm=1">I Fantastici 4</a> <small class="text-muted">Tim Story &middot; 2005 &middot; fantasy &middot; 123min</small></td>
+            <td class="text-center">15 marzo 2016</td>
+            <td class="text-center">19:00</td>
+            <td class="text-center">SALA1</td>
+            <td class="text-center"><a class="no-color" href="spettacoli.html?idspettacolo=1"><i class="zmdi zmdi-calendar-check"></i></a></td>
+        </tr>        
                     
     </table>       
 </div>

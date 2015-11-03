@@ -18,6 +18,7 @@
         <link href="../css/material-design-iconic-font.min.css" rel="stylesheet">
         <link href="../css/jquery.bxslider.css" rel="stylesheet">
         <link href="../css/cinema.css" rel="stylesheet">
+        <link href="../css/bootstrap-datepicker.min.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -48,8 +49,9 @@
                             <li class="active"><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
                             <li><a href="incassi-film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Incassi Film</a></li>
                             <li><a href="clienti-top.html"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Clienti Top</a></li>
-                            <li><a href="spettacoli.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Spettacoli</a></li>
-                            <li><a href="sale.html"><i class="zmdi zmdi-calendar-check zmdi-right-8"></i>Sale</a></li>
+                            <li><a href="spettacoli.html"><i class="zmdi zmdi-videocam zmdi-right-8"></i>Spettacoli</a></li>
+                            <li><a href="prenotazioni.html"><i class="zmdi zmdi-assignment-check zmdi-right-8"></i>Prenotazioni</a></li>
+                            <li><a href="sale.html"><i class="zmdi zmdi-view-comfy zmdi-right-8"></i>Sale</a></li>
                             <li><a href="../index.html"><i class="zmdi zmdi-close zmdi-right-8"></i>Esci</a></li>
                         </ul>
                     </div>
