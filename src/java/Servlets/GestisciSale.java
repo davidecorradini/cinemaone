@@ -7,10 +7,12 @@ package Servlets;
 
 import Beans.PostiSala;
 import Beans.PostiSalaPercPrenotazioni;
+import Beans.Posto;
 import Beans.Sala;
 import Database.DBManager;
 import Database.PostiSalaPercPrenotazioniQueries;
 import Database.PostiSalaQueries;
+import Database.PostoQueries;
 import Database.SalaQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -49,6 +51,20 @@ public class GestisciSale extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getParameter("id-posto") != null && request.getParameter("id-stato") != null){
+            int idPosto = Integer.parseInt(request.getParameter("id-posto"));
+            int stato = Integer.parseInt(request.getParameter("id-stato"));
+            PostoQueries postoQueries = new PostoQueries(manager);
+            Posto posto = new Posto();
+            posto.setIdPosto(idPosto);
+            posto.setStato(stato);
+            try {
+                postoQueries.cambiaStato(posto);
+            } catch (SQLException ex) {
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
+        }
         SalaQueries salaQueries = new SalaQueries(manager);
         PostiSalaPercPrenotazioniQueries postiSalaQ = new PostiSalaPercPrenotazioniQueries(manager);
         ArrayList<Sala> sale = null;
