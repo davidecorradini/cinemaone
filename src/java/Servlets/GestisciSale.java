@@ -55,6 +55,14 @@ public class GestisciSale extends HttpServlet {
             int idPosto = Integer.parseInt(request.getParameter("id-posto"));
             int stato = Integer.parseInt(request.getParameter("id-stato"));
             PostoQueries postoQueries = new PostoQueries(manager);
+            Posto posto2 = new Posto();
+            try {
+                posto2 = postoQueries.getPosto(idPosto);
+            } catch (SQLException ex) {
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
+            request.setAttribute("sala", posto2.getIdSala());
             Posto posto = new Posto();
             posto.setIdPosto(idPosto);
             posto.setStato(stato);
