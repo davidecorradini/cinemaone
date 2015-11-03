@@ -234,4 +234,24 @@ public class PrenotazioneTmpQueries {
             prenQ.aggiungiPrenotazione(pren);
         }
     }
+    
+    public void setTimerPrenotazioneTMP(String idUtente) throws SQLException, IllegalArgumentException{
+        
+        // controllo se utente loggato
+        Object obj = Utente.decodeIdUtente(idUtente);
+        if (!(obj instanceof Integer))
+            throw new IllegalArgumentException("Conferma prenotazioni: invalid Id");
+        
+        int id = (int)obj;
+        
+        PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= {fn TIMESTAMPADD(SQL_TSI_MINUTE, -4, CURRENT_TIMESTAMP)}"
+                + "WHERE PT.ID_UTENTE=?");
+        try {
+            stm.setString(1, Utente.encodeIdUtente(idUtente));
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+       
+    }
 }
