@@ -132,6 +132,10 @@
         <servlet-name>GestionePrenotazioni</servlet-name>
         <servlet-class>Servlets.GestionePrenotazioni</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GeneraSpettacoli</servlet-name>
+        <servlet-class>Servlets.GeneraSpettacoli</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -204,7 +208,7 @@
         <servlet-name>DeletePrenotazione</servlet-name>
         <url-pattern>/DeletePrenotazione</url-pattern>
     </servlet-mapping>
-     <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>DeletePrenotazioneTmp</servlet-name>
         <url-pattern>/DeletePrenotazioneTmp</url-pattern>
     </servlet-mapping>
@@ -232,6 +236,10 @@
     <servlet-mapping>
         <servlet-name>GestionePrenotazioni</servlet-name>
         <url-pattern>/admin/prenotazioni.html</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GeneraSpettacoli</servlet-name>
+        <url-pattern>/generaSpettacoli</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

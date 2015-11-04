@@ -121,19 +121,20 @@ public class SpettacoloQueries {
     /**
      * setta la programmazione dei film in modo da metterli in serie
      * @param min numero di minuti tra uno spettacolo e l'altro
+     * @param n numero di spettacoli
      * @throws SQLException
      */
-    public void setProgrammazione(int min) throws SQLException{
+    public void setProgrammazione(int min, int n) throws SQLException{
         
-        int n=5; //numero di film per spettacolo
+        //int n=5; //numero di film per spettacolo
         
         Calendar calendar = Calendar.getInstance();
         
         PreparedStatement stmFilm;
         PreparedStatement stmSala;
         PreparedStatement stmUpdate;
-        stmFilm = con.prepareStatement("SELECT ID_FILM FROM FILM");
-        stmSala = con.prepareStatement("SELECT ID_SALA FROM SALA");
+        stmFilm = con.prepareStatement("SELECT ID_FILM FROM FILM ORDER BY RANDOM()");
+        stmSala = con.prepareStatement("SELECT ID_SALA FROM SALA ORDER BY RANDOM()");
         stmUpdate = con.prepareStatement("INSERT INTO SPETTACOLO (ID_SALA, ID_FILM, DATA_ORA) VALUES (?,?,?)");
         ResultSet rsFilm = stmFilm.executeQuery();
         ResultSet rsSala = stmSala.executeQuery();
@@ -153,22 +154,22 @@ public class SpettacoloQueries {
                 Calendar calendar2 = (Calendar) calendar.clone();
                 calendar2.add(Calendar.MINUTE, (int) (random() * min));
                 int id_sala= rsSala.getInt("ID_SALA");
-                
-                int id_film= film.remove(nfilm);
-                
-                
-                for (int i=0; i<n; i++){
+                if(!film.isEmpty()){
+                    int id_film= film.remove(nfilm);
                     
-                    Timestamp time = new Timestamp(calendar2.getTimeInMillis());
-                    stmUpdate.setInt(1, id_sala);
-                    stmUpdate.setInt(2, id_film);
-                    stmUpdate.setTimestamp(3, time);
-                    stmUpdate.executeUpdate();
-                    //schema di spettacolo: ID_SPETTACOLO, ID_FILM, ID_SALA, DATA_ORA
-                    //aumento il tempo
-                    calendar2.add(Calendar.MINUTE, min);
+                    
+                    for (int i=0; i<n; i++){
+                        
+                        Timestamp time = new Timestamp(calendar2.getTimeInMillis());
+                        stmUpdate.setInt(1, id_sala);
+                        stmUpdate.setInt(2, id_film);
+                        stmUpdate.setTimestamp(3, time);
+                        stmUpdate.executeUpdate();
+                        //schema di spettacolo: ID_SPETTACOLO, ID_FILM, ID_SALA, DATA_ORA
+                        //aumento il tempo
+                        calendar2.add(Calendar.MINUTE, min);
+                    }
                 }
-                
             }
         } finally {
             stmFilm.close();
