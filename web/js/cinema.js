@@ -93,11 +93,77 @@ $("#recovery-form").submit(function(event) {
 
 // Prenotazione
 
+
+
 function updatePosti (spettacolo) {
+    var currentSeats = new Array();
+    var oldSeats = new Array();
     var interval = 1000;
     setInterval(function () {
-        var totale = 0;
         $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
+            // Parsing dell'oggeto JSON
+            $.each(result, function (key1, val1) {
+                var idPosto, timestamp, stato, prezzo, x, y;
+                idPosto = key1;
+                $.each(val1, function (key2, val2) {
+                    if (key2 == "timestamp") {
+                        timestamp = parseInt(val2);
+                    } else if (key2 == "stato") {
+                        stato = val2;
+                    } else if (key2 == "prezzo") {
+                        prezzo = parseInt(val2);
+                    } else if (key2 == "y") {
+                        y = val2.toUpperCase();
+                    } else if (key2 == "x") {
+                        x = val2;
+                        if (parseInt(x) < 10) {
+                            x = "0" + x;
+                        }
+                    }
+                });
+                var currentObject = {"idPosto": idPosto, "timestamp": timestamp, "stato": stato, "prezzo": prezzo, "y": y, "x": x};
+                currentSeats.push(currentObject);
+            });
+            // Reset
+            $(".posto").each(function (index, element) {
+                $(element).removeClass("tuo");
+                $(element).removeClass("tuo-tmp");
+                $(element).removeClass("occupato");
+                $(element).removeClass("occupato-tmp");
+            });
+            $("#posti-selezionati-list").html("");
+            // Fill
+            $.each(currentSeats, function (index, object) {
+                console.log("idPosto: " + object.idPosto + ", timestamp: " + object.timestamp + ", stato: " + object.stato + ", prezzo: " + object.prezzo + ", x/y: " + object.y + object.x);
+                $("#posto-" + object.idPosto).addClass(object.stato);
+                var slideIn = "";
+                if (oldSeats.indexOf(object) == -1) {
+                    slideIn = " slide-in";
+                    console.log("new object");
+                }
+                console.log("indexOf old: " + oldSeats.indexOf(object));
+                console.log("indexOf current:" + currentSeats.indexOf(object));
+                var percentuale = (object.timestamp / 300) * 100;
+                var m = Math.floor(object.timestamp / 60);
+                var s = object.timestamp % 60;
+                var mm = "0" + m;
+                var ss;
+                if (s < 10) {
+                    ss = "0" + s;
+                } else {
+                    ss = s;
+                }
+                var remaining = mm + ":" + ss;
+                $("#posti-selezionati-list").append("<div class=\"prenotazione-container" + slideIn + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                $(".slide-in").each(function (index, element) {
+                    $(element).slideDown(500);
+                });
+            });
+            
+            
+            
+            /*$("#no-selected").show();
+            $("#totale-bottone").hide();
             $(".posto").each(function (i, element) {
                 $(element).removeClass("occupato");
                 $(element).removeClass("occupato-tmp");
@@ -107,11 +173,14 @@ function updatePosti (spettacolo) {
             });
             $("#posti-selezionati-list").html("");
             $.each(result, function (key, val) {
+                var json = jQuery.parseJSON(val);
+                console.log(key + " - " + val);
+            });
                 var x, y, stato, timestamp, postoName, prezzo;
                 $.each(val, function (key2, val2) {
                     if (key2 == "x") {
                         if (parseInt(val2) >= 10) {
-                            x = val2;
+                            x = val2;-
                         } else {
                             x = "0" + val2;
                         }
@@ -120,7 +189,7 @@ function updatePosti (spettacolo) {
                     } else if (key2 == "stato") {
                         stato = val2;
                     } else if (key2 == "timestamp") {
-                        var remaining = parseInt(val2);
+                        remaining = parseInt(val2);
                         var m = Math.floor(remaining / 60);
                         var s = remaining % 60;
                         var mm = "0" + m;
@@ -135,8 +204,9 @@ function updatePosti (spettacolo) {
                         prezzo = parseInt(val2);
                     }
                     postoName = y + x;
+                    if (stato == "tuo-tmp")
+                        currentSeats.push(postoName);
                 });
-                var mieiTmpN = 0;
                 $("#no-selected").show();
                 $("#totale-bottone").hide();
                 $(".posto").each(function (i, element) {
@@ -156,44 +226,57 @@ function updatePosti (spettacolo) {
                             $(element).prop('title', '');
                             $(element).prop('data-original-title', '');
                         } else if (stato == "tuo-tmp") {
+                            if (remaining == 1)
+                                setTimeout(function () {
+                                    $("#prenotazione-" + postoName).slideUp(200);
+                                }, 700);
                             $(element).removeClass("libero");
                             $(element).addClass("selezionato");
                             //$(element).attr('title', timestamp).tooltip('fixTitle').data('bs.tooltip').$tip.find('.tooltip-inner').text(timestamp);
                             var price = parseFloat(prezzi[prezzo][1].substr(7).replace(",", "."));
                             totale = totale + price;
-                            $("#posti-selezionati-list").append("<div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\">" + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div>");
-                            mieiTmpN++;
+                            percentuale = (remaining / 300.) * 100.;
+                            if ($.inArray(postoName, currentSeats) > -1 && $.inArray(postoName, oldSeats) < 0) {
+                                $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"new-prenotazione\" style=\"display: none;\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                                $("#new-prenotazione").each(function (i, element) {
+                                    setTimeout($(element.currentTarget).slideDown(700), 100);
+                                });
+                            } else {
+                                
+                                if (remaining == 1)
+                                    lastSecond = " last-second";
+                                else
+                                    lastSecond = "";
+                                $("#posti-selezionati-list").append("<div class=\"prenotazione-container" + lastSecond + "\" id=\"prenotazione-" + postoName + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side selezionato\">" + postoName + "</div><strong>" + prezzi[prezzo][1] + "</strong> " + prezzi[prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + timestamp + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                            }
                         }
                     }
                 });
-                $("#totale").html("&euro; " + totale.toFixed(2));
-                if (mieiTmpN > 0) {
+                if ($.trim($("#posti-selezionati-list").html()) == "") {
+                    //$("#no-selected").slideDown(500);
+                    //$("#totale-bottone").slideUp(200);
+                } else {
+                    
                     $("#no-selected").hide();
                     $("#totale-bottone").show();
+                    
                 }
+                $("#totale").html("&euro; " + totale.toFixed(2));
+                
             });
-            interval = 1000;
+            interval = 1000;*/
         }).fail( function(d, textStatus, error) {
             interval = 5000;
         });
+        console.log(currentSeats + " <> " + oldSeats);
+        oldSeats = JSON.parse(JSON.stringify(currentSeats));
+        console.log(currentSeats + " <> " + oldSeats);
+        currentSeats.splice(0, currentSeats.length);
+        console.log(currentSeats + " <> " + oldSeats);
     }, interval);
 }
 
 // db-fail: errore nel database, probabile posto doppio
-
-function addSelezionato (postoString) {
-    $("#posti-selezionati").append("<div class=\"selezionato-container\" id=\"" + postoString + "\"><div class=\"posto-side selezionato\">" + postoString + "</div>Intero €9.00</div>");
-    $("#" + postoString).slideDown("fast");
-}
-
-function removeSelezionato (postoString) {
-    for(var i = postiSelezionati.length - 1; i >= 0; i--) {
-        if(postiSelezionati[i] == postoString) {
-           postiSelezionati.splice(i, 1);
-        }
-    }
-    $("#" + postoString).slideUp("fast");
-}
 
 $(".posto").click(function (event) {
     var posto = event.target;
@@ -224,6 +307,14 @@ $("#prenota-form").submit(function (event) {
             }
         }
     });
+});
+
+$("#procedi-button").click(function () {
+    if (true) {
+        $("#pagamento-modal").modal();
+    } else {
+        $("#login-modal").modal();
+    }
 });
 
 

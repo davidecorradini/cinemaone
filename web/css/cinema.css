@@ -115,13 +115,13 @@ ul.prices {
     background-color: #90a4ae;
 }
 
-.selezionato {
+.tuo-tmp {
     border: 1px #388e3c solid;
     background-color: #c8e6c9;
     color: #388e3c;
 }
 
-.selezionato:hover {
+.tuo-tmp:hover {
     background-color: #a5d6a7;
 }
 
@@ -150,42 +150,6 @@ ul.prices {
 .invisibile {
     opacity: 0;
     cursor: default;
-}
-
-.selezionato-container {
-    /*display: none;*/
-    height: 32px;
-    padding: 4px;
-    border: 1px #388e3c solid;
-    background-color: #e8f5e9;
-    border-radius: 3px;
-    color: #388e3c;
-    font-size: 12px;
-    line-height: 24px;
-    margin-bottom: 6px;
-}
-
-.posto-side {
-    /*position: relative;*/
-    margin: -5px;
-    margin-right: 8px;
-    width: 32px;
-    height: 32px;
-    border-radius: 3px;
-    float: left;
-    padding: 0;
-    text-align: center;
-    line-height: 32px;
-    font-size: 12px;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
-    outline: none;
-    transition-duration: 500ms;
-    transition-timing-function: ease;
-}
-
-.delete-posto {
-    float: right;
-    margin-right: 6px;
 }
 
 footer {
@@ -298,4 +262,61 @@ ul.nav.navbar-nav.navbar-right li a {
 
 #posti-selezionati-list {
     margin: 8px 0;
+}
+
+.prenotazione-container {
+    height: 36px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.selezionato-container {
+    height: 32px;
+    padding: 4px;
+    border: 1px #388e3c solid;
+    background-color: #e8f5e9;
+    border-radius: 3px 3px 0 0;
+    color: #388e3c;
+    font-size: 12px;
+    line-height: 24px;
+    margin-bottom: 6px;
+    position: relative;
+    top: -40px;
+}
+
+.posto-side {
+    margin: -5px;
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 3px 0 0 0;
+    float: left;
+    padding: 0;
+    text-align: center;
+    line-height: 32px;
+    font-size: 12px;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
+    outline: none;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+}
+
+.delete-posto {
+    float: right;
+    margin-right: 6px;
+}
+
+.progress-bar-light {
+    width: 100%;
+    border: 1px #388e3c solid;
+    background-color: #e8f5e9;
+    border-radius: 3px;
+    height: 36px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.progress-bar-dark {
+    background-color: #388e3c;
+    height: 36px;
 }
