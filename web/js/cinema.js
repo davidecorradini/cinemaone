@@ -96,6 +96,7 @@ $("#recovery-form").submit(function(event) {
 
 
 function updatePosti (spettacolo) {
+    var seats = new Array();
     var currentSeats = new Array();
     var oldSeats = new Array();
     var interval = 1000;
@@ -122,7 +123,8 @@ function updatePosti (spettacolo) {
                     }
                 });
                 var currentObject = {"idPosto": idPosto, "timestamp": timestamp, "stato": stato, "prezzo": prezzo, "y": y, "x": x};
-                currentSeats.push(currentObject);
+                seats.push(currentObject);
+                currentSeats.push(currentObject.idPosto);
             });
             // Reset
             $(".posto").each(function (index, element) {
@@ -133,7 +135,7 @@ function updatePosti (spettacolo) {
             });
             $("#posti-selezionati-list").html("");
             // Fill
-            $.each(currentSeats, function (index, object) {
+            $.each(seats, function (index, object) {
                 console.log("idPosto: " + object.idPosto + ", timestamp: " + object.timestamp + ", stato: " + object.stato + ", prezzo: " + object.prezzo + ", x/y: " + object.y + object.x);
                 $("#posto-" + object.idPosto).addClass(object.stato);
                 if (object.stato == "tuo-tmp") {
@@ -148,7 +150,17 @@ function updatePosti (spettacolo) {
                         ss = s;
                     }
                     var remaining = mm + ":" + ss;
-                    $("#posti-selezionati-list").append("<div class=\"prenotazione-container\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                    if (object.timestamp == 1) {
+                        $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                        setTimeout(function () { $("#prenotazione-" + object.idPosto).slideUp(250); }, 700);
+                    } else {
+                        if ($.inArray(object.idPosto, currentSeats) > -1 && $.inArray(object.idPosto, oldSeats) == -1) {
+                            $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\" style=\"display: none;\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                            $("#prenotazione-" + object.idPosto).slideDown(500);
+                        } else {
+                            $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
+                        }
+                    }
                 }
             });
             
@@ -260,11 +272,9 @@ function updatePosti (spettacolo) {
         }).fail( function(d, textStatus, error) {
             interval = 5000;
         });
-        console.log(currentSeats + " <> " + oldSeats);
-        oldSeats = JSON.parse(JSON.stringify(currentSeats));
-        console.log(currentSeats + " <> " + oldSeats);
-        currentSeats.splice(0, currentSeats.length);
-        console.log(currentSeats + " <> " + oldSeats);
+        oldSeats = currentSeats.slice();
+        currentSeats.splice(0,currentSeats.length);
+        seats.splice(0,seats.length);
     }, interval);
 }
 

@@ -303,7 +303,7 @@ ul.nav.navbar-nav.navbar-right li a {
 
 .delete-posto {
     float: right;
-    margin-right: 6px;
+    padding: 0 4px 0 8px;
 }
 
 .progress-bar-light {
