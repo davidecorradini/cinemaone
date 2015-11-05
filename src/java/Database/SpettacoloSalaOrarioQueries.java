@@ -89,9 +89,17 @@ public class SpettacoloSalaOrarioQueries {
     }
     
     
-     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, int durataMin, int durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, String riga, int colonna) throws SQLException{
+     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, int durataMin, int durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, Character riga, int colonna) throws SQLException{
         ArrayList<AdminPrenotazioneUtenti> res = new ArrayList<>();
-        
+        PreparedStatement stm = createQuery(genere, titolo, durataMin, durataMax, regista, programmazioneDa, programmazioneA, prenotazioneDa, prenotazioneA, tipoPrezzo, nomeSala, riga, colonna, email, ruolo);
+        ResultSet rs = stm.executeQuery();
+        try {
+            while(rs.next()){
+                
+            }
+        } finally {
+            rs.close();
+        }
         return res;
      }
     
@@ -104,20 +112,12 @@ public class SpettacoloSalaOrarioQueries {
      * @param filmRegista
      * @param spettacoloDataOraLow
      * @param spettacoloDataOraHigh
-     * @param prenotazioneDataOraLow
-     * @param prenotazioneDataOraHigh
-     * @param prezzoTipo
-     * @param salaNome
-     * @param postoRiga
-     * @param postoColonna
-     * @param utenteEmail
-     * @param ruoloRuolo
      * @return
      * @throws SQLException
      */
-    public ArrayList<SpettacoloSalaOrario> getSpettacoli(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
+    public ArrayList<SpettacoloSalaOrario> getSpettacoli(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, String salaNome) throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
-        PreparedStatement stm = createQuery(genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh, prenotazioneDataOraLow, prenotazioneDataOraHigh, prezzoTipo, salaNome, postoRiga, postoColonna, utenteEmail, ruoloRuolo);
+        PreparedStatement stm = createQuery(genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh,null,null,null,salaNome,null,null,null,null);
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
@@ -143,7 +143,7 @@ public class SpettacoloSalaOrarioQueries {
                 spett.setDataOra(rs.getTimestamp("DATA_ORA"));
                 
                 Sala tmpSala = new Sala();
-                tmpSala.setDescrizione(rs.getString("DESCRIZIONE2"));
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
                 tmpSala.setIdSala(rs.getInt("ID_SALA"));
                 tmpSala.setNome(rs.getString("NOME"));
                 
@@ -163,7 +163,7 @@ public class SpettacoloSalaOrarioQueries {
     
     private PreparedStatement createQuery(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
         String query =  "SELECT *\n" +
-                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE";
+                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE JOIN SALA S ON S.ID_SALA=SP.ID_SALA";
         
         String queryWhere = null;
         if(genereDescrizione != null || filmTitolo != null || filmDurataLow != null || filmDurataHigh != null || filmRegista != null || spettacoloDataOraLow != null || spettacoloDataOraHigh != null || prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || salaNome != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
@@ -172,7 +172,7 @@ public class SpettacoloSalaOrarioQueries {
             if(genereDescrizione != null)
                 queryWhere += "UPPER(G.DESCRIZIONE) LIKE UPPER(?) AND ";
             if(filmTitolo != null)
-                queryWhere += "UPPER(F.TITOLO) = LIKE UPPER(?) AND ";
+                queryWhere += "UPPER(F.TITOLO) LIKE UPPER(?) AND ";
             if(filmDurataLow != null)
                 queryWhere += "F.DURATA >= ? AND ";
             if(filmDurataHigh != null)

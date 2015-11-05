@@ -7,7 +7,7 @@
         <h1>Info spettacoli</h1>
     </div>
     <br>
-    <form>
+    <form id="cerca-spettacoli">
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
@@ -59,7 +59,7 @@
                 </div> 
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" id="cerca-spettacoli">Cerca</button>
+        <button type="submit" class="btn btn-primary">Cerca</button>
     </form>
     <br>
     <div class="panel-heading">
