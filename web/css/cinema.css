@@ -339,7 +339,7 @@ ul.nav.navbar-nav.navbar-right li a {
         box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
         text-align: center;
         line-height: 20px;
-        font-size: 9px;
+        font-size: 0;
         text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
         transition-duration: 500ms;
         transition-timing-function: ease;

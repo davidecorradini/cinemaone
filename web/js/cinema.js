@@ -136,11 +136,6 @@ function updatePosti (spettacolo) {
             $.each(currentSeats, function (index, object) {
                 console.log("idPosto: " + object.idPosto + ", timestamp: " + object.timestamp + ", stato: " + object.stato + ", prezzo: " + object.prezzo + ", x/y: " + object.y + object.x);
                 $("#posto-" + object.idPosto).addClass(object.stato);
-                var slideIn = "";
-                if (oldSeats.indexOf(object) == -1) {
-                    slideIn = " slide-in";
-                    console.log("new object");
-                }
                 console.log("indexOf old: " + oldSeats.indexOf(object));
                 console.log("indexOf current:" + currentSeats.indexOf(object));
                 var percentuale = (object.timestamp / 300) * 100;
@@ -154,10 +149,7 @@ function updatePosti (spettacolo) {
                     ss = s;
                 }
                 var remaining = mm + ":" + ss;
-                $("#posti-selezionati-list").append("<div class=\"prenotazione-container" + slideIn + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
-                $(".slide-in").each(function (index, element) {
-                    $(element).slideDown(500);
-                });
+                $("#posti-selezionati-list").append("<div class=\"prenotazione-container\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <a href=\"#\" id=\"delete-posto\"><i class=\"zmdi zmdi-close\"></i></a></div></div></div>");
             });
             
             
