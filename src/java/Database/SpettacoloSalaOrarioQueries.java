@@ -5,6 +5,7 @@
 */
 package Database;
 
+import Beans.AdminPrenotazioneUtenti;
 import Beans.Film;
 import Beans.Genere;
 import Beans.Sala;
@@ -86,6 +87,13 @@ public class SpettacoloSalaOrarioQueries {
         }
         return res;
     }
+    
+    
+     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, int durataMin, int durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, String riga, int colonna) throws SQLException{
+        ArrayList<AdminPrenotazioneUtenti> res = new ArrayList<>();
+        
+        return res;
+     }
     
     /**
      *
@@ -277,4 +285,6 @@ public class SpettacoloSalaOrarioQueries {
         }
         return stm;
     }
+
+   
 }
