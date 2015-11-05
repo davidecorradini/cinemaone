@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    
+
 <%@ include file="header-admin.jsp" %>
 <div class="container">
     <div class="page-header">
@@ -108,34 +108,36 @@
     </form>
     <br>
     <div class="panel-heading">
-            <h3 class="panel-title">Prenotazioni</h3>
-        </div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr class="active">
-                <th>Film</th>
-                <th class="text-center">Data programmazione</th>
-                <th class="text-center">Sala</th>
-                <th class="text-center">Utente</th>
-                <th class="text-center">Data prenotazione</th>
-                <th class="text-center">Tipo biglietto</th>
-                <th class="text-center">Posto</th>
-                <th class="text-center">Elimina</th>
-            </tr>
-        </thead>
-        <tbody id="prenotazioni">
-            <tr id="id-1">
-                <td><a class="no-color" href="../dettaglio-film.html?idfilm=1">I Fantastici 4</a> <small class="text-muted">Tim Story &middot; fantasy &middot; 123min</small></td>
-                <td class="text-center">15 marzo 2016</td>            
-                <td class="text-center">SALA1</td>           
-                <td class="text-center">alessandro@cinemaone.it</td> 
-                <td class="text-center">10 marzo 2016</td>
-                <td class="text-center">Intero</td>
-                <td class="text-center">C10</td>
-                <td class="text-center"><a class="no-color rimuovi" href="#id-1" id="delete-1">x</a></td>
-            </tr>        
-        </tbody>       
-    </table>       
+        <h3 class="panel-title">Prenotazioni</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="active">
+                    <th>Film</th>
+                    <th class="text-center">Data programmazione</th>
+                    <th class="text-center">Sala</th>
+                    <th class="text-center">Utente</th>
+                    <th class="text-center">Data prenotazione</th>
+                    <th class="text-center">Tipo biglietto</th>
+                    <th class="text-center">Posto</th>
+                    <th class="text-center">Elimina</th>
+                </tr>
+            </thead>
+            <tbody id="prenotazioni">
+                <tr id="id-1">
+                    <td><a class="no-color" href="../dettaglio-film.html?idfilm=1">I Fantastici 4</a> <small class="text-muted hidden-xs">Tim Story &middot; fantasy &middot; 123min</small></td>
+                    <td class="text-center">15 marzo 2016</td>            
+                    <td class="text-center">SALA1</td>           
+                    <td class="text-center">alessandro@cinemaone.it</td> 
+                    <td class="text-center">10 marzo 2016</td>
+                    <td class="text-center">Intero</td>
+                    <td class="text-center">C10</td>
+                    <td class="text-center"><a class="no-color rimuovi" href="#id-1" id="delete-1">x</a></td>
+                </tr>        
+            </tbody>       
+        </table>    
+    </div>
 </div>
 <div class="modal fade" id="elimina-prenotazione">
     <div class="modal-dialog modal-sm">
