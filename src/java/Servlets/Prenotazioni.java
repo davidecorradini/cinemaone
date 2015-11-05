@@ -45,7 +45,13 @@ public class Prenotazioni extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
+        Integer idSpettacolo = null;
+        try{
+            idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
+        }catch(NumberFormatException ex){
+            request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;
         ArrayList<Prezzo> prezzi = null;
@@ -54,6 +60,10 @@ public class Prenotazioni extends HttpServlet {
             PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
             PrezzoQueries prezziQ = new PrezzoQueries(manager);
             infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+            if(infoPrenotazione == null){
+                request.setAttribute("error", "impossibile caricare la pagina, spettacolo non disponibile");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
             postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala(), true);
             prezzi = prezziQ.getAllPrezzi();
         } catch (SQLException ex){

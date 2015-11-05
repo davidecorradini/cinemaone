@@ -37,16 +37,20 @@ public class DettaglioFilm extends HttpServlet {
         FilmSpettacoli dettaglioFilm = new FilmSpettacoli();
         Integer idFilm = null;
         try{
-        idFilm = Integer.parseInt(request.getParameter("idfilm"));
+            idFilm = Integer.parseInt(request.getParameter("idfilm"));
         }catch(NumberFormatException ex){
             request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
-           getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         FilmSpettacoliQueries fsp = new FilmSpettacoliQueries(manager);
         try {
             dettaglioFilm = fsp.getFilmSpettacoli(idFilm);
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita" + ex);
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
+        if(dettaglioFilm == null){
+            request.setAttribute("error", "impossibile caricare la pagina, film non disponibile");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
