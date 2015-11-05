@@ -14,7 +14,7 @@
                     <c:otherwise>
                         class="posto invisibile"
                     </c:otherwise>
-                </c:choose> data-toggle="tooltip" data-placement="top" title=""><c:out value="${fn:toUpperCase(tmp.getRiga())}"></c:out><c:if test="${tmp.getColonna(i) < 10}">0</c:if><c:out value="${tmp.getColonna(i)}"></c:out></button>
+                </c:choose> data-toggle="tooltip" data-placement="top" title=""><div class="hidden-xs"><c:out value="${fn:toUpperCase(tmp.getRiga())}"></c:out><c:if test="${tmp.getColonna(i) < 10}">0</c:if><c:out value="${tmp.getColonna(i)}"></c:out></div></button>
         </c:forEach>
     </div>
 </c:forEach>
