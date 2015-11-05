@@ -9,6 +9,7 @@
     <script>
         var id_spettacolo = <c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>;
         var prezzi = new Array();
+        var timer = <c:out value="${requestScope.mainTimer}"></c:out>;
         <c:forEach var="tmp20" items="${requestScope.prezzi}">
         prezzi[<c:out value="${tmp20.getIdPrezzo()}"></c:out>] = new Array("<c:out value="${tmp20.getTipo()}"></c:out>", "<fmt:formatNumber value="${tmp20.getPrezzo()}" type="currency" currencySymbol="&euro;" />");
         </c:forEach>
