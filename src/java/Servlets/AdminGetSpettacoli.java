@@ -107,9 +107,12 @@ public class AdminGetSpettacoli extends HttpServlet {
         try {
             result = spet.getSpettacoli(genere,titolo,durataMin,durataMax,regista,programmazioneDa,programmazioneA,nomeSala);
         } catch (SQLException ex) {
-            
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita" + ex);
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            response.setContentType("text/plain;charset=UTF-8\n");
+            try (PrintWriter out = response.getWriter()) {
+                System.err.println("get spettacoli: " + ex);
+                out.println("fail");
+            }
+            return;
         }
         JSONObject json = new JSONObject();
         try{
@@ -118,10 +121,8 @@ public class AdminGetSpettacoli extends HttpServlet {
                 Sala sala = spettacoloSalaOrario.getSala();
                 Film film = spettacoloSalaOrario.getFilm();
                 Genere genere1 = spettacoloSalaOrario.getGenere();
-                System.out.println(film.getTitolo());
                 JSONObject jsonObject= new JSONObject();
                 jsonObject.put("idFilm", String.valueOf(film.getIdFilm()));
-                System.out.println(film.getIdFilm());
                 jsonObject.put("titolo", film.getTitolo());
                 jsonObject.put("regista", film.getRegista());
                 jsonObject.put("genere", genere1.getDescrizione());
@@ -133,8 +134,12 @@ public class AdminGetSpettacoli extends HttpServlet {
                 json.put(Integer.toString(spettacolo.getIdSpettacolo()), jsonObject);
             }
         } catch (JSONException ex) {
-            request.setAttribute("error", "errore nella creazione del json");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            response.setContentType("text/plain;charset=UTF-8\n");
+            try (PrintWriter out = response.getWriter()) {
+                System.err.println("get spettacoli: " + ex);
+                out.println("fail");
+            }
+            return;
         }                    
         String jsonStr = json.toString();
         
