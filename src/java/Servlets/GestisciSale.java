@@ -64,7 +64,7 @@ public class GestisciSale extends HttpServlet {
                     posto2 = postoQueries.getPosto(idPosto);
                 } catch (SQLException ex) {
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
-                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
                 }
                 request.setAttribute("sala", posto2.getIdSala());
                 Posto posto = new Posto();
@@ -74,7 +74,7 @@ public class GestisciSale extends HttpServlet {
                     postoQueries.cambiaStato(posto);
                 } catch (SQLException ex) {
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
-                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
                 }
             }
             SalaQueries salaQueries = new SalaQueries(manager);
@@ -84,7 +84,7 @@ public class GestisciSale extends HttpServlet {
                 sale = salaQueries.getSale();
             } catch (SQLException ex) {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
-                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
             }
             ArrayList<ArrayList<PostiSalaPercPrenotazioni>> postiSale = new ArrayList<>();
             ArrayList<PostiSalaPercPrenotazioni> postiSala = new ArrayList<>();
@@ -94,7 +94,7 @@ public class GestisciSale extends HttpServlet {
                     postiSala = postiSalaQ.getAllPosti(sala.getIdSala(), true);
                 } catch (SQLException ex) {
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita2"+ex);
-                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
                 }
                 postiSale.add(postiSala);
                 postiSala = new ArrayList<>();
@@ -104,7 +104,7 @@ public class GestisciSale extends HttpServlet {
             request.getRequestDispatcher("/jsp/gestisci-sale.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
         }
     }
     

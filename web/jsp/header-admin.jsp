@@ -1,9 +1,4 @@
-<%-- 
-    Document   : header-admin
-    Created on : 1-ott-2015, 11.52.21
-    Author     : alessandro
---%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -19,6 +14,7 @@
         <link href="../css/jquery.bxslider.css" rel="stylesheet">
         <link href="../css/cinema.css" rel="stylesheet">
         <link href="../css/bootstrap-datepicker.min.css" rel="stylesheet">
+        <link href="../img/favicon.png" rel="shortcut icon"/>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -42,16 +38,16 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                    <a class="navbar-brand" href="#"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
+                        <a class="navbar-brand" href="../index.html"><i class="zmdi zmdi-movie-alt zmdi-right-8"></i>Cinema One</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
-                            <li><a href="incassi-film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Incassi Film</a></li>
-                            <li><a href="clienti-top.html"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Clienti Top</a></li>
-                            <li><a href="spettacoli.html"><i class="zmdi zmdi-videocam zmdi-right-8"></i>Spettacoli</a></li>
-                            <li><a href="prenotazioni.html"><i class="zmdi zmdi-assignment-check zmdi-right-8"></i>Prenotazioni</a></li>
-                            <li><a href="sale.html"><i class="zmdi zmdi-view-comfy zmdi-right-8"></i>Sale</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/admin-index.jsp'}"> class="active"</c:if>><a href="index.html"><i class="zmdi zmdi-home zmdi-right-8"></i>Home</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/incasso-film.jsp'}"> class="active"</c:if>><a href="incassi-film.html"><i class="zmdi zmdi-movie zmdi-right-8"></i>Incassi Film</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/clienti-top.jsp'}"> class="active"</c:if>><a href="clienti-top.html"><i class="zmdi zmdi-account-circle zmdi-right-8"></i>Clienti Top</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/admin-spettacoli.jsp' || pageContext.request.servletPath == '/jsp/dettaglio-spettacolo.jsp'}"> class="active"</c:if>><a href="spettacoli.html"><i class="zmdi zmdi-videocam zmdi-right-8"></i>Spettacoli</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/gestione-prenotazioni.jsp'}"> class="active"</c:if>><a href="prenotazioni.html"><i class="zmdi zmdi-assignment-check zmdi-right-8"></i>Prenotazioni</a></li>
+                            <li<c:if test="${pageContext.request.servletPath == '/jsp/gestisci-sale.jsp'}"> class="active"</c:if>><a href="sale.html"><i class="zmdi zmdi-view-comfy zmdi-right-8"></i>Sale</a></li>
                             <li><a href="../index.html"><i class="zmdi zmdi-close zmdi-right-8"></i>Esci</a></li>
                         </ul>
                     </div>

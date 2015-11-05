@@ -9,13 +9,16 @@ import Beans.InfoPrenotazione;
 import Beans.PostiSala;
 import Beans.Posto;
 import Beans.Prezzo;
+import Beans.Spettacolo;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
 import Database.PostiSalaQueries;
 import Database.PrezzoQueries;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +45,13 @@ public class Prenotazioni extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
+        Integer idSpettacolo = null;
+        try{
+            idSpettacolo = Integer.parseInt(request.getParameter("idspettacolo"));
+        }catch(NumberFormatException ex){
+            request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
         InfoPrenotazione infoPrenotazione = null;
         ArrayList<PostiSala> postiSala = null;
         ArrayList<Prezzo> prezzi = null;
@@ -51,17 +60,31 @@ public class Prenotazioni extends HttpServlet {
             PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
             PrezzoQueries prezziQ = new PrezzoQueries(manager);
             infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+            if(infoPrenotazione == null){
+                request.setAttribute("error", "impossibile caricare la pagina, spettacolo non disponibile");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
             postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala(), true);
             prezzi = prezziQ.getAllPrezzi();
         } catch (SQLException ex){
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         } 
-        
-        request.setAttribute("infoPrenotazione", infoPrenotazione);
-        request.setAttribute("postiSala", postiSala);
-        request.setAttribute("prezzi", prezzi);
-        request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
+        Spettacolo spettacolo = infoPrenotazione.getSpettacolo();        
+        Timestamp time = spettacolo.getTimeStamp();
+        Date date = new Date();
+        Timestamp currentTime = new Timestamp(date.getTime());
+        if(time.getTime() > currentTime.getTime()){
+            long timer = (time.getTime()-currentTime.getTime())/1000;
+            request.setAttribute("mainTimer", timer);
+            request.setAttribute("infoPrenotazione", infoPrenotazione);
+            request.setAttribute("postiSala", postiSala);
+            request.setAttribute("prezzi", prezzi);
+            request.getRequestDispatcher("/jsp/prenotazione.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "impossibile caricare la pagina, spettacolo non disponibile");
+            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
     }
     
     @Override

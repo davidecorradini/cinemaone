@@ -133,12 +133,17 @@
         <servlet-class>Servlets.GestionePrenotazioni</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>AdminGetSpettacoli</servlet-name>
         <servlet-class>Servlets.AdminGetSpettacoli</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AdminGetPrenotazioni</servlet-name>
         <servlet-class>Servlets.AdminGetPrenotazioni</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GeneraSpettacoli</servlet-name>
+        <servlet-class>Servlets.GeneraSpettacoli</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
@@ -248,6 +253,8 @@
     <servlet-mapping>
         <servlet-name>AdminGetPrenotazioni</servlet-name>
         <url-pattern>/AdminGetPrenotazioni</url-pattern>
+        <servlet-name>GeneraSpettacoli</servlet-name>
+        <url-pattern>/generaSpettacoli</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

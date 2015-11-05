@@ -36,7 +36,7 @@ public class FilmSpettacoliQueries{
      * @throws SQLException
      */
     public ArrayList<FilmSpettacoli> getFilmSpettacoli() throws SQLException{
-        ArrayList<FilmSpettacoli> res = new ArrayList<>();
+        ArrayList<FilmSpettacoli> res = null;
         PreparedStatement stm = con.prepareStatement("SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER,F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA,\n" +
                 "SP.ID_SPETTACOLO,SP.ID_FILM,SP.ID_SALA,SP.DATA_ORA, G.DESCRIZIONE\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
@@ -48,6 +48,7 @@ public class FilmSpettacoliQueries{
             FilmSpettacoli tmpFilmESpettacoli = new FilmSpettacoli();
             ArrayList<Spettacolo> tmpSpettacoli = new ArrayList<>();
             if(rs.next()){
+                res = new ArrayList<>();
                 Spettacolo tmpSpettacolo = new Spettacolo();
                 tmpSpettacolo.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
                 tmpSpettacolo.setIdSala(rs.getInt("ID_SALA"));
@@ -129,7 +130,7 @@ public class FilmSpettacoliQueries{
      * @throws SQLException
      */
     public FilmSpettacoli getFilmSpettacoli(int filmId) throws SQLException{
-        FilmSpettacoli res = new FilmSpettacoli();
+        FilmSpettacoli res = null;
         PreparedStatement stm = con.prepareStatement(
                 "SELECT F.ID_FILM, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.URL_TRAILER, F.IS_IN_SLIDER, F.URI_LOCANDINA, F.ANNO, F.REGISTA, SP.ID_SPETTACOLO, SP.ID_FILM, SP.ID_SALA, SP.DATA_ORA, G.DESCRIZIONE\n" +
                         "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE\n" +
@@ -141,6 +142,7 @@ public class FilmSpettacoliQueries{
         Film tmpFilm = null;
         Genere tmpGenere = null;
         if(rs.next()){
+            res = new FilmSpettacoli();
             tmpSpettacoli = new ArrayList<>();
             tmpFilm = new Film();
             tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
@@ -164,6 +166,9 @@ public class FilmSpettacoliQueries{
             tmpSpettacolo.setIdFilm(rs.getInt("ID_FILM"));
             tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
             tmpSpettacoli.add(tmpSpettacolo);
+            res.setFilm(tmpFilm);
+            res.setGenere(tmpGenere);
+            res.setSpettacoli(tmpSpettacoli);
         }
         while(rs.next()){
             Spettacolo tmpSpettacolo = new Spettacolo();
@@ -173,9 +178,6 @@ public class FilmSpettacoliQueries{
             tmpSpettacolo.setDataOra(rs.getTimestamp("DATA_ORA"));
             tmpSpettacoli.add(tmpSpettacolo);
         }
-        res.setFilm(tmpFilm);
-        res.setGenere(tmpGenere);
-        res.setSpettacoli(tmpSpettacoli);
         return res;
     }
 }

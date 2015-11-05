@@ -53,7 +53,13 @@ public class AdminSpettacoli extends HttpServlet {
         if(ruolo!=null && ruolo.equals("ADMIN")){
             String idSpettacoloStr = request.getParameter("idspettacolo");
             if(idSpettacoloStr != null){ //mostra sala di questo spettacolo.
-                int idSpettacolo = Integer.parseInt(idSpettacoloStr);
+                Integer idSpettacolo = null;
+                try{
+                    idSpettacolo = Integer.parseInt(idSpettacoloStr);
+                }catch(NumberFormatException ex){
+                    request.setAttribute("error", "impossibile caricare la pagina, dati richiesta corrotti");
+                    getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
+                }
                 InfoPrenotazione infoPrenotazione = null;
                 ArrayList<PostiSala> postiSala = null;
                 Integer[] infoIncassi = null;
@@ -62,11 +68,15 @@ public class AdminSpettacoli extends HttpServlet {
                     PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);
                     SpettacoloQueries spettacoloQ = new SpettacoloQueries(manager);
                     infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+                    if(infoPrenotazione == null){
+                        request.setAttribute("error", "impossibile caricare la pagina, spettacolo non disponibile");
+                        getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
+                    }
                     postiSala = postiSalaQ.getAllPosti(infoPrenotazione.getSala().getIdSala(), true);
                     infoIncassi = spettacoloQ.getPostiIncasso(idSpettacolo);
                 } catch (SQLException ex){
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-                    getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                    getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
                 }
                 request.setAttribute("infoPrenotazione", infoPrenotazione);
                 request.setAttribute("postiSala", postiSala);
@@ -78,7 +88,7 @@ public class AdminSpettacoli extends HttpServlet {
             }
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
         }
     }
     

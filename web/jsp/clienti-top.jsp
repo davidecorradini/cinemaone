@@ -5,6 +5,7 @@
 --%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
     
 <%@ include file="header-admin.jsp" %>
@@ -23,7 +24,7 @@
             <tr>
                 <td><c:out value="${tmpUt.getEmail()}"></c:out></td>
                 <td class="text-center"><c:out value="${tmp.getNumPrenotazioni()}"></c:out></td>
-                <td class="text-center"><c:out value="${tmp.getSpesaTot()}"></c:out></td>
+                <td class="text-center"><fmt:formatNumber value="${tmp.getSpesaTot()}" type="currency" currencySymbol="&euro;" /></td>
             </tr>
         </c:forEach>
     </table>

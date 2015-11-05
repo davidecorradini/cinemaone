@@ -93,8 +93,8 @@ public class MailSender {
     }
     
     public void changePassword(String to, String link) throws MessagingException{        
-        this.sendMail(to, "Modifica Password CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di recupero password\n"
-                + "se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto:\n"
+        this.sendMail(to, "Modifica Password CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di recupero password.\n"
+                + "Se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto entro 5 minuti dalla ricezione della seguente email:\n"
                 + link, null);
     }
 }

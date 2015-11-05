@@ -59,10 +59,11 @@ public class PrenotazioneQueries{
      */
     public void deletePrenotazione (Prenotazione pr) throws SQLException{
         PreparedStatement stm = con.prepareStatement( "DELETE FROM PRENOTAZIONE P WHERE P.ID_PRENOTAZIONE=?");
-        PreparedStatement stm2 = con.prepareStatement( "UPDATE UTENTE SET CREDITO=CREDITO+? WHERE UTENTE_ID=?");
+        PreparedStatement stm2 = con.prepareStatement( "UPDATE UTENTE SET CREDITO=CREDITO+? WHERE ID_UTENTE=?");
         PreparedStatement stm3 = con.prepareStatement("SELECT P.PREZZO FROM PREZZO P WHERE P.ID_PREZZO =?");
         try {
             stm.setInt(1, pr.getIdPrenotazione());
+            stm.executeUpdate();
             stm3.setInt(1, pr.getIdPrezzo());
             ResultSet prezzo = stm3.executeQuery();
             double rimborso = 0;
@@ -107,14 +108,14 @@ public class PrenotazioneQueries{
     public Prenotazione getPrenotazione(int idPrenotazione) throws SQLIntegrityConstraintViolationException, SQLException{
        
         Prenotazione pre= new Prenotazione();
-        PreparedStatement stm = con.prepareStatement(" select P.ID_PRENOTAZIONE,P.ID_UTENTE,P.ID_SPETTACOLO,P.ID_PREZZO,P.ID_POSTO,P.DATA_ORA_OPERAZIONE from PYTHONI.PRENOTAZIONE P\n" +
-                "where P.ID_PRENOTAZIONE=1\n");
+        PreparedStatement stm = con.prepareStatement(" select * from PYTHONI.PRENOTAZIONE P\n" +
+                "where P.ID_PRENOTAZIONE=?\n");
         try {
             stm.setInt(1, idPrenotazione);
             
             ResultSet rs = stm.executeQuery();
             try{
-                while(rs.next()){
+                if(rs.next()){
                     
                     pre.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
                     pre.setIdPosto(rs.getInt("ID_PREZZO"));

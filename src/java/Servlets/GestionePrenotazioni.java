@@ -36,7 +36,7 @@ public class GestionePrenotazioni extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/gestione-prenotazioni.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
         }
     }
 

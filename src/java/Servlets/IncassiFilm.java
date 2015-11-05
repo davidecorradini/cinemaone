@@ -48,13 +48,14 @@ public class IncassiFilm extends HttpServlet {
             try {
                 incassoFilm = ifq.getFilmIncasso();
             } catch (SQLException ex) {
-                
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita2"+ex);
+                getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
             }
             request.setAttribute("incassoFilm", incassoFilm);
             getServletContext().getRequestDispatcher("/jsp/incasso-film.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
         }
     }
     

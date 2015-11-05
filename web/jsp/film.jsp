@@ -20,7 +20,7 @@
                 <a href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><img class="media-object thumbnail" src="img/movie/<c:out value="${tmpfilm.getUriLocandina()}"></c:out>" style="height: 200px"></a>
                 </div>
                 <div class="media-body">
-                        <h3 class="media-heading"><a class="no-color" href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out></small></h3>
+                        <h3 class="media-heading"><a class="no-color" href="dettaglio-film.html?idfilm=<c:out value="${tmpfilm.getIdFilm()}"></c:out>"><c:out value="${tmpfilm.getTitolo()}"></c:out></a> <small> <c:out value="${tmpfilm.getRegista()}"></c:out> &middot; <c:out value="${tmpfilm.getAnno()}"></c:out> &middot; <c:out value="${tmpgenere.getDescrizione()}"></c:out> &middot; <c:out value="${tmpfilm.getDurata()}"></c:out>min</small></h3>
                 <c:set var="string" value="${tmpfilm.getTrama()}"/>
                 <c:set var="indexend" value="${fn:length(string)}"/>
                 <c:choose>

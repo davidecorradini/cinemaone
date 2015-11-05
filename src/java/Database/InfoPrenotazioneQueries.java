@@ -36,7 +36,7 @@ public class InfoPrenotazioneQueries{
      * @throws SQLException
      */
     public InfoPrenotazione getInfoPrenotazione(int idSpettacolo) throws SQLException{
-        InfoPrenotazione res = new InfoPrenotazione();
+        InfoPrenotazione res = null;
         PreparedStatement stm = con.prepareStatement(
                 "SELECT SP.ID_SPETTACOLO, SP.ID_FILM, SP.ID_SALA, SP.DATA_ORA, F.ID_GENERE, F.TITOLO, F.DURATA, F.TRAMA, F.IS_IN_SLIDER, F.URL_TRAILER, F.URI_LOCANDINA, F.REGISTA, F.ANNO, SA.NOME, SA.DESCRIZIONE\n" +
                         "FROM SPETTACOLO SP JOIN FILM F ON SP.ID_FILM = F.ID_FILM JOIN SALA SA ON SP.ID_SALA = SA.ID_SALA\n" +
@@ -45,6 +45,7 @@ public class InfoPrenotazioneQueries{
         ResultSet rs = stm.executeQuery();
         try{
             if(rs.next()){
+                res = new InfoPrenotazione();
                 Film tmpFilm = new Film();
                 tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                 tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));

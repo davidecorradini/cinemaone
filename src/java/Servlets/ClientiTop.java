@@ -49,13 +49,14 @@ public class ClientiTop extends HttpServlet {
             try {
                 utenti = suq.getClientiTop(10);
             } catch (SQLException ex) {
-                
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+                getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
             }
             request.setAttribute("utenti", utenti);
             getServletContext().getRequestDispatcher("/jsp/clienti-top.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "non disponi dei permessi necessari");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
         }
     }
     
