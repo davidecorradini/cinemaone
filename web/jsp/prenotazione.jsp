@@ -99,19 +99,38 @@
                 <form id="paga-form" action="conferma-prenotazione.html">
                     <div class="modal-body">
                         <div class="alert alert-dismissible alert-danger" role="alert">Tempo rimanente per completare il pagamento: <strong id="payment-timer"></strong></div>
-                        <div class="row">
-                            <div class="col-md-6"><input type="text" class="form-control" placeholder="Nome"></div>
-                            <div class="col-md-6"><input type="text" class="form-control" placeholder="Cognome"></div>
+                        <div id="riepilogo">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>Totale biglietti</td>
+                                    <td><strong id="totale-modal"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Credito</td>
+                                    <td><strong id="credito-modal" class="strong"></strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Totale da addebitare su carta</td>
+                                    <td><strong id="addebito-modal" class="strong"></strong></td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="row" style="margin-top: 8px;">
-                            <div class="col-md-6"><input type="text" class="form-control" placeholder="Numero di Carta di Credito"></div>
-                            <div class="col-md-4"><input type="text" class="form-control" placeholder="Scadenza"></div>
-                            <div class="col-md-2"><input type="text" class="form-control" placeholder="CCV"></div>
+                        <div id="form-carta" style="display:none;">
+                            <div class="row">
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Nome"></div>
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Cognome"></div>
+                            </div>
+                            <div class="row" style="margin-top: 8px;">
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Numero di Carta di Credito"></div>
+                                <div class="col-md-4"><input type="text" class="form-control" placeholder="Scadenza"></div>
+                                <div class="col-md-2"><input type="text" class="form-control" placeholder="CCV"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                        <button type="submit" class="btn btn-primary">Conferma Pagamento</button>
+                        <button type="button" class="btn btn-primary" id="paga-next">Paga con Carta di Credito</button>
+                        <button type="submit" class="btn btn-primary" id="paga-button" style="display: none;">Conferma Pagamento</button>
                     </div>
                 </form>
             </div>

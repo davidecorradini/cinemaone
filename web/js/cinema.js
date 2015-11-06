@@ -96,6 +96,7 @@ $("#recovery-form").submit(function(event) {
 
 var seats = new Array();
 var seconds = 1;
+var totale;
 function updatePosti (spettacolo) {
     var currentSeats = new Array();
     var oldSeats = new Array();
@@ -134,7 +135,7 @@ function updatePosti (spettacolo) {
                 $(element).removeClass("occupato-tmp");
             });
             $("#posti-selezionati-list").html("");
-            var totale = 0.;
+            totale = 0.;
             // Fill
             $.each(seats, function (index, object) {
                 $("#posto-" + object.idPosto).addClass(object.stato);
@@ -180,6 +181,7 @@ function updatePosti (spettacolo) {
                 }
             });
             $("#totale").html("&euro; " + totale.toFixed(2));
+            $("#totale-modal").html("&euro; " + totale.toFixed(2));
             interval = 1000;
         }).fail( function(d, textStatus, error) {
             interval = 5000;
@@ -255,17 +257,43 @@ $("#procedi-button").click(function () {
             answer = $.trim(answer);
             if (answer == "true") {
                 $.ajax({
-                    url: "synchronizeTimers",
-                    data: "spettacolo=" + id_spettacolo,
-                    success: function (result) {
-                        $("#pagamento-modal").modal();
+                    url: "getCredito",
+                    success: function (creditoString) {
+                        var credito = parseFloat(creditoString);
+                        var addebito = totale - credito;
+                        if (addebito <= 0.) {
+                            addebito = 0.;
+                            $("#paga-next").hide();
+                            $("#paga-button").show();
+                            $("#paga-button").text("Conferma");
+                        }
+                        $.ajax({
+                            url: "synchronizeTimers",
+                            data: "spettacolo=" + id_spettacolo,
+                            success: function (result) {
+                                $("#credito-modal").html("&euro; " + credito.toFixed(2));
+                                $("#addebito-modal").html("&euro; " + addebito.toFixed(2));
+                                $("#pagamento-modal").modal();
+                            }
+                        });
                     }
                 });
+                
             } else {
                 $("#login-modal").modal();
             }
         }
     });
+});
+
+$("#paga-next").click(function () {
+    if ($("#paga-button").attr("type") == "button") {
+        $("#paga-next").hide();
+        $("#paga-button").show();
+        $("#riepilogo").slideUp(300);
+        $("#form-carta").slideDown(300);
+        $("#paga-button").text("Conferma Pagamento");
+    }
 });
 
 
