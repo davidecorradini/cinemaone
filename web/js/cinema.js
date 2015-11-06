@@ -248,11 +248,18 @@ $("#prenota-form").submit(function (event) {
 });
 
 $("#procedi-button").click(function () {
-    if (true) {
-        $("#pagamento-modal").modal();
-    } else {
-        $("#login-modal").modal();
-    }
+    $.ajax({
+        type: "GET",
+        url: "IsLogged",
+        success: function(answer) {
+            answer = $.trim(answer);
+            if (answer == "true") {
+                $("#pagamento-modal").modal();
+            } else {
+                $("#login-modal").modal();
+            }
+        }
+    });
 });
 
 
