@@ -277,7 +277,6 @@ public class SpettacoloSalaOrarioQueries {
                 if(utenteEmail != null)
                     queryWhere += "UT.EMAIL = ? AND ";
                 if(ruoloRuolo != null){
-                    query += " JOIN RUOLO RUO ON RUO.ID_RUOLO = UT.ID_RUOLO";
                     queryWhere += "UPPER(RUO.RUOLO) = UPPER(?) AND ";
                 }
             }

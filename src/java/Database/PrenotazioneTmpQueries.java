@@ -181,6 +181,7 @@ public class PrenotazioneTmpQueries {
         try{
             stm.setInt(1, idSpettacolo);
             stm.setInt(2, idPosto);
+            stm.executeUpdate();
         }finally{
             stm.close();
         }
