@@ -242,7 +242,7 @@ public class PrenotazioneTmpQueries {
         
         // le prendo e le importo in Prenotazioni
         
-        int totDaPagare=0;
+        double totDaPagare=0;
         
         for(PrenotazioneTmp tmp: prenTmp){
             PrezzoQueries pq=new PrezzoQueries(manager);
@@ -263,7 +263,7 @@ public class PrenotazioneTmpQueries {
             
         }
         UtenteQueries uq=new UtenteQueries(manager);
-        int credito=uq.getCredito(id);
+        double credito=uq.getCredito(id);
         
         if(credito>totDaPagare){
             Utente utente=new Utente();

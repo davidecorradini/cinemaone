@@ -38,7 +38,13 @@ public class InfoPrenotazioniUtente extends HttpServlet {
         Utente user = (Utente)session.getAttribute("user");
         if(user!=null){
             int idUtente=user.getIdUtente(); //encoded ID.
-            
+            double credito = 0.0;
+            UtenteQueries utenteQ = new UtenteQueries(manager);
+            try {
+                credito = utenteQ.getCredito(user.getIdUtente());
+            } catch (SQLException ex) {
+                credito = 0.0;
+            }
             ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = null;
             UtenteQueries sq = new UtenteQueries(manager);
             try {
@@ -47,7 +53,7 @@ public class InfoPrenotazioniUtente extends HttpServlet {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
                 getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
-            request.setAttribute("credito", user.getCredito());
+            request.setAttribute("credito", credito);
             request.setAttribute("infoPrenotazioniUtente", infoPrenotazioniUtente);
             getServletContext().getRequestDispatcher("/jsp/infoPrenotazioniUtente.jsp").forward(request, response);
         }else{

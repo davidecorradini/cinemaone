@@ -109,14 +109,14 @@ public class UtenteQueries {
         }
     }
     
-    public int getCredito(int idUtente) throws SQLException{
+    public double getCredito(int idUtente) throws SQLException{
         PreparedStatement stm = con.prepareStatement("SELECT CREDITO FROM UTENTE WHERE ID_UTENTE=?");
-        int res = 0;
+        double res = 0.0;
         try {
             stm.setInt(1, idUtente);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
-            res=(rs.getInt("CREDITO"));
+            res=rs.getDouble("CREDITO");
             }
         } finally {
             stm.close();

@@ -6,8 +6,13 @@
 package Servlets;
 
 import Beans.Utente;
+import Database.DBManager;
+import Database.UtenteQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +24,13 @@ import javax.servlet.http.HttpSession;
  * @author alessandro
  */
 public class GetCredito extends HttpServlet {
+
+    private DBManager manager;
+
+    @Override
+    public void init() throws ServletException {
+        this.manager = (DBManager) super.getServletContext().getAttribute("dbmanager");
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,11 +47,21 @@ public class GetCredito extends HttpServlet {
         HttpSession session = request.getSession(false);
         Utente user = (Utente)session.getAttribute("user");
         double credito = 0.0;
+        UtenteQueries utenteQ = new UtenteQueries(manager);
         if(user != null)
-            credito = user.getCredito();
+            try {
+                credito = utenteQ.getCredito(user.getIdUtente());
+            } catch (SQLException ex) {
+                credito = 0.0;
+            }
         try (PrintWriter out = response.getWriter()) {
             out.println(credito);
         }
+    }
+
+    @Override
+    public void destroy() {
+        this.manager = null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
