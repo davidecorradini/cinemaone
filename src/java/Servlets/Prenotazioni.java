@@ -72,11 +72,6 @@ public class Prenotazioni extends HttpServlet {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         } 
-        HttpSession session = request.getSession(false);
-        Utente user = (Utente)session.getAttribute("user");
-        double credito = 0.0;
-        if(user != null)
-            credito = user.getCredito();
         Spettacolo spettacolo = infoPrenotazione.getSpettacolo();        
         Timestamp time = spettacolo.getTimeStamp();
         Date date = new Date();
@@ -84,7 +79,6 @@ public class Prenotazioni extends HttpServlet {
         if(time.getTime() > currentTime.getTime()){
             long timer = (time.getTime()-currentTime.getTime())/1000;
             request.setAttribute("mainTimer", timer);
-            request.setAttribute("credito", credito);
             request.setAttribute("infoPrenotazione", infoPrenotazione);
             request.setAttribute("postiSala", postiSala);
             request.setAttribute("prezzi", prezzi);
