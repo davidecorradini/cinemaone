@@ -1,13 +1,18 @@
 package Servlets;
 
+import Beans.InfoPrenotazione;
 import Beans.PrenotazioneTmp;
+import Beans.Spettacolo;
 import Database.DBManager;
+import Database.InfoPrenotazioneQueries;
 import Database.PostoQueries;
 import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,14 +44,29 @@ public class SynchronizeTimers extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String res = "success";
         response.setContentType("text/plain;charset=UTF-8\n");
+        int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
         HttpSession session = request.getSession(false);
         String idUtente = (String) session.getAttribute("idUtente");
         PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
+        InfoPrenotazione infoPrenotazione = null;
+        InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
         try {
-            ptq.setTimerPrenotazioneTMP(idUtente);
+            infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
         } catch (SQLException ex) {
             res = "fail";
         }
+        Spettacolo spettacolo = infoPrenotazione.getSpettacolo();        
+        Timestamp time = spettacolo.getTimeStamp();
+        Date date = new Date();
+        Timestamp currentTime = new Timestamp(date.getTime());
+        if(!((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60)){
+            try {
+                ptq.setTimerPrenotazioneTMP(idUtente);
+            } catch (SQLException ex) {
+                res = "fail";
+            }
+        }
+        
         
         try (PrintWriter out = response.getWriter()) {
             out.println(res);

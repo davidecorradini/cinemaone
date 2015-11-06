@@ -5,12 +5,19 @@
  */
 package Servlets;
 
+import Beans.InfoPrenotazione;
 import Beans.PrenotazioneTmp;
+import Beans.Spettacolo;
 import Database.DBManager;
+import Database.InfoPrenotazioneQueries;
 import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,8 +52,25 @@ public class aggiungiPrenTmp extends HttpServlet {
         prenTmp.setIdPosto(idPosto);
         prenTmp.setIdSpettacolo(idSpettacolo);
         prenTmp.setIdUtente((String)request.getSession(false).getAttribute("idUtente")); //encoded ID.
-        prenTmp.setTimestamp(null);
+        
         prenTmp.setIdPrezzo(idPrezzo);
+        InfoPrenotazione infoPrenotazione = null;
+        InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
+        try {
+            infoPrenotazione = infoPrenQ.getInfoPrenotazione(idSpettacolo);
+        } catch (SQLException ex) {
+            
+        }
+        Spettacolo spettacolo = infoPrenotazione.getSpettacolo();        
+        Timestamp time = spettacolo.getTimeStamp();
+        Date date = new Date();
+        Timestamp currentTime = new Timestamp(date.getTime());
+        if((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60){
+            prenTmp.setTimestamp(new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
+        }else{
+            prenTmp.setTimestamp(new Timestamp(currentTime.getTime()));
+            System.out.println("qui");
+        }
         PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
         try {
             ptq.aggiungiPrenotazioneTmp(prenTmp);
@@ -57,7 +81,7 @@ public class aggiungiPrenTmp extends HttpServlet {
                 System.err.println("constraint violation: " + ex);
             }else{
                 response.getWriter().println("fail");
-                System.err.println("sqlException: " + ex);
+                System.err.println("sqlException1: " + ex);
             }
         }
     }

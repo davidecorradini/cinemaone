@@ -35,15 +35,15 @@ public class PrenotazioneTmpQueries {
      */
     public int aggiungiPrenotazioneTmp(PrenotazioneTmp pre) throws SQLIntegrityConstraintViolationException, SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, ID_PREZZO) VALUES (?,?,?,CURRENT_TIMESTAMP,?)");
+        stm = con.prepareStatement("INSERT INTO PRENOTAZIONETMP (ID_SPETTACOLO, ID_UTENTE, ID_POSTO, DATA_ORA_OPERAZIONETMP, ID_PREZZO) VALUES (?,?,?,?,?)");
         int result;
         
         try {
             stm.setInt(1, pre.getIdSpettacolo());
             stm.setString(2, pre.getIdUtente());
             stm.setInt(3, pre.getIdPosto());
-            stm.setInt(4, pre.getIdPrezzo());
-            
+            stm.setTimestamp(4, pre.getTimestamp());
+            stm.setInt(5, pre.getIdPrezzo());
             result=stm.executeUpdate();
             
         } finally {
