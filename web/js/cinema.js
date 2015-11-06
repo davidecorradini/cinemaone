@@ -266,6 +266,10 @@ $("#procedi-button").click(function () {
                             $("#paga-next").hide();
                             $("#paga-button").show();
                             $("#paga-button").text("Conferma");
+                        } else {
+                            $(".req").each(function (element) {
+                                $(element).attr("required", "");
+                            });
                         }
                         $.ajax({
                             url: "synchronizeTimers",
