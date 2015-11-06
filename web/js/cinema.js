@@ -256,6 +256,7 @@ $("#procedi-button").click(function () {
             if (answer == "true") {
                 $.ajax({
                     url: "synchronizeTimers",
+                    data: "spettacolo=" + id_spettacolo,
                     success: function (result) {
                         $("#pagamento-modal").modal();
                     }
