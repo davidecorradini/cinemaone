@@ -320,16 +320,16 @@ $("#cerca-spettacoli").submit(function (event) {
                     ora = val2;
                 else if(key2 == "sala")
                     sala = val2;
-                $('#spettacoli').append("\n\
+            });            
+            $('#spettacoli').append("\n\
         <tr>\n\
-            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + ">" + titolo + "</a> <small class=\"text-muted\">" + regista + " &middot; " + anno + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
+            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + "\">" + titolo + "</a> <small class=\"text-muted hidden-xs\">" + regista + " &middot; " + anno + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
             <td class=\"text-center\">" + data + "</td>\n\
             <td class=\"text-center\">" + ora + "</td>\n\
             <td class=\"text-center\">" + sala + "</td>\n\
             <td class=\"text-center\"><a class=\"no-color\" href=\"spettacoli.html?idspettacolo=" + idSpettacolo + "\"><i class=\"zmdi zmdi-calendar-check\"></i></a></td>\n\
         </tr>\n\
                 ");
-            });
         });
     });
 });
@@ -381,24 +381,24 @@ $("#cerca-prenotazioni").submit(function (event) {
                     biglietto = val2;
                 else if(key2 == "posto")
                     posto = val2;
-                $('#spettacoli').append("\n\
+            });            
+            $('#prenotazioni').append("\n\
         <tr id=\"id-" + idPrenotazione + "\">\n\
-            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + ">" + titolo + "</a> <small class=\"text-muted\">" + regista + " &middot; " + anno + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
+            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + "\">" + titolo + "</a> <small class=\"text-muted hidden-xs\">" + regista + " &middot; " + anno + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
             <td class=\"text-center\">" + dataSpettacolo + "</td>\n\
             <td class=\"text-center\">" + sala + "</td>\n\
             <td class=\"text-center\">" + utente + "</td>\n\
             <td class=\"text-center\">" + dataPrenotazione + "</td>\n\
             <td class=\"text-center\">" + biglietto + "</td>\n\
             <td class=\"text-center\">" + posto + "</td>\n\
-            <td class=\"text-center\"><a class=\"no-color rimuovi\" href=\"id-" + idPrenotazione + "\" id=\"delete-" + idPrenotazione + "\"><i class=\"zmdi zmdi-delete\"></i></a></td>\n\
+            <td class=\"text-center\"><a class=\"no-color rimuovi\" href=\"#id-" + idPrenotazione + "\" id=\"delete-" + idPrenotazione + "\">x</a></td>\n\
         </tr>\n\
                 ");
-            });
         });
     });
 });
 
-$("a.rimuovi").click(function (event) {
+$(document).on("click", "a.rimuovi", function(event) {
     var posto = event.target;
     var postoId = $(posto).attr("id").substring(7);
     $("#id-prenotazione").val(postoId);

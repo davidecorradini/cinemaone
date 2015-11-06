@@ -94,9 +94,9 @@ public class SpettacoloSalaOrarioQueries {
     }
     
     
-     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, int durataMin, int durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, Character riga, int colonna) throws SQLException{
+     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, Integer durataMin, Integer durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, Character riga, Integer colonna) throws SQLException{
         ArrayList<AdminPrenotazioneUtenti> res = new ArrayList<>();
-        PreparedStatement stm = createQuery(genere, titolo, durataMin, durataMax, regista, programmazioneDa, programmazioneA, prenotazioneDa, prenotazioneA, tipoPrezzo, nomeSala, riga, colonna, email, ruolo);
+        PreparedStatement stm = createQuery("prenotazioni", genere, titolo, durataMin, durataMax, regista, programmazioneDa, programmazioneA, prenotazioneDa, prenotazioneA, tipoPrezzo, nomeSala, riga, colonna, email, ruolo);
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
@@ -188,7 +188,7 @@ public class SpettacoloSalaOrarioQueries {
      */
     public ArrayList<SpettacoloSalaOrario> getSpettacoli(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, String salaNome) throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
-        PreparedStatement stm = createQuery(genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh,null,null,null,salaNome,null,null,null,null);
+        PreparedStatement stm = createQuery("spettacoli", genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh,null,null,null,salaNome,null,null,null,null);
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
@@ -232,10 +232,11 @@ public class SpettacoloSalaOrarioQueries {
     }
     
     
-    private PreparedStatement createQuery(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
+    private PreparedStatement createQuery(String tipo, String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
         String query =  "SELECT *\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE JOIN SALA S ON S.ID_SALA=SP.ID_SALA";
-        
+        if(tipo.equals("prenotazioni"))
+            query += " JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO JOIN PREZZO PREZ ON PREZ.ID_PREZZO = P.ID_PREZZO JOIN POSTO POST ON POST.ID_POSTO = P.ID_POSTO JOIN UTENTE UT ON UT.ID_UTENTE = P.ID_UTENTE JOIN RUOLO R ON R.ID_RUOLO = UT.ID_RUOLO";
         String queryWhere = null;
         if(genereDescrizione != null || filmTitolo != null || filmDurataLow != null || filmDurataHigh != null || filmRegista != null || spettacoloDataOraLow != null || spettacoloDataOraHigh != null || prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || salaNome != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
             queryWhere = "WHERE ";
@@ -255,20 +256,17 @@ public class SpettacoloSalaOrarioQueries {
             if(spettacoloDataOraHigh != null)
                 queryWhere += "SP.DATA_ORA <= ? AND ";
             if(prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
-                query += " JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO";
                 if(prenotazioneDataOraLow != null)
                     queryWhere += "P.DATA_ORA_OPERAZIONE >= ? AND ";
                 if(prenotazioneDataOraHigh != null)
                     queryWhere += "P.DATA_ORA_OPERAZIONE <= ? AND ";
             }
             if(prezzoTipo != null){
-                query += " JOIN PREZZO PREZ ON PREZ.ID_PREZZO = P.ID_PREZZO";
                 queryWhere += "UPPER(PREZ.TIPO) = UPPER(?) AND ";
             }
             if(salaNome != null)
                 queryWhere += "UPPER(S.NOME) = UPPER(?) AND ";
             if(postoRiga != null || postoColonna != null){
-                query += " JOIN POSTO POST ON POST.ID_POSTO = P.ID_POSTO";
                 if(postoRiga != null)
                     queryWhere += "UPPER(POST.RIGA) = UPPER(?) AND ";
                 if(postoColonna != null)
@@ -276,7 +274,6 @@ public class SpettacoloSalaOrarioQueries {
             }
             
             if(utenteEmail != null || ruoloRuolo != null){
-                query += " JOIN UTENTE UT ON UT.ID_UTENTE = P.ID_UTENTE";
                 if(utenteEmail != null)
                     queryWhere += "UT.EMAIL = ? AND ";
                 if(ruoloRuolo != null){

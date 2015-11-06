@@ -253,6 +253,8 @@
     <servlet-mapping>
         <servlet-name>AdminGetPrenotazioni</servlet-name>
         <url-pattern>/AdminGetPrenotazioni</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>GeneraSpettacoli</servlet-name>
         <url-pattern>/generaSpettacoli</url-pattern>
     </servlet-mapping>
