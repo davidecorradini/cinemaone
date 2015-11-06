@@ -151,6 +151,7 @@ function updatePosti (spettacolo) {
                         ss = s;
                     }
                     var remaining = mm + ":" + ss;
+                    $("#payment-timer").text(remaining);
                     if (object.timestamp == 1) {
                         $("#no-selected").hide();
                         $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <button href=\"#\" class=\"delete-posto\" id=\"delete-" + object.idPosto + "\"><i class=\"zmdi zmdi-close\"></i></button></div></div></div>");
@@ -160,6 +161,7 @@ function updatePosti (spettacolo) {
                                 $("#no-selected").slideDown(200);
                                 $("#totale-bottone").slideUp(200);
                             }
+                            $("#pagamento-modal").modal("hide");
                         }, 750);
                     } else {
                         if ($.inArray(object.idPosto, currentSeats) > -1 && $.inArray(object.idPosto, oldSeats) == -1) {
@@ -182,7 +184,6 @@ function updatePosti (spettacolo) {
         }).fail( function(d, textStatus, error) {
             interval = 5000;
         });
-        console.log(seconds);
         oldSeats = currentSeats.slice();
         currentSeats.splice(0,currentSeats.length);
         seats.splice(0,seats.length);
@@ -249,12 +250,16 @@ $("#prenota-form").submit(function (event) {
 
 $("#procedi-button").click(function () {
     $.ajax({
-        type: "GET",
         url: "IsLogged",
         success: function(answer) {
             answer = $.trim(answer);
             if (answer == "true") {
-                $("#pagamento-modal").modal();
+                $.ajax({
+                    url: "synchronizeTimers",
+                    success: function (result) {
+                        $("#pagamento-modal").modal();
+                    }
+                });
             } else {
                 $("#login-modal").modal();
             }
