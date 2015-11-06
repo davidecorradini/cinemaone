@@ -203,7 +203,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ConfermaPrenotazione</servlet-name>
-        <url-pattern>/ConfermaPrenotazione</url-pattern>
+        <url-pattern>/conferma-prenotazione.html</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IncassiFilm</servlet-name>
