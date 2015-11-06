@@ -266,11 +266,10 @@ $("#procedi-button").click(function () {
                             $("#paga-next").hide();
                             $("#paga-button").show();
                             $("#paga-button").text("Conferma");
-                        } else {
                             $(".req").each(function (element) {
-                                $(element).attr("required", "");
+                                $(element).removeAttr("required");
                             });
-                        }
+                            }
                         $.ajax({
                             url: "synchronizeTimers",
                             data: "spettacolo=" + id_spettacolo,
