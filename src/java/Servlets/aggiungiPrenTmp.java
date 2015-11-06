@@ -65,24 +65,28 @@ public class aggiungiPrenTmp extends HttpServlet {
         Timestamp time = spettacolo.getTimeStamp();
         Date date = new Date();
         Timestamp currentTime = new Timestamp(date.getTime());
-        if((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60){
-            prenTmp.setTimestamp(new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
-        }else{
-            prenTmp.setTimestamp(new Timestamp(currentTime.getTime()));
-            System.out.println("qui");
-        }
-        PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
-        try {
-            ptq.aggiungiPrenotazioneTmp(prenTmp);
-            response.getWriter().println("success");
-        } catch (SQLException ex) {
-            if(ex instanceof SQLIntegrityConstraintViolationException){
-                response.getWriter().println("db-fail");
-                System.err.println("constraint violation: " + ex);
+        if(time.getTime() > currentTime.getTime()){
+            if((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60){
+                prenTmp.setTimestamp(new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
             }else{
-                response.getWriter().println("fail");
-                System.err.println("sqlException1: " + ex);
+                prenTmp.setTimestamp(new Timestamp(currentTime.getTime()));
+                System.out.println("qui");
             }
+            PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
+            try {
+                ptq.aggiungiPrenotazioneTmp(prenTmp);
+                response.getWriter().println("success");
+            } catch (SQLException ex) {
+                if(ex instanceof SQLIntegrityConstraintViolationException){
+                    response.getWriter().println("db-fail");
+                    System.err.println("constraint violation: " + ex);
+                }else{
+                    response.getWriter().println("fail");
+                    System.err.println("sqlException1: " + ex);
+                }
+            }
+        }else{
+            response.getWriter().println("fail");
         }
     }
     
