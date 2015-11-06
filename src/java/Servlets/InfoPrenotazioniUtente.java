@@ -34,7 +34,6 @@ public class InfoPrenotazioniUtente extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
         HttpSession session = request.getSession(false);
         Utente user = (Utente)session.getAttribute("user");
         if(user!=null){
@@ -48,6 +47,7 @@ public class InfoPrenotazioniUtente extends HttpServlet {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
                 getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
+            request.setAttribute("credito", user.getCredito());
             request.setAttribute("infoPrenotazioniUtente", infoPrenotazioniUtente);
             getServletContext().getRequestDispatcher("/jsp/infoPrenotazioniUtente.jsp").forward(request, response);
         }else{
