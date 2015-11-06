@@ -287,13 +287,11 @@ $("#procedi-button").click(function () {
 });
 
 $("#paga-next").click(function () {
-    if ($("#paga-button").attr("type") == "button") {
-        $("#paga-next").hide();
-        $("#paga-button").show();
-        $("#riepilogo").slideUp(300);
-        $("#form-carta").slideDown(300);
-        $("#paga-button").text("Conferma Pagamento");
-    }
+    $("#paga-next").hide();
+    $("#paga-button").show();
+    $("#riepilogo").slideUp(300);
+    $("#form-carta").slideDown(300);
+    $("#paga-button").text("Conferma Pagamento");
 });
 
 
@@ -425,7 +423,7 @@ $("#cerca-prenotazioni").submit(function (event) {
             });            
             $('#prenotazioni').append("\n\
         <tr id=\"id-" + idPrenotazione + "\">\n\
-            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + "\">" + titolo + "</a> <small class=\"text-muted hidden-xs\">" + regista + " &middot; " + anno + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
+            <td><a class=\"no-color\" href=\"../dettaglio-film.html?idfilm=" + idFilm + "\">" + titolo + "</a> <small class=\"text-muted hidden-xs\">" + regista + " &middot; " + genere + " &middot; " + durata + "min</small></td>\n\
             <td class=\"text-center\">" + dataSpettacolo + "</td>\n\
             <td class=\"text-center\">" + sala + "</td>\n\
             <td class=\"text-center\">" + utente + "</td>\n\
