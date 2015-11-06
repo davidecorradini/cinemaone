@@ -8,9 +8,14 @@ package Database;
 import Beans.AdminPrenotazioneUtenti;
 import Beans.Film;
 import Beans.Genere;
+import Beans.Posto;
+import Beans.Prenotazione;
+import Beans.Prezzo;
+import Beans.Ruolo;
 import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
+import Beans.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -95,7 +100,73 @@ public class SpettacoloSalaOrarioQueries {
         ResultSet rs = stm.executeQuery();
         try {
             while(rs.next()){
+                AdminPrenotazioneUtenti tmp = new AdminPrenotazioneUtenti();
+                Film tmpFilm = new Film();
+                tmpFilm.setDurata(rs.getInt("DURATA"));
+                tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+                tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpFilm.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                tmpFilm.setTitolo(rs.getString("TITOLO"));
+                tmpFilm.setTrama(rs.getString("TRAMA"));
+                tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                tmpFilm.setRegista(rs.getString("REGISTA"));
+                tmpFilm.setAnno(rs.getInt("ANNO"));
                 
+                Genere tmpGenere = new Genere();
+                tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
+                
+                Spettacolo spett = new Spettacolo();
+                spett.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                spett.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
+                Sala tmpSala = new Sala();
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
+                tmpSala.setIdSala(rs.getInt("ID_SALA"));
+                tmpSala.setNome(rs.getString("NOME"));
+                
+                Utente tmpUtente = new Utente();
+                tmpUtente.setIdUtente(rs.getInt("ID_UTENTE"));
+                tmpUtente.setIdRuolo(rs.getInt("ID_RUOLO"));
+                tmpUtente.setEmail(rs.getString("EMAIL"));
+                tmpUtente.setCredito(rs.getDouble("CREDITO"));
+                
+                Prenotazione tmpPrenotazione = new Prenotazione();
+                tmpPrenotazione.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                tmpPrenotazione.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                tmpPrenotazione.setIdUtente(rs.getInt("ID_UTENTE"));
+                tmpPrenotazione.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                tmpPrenotazione.setIdPosto(rs.getInt("ID_POSTO"));
+                tmpPrenotazione.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                
+                Prezzo tmpPrezzo = new Prezzo();
+                tmpPrezzo.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                tmpPrezzo.setPrezzo(rs.getDouble("PREZZO"));
+                tmpPrezzo.setTipo(rs.getString("TIPO"));
+                
+                Ruolo tmpRuolo = new Ruolo();
+                tmpRuolo.setIdRuolo(rs.getInt("ID_RUOLO"));
+                tmpRuolo.setRuolo(rs.getString("RUOLO"));
+                
+                Posto tmpPosto = new Posto();
+                tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
+                tmpPosto.setIdSala(rs.getInt("ID_SALA"));
+                tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
+                tmpPosto.setColonna(rs.getInt("COLONNA"));
+                tmpPosto.setStato(rs.getInt("STATO"));
+                
+                tmp.setFilm(tmpFilm);
+                tmp.setSala(tmpSala);
+                tmp.setGenere(tmpGenere);
+                tmp.setSpettacolo(spett);
+                tmp.setUtente(tmpUtente);
+                tmp.setPrenotazione(tmpPrenotazione);
+                tmp.setPrezzo(tmpPrezzo);
+                tmp.setRuolo(tmpRuolo);
+                tmp.setPosto(tmpPosto);
+                
+                res.add(tmp);
             }
         } finally {
             rs.close();
