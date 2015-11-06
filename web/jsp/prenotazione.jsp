@@ -117,13 +117,13 @@
                         </div>
                         <div id="form-carta" style="display:none;">
                             <div class="row">
-                                <div class="col-md-6"><input type="text" class="form-control req" name="nome" placeholder="Nome" required novalidate></div>
-                                <div class="col-md-6"><input type="text" class="form-control req" name="cognome" placeholder="Cognome" required novalidate></div>
+                                <div class="col-md-6"><input type="text" class="form-control req" name="nome" placeholder="Nome"></div>
+                                <div class="col-md-6"><input type="text" class="form-control req" name="cognome" placeholder="Cognome"></div>
                             </div>
                             <div class="row" style="margin-top: 8px;">
-                                <div class="col-md-6"><input type="text" class="form-control req" placeholder="Numero di Carta di Credito" required novalidate></div>
-                                <div class="col-md-4"><input type="text" class="form-control req" name="scadenza" placeholder="Scadenza" required novalidate></div>
-                                <div class="col-md-2"><input type="text" class="form-control req" name="ccv" placeholder="CCV" required novalidate></div>
+                                <div class="col-md-6"><input type="text" class="form-control req" placeholder="Numero di Carta di Credito"></div>
+                                <div class="col-md-4"><input type="text" class="form-control req" name="scadenza" placeholder="Scadenza"></div>
+                                <div class="col-md-2"><input type="text" class="form-control req" name="ccv" placeholder="CCV"></div>
                             </div>
                         </div>
                     </div>

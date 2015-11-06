@@ -51,11 +51,11 @@ public class PrenotaPosto extends HttpServlet {
         int idSpettacolo =Integer.parseInt(request.getParameter("spettacolo"));
         
         SpettacoloQueries sq=new SpettacoloQueries(manager);
-        if(sq.checkInizio(idSpettacolo)){ // controllo se spettacolo gia iniziato
+        /*if(sq.checkInizio(idSpettacolo)){ // controllo se spettacolo gia iniziato
             result="failed";
             
         }
-        else{
+        else{*/
             int idPrezzo=Integer.parseInt(request.getParameter("tipo"));
             
             int idPosto = 0;
@@ -92,7 +92,7 @@ public class PrenotaPosto extends HttpServlet {
             } else {
                 result = "failed";
             }
-        }
+        //}
         response.getWriter().println(result);
     }
     
