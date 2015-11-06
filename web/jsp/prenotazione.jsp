@@ -80,6 +80,7 @@
                                 </td>
                             </tr>
                         </table>
+                        <span class="text-danger" id="prenotazione-error" style="display: none;">Errore non specificato, riprova pi&ugrave; tardi.</span>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>

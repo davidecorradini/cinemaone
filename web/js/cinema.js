@@ -228,6 +228,7 @@ $(document).on("click", ".delete-posto", function (event) {
 });
 
 $("#prenota-form").submit(function (event) {
+    $("#prenotazione-error").slideUp("fast");
     $("#conferma-prenotazione-button").attr("disabled", "disabled");
     $("#conferma-prenotazione-button").html("<i class=\"zmdi zmdi-rotate-right zmdi-hc-spin\"></i> Caricamento...");
     event.preventDefault();
@@ -244,7 +245,9 @@ $("#prenota-form").submit(function (event) {
                 $("#conferma-prenotazione-button").removeAttr("disabled");
                 $("#conferma-prenotazione-button").html("Conferma Prenotazione");
             } else {
-                alert("Errore");
+                $("#prenotazione-error").slideDown("slow");
+                $("#conferma-prenotazione-button").removeAttr("disabled");
+                $("#conferma-prenotazione-button").html("Conferma Prenotazione");
             }
         }
     });
