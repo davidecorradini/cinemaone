@@ -53,4 +53,21 @@ public class PrezzoQueries {
         }
         return prezzi;
     }
+    
+    public int getPrezzo(int idPrezzo) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("select PREZZO from PREZZO WHERE ID_PREZZO=?");
+        int res = 0;
+        try {
+            System.out.println("entrato: "+idPrezzo);
+            stm.setInt(1, idPrezzo);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+            res=(rs.getInt("PREZZO"));
+            System.out.println("res: "+res);
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
+    }
 }

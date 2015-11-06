@@ -118,7 +118,7 @@ public class PrenotazioneTmpQueries {
      * ritorna e cancella le prenotazioniTmp di un utente.
      * @param idUtente l'utente di cui si vogliono confermare le prenotazioni temporanee
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<PrenotazioneTmp> getAndDeletePrenotazioniTmp(String idUtente) throws SQLException{
         PreparedStatement stm;
@@ -156,7 +156,7 @@ public class PrenotazioneTmpQueries {
     /**
      * cancella le prenotazioniTmp di un dato utente.
      * @param id
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void cancellaPrenotazioniTmp(String id) throws SQLException{
         PreparedStatement stm;
@@ -173,7 +173,7 @@ public class PrenotazioneTmpQueries {
      * cancella la prenotazioneTmp per quel posto in quello spettacolo.
      * @param idSpettacolo
      * @param idPosto
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void deletePrenotazioneTmp(int idSpettacolo, int idPosto) throws SQLException{
         PreparedStatement stm;
@@ -190,7 +190,7 @@ public class PrenotazioneTmpQueries {
     /**
      * cancella le prenotazioniTmp di un dato utente.
      * @param time
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void cancellaPrenotazioniTmp(Timestamp time) throws SQLException{
         PreparedStatement stm;
@@ -207,7 +207,7 @@ public class PrenotazioneTmpQueries {
      * aggiorna l'idUtente delle prenotazioni tmp, dall'id temporaneo all'id "loggato"
      * @param idTmp
      * @param id
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void aggiornaIdPrenotazioneTmp(String idTmp,int id) throws SQLException{
         
@@ -225,9 +225,10 @@ public class PrenotazioneTmpQueries {
     /**
      * trasferisce le prenotazioni di un utente da temporanee a definitive.
      * @param idUtente
+     * @param manager
      * @throws SQLException
      */
-    public void confermaPrenotazioni(String idUtente) throws SQLException, IllegalArgumentException{
+    public void confermaPrenotazioni(String idUtente,DBManager manager) throws SQLException, IllegalArgumentException{
         
         // controllo se utente loggato
         Object obj = Utente.decodeIdUtente(idUtente);
@@ -241,15 +242,40 @@ public class PrenotazioneTmpQueries {
         
         // le prendo e le importo in Prenotazioni
         
+        int totDaPagare=0;
+        
         for(PrenotazioneTmp tmp: prenTmp){
+            PrezzoQueries pq=new PrezzoQueries(manager);
+            try {
+                totDaPagare+=pq.getPrezzo(tmp.getIdPrezzo());
+            } catch (SQLException ex) {
+                System.err.println("ex: "+ex);
+            }
+            
             Prenotazione pren = new Prenotazione();
             pren.setIdUtente(id);
             pren.setDataOraOperazione(tmp.getTimestamp());
             pren.setIdPosto(tmp.getIdPosto());
             pren.setIdSpettacolo(tmp.getIdSpettacolo());
             pren.setIdPrezzo(tmp.getIdPrezzo());
-            PrenotazioneQueries prenQ = new PrenotazioneQueries(con);
+            PrenotazioneQueries prenQ = new PrenotazioneQueries(manager);
             prenQ.aggiungiPrenotazione(pren);
+            
+        }
+        UtenteQueries uq=new UtenteQueries(manager);
+        int credito=uq.getCredito(id);
+        
+        if(credito>totDaPagare){
+            Utente utente=new Utente();
+            utente.setCredito(credito-totDaPagare);
+            utente.setIdUtente(id);
+            uq.aggiornaCredito(utente);
+        }
+        else{
+            Utente utente=new Utente();
+            utente.setCredito(0);
+            utente.setIdUtente(id);
+            uq.aggiornaCredito(utente);
         }
     }
     
@@ -270,6 +296,6 @@ public class PrenotazioneTmpQueries {
         } finally {
             stm.close();
         }
-       
+        
     }
 }

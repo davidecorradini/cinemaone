@@ -35,7 +35,7 @@ public class ConfermaPrenotazione extends HttpServlet {
         String idUtente = (String)session.getAttribute("idUtente");
         PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
         try {
-            ptm.confermaPrenotazioni(idUtente);
+            ptm.confermaPrenotazioni(idUtente,manager);
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);

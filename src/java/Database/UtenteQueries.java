@@ -109,6 +109,21 @@ public class UtenteQueries {
         }
     }
     
+    public int getCredito(int idUtente) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("SELECT CREDITO FROM UTENTE WHERE ID_UTENTE=?");
+        int res = 0;
+        try {
+            stm.setInt(1, idUtente);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+            res=(rs.getInt("CREDITO"));
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
+    }
+    
     
     /**
      * inserisce un nuovo utente nel database.
