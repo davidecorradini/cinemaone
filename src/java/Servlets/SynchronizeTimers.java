@@ -59,9 +59,15 @@ public class SynchronizeTimers extends HttpServlet {
         Timestamp time = spettacolo.getTimeStamp();
         Date date = new Date();
         Timestamp currentTime = new Timestamp(date.getTime());
-        if(!((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60)){
+        if(!((time.getTime() - currentTime.getTime())/1000 < 60)){
             try {
-                ptq.setTimerPrenotazioneTMP(idUtente);
+                ptq.setTimerPrenotazioneTMP(idUtente,null);
+            } catch (SQLException ex) {
+                res = "fail";
+            }
+        }else{
+            try {
+                ptq.setTimerPrenotazioneTMP(idUtente,new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
             } catch (SQLException ex) {
                 res = "fail";
             }

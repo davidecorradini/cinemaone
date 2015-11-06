@@ -253,7 +253,7 @@ public class PrenotazioneTmpQueries {
         }
     }
     
-    public void setTimerPrenotazioneTMP(String idUtente) throws SQLException, IllegalArgumentException{
+    public void setTimerPrenotazioneTMP(String idUtente, Timestamp time) throws SQLException, IllegalArgumentException{
         
         // controllo se utente loggato
         Object obj = Utente.decodeIdUtente(idUtente);
@@ -263,12 +263,24 @@ public class PrenotazioneTmpQueries {
         int id = (int)obj;
         
         PreparedStatement stm;
-        stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= {fn TIMESTAMPADD(SQL_TSI_MINUTE, -4, CURRENT_TIMESTAMP)} WHERE PT.ID_UTENTE=?");
-        try {
-            stm.setString(1, idUtente);
-            stm.executeUpdate();
-        } finally {
-            stm.close();
+        
+        if(time != null){
+            stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= ? WHERE PT.ID_UTENTE=?");
+            try {
+                stm.setTimestamp(1, time);
+                stm.setString(2, idUtente);
+                stm.executeUpdate();
+            } finally {
+                stm.close();
+            }
+        }else{
+            stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= {fn TIMESTAMPADD(SQL_TSI_MINUTE, -4, CURRENT_TIMESTAMP)} WHERE PT.ID_UTENTE=?");
+            try {
+                stm.setString(1, idUtente);
+                stm.executeUpdate();
+            } finally {
+                stm.close();
+            }
         }
        
     }
