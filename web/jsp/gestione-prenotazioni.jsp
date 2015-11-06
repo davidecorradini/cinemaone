@@ -125,16 +125,7 @@
                 </tr>
             </thead>
             <tbody id="prenotazioni">
-                <tr id="id-1">
-                    <td><a class="no-color" href="../dettaglio-film.html?idfilm=1">I Fantastici 4</a> <small class="text-muted hidden-xs">Tim Story &middot; fantasy &middot; 123min</small></td>
-                    <td class="text-center">15 marzo 2016</td>            
-                    <td class="text-center">SALA1</td>           
-                    <td class="text-center">alessandro@cinemaone.it</td> 
-                    <td class="text-center">10 marzo 2016</td>
-                    <td class="text-center">Intero</td>
-                    <td class="text-center">C10</td>
-                    <td class="text-center"><a class="no-color rimuovi" href="#id-1" id="delete-1">x</a></td>
-                </tr>        
+                       
             </tbody>       
         </table>    
     </div>

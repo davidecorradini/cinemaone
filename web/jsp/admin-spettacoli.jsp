@@ -77,13 +77,7 @@
                 </tr>
             </thead>
             <tbody id="spettacoli">
-                <tr>
-                    <td><a class="no-color" href="../dettaglio-film.html?idfilm=1">I Fantastici 4</a> <small class="text-muted hidden-xs">Tim Story &middot; 2005 &middot; fantasy &middot; 123min</small></td>
-                    <td class="text-center">15 marzo 2016</td>
-                    <td class="text-center">19:00</td>
-                    <td class="text-center">SALA1</td>
-                    <td class="text-center"><a class="no-color" href="spettacoli.html?idspettacolo=1"><i class="zmdi zmdi-calendar-check"></i></a></td>
-                </tr>        
+                    
             </tbody>     
         </table>       
     </div>
