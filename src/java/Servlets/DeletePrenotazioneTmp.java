@@ -38,6 +38,7 @@ public class DeletePrenotazioneTmp extends HttpServlet{
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
+        response.setContentType("text/plain;charset=UTF-8\n");
        
         int idPosto = -1;
         int idSpettacolo = -1;
@@ -45,7 +46,6 @@ public class DeletePrenotazioneTmp extends HttpServlet{
             idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
             idPosto = Integer.parseInt(request.getParameter("posto"));
         }catch(NumberFormatException ex){
-            response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
                 System.err.println("stato prenotazioni: " + ex);
                 out.println("fail " + ex);

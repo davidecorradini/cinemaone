@@ -262,10 +262,10 @@ public class PrenotazioneTmpQueries {
         
         int id = (int)obj;
         
-        PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= {fn TIMESTAMPADD(SQL_TSI_MINUTE, -4, CURRENT_TIMESTAMP)}"
-                + "WHERE PT.ID_UTENTE=?");
+        PreparedStatement stm;
+        stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= {fn TIMESTAMPADD(SQL_TSI_MINUTE, -4, CURRENT_TIMESTAMP)} WHERE PT.ID_UTENTE=?");
         try {
-            stm.setString(1, Utente.encodeIdUtente(idUtente));
+            stm.setString(1, idUtente);
             stm.executeUpdate();
         } finally {
             stm.close();

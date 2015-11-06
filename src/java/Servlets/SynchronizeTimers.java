@@ -5,6 +5,7 @@ import Database.DBManager;
 import Database.PostoQueries;
 import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -36,15 +37,19 @@ public class SynchronizeTimers extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+        String res = "success";
+        response.setContentType("text/plain;charset=UTF-8\n");
         HttpSession session = request.getSession(false);
         String idUtente = (String) session.getAttribute("idUtente");
-
         PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
         try {
-           ptq.setTimerPrenotazioneTMP(idUtente);
+            ptq.setTimerPrenotazioneTMP(idUtente);
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            res = "fail";
+        }
+        
+        try (PrintWriter out = response.getWriter()) {
+            out.println(res);
         }
     }
 
