@@ -10,6 +10,7 @@ import Beans.PostiSala;
 import Beans.Posto;
 import Beans.Prezzo;
 import Beans.Spettacolo;
+import Beans.Utente;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
 import Database.PostiSalaQueries;
@@ -23,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 
@@ -70,6 +72,8 @@ public class Prenotazioni extends HttpServlet {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         } 
+        HttpSession session = request.getSession(false);
+        Utente user = (Utente)session.getAttribute("user");
         Spettacolo spettacolo = infoPrenotazione.getSpettacolo();        
         Timestamp time = spettacolo.getTimeStamp();
         Date date = new Date();
@@ -77,6 +81,7 @@ public class Prenotazioni extends HttpServlet {
         if(time.getTime() > currentTime.getTime()){
             long timer = (time.getTime()-currentTime.getTime())/1000;
             request.setAttribute("mainTimer", timer);
+            request.setAttribute("credito", user.getCredito());
             request.setAttribute("infoPrenotazione", infoPrenotazione);
             request.setAttribute("postiSala", postiSala);
             request.setAttribute("prezzi", prezzi);
