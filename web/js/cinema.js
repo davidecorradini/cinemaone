@@ -95,6 +95,7 @@ $("#recovery-form").submit(function(event) {
 
 
 var seats = new Array();
+var seconds = 1;
 function updatePosti (spettacolo) {
     var currentSeats = new Array();
     var oldSeats = new Array();
@@ -164,7 +165,7 @@ function updatePosti (spettacolo) {
                         if ($.inArray(object.idPosto, currentSeats) > -1 && $.inArray(object.idPosto, oldSeats) == -1) {
                             $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\" style=\"display: none;\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <button href=\"#\" class=\"delete-posto\" id=\"delete-" + object.idPosto + "\"><i class=\"zmdi zmdi-close\"></i></button></div></div></div>");
                             $("#prenotazione-" + object.idPosto).slideDown(300);
-                            if (seats.length == 1) {
+                            if (seats.length == 1 || seconds < 3) {
                                 $("#no-selected").slideUp(300);
                                 $("#totale-bottone").slideDown(300);
                             }
@@ -181,9 +182,11 @@ function updatePosti (spettacolo) {
         }).fail( function(d, textStatus, error) {
             interval = 5000;
         });
+        console.log(seconds);
         oldSeats = currentSeats.slice();
         currentSeats.splice(0,currentSeats.length);
         seats.splice(0,seats.length);
+        seconds++;
     }, interval);
 }
 
@@ -208,7 +211,6 @@ $(document).on("click", ".delete-posto", function (event) {
     } catch (e) {
         idPosto = $(event.target).parent().attr("id").substring(7);
     }
-    console.log(idPosto);
     $.ajax({
         url: "DeletePrenotazioneTmp",
         data: "posto=" + idPosto + "&spettacolo=" + id_spettacolo,
@@ -223,6 +225,8 @@ $(document).on("click", ".delete-posto", function (event) {
 });
 
 $("#prenota-form").submit(function (event) {
+    $("#conferma-prenotazione-button").attr("disabled", "disabled");
+    $("#conferma-prenotazione-button").html("<i class=\"zmdi zmdi-rotate-right zmdi-hc-spin\"></i> Caricamento...");
     event.preventDefault();
     var tipo = $("#prenotazione-tipo").val();
     var postoId = $("#prenotazione-posto-id").val();
@@ -234,6 +238,8 @@ $("#prenota-form").submit(function (event) {
             answer = $.trim(answer);
             if (answer == "success") {
                 $("#prenotazione-modal").modal("hide");
+                $("#conferma-prenotazione-button").removeAttr("disabled");
+                $("#conferma-prenotazione-button").html("Conferma Prenotazione");
             } else {
                 alert("Errore");
             }

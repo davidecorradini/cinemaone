@@ -83,7 +83,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                        <button type="submit" class="btn btn-primary">Conferma Prenotazione</button>
+                        <button type="submit" class="btn btn-primary" id="conferma-prenotazione-button">Conferma Prenotazione</button>
                     </div>
                 </form>
             </div>
