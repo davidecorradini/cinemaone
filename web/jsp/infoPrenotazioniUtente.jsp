@@ -5,7 +5,12 @@
 <c:import url="header.jsp"></c:import>
     <div class="container">
         <div class="page-header">
-            <h1>Lista prenotazioni</h1>
+                    <h1>Lista prenotazioni</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-10" style="padding-bottom: 10px">
+                <strong>Credito:</strong> <fmt:formatNumber value="${requestScope.credito}" type="currency" currencySymbol="&euro;" />
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
