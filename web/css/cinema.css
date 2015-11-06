@@ -239,10 +239,14 @@ ul.nav.navbar-nav.navbar-right li a {
     background-color: #c5cae9;
 }
 
-.gradient-6 {
+.gradient-6, .tuo {
     color: #2196f3;
     border: 1px #2196f3 solid;
     background-color: #bbdefb;
+}
+
+.tuo:hover {
+    background-color: #90CAF9;
 }
 
 .gradient-7 {
