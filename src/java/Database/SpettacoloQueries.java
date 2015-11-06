@@ -179,4 +179,41 @@ public class SpettacoloQueries {
             rsSala.close();
         }
     }
+
+    public boolean checkInizio(int idSpettacolo) throws SQLException{
+    
+        boolean res=true;
+        
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT S.DATA_ORA\n" +
+                        "FROM SPETTACOLO S\n" +
+                        "WHERE S.ID_SPETTACOLO=?");
+        Timestamp data_ora=null;
+        try{
+            stm.setInt(1, idSpettacolo);
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    data_ora= rs.getTimestamp("DATA_ORA");
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        java.util.Date date= new java.util.Date();
+	Timestamp current=new Timestamp(date.getTime());
+        
+        if(data_ora.after(current)){
+            res=true;
+        }
+        else{
+            res=false;
+        }
+        
+        return res;
+        
+    }
 }
