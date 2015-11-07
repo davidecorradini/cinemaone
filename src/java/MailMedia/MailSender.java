@@ -5,6 +5,7 @@
 */
 package MailMedia;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -55,7 +56,7 @@ public class MailSender {
                                 });
     }
     
-    public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
+    public void sendMail(String to, String subject, String text, ArrayList<String>  allegato) throws MessagingException{
         Session session = getSession();
         //Create a new message
         Message msg = new MimeMessage(session);
@@ -73,13 +74,16 @@ public class MailSender {
         BodyPart messageBodyPart1 = new MimeBodyPart();
         messageBodyPart1.setText(text);
 //Create the pdf part of the message
-        if(allegato != null){
-            DataSource source = new FileDataSource(allegato);
-            BodyPart messageBodyPart2 = new MimeBodyPart();
-            messageBodyPart2.setDataHandler( new DataHandler(source) );
-            messageBodyPart2.setFileName("yourTicket");
-            multipart.addBodyPart( messageBodyPart2 );
-        }
+        int i = 1;
+        if(allegato != null)
+            while(!allegato.isEmpty()){
+                DataSource source = new FileDataSource(allegato.remove(0));
+                BodyPart messageBodyPart2 = new MimeBodyPart();
+                messageBodyPart2.setDataHandler( new DataHandler(source) );
+                messageBodyPart2.setFileName("yourTicket-" + i);
+                multipart.addBodyPart( messageBodyPart2 );
+                i++;
+            }
 //Add the parts to the Multipart message
         multipart.addBodyPart( messageBodyPart1 );
         

@@ -47,7 +47,7 @@ public class TicketCreator {
         Paragraph titlePar = new Paragraph(new Phrase("cinemaOne\n" + film.getTitolo() + "\n\n", FontFactory.getFont(titleFont, titleSize)));
         titlePar.setAlignment(Element.ALIGN_CENTER);
         PdfPTable table = new PdfPTable(2);
-        PdfPCell cells[][] = new PdfPCell[2][4];
+        PdfPCell cells[][] = new PdfPCell[2][5];
         cells[0][0] = new PdfPCell(new Paragraph(new Phrase("titolo film: ", FontFactory.getFont(tableFont, tableSize))));
         table.addCell(cells[0][0]);
         
@@ -77,14 +77,25 @@ public class TicketCreator {
         table.addCell(cells[1][3]);
         table.setHorizontalAlignment(Element.ALIGN_CENTER);
         
-        String qrCodePath = destinationPath + prenotazione.getIdPrenotazione() + ".qrCode";
+        cells[0][4] = new PdfPCell(new Paragraph(new Phrase("posto: ", FontFactory.getFont(tableFont, tableSize))));
+        table.addCell(cells[0][4]);
+        
+        String postoStr = String.valueOf(posto.getRiga()).toUpperCase();
+        if(posto.getColonna()<10)
+            postoStr = postoStr + "0";
+        postoStr = postoStr + posto.getColonna();
+        cells[1][4] = new PdfPCell(new Paragraph(new Phrase(postoStr, FontFactory.getFont(tableFont, tableSize))));
+        table.addCell(cells[1][4]);
+        table.setHorizontalAlignment(Element.ALIGN_CENTER);
+        
+        String qrCodePath = destinationPath + prenotazione.getIdSpettacolo() + prenotazione.getIdPosto() + ".qrCode";
         QRGenerator.generate(prenotazione, qrCodePath);
         Image qrCode = Image.getInstance(qrCodePath);
         qrCode.setAlignment(Element.ALIGN_CENTER);
         
         Paragraph footer = new Paragraph(new Phrase("grazie per averci scelto.\nBuona visione", FontFactory.getFont(footerFont, footerSize)));
         
-        String fileName = destinationPath + prenotazione.getIdPrenotazione()+ ".pdf";
+        String fileName = destinationPath + prenotazione.getIdSpettacolo() + prenotazione.getIdPosto() + ".pdf";
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
         

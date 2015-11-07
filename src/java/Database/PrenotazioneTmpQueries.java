@@ -255,9 +255,14 @@ public class PrenotazioneTmpQueries {
         
         // le prendo e le importo in Prenotazioni
         
+        
+        UtenteQueries uQ=new UtenteQueries(manager);
+        Utente utente2=uQ.getUtente(id);
+        
         double totDaPagare=0;
         
-        Prenotazione prenotazione = null;
+        ArrayList<String> allegato=new ArrayList<>();
+        
         for(PrenotazioneTmp tmp: prenTmp){
             
             PrezzoQueries pq=new PrezzoQueries(manager);
@@ -276,13 +281,28 @@ public class PrenotazioneTmpQueries {
             PrenotazioneQueries prenQ = new PrenotazioneQueries(manager);
             prenQ.aggiungiPrenotazione(pren);
             
-            prenotazione=pren; // per il mio allegato
+            InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);
+            InfoPrenotazione filmSalaSpettacolo=iPQ.getInfoPrenotazione(pren.getIdSpettacolo());
             
+            
+            PostoQueries pQ=new PostoQueries(manager);
+            Posto posto=pQ.getPosto(pren.getIdPosto());
+            
+            
+            
+            TicketCreator ticketCreator=new TicketCreator("biglietto");
+            
+            String ticket="";
+            System.out.println(pren.getIdPrenotazione());
+            try {
+                ticket=ticketCreator.generaTicket(utente2, pren, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
+            } catch (DocumentException | IOException ex) {
+                System.err.println("errore: "+ ex.getLocalizedMessage());
+            }
+            allegato.add(ticket);
         }
         
-        System.out.println("1");
         UtenteQueries uq=new UtenteQueries(manager);
-         System.out.println("2");
         double credito=uq.getCredito(id);
         
         Utente utente;
@@ -299,42 +319,9 @@ public class PrenotazioneTmpQueries {
             uq.aggiornaCredito(utente);
         }
         
-        
-         System.out.println("1");
-        
-        
-       UtenteQueries uQ=new UtenteQueries(manager);
-        System.out.println("2");
-        Utente utente2=uQ.getUtente(prenotazione.getIdUtente());
-         System.out.println("3");
-        InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);
-                 System.out.println("4");
-        InfoPrenotazione filmSalaSpettacolo=iPQ.getInfoPrenotazione(prenotazione.getIdSpettacolo());
-        
-         
-        PostoQueries pQ=new PostoQueries(manager);
-        System.out.println("5");
-        Posto posto=pQ.getPosto(prenotazione.getIdPosto());
-        
-      System.out.println("6");
-        
-     
-        TicketCreator ticketCreator=new TicketCreator("destinationPath");
-                
-        String ticket="";
-     
-        try {
-            ticket=ticketCreator.generaTicket(utente, prenotazione, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
-        } catch (DocumentException | IOException ex) {
-            System.err.println("errore: "+ ex.getLocalizedMessage());
-        }
-       
-        
-        System.out.println("7");
         String to=utente2.getEmail();
-        String subject="subject";
-        String text="text";
-        String allegato=ticket;
+        String subject="Ticket CinemaOne s.r.l.";
+        String text="In allegato i biglietti acquistati.\nGrazie per aver scelto CinemaOne s.r.l.";
         
         MailSender mailSender= new MailSender ();
         try {
