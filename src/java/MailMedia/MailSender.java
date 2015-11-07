@@ -55,7 +55,7 @@ public class MailSender {
                                 });
     }
     
-    public void sendMail(String to, String subject, String text, String allegato) throws MessagingException{
+    public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
         Session session = getSession();
         //Create a new message
         Message msg = new MimeMessage(session);

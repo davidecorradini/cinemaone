@@ -26,7 +26,7 @@ public class UtenteQueries {
         this.con = manager.con;
     }
     
-     public UtenteQueries(Connection con){
+    public UtenteQueries(Connection con){
         this.con = con;
     }
     
@@ -56,11 +56,11 @@ public class UtenteQueries {
         PreparedStatement stm = con.prepareStatement(
                 "SELECT * FROM UTENTE WHERE EMAIL = ?");
         try{
-        stm.setString(1, email);
-        ResultSet rs = stm.executeQuery();
-        if(rs.next()){
-            res = true;
-        }
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                res = true;
+            }
         }finally{
             stm.close();
         }
@@ -116,7 +116,7 @@ public class UtenteQueries {
             stm.setInt(1, idUtente);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
-            res=rs.getDouble("CREDITO");
+                res=rs.getDouble("CREDITO");
             }
         } finally {
             stm.close();
@@ -142,16 +142,16 @@ public class UtenteQueries {
             stm.close();
         }
     }
-
+    
     public ArrayList<PrenotazioniUtente> getInfoPrenotazioniUtente(int idUtente) throws SQLIntegrityConstraintViolationException, SQLException{
-     ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = new ArrayList<>();
+        ArrayList<PrenotazioniUtente> infoPrenotazioniUtente = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(" SELECT F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA,DATA_ORA_OPERAZIONE,DATA_ORA,NOME, COUNT(*) AS NUM_BIGLIETTI, SUM(PREZ.PREZZO) AS TOT\n" +
-"FROM PRENOTAZIONE PRE JOIN SPETTACOLO S ON S.ID_SPETTACOLO=PRE.ID_SPETTACOLO JOIN FILM F ON S.ID_FILM=F.ID_FILM JOIN SALA SA ON SA.ID_SALA=S.ID_SALA JOIN PREZZO PREZ ON PREZ.ID_PREZZO=PRE.ID_PREZZO\n" +
-"WHERE PRE.ID_UTENTE=?\n" +
-"GROUP BY  PRE.ID_SPETTACOLO,F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA,DATA_ORA_OPERAZIONE,DATA_ORA,NOME ");
+                "FROM PRENOTAZIONE PRE JOIN SPETTACOLO S ON S.ID_SPETTACOLO=PRE.ID_SPETTACOLO JOIN FILM F ON S.ID_FILM=F.ID_FILM JOIN SALA SA ON SA.ID_SALA=S.ID_SALA JOIN PREZZO PREZ ON PREZ.ID_PREZZO=PRE.ID_PREZZO\n" +
+                "WHERE PRE.ID_UTENTE=?\n" +
+                "GROUP BY  PRE.ID_SPETTACOLO,F.ID_FILM, TITOLO, ID_GENERE,URL_TRAILER, DURATA, TRAMA,URI_LOCANDINA,IS_IN_SLIDER, ANNO, REGISTA,DATA_ORA_OPERAZIONE,DATA_ORA,NOME ");
         
         
-         stm.setInt(1, idUtente);
+        stm.setInt(1, idUtente);
         
         try {
             ResultSet rs = stm.executeQuery();
@@ -188,7 +188,31 @@ public class UtenteQueries {
             stm.close();
         }
         return infoPrenotazioniUtente;
+        
+        
+    }
     
-    
+    Utente getUtente(int idUtente) throws SQLIntegrityConstraintViolationException, SQLException{
+        Utente utente=new Utente();
+        
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM UTENTE WHERE ID_UTENTE=?");
+        
+        try {
+            stm.setInt(1, idUtente);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                utente.setIdUtente(idUtente);
+                utente.setEmail(rs.getString("EMAIL"));
+                utente.setPassword(rs.getString("PASSWORD"));
+                
+                utente.setCredito(rs.getDouble("CREDITO"));
+                utente.setIdRuolo(rs.getInt("ID_RUOLO"));
+            }
+        } finally {
+            stm.close();
+        }
+        
+        return utente;
+        
     }
 }

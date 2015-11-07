@@ -38,7 +38,7 @@ public class TicketCreator {
     private static final String footerFont = FontFactory.HELVETICA;
     private static final int footerSize = 16;
     
-    TicketCreator(String destinationPath){
+    public TicketCreator(String destinationPath){
     this.destinationPath = destinationPath;
     }
     

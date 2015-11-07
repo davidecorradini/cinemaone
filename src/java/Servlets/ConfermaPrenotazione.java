@@ -1,9 +1,22 @@
 package Servlets;
 
+import Beans.Film;
+import Beans.Posto;
+import Beans.Prenotazione;
+import Beans.Sala;
+import Beans.Spettacolo;
+import Beans.Utente;
 import Database.DBManager;
 import Database.PrenotazioneTmpQueries;
+import MailMedia.MailSender;
+import MailMedia.TicketCreator;
+import com.lowagie.text.DocumentException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,14 +24,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class ConfermaPrenotazione extends HttpServlet {
-
+    
     private DBManager manager;
-
+    
     @Override
     public void init() throws ServletException {
         this.manager = (DBManager) super.getServletContext().getAttribute("dbmanager");
     }
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,7 +43,7 @@ public class ConfermaPrenotazione extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String result = "";
-
+        
         HttpSession session = request.getSession(false);
         String idUtente = (String)session.getAttribute("idUtente");
         PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
@@ -44,14 +57,16 @@ public class ConfermaPrenotazione extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
         
+        
+        
         getServletContext().getRequestDispatcher("/jsp/prenotazioneEffettuata.jsp").forward(request, response);
     }
-
+    
     @Override
     public void destroy() {
         this.manager = null;
     }
-
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -65,7 +80,7 @@ public class ConfermaPrenotazione extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

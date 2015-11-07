@@ -1,11 +1,21 @@
 
 package Database;
 
+import Beans.InfoPrenotazione;
 import Beans.Posto;
 import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
 import Beans.PrenotazioneTmp;
+import Beans.Sala;
+import Beans.Spettacolo;
 import Beans.Utente;
+import MailMedia.MailSender;
+import MailMedia.TicketCreator;
+
+import Servlets.ConfermaPrenotazione;
+import com.lowagie.text.DocumentException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +23,9 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 
 public class PrenotazioneTmpQueries {
@@ -244,7 +257,9 @@ public class PrenotazioneTmpQueries {
         
         double totDaPagare=0;
         
+        Prenotazione prenotazione = null;
         for(PrenotazioneTmp tmp: prenTmp){
+            
             PrezzoQueries pq=new PrezzoQueries(manager);
             try {
                 totDaPagare+=pq.getPrezzo(tmp.getIdPrezzo());
@@ -261,21 +276,71 @@ public class PrenotazioneTmpQueries {
             PrenotazioneQueries prenQ = new PrenotazioneQueries(manager);
             prenQ.aggiungiPrenotazione(pren);
             
+            prenotazione=pren; // per il mio allegato
+            
         }
+        
+        System.out.println("1");
         UtenteQueries uq=new UtenteQueries(manager);
+         System.out.println("2");
         double credito=uq.getCredito(id);
         
+        Utente utente;
         if(credito>totDaPagare){
-            Utente utente=new Utente();
+             utente=new Utente();
             utente.setCredito(credito-totDaPagare);
             utente.setIdUtente(id);
             uq.aggiornaCredito(utente);
         }
         else{
-            Utente utente=new Utente();
+            utente=new Utente();
             utente.setCredito(0);
             utente.setIdUtente(id);
             uq.aggiornaCredito(utente);
+        }
+        
+        
+         System.out.println("1");
+        
+        
+       UtenteQueries uQ=new UtenteQueries(manager);
+        System.out.println("2");
+        Utente utente2=uQ.getUtente(prenotazione.getIdUtente());
+         System.out.println("3");
+        InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);
+                 System.out.println("4");
+        InfoPrenotazione filmSalaSpettacolo=iPQ.getInfoPrenotazione(prenotazione.getIdSpettacolo());
+        
+         
+        PostoQueries pQ=new PostoQueries(manager);
+        System.out.println("5");
+        Posto posto=pQ.getPosto(prenotazione.getIdPosto());
+        
+      System.out.println("6");
+        
+     
+        TicketCreator ticketCreator=new TicketCreator("destinationPath");
+                
+        String ticket="";
+     
+        try {
+            ticket=ticketCreator.generaTicket(utente, prenotazione, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
+        } catch (DocumentException | IOException ex) {
+            System.err.println("errore: "+ ex.getLocalizedMessage());
+        }
+       
+        
+        System.out.println("7");
+        String to=utente2.getEmail();
+        String subject="subject";
+        String text="text";
+        String allegato=ticket;
+        
+        MailSender mailSender= new MailSender ();
+        try {
+            mailSender.sendMail(to,subject,text,allegato);
+        } catch (MessagingException ex) {
+            Logger.getLogger(ConfermaPrenotazione.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
