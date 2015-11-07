@@ -97,7 +97,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Conferma del pagamento</h4>
                 </div>
-                <form id="paga-form" action="conferma-prenotazione.html">
+                <form id="paga-form" action="conferma-prenotazione.html" method="post">
+                    <input type="hidden" name="spettacolo" value="<c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>">
                     <div class="modal-body">
                         <div class="alert alert-dismissible alert-danger" role="alert">Tempo rimanente per completare il pagamento: <strong id="payment-timer"></strong></div>
                         <div id="riepilogo">
