@@ -20,7 +20,7 @@ import net.glxn.qrgen.image.ImageType;
  */
 public class QRGenerator {
     public static void generate(Prenotazione pren, String destinationPath) throws FileNotFoundException, IOException{
-        ByteArrayOutputStream stream = QRCode.from(Integer.toString(pren.getIdPrenotazione()))
+        ByteArrayOutputStream stream = QRCode.from(pren.getIdSpettacolo() + pren.getIdPosto() + "cinemaone")
                 .to(ImageType.JPG).stream();
         FileOutputStream output = new FileOutputStream(new File(destinationPath));
         output.write(stream.toByteArray());

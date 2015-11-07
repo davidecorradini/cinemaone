@@ -325,7 +325,7 @@ public class PrenotazioneTmpQueries {
             Posto posto=pQ.getPosto(pren.getIdPosto()); 
             
             
-            TicketCreator ticketCreator=new TicketCreator("biglietto");
+            TicketCreator ticketCreator=new TicketCreator("../");
             
             String ticket="";
             System.out.println(pren.getIdPrenotazione());
