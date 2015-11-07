@@ -42,24 +42,28 @@ public class ConfermaPrenotazione extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String result = "";
-        
-        HttpSession session = request.getSession(false);
-        String idUtente = (String)session.getAttribute("idUtente");
-        PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
-        try {
-            ptm.confermaPrenotazioni(idUtente,manager);
-        } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-        }catch(IllegalArgumentException ex){
-            request.setAttribute("error", "l'utente deve essere loggato per poter prenotare posti");
+        if(request.getParameter("spettacolo") != null){
+            String result = "";
+            int idSpettacolo = Integer.valueOf(request.getParameter("spettacolo"));
+            HttpSession session = request.getSession(false);
+            String idUtente = (String)session.getAttribute("idUtente");
+            PrenotazioneTmpQueries ptm = new PrenotazioneTmpQueries(manager);
+            try {
+                ptm.confermaPrenotazioni(idUtente,idSpettacolo,manager);
+            } catch (SQLException ex) {
+                request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }catch(IllegalArgumentException ex){
+                request.setAttribute("error", "l'utente deve essere loggato per poter prenotare posti");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }           
+            
+            getServletContext().getRequestDispatcher("/jsp/prenotazioneEffettuata.jsp").forward(request, response);
+            
+        }else{
+            request.setAttribute("error", "nessuna prenotazione da confermare");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }
-        
-        
-        
-        getServletContext().getRequestDispatcher("/jsp/prenotazioneEffettuata.jsp").forward(request, response);
     }
     
     @Override

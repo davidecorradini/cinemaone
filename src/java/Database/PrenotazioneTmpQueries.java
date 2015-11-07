@@ -130,18 +130,20 @@ public class PrenotazioneTmpQueries {
     /**
      * ritorna e cancella le prenotazioniTmp di un utente.
      * @param idUtente l'utente di cui si vogliono confermare le prenotazioni temporanee
+     * @param idSpettacolo
      * @return
      * @throws SQLException
      */
-    public ArrayList<PrenotazioneTmp> getAndDeletePrenotazioniTmp(String idUtente) throws SQLException{
+    public ArrayList<PrenotazioneTmp> getAndDeletePrenotazioniTmp(String idUtente,int idSpettacolo) throws SQLException{
         PreparedStatement stm;
         ArrayList<PrenotazioneTmp> prenotazioneTmp = new ArrayList<>();
         stm = con.prepareStatement(
                 "SELECT *\n" +
                         "FROM PRENOTAZIONETMP PREN " +
-                        "WHERE ID_UTENTE = ?");
+                        "WHERE ID_UTENTE = ? AND ID_SPETTACOLO = ?");
         try {
             stm.setString(1,idUtente);
+            stm.setInt(2, idSpettacolo);
             ResultSet rs = stm.executeQuery();
             try {
                 
@@ -162,20 +164,22 @@ public class PrenotazioneTmpQueries {
             stm.close();
         }
         
-        cancellaPrenotazioniTmp(idUtente);
+        cancellaPrenotazioniTmp(idUtente,idSpettacolo);
         
         return prenotazioneTmp;
     }
     /**
      * cancella le prenotazioniTmp di un dato utente.
      * @param id
+     * @param idSpettacolo
      * @throws SQLException
      */
-    public void cancellaPrenotazioniTmp(String id) throws SQLException{
+    public void cancellaPrenotazioniTmp(String id,int idSpettacolo) throws SQLException{
         PreparedStatement stm;
-        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ?");
+        stm = con.prepareStatement("DELETE FROM PRENOTAZIONETMP WHERE ID_UTENTE = ? AND ID_SPETTACOLO = ?");
         try {
             stm.setString(1, id);
+            stm.setInt(2, idSpettacolo);
             stm.executeUpdate();
         } finally {
             stm.close();
@@ -238,10 +242,11 @@ public class PrenotazioneTmpQueries {
     /**
      * trasferisce le prenotazioni di un utente da temporanee a definitive.
      * @param idUtente
+     * @param idSpettacolo
      * @param manager
      * @throws SQLException
      */
-    public void confermaPrenotazioni(String idUtente,DBManager manager) throws SQLException, IllegalArgumentException{
+    public void confermaPrenotazioni(String idUtente,int idSpettacolo,DBManager manager) throws SQLException, IllegalArgumentException{
         
         // controllo se utente loggato
         Object obj = Utente.decodeIdUtente(idUtente);
@@ -250,19 +255,9 @@ public class PrenotazioneTmpQueries {
         
         int id = (int)obj;
         
-        // get prenotazioniTmp di idUtente e le cancello
-        ArrayList<PrenotazioneTmp> prenTmp=getAndDeletePrenotazioniTmp(idUtente);
-        
-        // le prendo e le importo in Prenotazioni
-        
-        
-        UtenteQueries uQ=new UtenteQueries(manager);
-        Utente utente2=uQ.getUtente(id);
-        
         double totDaPagare=0;
-        
-        ArrayList<String> allegato=new ArrayList<>();
-        
+        // get prenotazioniTmp di idUtente e le cancello
+        ArrayList<PrenotazioneTmp> prenTmp=getAndDeletePrenotazioniTmp(idUtente,idSpettacolo);
         for(PrenotazioneTmp tmp: prenTmp){
             
             PrezzoQueries pq=new PrezzoQueries(manager);
@@ -271,6 +266,31 @@ public class PrenotazioneTmpQueries {
             } catch (SQLException ex) {
                 System.err.println("ex: "+ex);
             }
+            
+        }
+        // le prendo e le importo in Prenotazioni
+        
+        
+        UtenteQueries uQ=new UtenteQueries(manager);
+        Utente utente=uQ.getUtente(id);
+        
+        
+        double credito=utente.getCredito();
+        
+        
+        if(credito>=totDaPagare){
+            utente.setCredito(credito-totDaPagare);
+            uQ.aggiornaCredito(utente);
+        }
+        else{
+            //controllo pagamento carta di credito
+            utente.setCredito(0);
+            uQ.aggiornaCredito(utente);
+        }
+        
+        ArrayList<String> allegato=new ArrayList<>();
+        
+        for(PrenotazioneTmp tmp: prenTmp){
             
             Prenotazione pren = new Prenotazione();
             pren.setIdUtente(id);
@@ -286,8 +306,7 @@ public class PrenotazioneTmpQueries {
             
             
             PostoQueries pQ=new PostoQueries(manager);
-            Posto posto=pQ.getPosto(pren.getIdPosto());
-            
+            Posto posto=pQ.getPosto(pren.getIdPosto()); 
             
             
             TicketCreator ticketCreator=new TicketCreator("biglietto");
@@ -295,31 +314,15 @@ public class PrenotazioneTmpQueries {
             String ticket="";
             System.out.println(pren.getIdPrenotazione());
             try {
-                ticket=ticketCreator.generaTicket(utente2, pren, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
+                ticket=ticketCreator.generaTicket(utente, pren, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
             } catch (DocumentException | IOException ex) {
                 System.err.println("errore: "+ ex.getLocalizedMessage());
             }
             allegato.add(ticket);
         }
         
-        UtenteQueries uq=new UtenteQueries(manager);
-        double credito=uq.getCredito(id);
         
-        Utente utente;
-        if(credito>totDaPagare){
-             utente=new Utente();
-            utente.setCredito(credito-totDaPagare);
-            utente.setIdUtente(id);
-            uq.aggiornaCredito(utente);
-        }
-        else{
-            utente=new Utente();
-            utente.setCredito(0);
-            utente.setIdUtente(id);
-            uq.aggiornaCredito(utente);
-        }
-        
-        String to=utente2.getEmail();
+        String to=utente.getEmail();
         String subject="Ticket CinemaOne s.r.l.";
         String text="In allegato i biglietti acquistati.\nGrazie per aver scelto CinemaOne s.r.l.";
         
