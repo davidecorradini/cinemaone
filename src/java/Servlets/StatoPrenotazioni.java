@@ -14,7 +14,6 @@ import Beans.Utente;
 import Database.Cache.PrenotazioniPostoCache;
 import Database.DBManager;
 import Database.PrenTmpPostoQueries;
-import Database.PrenotazionePostoQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -135,6 +134,7 @@ public class StatoPrenotazioni extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
+            System.out.println("statoPrenotazioni: " + jsonStr);
         }
     }
     

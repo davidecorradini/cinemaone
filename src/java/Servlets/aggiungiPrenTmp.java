@@ -11,7 +11,6 @@ import Beans.Spettacolo;
 import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
-import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -67,10 +66,9 @@ public class aggiungiPrenTmp extends HttpServlet {
         if(time.getTime() > currentTime.getTime()){
             if((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60){
                 prenTmp.setTimestamp(new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
-            }else{
+            }else
                 prenTmp.setTimestamp(new Timestamp(currentTime.getTime()));
-                System.out.println("qui");
-            }
+            
             PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(manager);
             try {
                 prenTmpQ.aggiungiPrenotazioneTmp(prenTmp);

@@ -6,7 +6,6 @@ import Beans.Spettacolo;
 import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
-import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
