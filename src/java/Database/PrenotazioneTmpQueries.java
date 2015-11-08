@@ -9,6 +9,7 @@ import Beans.PrenotazioneTmp;
 import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.Utente;
+import Database.Cache.PrenotazioniPostoCache;
 import MailMedia.MailSender;
 import MailMedia.TicketCreator;
 
@@ -314,7 +315,7 @@ public class PrenotazioneTmpQueries {
             pren.setIdPosto(tmp.getIdPosto());
             pren.setIdSpettacolo(tmp.getIdSpettacolo());
             pren.setIdPrezzo(tmp.getIdPrezzo());
-            PrenotazioneQueries prenQ = new PrenotazioneQueries(manager);
+            PrenotazioniPostoCache prenQ = new PrenotazioniPostoCache(manager);
             prenQ.aggiungiPrenotazione(pren);
             
             InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);

@@ -1,6 +1,7 @@
 package Servlets;
 
 import Beans.Prenotazione;
+import Database.Cache.PrenotazioniPostoCache;
 import Database.DBManager;
 import Database.PrenotazioneQueries;
 import java.io.IOException;
@@ -43,9 +44,10 @@ public class DeletePrenotazione extends HttpServlet {
         
         }
         
+        PrenotazioniPostoCache prenQ= new PrenotazioniPostoCache(manager);
         try {
             
-            pQ.deletePrenotazione(pren);
+            prenQ.deletePrenotazione(pren);
             response.getWriter().println("success");
         } catch (SQLException ex) {
             response.getWriter().println("fail");
