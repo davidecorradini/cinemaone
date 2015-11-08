@@ -6,16 +6,14 @@ import Beans.Posto;
 import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
 import Beans.PrenotazioneTmp;
-import Beans.Sala;
-import Beans.Spettacolo;
 import Beans.Utente;
 import Database.Cache.PrenotazioniPostoCache;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import MailMedia.MailSender;
 import MailMedia.TicketCreator;
 
 import Servlets.ConfermaPrenotazione;
 import com.lowagie.text.DocumentException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -64,22 +62,6 @@ public class PrenotazioneTmpQueries {
             stm.close();
         }
         return result;
-    }
-    
-    /**
-     * elimina le prenotazioni temporanee precedenti a tm.
-     * @param tm limite minimo di validità delle prenotazionitmp (quelle piu vecchie vengono eliminate)
-     * @throws SQLException
-     */
-    public void eliminaPrenotazioneTmp(Timestamp tm) throws SQLException{
-        PreparedStatement stm;
-        stm = con.prepareStatement("DELETE * FROM PRENOTAZIONETMP WHERE DATA_ORA_OPERAZIONETMP < ?");
-        try {
-            stm.setTimestamp(1, tm);
-            stm.executeUpdate();
-        } finally {
-            stm.close();
-        }
     }
     
     /**
@@ -164,8 +146,7 @@ public class PrenotazioneTmpQueries {
         } finally {
             stm.close();
         }
-        
-        cancellaPrenotazioniTmp(idUtente,idSpettacolo);
+        (new PrenotazioniTmpPostoCache(con)).cancellaPrenotazioniTmp(idUtente,idSpettacolo);
         
         return prenotazioneTmp;
     }
@@ -186,10 +167,10 @@ public class PrenotazioneTmpQueries {
             stm.close();
         }
     }
+    
     /**
      * cancella le prenotazioniTmp di un dato utente.
      * @param id
-     * @param idSpettacolo
      * @throws SQLException
      */
     public void cancellaPrenotazioniTmp(String id) throws SQLException{
@@ -222,7 +203,7 @@ public class PrenotazioneTmpQueries {
     }
     
     /**
-     * cancella le prenotazioniTmp di un dato utente.
+     * cancella le prenotazioniTmp precedenti a time.
      * @param time
      * @throws SQLException
      */
@@ -243,7 +224,7 @@ public class PrenotazioneTmpQueries {
      * @param id
      * @throws SQLException
      */
-    public void aggiornaIdPrenotazioneTmp(String idTmp,int id) throws SQLException{
+    public void aggiornaIdPrenotazioneTmp(String idTmp, int id) throws SQLException{
         
         PreparedStatement stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.ID_UTENTE=? WHERE PT.ID_UTENTE=?");
         try {
@@ -351,17 +332,16 @@ public class PrenotazioneTmpQueries {
         }
     }
     
+    /**
+     * aggiorna il timeout delle prenotazioni temporanee dell'utente specificato.
+     * mantenendo la cache sincronizzata
+     * @param idUtente
+     * @param time se null viene settato al timestamp attuale.
+     * @throws SQLException
+     * @throws IllegalArgumentException 
+     */
     public void setTimerPrenotazioneTMP(String idUtente, Timestamp time) throws SQLException, IllegalArgumentException{
-        
-        // controllo se utente loggato
-        Object obj = Utente.decodeIdUtente(idUtente);
-        if (!(obj instanceof Integer))
-            throw new IllegalArgumentException("Conferma prenotazioni: invalid Id");
-        
-        int id = (int)obj;
-        
         PreparedStatement stm;
-        
         if(time != null){
             stm = con.prepareStatement("UPDATE PRENOTAZIONETMP PT SET PT.DATA_ORA_OPERAZIONETMP= ? WHERE PT.ID_UTENTE=?");
             try {

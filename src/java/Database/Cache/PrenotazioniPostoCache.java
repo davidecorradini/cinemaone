@@ -12,6 +12,7 @@ import Database.DBManager;
 import Database.PostoQueries;
 import Database.PrenotazionePostoQueries;
 import Database.PrenotazioneQueries;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -22,13 +23,17 @@ import java.util.ArrayList;
  * @author enrico
  */
 public class PrenotazioniPostoCache {
-    private final DBManager manager;
+     private final transient Connection manager;
     //coppie idSpettacolo, oggetto.
     private static final ObjectCache<Integer, ArrayList<PrenotazionePosto>> cache = new ObjectCache<>();
 
-    public PrenotazioniPostoCache(DBManager manager){
+    public PrenotazioniPostoCache(Connection manager){
         this.manager = manager;
-    } 
+    }
+    
+    public PrenotazioniPostoCache(DBManager manager){
+        this.manager = manager.getConnection();
+    }
     
     //wrapper del metodo PrenotazionePostoQueries.getPostiOccupati, i risultati sono salvati in cache.
     /**
@@ -39,11 +44,14 @@ public class PrenotazioniPostoCache {
      */
     public ArrayList<PrenotazionePosto> getPostiOccupati(int id_spettacolo) throws SQLException{
         ArrayList<PrenotazionePosto> res = cache.get(id_spettacolo);
+        System.out.print("getPostiOccupati; idSpettacolo: " + id_spettacolo + " -> cache ");
         if(res == null){ //if the object is not cached, compute it.
+            System.out.println("miss");
             PrenotazionePostoQueries prenPostoQ = new PrenotazionePostoQueries(manager);
             res = prenPostoQ.getPostiOccupati(id_spettacolo);
             cache.add(id_spettacolo, res); //store it in cache
-        }
+        }else
+            System.out.println("hit");
         return res;
     }
     
@@ -56,17 +64,19 @@ public class PrenotazioniPostoCache {
      public void deletePrenotazione (Prenotazione pr) throws SQLException{
          //prendo l'oggetto dalla cache e lo modifico eliminando le entry legate a tale prenotazione.
          ArrayList<PrenotazionePosto> value = cache.get(pr.getIdSpettacolo());
-         ArrayList<PrenotazionePosto> updatedValue = new ArrayList<>();
-         for(PrenotazionePosto obj : value){
-             //inserisco solo gli elementi che hanno idPrenotazione differente.
-             if(obj.getPrenotazione().getIdPrenotazione() != pr.getIdPrenotazione())
-                 updatedValue.add(obj);
+         ArrayList<PrenotazionePosto> updatedValue = null;
+         if(value != null){
+             updatedValue = new ArrayList<>();
+             for(PrenotazionePosto obj : value){
+                 //inserisco solo gli elementi che hanno idPrenotazione differente.
+                 if(obj.getPrenotazione().getIdPrenotazione() != pr.getIdPrenotazione())
+                     updatedValue.add(obj);
+             }
          }
-         PrenotazioneQueries prenQuery = new PrenotazioneQueries(manager);
-         prenQuery.deletePrenotazione(pr);
-      
+         (new PrenotazioneQueries(manager)).deletePrenotazione(pr);
          //una volta eseguita la query aggiorno la cache.
-         cache.add(pr.getIdSpettacolo(), updatedValue);
+         if(value != null)
+             cache.add(pr.getIdSpettacolo(), updatedValue);
      }
      
      /**
@@ -81,20 +91,26 @@ public class PrenotazioniPostoCache {
          //aggiungo la prenotazione per il posto alla cache una volta che la query è stata eseguita.
          Posto posto = (new PostoQueries(manager)).getPosto(pre.getIdPosto()); //ottengo il posto.
          ArrayList<PrenotazionePosto> value = cache.get(pre.getIdSpettacolo());
-         PrenotazionePosto newPreno = new PrenotazionePosto();
-         newPreno.setPosto(posto);
-         newPreno.setPrenotazione(pre);
-         value.add(newPreno);
-         //cache.add(pre.getIdSpettacolo(), value); //logica dei puntatori, non necessario.
+         if(value != null){
+             PrenotazionePosto newPreno = new PrenotazionePosto();
+             newPreno.setPosto(posto);
+             newPreno.setPrenotazione(pre);
+             value.add(newPreno);
+             //cache.add(pre.getIdSpettacolo(), value); //logica dei puntatori, non necessario.
+         }
      }
      
      //PostoQueries
+     /**
+      * aggiorna la cache in modo che non dia falsi dati. Chiama la catena di cache per propagare la modifica.
+      * @param ps
+      * @throws SQLException 
+      */
      public void cambiaStato(Posto ps) throws SQLException{
          //considero potenzialmente troppo costoso andare a cercare tutte le entry che riguardano quel posto.
          //cancellando tutto i dati nella cache verranno reinseriti uno alla volta (per aggiurnarla dovrei ciclare su tutti i dati presenti, potenzialmente su tutte le prenotazioni per ogni posto dell'intero database)
          cache.clean();
-         
-         (new PostoQueries(manager)).cambiaStato(ps);
+         (new PrenotazioniTmpPostoCache(manager)).cambiaStato(ps);
         
      }
 }

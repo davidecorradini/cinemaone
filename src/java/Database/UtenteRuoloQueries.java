@@ -8,6 +8,7 @@ package Database;
 import Beans.Ruolo;
 import Beans.Utente;
 import Beans.UtenteRuolo;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +57,7 @@ public class UtenteRuoloQueries {
                 ruolo.setIdRuolo(rs.getInt("ID_RUOLO"));
                 ruolo.setRuolo(rs.getString("RUOLO"));
                 if(idTmp != null){
-                    PrenotazioneTmpQueries prenTmpQ = new PrenotazioneTmpQueries(con);
+                    PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(con);
                     prenTmpQ.aggiornaIdPrenotazioneTmp(idTmp,utente.getIdUtente());
                 }                
             }
