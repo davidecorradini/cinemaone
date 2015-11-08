@@ -9,10 +9,37 @@
     <script>
         var id_spettacolo = <c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>;
         var prezzi = new Array();
-        var mainTimer = <c:out value="${requestScope.mainTimer}"></c:out>;
         <c:forEach var="tmp20" items="${requestScope.prezzi}">
         prezzi[<c:out value="${tmp20.getIdPrezzo()}"></c:out>] = new Array("<c:out value="${tmp20.getTipo()}"></c:out>", "<fmt:formatNumber value="${tmp20.getPrezzo()}" type="currency" currencySymbol="&euro;" />");
         </c:forEach>
+        var mainTimer = <c:out value="${requestScope.mainTimer}"></c:out>;
+        function sformat(sec) {
+            var d = Math.floor(sec / 60 / 60 / 24);
+            var h = Math.floor(sec / 60 / 60) % 24;
+            var m = Math.floor(sec / 60) % 60;
+            var s = sec % 60;
+            var hh = h;
+            if (hh < 10) {
+                hh = "0" + hh;
+            }
+            var mm = m;
+            if (mm < 10) {
+                mm = "0" + mm;
+            }
+            var ss = s;
+            if (ss < 10) {
+                ss = "0" + ss;
+            }
+            return d + "g " + hh + "h " + mm + "m " + ss + "s";
+        }
+
+        setInterval(function () {
+            if (mainTimer == 1) {
+                location.reload();
+            }
+            $("#main-timer").text(sformat(mainTimer));
+            mainTimer--;
+        }, 1000);
     </script>
     <div class="container">
         <div class="page-header">
@@ -28,6 +55,7 @@
                 <br><br><br>
             </div>
             <div class="col-md-4" id="posti-selezionati">
+                <strong>Il film inizia tra </strong><span id="main-timer"></span><br><br>
                 <strong>Posti selezionati</strong>
                 <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
                 <div id="posti-selezionati-list"></div>
