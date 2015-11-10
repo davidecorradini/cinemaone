@@ -88,7 +88,7 @@ public class Spettacolo implements Serializable{
      */
     public String getData(){
         Date date = new Date(this.getTimeStamp().getTime());
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         return df.format(date);    
     }
 
@@ -97,7 +97,7 @@ public class Spettacolo implements Serializable{
      */
     public String getOra(){
         Date date = new Date(this.getTimeStamp().getTime());
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         return df.format(date);
     }
 }

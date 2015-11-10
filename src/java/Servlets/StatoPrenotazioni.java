@@ -57,8 +57,7 @@ public class StatoPrenotazioni extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(false); //da mettere poi a false
+        HttpSession session = request.getSession(false);
         String idUtente = (String)(session.getAttribute("idUtente"));
         int idSpettacolo = 0;
         try{
@@ -66,6 +65,7 @@ public class StatoPrenotazioni extends HttpServlet {
         }catch(NumberFormatException ex){
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
+                System.err.println("stato prenotazioni: " + ex);
                 out.println("fail " + ex);
             }
             return;
@@ -81,6 +81,7 @@ public class StatoPrenotazioni extends HttpServlet {
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
+                System.err.println("stato prenotazioni: " + ex);
                 out.println("fail " + ex);
             }
             return;
@@ -100,8 +101,7 @@ public class StatoPrenotazioni extends HttpServlet {
                 if(decodedId instanceof Integer && res.getPrenotazione().getIdUtente() == ((Integer)decodedId))
                     stato = postoTuo;
                 jsonObject.put("stato", stato);
-                jsonObject.put("timestamp", tempoRimanente(res.getPrenotazione().getDataOraOperazione()));
-                
+                jsonObject.put("prezzo", -1);
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
             }
             
@@ -114,10 +114,13 @@ public class StatoPrenotazioni extends HttpServlet {
                 jsonObject.put("y", String.valueOf(posto.getRiga()));
                 String stato = postoOccupatoTmp;
                 //in prenotazioneTmp c'è l'id encoded.
-                if(idUtente.equals(pren.getIdUtente())) //se ho fatto io quella prenotazionetmp
+                int prezzo = -1;
+                if(idUtente.equals(pren.getIdUtente())){ //se ho fatto io quella prenotazionetmp
                     stato = postoTuoTmp;
-                
+                    prezzo = pren.getIdPrezzo();
+                }
                 jsonObject.put("stato", stato);
+                jsonObject.put("prezzo", prezzo);
                 jsonObject.put("timestamp", tempoRimanente(res.getPren().getTimestamp()));
                 
                 json.put(Integer.toString(posto.getIdPosto()), jsonObject);
@@ -127,7 +130,11 @@ public class StatoPrenotazioni extends HttpServlet {
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
         }        
         String jsonStr = json.toString();
+<<<<<<< HEAD
         System.out.println("\n\n\tstato prenotazioni:\n"+json);
+=======
+        
+>>>>>>> newbranch
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
@@ -139,9 +146,9 @@ public class StatoPrenotazioni extends HttpServlet {
         this.manager = null;
     }
     
-    private Timestamp tempoRimanente(Timestamp prenTime){
-        long tempoRestante = prenTime.getTime() + PrenotazioneTmp.validity*60*1000 - System.currentTimeMillis();
-        return new Timestamp(tempoRestante);
+    private long tempoRimanente(Timestamp prenTime){
+        long tempoRestante = PrenotazioneTmp.validity*60 - (System.currentTimeMillis() - prenTime.getTime())/1000;
+        return tempoRestante;
     }
 
 
@@ -173,15 +180,5 @@ public class StatoPrenotazioni extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

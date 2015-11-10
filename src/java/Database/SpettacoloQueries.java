@@ -58,7 +58,7 @@ public class SpettacoloQueries {
      * @return array di Integer il cui primo elemento è il numero di posti prenotati e il secondo è l'incasso
      * @throws SQLException
      */
-    public Integer[] getPostiIncasso(Spettacolo sp) throws SQLException{
+    public Integer[] getPostiIncasso(int idSpettacolo) throws SQLException{
         Integer res[]=new Integer[2];
         PreparedStatement stm;
         stm = con.prepareStatement(
@@ -66,14 +66,16 @@ public class SpettacoloQueries {
                         "FROM PREZZO AS PR JOIN PRENOTAZIONE AS P ON PR.ID_PREZZO=P.ID_PREZZO\n" +
                         "WHERE P.ID_SPETTACOLO=?");
         try{
-            stm.setInt(1, sp.getIdSpettacolo());
+            stm.setInt(1, idSpettacolo);
             
             ResultSet rs = stm.executeQuery();
             try {
-                res[0]=rs.getInt("TOT_POSTI");
-                res[1]=rs.getInt("TOT_PREZZO");
-                if(res[1] == 0)
-                    res[1] = 0;
+                if(rs.next()){
+                    res[0]=rs.getInt("TOT_POSTI");
+                    res[1]=rs.getInt("TOT_PREZZO");
+                    if(res[1] == 0)
+                        res[1] = 0;
+                }
             } finally {
                 rs.close();
             }
@@ -119,19 +121,20 @@ public class SpettacoloQueries {
     /**
      * setta la programmazione dei film in modo da metterli in serie
      * @param min numero di minuti tra uno spettacolo e l'altro
+     * @param n numero di spettacoli
      * @throws SQLException
      */
-    public void setProgrammazione(int min) throws SQLException{
+    public void setProgrammazione(int min, int n) throws SQLException{
         
-        int n=5; //numero di film per spettacolo
+        //int n=5; //numero di film per spettacolo
         
         Calendar calendar = Calendar.getInstance();
         
         PreparedStatement stmFilm;
         PreparedStatement stmSala;
         PreparedStatement stmUpdate;
-        stmFilm = con.prepareStatement("SELECT ID_FILM FROM FILM");
-        stmSala = con.prepareStatement("SELECT ID_SALA FROM SALA");
+        stmFilm = con.prepareStatement("SELECT ID_FILM FROM FILM ORDER BY RANDOM()");
+        stmSala = con.prepareStatement("SELECT ID_SALA FROM SALA ORDER BY RANDOM()");
         stmUpdate = con.prepareStatement("INSERT INTO SPETTACOLO (ID_SALA, ID_FILM, DATA_ORA) VALUES (?,?,?)");
         ResultSet rsFilm = stmFilm.executeQuery();
         ResultSet rsSala = stmSala.executeQuery();
@@ -151,22 +154,22 @@ public class SpettacoloQueries {
                 Calendar calendar2 = (Calendar) calendar.clone();
                 calendar2.add(Calendar.MINUTE, (int) (random() * min));
                 int id_sala= rsSala.getInt("ID_SALA");
-                
-                int id_film= film.remove(nfilm);
-                
-                
-                for (int i=0; i<n; i++){
+                if(!film.isEmpty()){
+                    int id_film= film.remove(nfilm);
                     
-                    Timestamp time = new Timestamp(calendar2.getTimeInMillis());
-                    stmUpdate.setInt(1, id_sala);
-                    stmUpdate.setInt(2, id_film);
-                    stmUpdate.setTimestamp(3, time);
-                    stmUpdate.executeUpdate();
-                    //schema di spettacolo: ID_SPETTACOLO, ID_FILM, ID_SALA, DATA_ORA
-                    //aumento il tempo
-                    calendar2.add(Calendar.MINUTE, min);
+                    
+                    for (int i=0; i<n; i++){
+                        
+                        Timestamp time = new Timestamp(calendar2.getTimeInMillis());
+                        stmUpdate.setInt(1, id_sala);
+                        stmUpdate.setInt(2, id_film);
+                        stmUpdate.setTimestamp(3, time);
+                        stmUpdate.executeUpdate();
+                        //schema di spettacolo: ID_SPETTACOLO, ID_FILM, ID_SALA, DATA_ORA
+                        //aumento il tempo
+                        calendar2.add(Calendar.MINUTE, min);
+                    }
                 }
-                
             }
         } finally {
             stmFilm.close();
@@ -175,5 +178,42 @@ public class SpettacoloQueries {
             rsFilm.close();
             rsSala.close();
         }
+    }
+
+    public boolean checkInizio(int idSpettacolo) throws SQLException{
+    
+        boolean res=true;
+        
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT S.DATA_ORA\n" +
+                        "FROM SPETTACOLO S\n" +
+                        "WHERE S.ID_SPETTACOLO=?");
+        Timestamp data_ora=null;
+        try{
+            stm.setInt(1, idSpettacolo);
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    data_ora= rs.getTimestamp("DATA_ORA");
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        java.util.Date date= new java.util.Date();
+	Timestamp current=new Timestamp(date.getTime());
+        
+        if(data_ora.after(current)){
+            res=true;
+        }
+        else{
+            res=false;
+        }
+        
+        return res;
+        
     }
 }

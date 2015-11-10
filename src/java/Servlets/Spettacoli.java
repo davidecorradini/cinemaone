@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package Servlets;
 
 import Beans.SpettacoloSalaOrario;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Spettacoli extends HttpServlet {
     private DBManager manager;
-
+    
     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
@@ -35,11 +35,15 @@ public class Spettacoli extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<SpettacoloSalaOrario> spettacoli = null; 
+        ArrayList<SpettacoloSalaOrario> spettacoli = null;
         SpettacoloSalaOrarioQueries sq = new SpettacoloSalaOrarioQueries(manager);
         try {
+<<<<<<< HEAD
             //TO DO aggiungere film
             spettacoli = sq.getSpettacoliFuturi(); 
+=======
+            spettacoli = sq.getSpettacoliFuturi();
+>>>>>>> newbranch
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
             getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
@@ -52,8 +56,8 @@ public class Spettacoli extends HttpServlet {
     public void destroy(){
         this.manager = null;
     }
-
-
+    
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -68,7 +72,7 @@ public class Spettacoli extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -82,7 +86,7 @@ public class Spettacoli extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     /**
      * Returns a short description of the servlet.
      *
@@ -92,5 +96,5 @@ public class Spettacoli extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
 }

@@ -3,7 +3,7 @@
     Created on : Aug 21, 2015, 12:41:38 PM
     Author     : enrico
 --%>
-
+    
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,9 +31,37 @@
             </p>
         </div>
     </div>
-    
-    <h4><strong>Trailer</strong></h4>
-    <iframe width="560" height="315" src="<c:out value="${tmpFilm.getUrlTrailer()}"></c:out>" frameborder="0" allowfullscreen></iframe>
-        
-    </div >
+    <div class="page-header">
+        <h3><a id="link" class="no-color" href="#">Guarda il Trailer</a></h3>
+    </div>
+</div >
 <c:import url="footer.jsp"></c:import>  
+    
+    
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <label>Trailer</label>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                    
+                <div class="modal-body">
+                    <iframe width="100%" height="315" frameborder="0" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        $('#link').click(function () {
+            var src = '<c:out value="${tmpFilm.getUrlTrailer()}"></c:out>';
+            $('#myModal').modal('show');
+            $('#myModal iframe').attr('src', src);
+        });
+        
+        $('#myModal button').click(function () {
+            $('#myModal iframe').removeAttr('src');
+        });
+</script>

@@ -5,7 +5,10 @@
 <!DOCTYPE html>
 <c:import url="header.jsp"></c:import>
 <div class="container">
-    <h1> PRENOTAZIONE EFFETTUATA </h1>    
+    <div class="page-header">
+        <h1>Prenotazione effettuata</h1>
+    </div>
+    I biglietti sono stati inviati come allegati per e-mail all'indirizzo dell'account che ha effettuato la prenotazione
+<br><br><br><br><br>
 </div>
-
 <c:import url="footer.jsp"></c:import>

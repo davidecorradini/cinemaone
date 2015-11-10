@@ -35,7 +35,7 @@ public class PostoQueries{
      */
     public void cambiaStato(Posto ps) throws SQLException{
         
-        PreparedStatement stm = con.prepareStatement(" UPDATE POSTO SET STATO=? ID_POSTO=? ");
+        PreparedStatement stm = con.prepareStatement(" UPDATE POSTO SET STATO=? WHERE ID_POSTO=? ");
         try {
             stm.setInt(1, ps.getStato());
             stm.setInt(2, ps.getIdPosto());
@@ -145,6 +145,28 @@ public class PostoQueries{
             stm.close();
         }
         return posti;
+    }
+    
+    public Posto getPosto(int idPosto) throws SQLException{
+        Posto tmp = new Posto();
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT *\n" +
+                        "FROM POSTO P\n" +
+                        "WHERE P.ID_POSTO = ?");
+        try {
+            stm.setInt(1, idPosto);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                tmp.setIdPosto(rs.getInt("ID_POSTO"));
+                tmp.setColonna(rs.getInt("COLONNA"));
+                tmp.setIdSala(rs.getInt("ID_SALA"));
+                tmp.setRiga(rs.getString("RIGA").charAt(0));
+                tmp.setStato(rs.getInt("STATO"));
+            }
+        } finally {
+            stm.close();
+        }
+        return tmp;
     }
     
 }

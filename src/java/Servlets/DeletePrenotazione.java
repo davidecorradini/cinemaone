@@ -39,8 +39,8 @@ public class DeletePrenotazione extends HttpServlet {
         try {
             pren = pQ.getPrenotazione(idPrenotazione);
         } catch (SQLException ex) {
-           request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
-        ;
+           response.getWriter().println("fail");
+        
         }
         
         try {
@@ -48,7 +48,7 @@ public class DeletePrenotazione extends HttpServlet {
             pQ.deletePrenotazione(pren);
             response.getWriter().println("success");
         } catch (SQLException ex) {
-            response.getWriter().println("fail " + ex);
+            response.getWriter().println("fail");
         }
     }
     

@@ -5,11 +5,17 @@
 */
 package Database;
 
+import Beans.AdminPrenotazioneUtenti;
 import Beans.Film;
 import Beans.Genere;
+import Beans.Posto;
+import Beans.Prenotazione;
+import Beans.Prezzo;
+import Beans.Ruolo;
 import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.SpettacoloSalaOrario;
+import Beans.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +43,10 @@ public class SpettacoloSalaOrarioQueries {
      * @return uno spettacolo che sarà fatto in una determinata sala ad uno specifico orario.
      * @throws SQLException
      */
+<<<<<<< HEAD
     
+=======
+>>>>>>> newbranch
     public ArrayList<SpettacoloSalaOrario> getSpettacoliFuturi() throws SQLException{
         ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
         PreparedStatement stm = con.prepareStatement(
@@ -51,6 +60,7 @@ public class SpettacoloSalaOrarioQueries {
             while(rs.next()){
                 SpettacoloSalaOrario tmp = new SpettacoloSalaOrario();
                 Film tmpFilm = new Film();
+<<<<<<< HEAD
                 tmpFilm.setDurata(rs.getInt("DURATA"));
                 tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                 tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
@@ -116,6 +126,8 @@ public class SpettacoloSalaOrarioQueries {
             while(rs.next()){
                 SpettacoloSalaOrario tmp = new SpettacoloSalaOrario();
                 Film tmpFilm = new Film();
+=======
+>>>>>>> newbranch
                 tmpFilm.setDurata(rs.getInt("DURATA"));
                 tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
                 tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
@@ -145,6 +157,8 @@ public class SpettacoloSalaOrarioQueries {
                 tmp.setGenere(tmpGenere);
                 tmp.setSpettacolo(spett);
                 
+<<<<<<< HEAD
+=======
                 res.add(tmp);
             }
         } finally {
@@ -154,28 +168,186 @@ public class SpettacoloSalaOrarioQueries {
     }
     
     
+     public ArrayList<AdminPrenotazioneUtenti> getPrenotazioni(String titolo, String genere, String regista, String nomeSala, Integer durataMin, Integer durataMax, Timestamp programmazioneDa, Timestamp programmazioneA, String email, String ruolo, Timestamp prenotazioneDa, Timestamp prenotazioneA, String tipoPrezzo, Character riga, Integer colonna) throws SQLException{
+        ArrayList<AdminPrenotazioneUtenti> res = new ArrayList<>();
+        PreparedStatement stm = createQuery("prenotazioni", genere, titolo, durataMin, durataMax, regista, programmazioneDa, programmazioneA, prenotazioneDa, prenotazioneA, tipoPrezzo, nomeSala, riga, colonna, email, ruolo);
+        ResultSet rs = stm.executeQuery();
+        try {
+            while(rs.next()){
+                AdminPrenotazioneUtenti tmp = new AdminPrenotazioneUtenti();
+                Film tmpFilm = new Film();
+                tmpFilm.setDurata(rs.getInt("DURATA"));
+                tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+                tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpFilm.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                tmpFilm.setTitolo(rs.getString("TITOLO"));
+                tmpFilm.setTrama(rs.getString("TRAMA"));
+                tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                tmpFilm.setRegista(rs.getString("REGISTA"));
+                tmpFilm.setAnno(rs.getInt("ANNO"));
+                
+                Genere tmpGenere = new Genere();
+                tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
+                
+                Spettacolo spett = new Spettacolo();
+                spett.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                spett.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
+                Sala tmpSala = new Sala();
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
+                tmpSala.setIdSala(rs.getInt("ID_SALA"));
+                tmpSala.setNome(rs.getString("NOME"));
+                
+                Utente tmpUtente = new Utente();
+                tmpUtente.setIdUtente(rs.getInt("ID_UTENTE"));
+                tmpUtente.setIdRuolo(rs.getInt("ID_RUOLO"));
+                tmpUtente.setEmail(rs.getString("EMAIL"));
+                tmpUtente.setCredito(rs.getDouble("CREDITO"));
+                
+                Prenotazione tmpPrenotazione = new Prenotazione();
+                tmpPrenotazione.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
+                tmpPrenotazione.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                tmpPrenotazione.setIdUtente(rs.getInt("ID_UTENTE"));
+                tmpPrenotazione.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                tmpPrenotazione.setIdPosto(rs.getInt("ID_POSTO"));
+                tmpPrenotazione.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
+                
+                Prezzo tmpPrezzo = new Prezzo();
+                tmpPrezzo.setIdPrezzo(rs.getInt("ID_PREZZO"));
+                tmpPrezzo.setPrezzo(rs.getDouble("PREZZO"));
+                tmpPrezzo.setTipo(rs.getString("TIPO"));
+                
+                Ruolo tmpRuolo = new Ruolo();
+                tmpRuolo.setIdRuolo(rs.getInt("ID_RUOLO"));
+                tmpRuolo.setRuolo(rs.getString("RUOLO"));
+                
+                Posto tmpPosto = new Posto();
+                tmpPosto.setIdPosto(rs.getInt("ID_POSTO"));
+                tmpPosto.setIdSala(rs.getInt("ID_SALA"));
+                tmpPosto.setRiga(rs.getString("RIGA").charAt(0));
+                tmpPosto.setColonna(rs.getInt("COLONNA"));
+                tmpPosto.setStato(rs.getInt("STATO"));
+                
+                tmp.setFilm(tmpFilm);
+                tmp.setSala(tmpSala);
+                tmp.setGenere(tmpGenere);
+                tmp.setSpettacolo(spett);
+                tmp.setUtente(tmpUtente);
+                tmp.setPrenotazione(tmpPrenotazione);
+                tmp.setPrezzo(tmpPrezzo);
+                tmp.setRuolo(tmpRuolo);
+                tmp.setPosto(tmpPosto);
+                
+                res.add(tmp);
+            }
+        } finally {
+            rs.close();
+        }
+        return res;
+     }
+    
+    /**
+     *
+     * @param genereDescrizione
+     * @param filmTitolo
+     * @param filmDurataLow
+     * @param filmDurataHigh
+     * @param filmRegista
+     * @param spettacoloDataOraLow
+     * @param spettacoloDataOraHigh
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<SpettacoloSalaOrario> getSpettacoli(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, String salaNome) throws SQLException{
+        ArrayList<SpettacoloSalaOrario> res = new ArrayList<>();
+        PreparedStatement stm = createQuery("spettacoli", genereDescrizione, filmTitolo, filmDurataLow, filmDurataHigh, filmRegista, spettacoloDataOraLow, spettacoloDataOraHigh,null,null,null,salaNome,null,null,null,null);
+        ResultSet rs = stm.executeQuery();
+        try {
+            while(rs.next()){
+                SpettacoloSalaOrario tmp = new SpettacoloSalaOrario();
+                Film tmpFilm = new Film();
+                tmpFilm.setDurata(rs.getInt("DURATA"));
+                tmpFilm.setIdFilm(rs.getInt("ID_FILM"));
+                tmpFilm.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpFilm.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                tmpFilm.setTitolo(rs.getString("TITOLO"));
+                tmpFilm.setTrama(rs.getString("TRAMA"));
+                tmpFilm.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                tmpFilm.setUrlTrailer(rs.getString("URL_TRAILER"));
+                tmpFilm.setRegista(rs.getString("REGISTA"));
+                tmpFilm.setAnno(rs.getInt("ANNO"));
+                
+                Genere tmpGenere = new Genere();
+                tmpGenere.setIdGenere(rs.getInt("ID_GENERE"));
+                tmpGenere.setDescrizione(rs.getString("DESCRIZIONE"));
+                
+                Spettacolo spett = new Spettacolo();
+                spett.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
+                spett.setDataOra(rs.getTimestamp("DATA_ORA"));
+                
+                Sala tmpSala = new Sala();
+                tmpSala.setDescrizione(rs.getString("DESCRIZIONE"));
+                tmpSala.setIdSala(rs.getInt("ID_SALA"));
+                tmpSala.setNome(rs.getString("NOME"));
+                
+                tmp.setFilm(tmpFilm);
+                tmp.setSala(tmpSala);
+                tmp.setGenere(tmpGenere);
+                tmp.setSpettacolo(spett);
+                
+>>>>>>> newbranch
+                res.add(tmp);
+            }
+        } finally {
+            rs.close();
+        }
+        return res;
+    }
+    
+    
+<<<<<<< HEAD
     private PreparedStatement createQuery(String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
         String query =  "SELECT *\n" +
                 "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO JOIN SALA S ON S.ID_SALA=SP.ID_SALA JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE";
        
+=======
+    private PreparedStatement createQuery(String tipo, String genereDescrizione, String filmTitolo, Integer filmDurataLow, Integer filmDurataHigh, String filmRegista, Timestamp spettacoloDataOraLow, Timestamp spettacoloDataOraHigh, Timestamp prenotazioneDataOraLow, Timestamp prenotazioneDataOraHigh, String prezzoTipo, String salaNome, Character postoRiga, Integer postoColonna, String utenteEmail, String ruoloRuolo) throws SQLException{
+        String query =  "SELECT *\n" +
+                "FROM FILM F JOIN SPETTACOLO SP ON F.ID_FILM = SP.ID_FILM JOIN GENERE G ON F.ID_GENERE = G.ID_GENERE JOIN SALA S ON S.ID_SALA=SP.ID_SALA";
+        if(tipo.equals("prenotazioni"))
+            query += " JOIN PRENOTAZIONE P ON P.ID_SPETTACOLO = SP.ID_SPETTACOLO JOIN PREZZO PREZ ON PREZ.ID_PREZZO = P.ID_PREZZO JOIN POSTO POST ON POST.ID_POSTO = P.ID_POSTO JOIN UTENTE UT ON UT.ID_UTENTE = P.ID_UTENTE JOIN RUOLO R ON R.ID_RUOLO = UT.ID_RUOLO";
+>>>>>>> newbranch
         String queryWhere = null;
         if(genereDescrizione != null || filmTitolo != null || filmDurataLow != null || filmDurataHigh != null || filmRegista != null || spettacoloDataOraLow != null || spettacoloDataOraHigh != null || prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || salaNome != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
             queryWhere = "WHERE ";
             
             if(genereDescrizione != null)
+<<<<<<< HEAD
                 queryWhere += "G.DESCRIZIONE = ? AND ";
             if(filmTitolo != null)
                 queryWhere += "F.TITOLO = ? AND ";
+=======
+                queryWhere += "UPPER(G.DESCRIZIONE) LIKE UPPER(?) AND ";
+            if(filmTitolo != null)
+                queryWhere += "UPPER(F.TITOLO) LIKE UPPER(?) AND ";
+>>>>>>> newbranch
             if(filmDurataLow != null)
                 queryWhere += "F.DURATA >= ? AND ";
             if(filmDurataHigh != null)
                 queryWhere += "F.DURATA <= ? AND ";
             if(filmRegista != null)
+<<<<<<< HEAD
                 queryWhere += "F.REGISTA = ? AND ";
+=======
+                queryWhere += "UPPER(F.REGISTA) LIKE UPPER(?) AND ";
+>>>>>>> newbranch
             if(spettacoloDataOraLow != null)
                 queryWhere += "SP.DATA_ORA >= ? AND ";
             if(spettacoloDataOraHigh != null)
                 queryWhere += "SP.DATA_ORA <= ? AND ";
+<<<<<<< HEAD
             if(prenotazioneDataOraLow != null)
                 queryWhere += "P.DATA_ORA_OPERAZIONE >= ? AND ";
             if(prenotazioneDataOraHigh != null)
@@ -190,17 +362,40 @@ public class SpettacoloSalaOrarioQueries {
                 query += " JOIN POSTO POST ON POST.ID_POSTO = P.ID_POSTO";
                 if(postoRiga != null)
                     queryWhere += "POST.RIGA = ? AND ";
+=======
+            if(prenotazioneDataOraLow != null || prenotazioneDataOraHigh != null || prezzoTipo != null || postoRiga != null || postoColonna != null || utenteEmail != null || ruoloRuolo != null){
+                if(prenotazioneDataOraLow != null)
+                    queryWhere += "P.DATA_ORA_OPERAZIONE >= ? AND ";
+                if(prenotazioneDataOraHigh != null)
+                    queryWhere += "P.DATA_ORA_OPERAZIONE <= ? AND ";
+            }
+            if(prezzoTipo != null){
+                queryWhere += "UPPER(PREZ.TIPO) = UPPER(?) AND ";
+            }
+            if(salaNome != null)
+                queryWhere += "UPPER(S.NOME) = UPPER(?) AND ";
+            if(postoRiga != null || postoColonna != null){
+                if(postoRiga != null)
+                    queryWhere += "UPPER(POST.RIGA) = UPPER(?) AND ";
+>>>>>>> newbranch
                 if(postoColonna != null)
                     queryWhere += "POST.COLONNA = ? AND ";
             }
             
             if(utenteEmail != null || ruoloRuolo != null){
+<<<<<<< HEAD
                 query += " JOIN UTENTE UT ON UT.ID_UTENTE = P.ID_UTENTE";
                 if(utenteEmail != null)
                     queryWhere += "UT.EMAIL = ? AND ";
                 if(ruoloRuolo != null){
                     query += " JOIN RUOLO RUO ON RUO.ID_RUOLO = UT.ID_RUOLO";
                     queryWhere += "RUO.RUOLO = ? AND ";
+=======
+                if(utenteEmail != null)
+                    queryWhere += "UT.EMAIL = ? AND ";
+                if(ruoloRuolo != null){
+                    queryWhere += "UPPER(RUO.RUOLO) = UPPER(?) AND ";
+>>>>>>> newbranch
                 }
             }
         }
@@ -208,17 +403,29 @@ public class SpettacoloSalaOrarioQueries {
         query += "\n";
         if(queryWhere != null)
             query += queryWhere.substring(0, queryWhere.length()-5) + "\n";
+<<<<<<< HEAD
       
+=======
+        
+>>>>>>> newbranch
         
         PreparedStatement stm = con.prepareStatement(query);
         
         int index = 1;
         if(genereDescrizione != null){
+<<<<<<< HEAD
             stm.setString(index, genereDescrizione);
             index++;
         }
         if(filmTitolo != null){
             stm.setString(index, filmTitolo);
+=======
+            stm.setString(index, "%" + genereDescrizione + "%");
+            index++;
+        }
+        if(filmTitolo != null){
+            stm.setString(index, "%" + filmTitolo + "%");
+>>>>>>> newbranch
             index++;
         }
         if(filmDurataLow != null){
@@ -230,7 +437,11 @@ public class SpettacoloSalaOrarioQueries {
             index++;
         }
         if(filmRegista != null){
+<<<<<<< HEAD
             stm.setString(index, filmRegista);
+=======
+            stm.setString(index, "%" + filmRegista + "%");
+>>>>>>> newbranch
             index++;
         }
         if(spettacoloDataOraLow != null){
@@ -272,7 +483,15 @@ public class SpettacoloSalaOrarioQueries {
         if(ruoloRuolo != null){
             stm.setString(index, ruoloRuolo);
             index++;
+<<<<<<< HEAD
         }        
         return stm;
     }
+=======
+        }
+        return stm;
+    }
+
+   
+>>>>>>> newbranch
 }

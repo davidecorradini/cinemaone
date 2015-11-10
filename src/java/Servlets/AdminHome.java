@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,7 +31,14 @@ public class AdminHome extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/jsp/admin-index.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);
+        String ruolo = (String)session.getAttribute("autenticato");
+        if(ruolo!=null && ruolo.equals("ADMIN")){
+            getServletContext().getRequestDispatcher("/jsp/admin-index.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "non disponi dei permessi necessari");
+            getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

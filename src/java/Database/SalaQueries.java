@@ -5,7 +5,12 @@
 */
 package Database;
 
+import Beans.Sala;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,5 +25,24 @@ public class SalaQueries {
     
     public SalaQueries(Connection con){
         this.con = con;
+    }
+    
+    public ArrayList<Sala> getSale() throws SQLException{
+        ArrayList<Sala> sale = new ArrayList();
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM SALA");        
+        Sala sala = new Sala();
+        try {
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                sala.setIdSala(rs.getInt("ID_SALA"));
+                sala.setNome(rs.getString("NOME"));                
+                sala.setDescrizione(rs.getString("DESCRIZIONE"));
+                sale.add(sala);
+                sala = new Sala();
+            }
+        } finally {
+            stm.close();
+        }
+        return sale;
     }
 }

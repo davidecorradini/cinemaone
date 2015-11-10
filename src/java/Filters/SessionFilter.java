@@ -19,9 +19,6 @@ import javax.servlet.http.HttpSession;
 
 
 public class SessionFilter implements Filter {
-    // The filter configuration object we are associated with.  If
-    // this value is null, this filter instance is not currently
-    // configured. 
     private FilterConfig filterConfig = null;
     
     public SessionFilter() {
@@ -48,10 +45,6 @@ public class SessionFilter implements Filter {
         try {
             chain.doFilter(request, response);
         } catch (Throwable t) {
-	    // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
             t.printStackTrace();
         }
         
@@ -101,8 +94,6 @@ public class SessionFilter implements Filter {
     private void doBeforeProcessing(ServletRequest requestS, ServletResponse responseS) {
         HttpServletRequest request = (HttpServletRequest)requestS;
         HttpServletResponse response = (HttpServletResponse)responseS;
-        //check login status
-        //System.out.println(request.getRequestURI() + " -> login-status: " + status);
         
         HttpSession session = request.getSession(true);
         if(session.getAttribute("idUtente") == null){ //se la sessione è appena stata creata.

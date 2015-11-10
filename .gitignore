@@ -1,2 +1,14 @@
+<<<<<<< HEAD
 build/*
 nbproject/*
+=======
+build/
+nbproject/private/*
+nbproject/project.properties
+nbproject/project.properties
+nbproject/project.properties
+nbproject/project.properties
+nbproject/project.properties
+nbproject/project.properties
+/dist/
+>>>>>>> newbranch

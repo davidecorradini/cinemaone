@@ -90,4 +90,8 @@ public class Posto implements Serializable{
     public void setStato(int stato) {
         this.stato = stato;
     }
+
+    public void setTotPrenotaz(int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

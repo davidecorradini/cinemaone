@@ -31,11 +31,13 @@ public class PostiSalaQueries{
     /**
      *
      * @param id_sala ID dello spettacolo di cui si vuole vedere la lista dei posti occupati
+     * @param aggiungiInvisibili se true nella lista vengono aggiunti posti invisibili per rendere la sala rettangolare
      * @return ritorna una lista di postioccupati.
      * @throws SQLException
      */
-    public ArrayList<PostiSala> getAllPosti(int id_sala) throws SQLException{
+    public ArrayList<PostiSala> getAllPosti(int id_sala, boolean aggiungiInvisibili) throws SQLException{
         ArrayList<PostiSala> res = new ArrayList<>();
+        
         PreparedStatement stm = con.prepareStatement(
                 "SELECT P.ID_POSTO, P.ID_SALA, P.RIGA, P.COLONNA, P.STATO\n" +
                         "FROM POSTO P\n" +
@@ -69,13 +71,16 @@ public class PostiSalaQueries{
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato());
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                 }
+                ps.setRiga(tmpRiga.charAt(0));
+                res.add(ps);
             } finally {
                 rs.close();
             }
         } finally {
             stm.close();
         }
+        if(aggiungiInvisibili)
+            res = PostiSala.formattaInfoSala(res, PostiSala.class);
         return res;
     }
-    
 }
