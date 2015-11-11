@@ -12,6 +12,7 @@ import Beans.PrenotazionePosto;
 import Beans.PrenotazioneTmp;
 import Beans.Utente;
 import Database.Cache.PrenotazioniPostoCache;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.PrenTmpPostoQueries;
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class StatoPrenotazioni extends HttpServlet {
         
         ArrayList<PrenTmpPosto> occupiedTmp;
         ArrayList<PrenotazionePosto> occupied;
-        PrenTmpPostoQueries ptpq = new PrenTmpPostoQueries(manager);
+        PrenotazioniTmpPostoCache ptpq = new PrenotazioniTmpPostoCache(manager);
         PrenotazioniPostoCache prenPostoCache = new PrenotazioniPostoCache(manager);
         try {
             occupiedTmp = ptpq.getPrenotazioneTmp(idSpettacolo);
