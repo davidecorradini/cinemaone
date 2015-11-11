@@ -9,6 +9,7 @@ import Beans.PostiSala;
 import Beans.PostiSalaPercPrenotazioni;
 import Beans.Posto;
 import Beans.Sala;
+import Database.Cache.PrenotazioniPostoCache;
 import Database.DBManager;
 import Database.PostiSalaPercPrenotazioniQueries;
 import Database.PostiSalaQueries;
@@ -70,8 +71,9 @@ public class GestisciSale extends HttpServlet {
                 Posto posto = new Posto();
                 posto.setIdPosto(idPosto);
                 posto.setStato(stato);
+                PrenotazioniPostoCache prenPostoQ = new PrenotazioniPostoCache(manager);
                 try {
-                    postoQueries.cambiaStato(posto);
+                    prenPostoQ.cambiaStato(posto);
                 } catch (SQLException ex) {
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                     getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);

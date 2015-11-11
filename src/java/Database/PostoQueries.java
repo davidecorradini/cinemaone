@@ -34,7 +34,6 @@ public class PostoQueries{
      * @throws SQLException
      */
     public void cambiaStato(Posto ps) throws SQLException{
-        
         PreparedStatement stm = con.prepareStatement(" UPDATE POSTO SET STATO=? WHERE ID_POSTO=? ");
         try {
             stm.setInt(1, ps.getStato());

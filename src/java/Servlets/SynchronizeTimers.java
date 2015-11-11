@@ -3,13 +3,11 @@ package Servlets;
 import Beans.InfoPrenotazione;
 import Beans.PrenotazioneTmp;
 import Beans.Spettacolo;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
-import Database.PostoQueries;
-import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -47,7 +45,7 @@ public class SynchronizeTimers extends HttpServlet {
         int idSpettacolo = Integer.parseInt(request.getParameter("spettacolo"));
         HttpSession session = request.getSession(false);
         String idUtente = (String) session.getAttribute("idUtente");
-        PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
+        PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(manager);
         InfoPrenotazione infoPrenotazione = null;
         InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
         try {
@@ -61,13 +59,13 @@ public class SynchronizeTimers extends HttpServlet {
         Timestamp currentTime = new Timestamp(date.getTime());
         if(!((time.getTime() - currentTime.getTime())/1000 < 60)){
             try {
-                ptq.setTimerPrenotazioneTMP(idUtente,null);
+                prenTmpQ.setTimerPrenotazioneTMP(idUtente,null);
             } catch (SQLException ex) {
                 res = "fail";
             }
         }else{
             try {
-                ptq.setTimerPrenotazioneTMP(idUtente,new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
+                prenTmpQ.setTimerPrenotazioneTMP(idUtente,new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
             } catch (SQLException ex) {
                 res = "fail";
             }

@@ -6,6 +6,7 @@
 package Servlets;
 
 import Beans.PrenotazioneTmp;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.PostoQueries;
 import Database.PrenotazioneTmpQueries;
@@ -79,9 +80,9 @@ public class PrenotaPosto extends HttpServlet {
             pre.setIdPrezzo(idPrezzo);
             
             int inserito = 0;
-            PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
+            PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(manager);
             try {
-                inserito = ptq.aggiungiPrenotazioneTmp(pre);
+                inserito = prenTmpQ.aggiungiPrenotazioneTmp(pre);
             } catch (SQLException ex) {
                 
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");

@@ -23,6 +23,10 @@ public class DBManager implements Serializable {
         this.con = con;
     }
     
+    public Connection getConnection(){
+        return this.con;
+    }
+    
     public static void shutdown() {
         try {
             DriverManager.getConnection("jdbc:derby:;shutdown=true");

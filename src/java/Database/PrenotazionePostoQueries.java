@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class PrenotazionePostoQueries {
     private final transient Connection con;
-    
+     
     public PrenotazionePostoQueries(DBManager manager){
         this.con = manager.con;
     }

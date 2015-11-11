@@ -8,16 +8,14 @@ package Servlets;
 import Beans.InfoPrenotazione;
 import Beans.PrenotazioneTmp;
 import Beans.Spettacolo;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
-import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -68,13 +66,12 @@ public class aggiungiPrenTmp extends HttpServlet {
         if(time.getTime() > currentTime.getTime()){
             if((time.getTime() - currentTime.getTime())/1000 < PrenotazioneTmp.validity*60){
                 prenTmp.setTimestamp(new Timestamp(time.getTime() - PrenotazioneTmp.validity*60*1000));
-            }else{
+            }else
                 prenTmp.setTimestamp(new Timestamp(currentTime.getTime()));
-                System.out.println("qui");
-            }
-            PrenotazioneTmpQueries ptq = new PrenotazioneTmpQueries(manager);
+            
+            PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(manager);
             try {
-                ptq.aggiungiPrenotazioneTmp(prenTmp);
+                prenTmpQ.aggiungiPrenotazioneTmp(prenTmp);
                 response.getWriter().println("success");
             } catch (SQLException ex) {
                 if(ex instanceof SQLIntegrityConstraintViolationException){

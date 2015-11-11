@@ -11,9 +11,10 @@ import Beans.Prenotazione;
 import Beans.PrenotazionePosto;
 import Beans.PrenotazioneTmp;
 import Beans.Utente;
+import Database.Cache.PrenotazioniPostoCache;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.PrenTmpPostoQueries;
-import Database.PrenotazionePostoQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -73,11 +74,11 @@ public class StatoPrenotazioni extends HttpServlet {
         
         ArrayList<PrenTmpPosto> occupiedTmp;
         ArrayList<PrenotazionePosto> occupied;
-        PrenTmpPostoQueries ptpq = new PrenTmpPostoQueries(manager);
-        PrenotazionePostoQueries ppq = new PrenotazionePostoQueries(manager);
+        PrenotazioniTmpPostoCache ptpq = new PrenotazioniTmpPostoCache(manager);
+        PrenotazioniPostoCache prenPostoCache = new PrenotazioniPostoCache(manager);
         try {
             occupiedTmp = ptpq.getPrenotazioneTmp(idSpettacolo);
-            occupied = ppq.getPostiOccupati(idSpettacolo);
+            occupied = prenPostoCache.getPostiOccupati(idSpettacolo);
         } catch (SQLException ex) {
             response.setContentType("text/plain;charset=UTF-8\n");
             try (PrintWriter out = response.getWriter()) {
@@ -134,6 +135,7 @@ public class StatoPrenotazioni extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
+            System.out.println("statoPrenotazioni: " + jsonStr);
         }
     }
     

@@ -5,6 +5,7 @@
  */
 package Servlets;
 
+import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class DeletePrenotazioneTmp extends HttpServlet{
             return;
         }
         
-        PrenotazioneTmpQueries prenTmpQueries = new PrenotazioneTmpQueries(manager);
+        PrenotazioniTmpPostoCache prenTmpQueries = new PrenotazioniTmpPostoCache(manager);
         String res = "success";
          try {
              prenTmpQueries.deletePrenotazioneTmp(idSpettacolo, idPosto);

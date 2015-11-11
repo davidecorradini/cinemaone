@@ -8,6 +8,7 @@ package Database;
 import Beans.Posto;
 import Beans.PrenTmpPosto;
 import Beans.PrenotazioneTmp;
+import Database.Cache.PrenotazioniTmpPostoCache;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +38,7 @@ public class PrenTmpPostoQueries {
      * @throws SQLException
      */
     public ArrayList<PrenTmpPosto> getPrenotazioneTmp(int id_spettacolo) throws SQLException{
-        PrenotazioneTmpQueries prenTmpQuery = new PrenotazioneTmpQueries(con);
+        PrenotazioniTmpPostoCache prenTmpQuery = new PrenotazioniTmpPostoCache(con);
         long tempo = System.currentTimeMillis() - Beans.PrenotazioneTmp.validity*60*1000;
         Timestamp validityLimit = new Timestamp(tempo);
         prenTmpQuery.cancellaPrenotazioniTmp(validityLimit);

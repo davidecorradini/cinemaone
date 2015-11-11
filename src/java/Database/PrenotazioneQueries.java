@@ -6,7 +6,6 @@
 package Database;
 
 import Beans.Prenotazione;
-import Beans.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,34 +26,10 @@ public class PrenotazioneQueries{
     public PrenotazioneQueries(Connection con){
         this.con = con;
     }
-    
-    /**
-     * inserisce una nuova prenotazione.
-     * @param preno prenotazione da memorizzare
-     * @throws java.sql.SQLIntegrityConstraintViolationException
-     * @throws SQLException
-     */
-    public void storePrenotazione(Prenotazione preno) throws SQLIntegrityConstraintViolationException, SQLException{
-        PreparedStatement stm;
-        stm = con.prepareStatement(
-                "INSERT INTO PRENOTAZIONE (ID_UTENTE, ID_SPETTACOLO, ID_PREZZO, ID_POSTO, DATA_ORA_OPERAZIONE) VALUES (?, ?, ?, ?, ?)");
-        try{
-            stm.setInt(1, preno.getIdUtente());
-            stm.setInt(2, preno.getIdSpettacolo());
-            stm.setInt(3, preno.getIdPrezzo());
-            stm.setInt(4, preno.getIdPosto());
-            stm.setTimestamp(5, preno.getDataOraOperazione());
-            
-            stm.executeUpdate();
-        } finally {
-            stm.close();
-        }
-    }
-    
+       
      /**
      * cancella una prenotazione di un utente dal database.
      * @param pr prenotazione da eliminare
-     * @param ut utente a cui rimborsare il costo della prenotazione
      * @throws SQLException
      */
     public void deletePrenotazione (Prenotazione pr) throws SQLException{
@@ -101,7 +76,8 @@ public class PrenotazioneQueries{
     
     /**
      * aggiunge una prenotazione nel database.
-     * @param pre prenotazione da aggiungere
+     * @param idPrenotazione id della prenotazione da aggiungere
+     * @return 
      * @throws java.sql.SQLIntegrityConstraintViolationException
      * @throws SQLException
      */
