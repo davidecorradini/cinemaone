@@ -58,8 +58,8 @@ public class SpettacoloQueries {
      * @return array di Integer il cui primo elemento è il numero di posti prenotati e il secondo è l'incasso
      * @throws SQLException
      */
-    public Integer[] getPostiIncasso(int idSpettacolo) throws SQLException{
-        Integer res[]=new Integer[2];
+    public Number[] getPostiIncasso(int idSpettacolo) throws SQLException{
+        Number res[]=new Number[2];
         PreparedStatement stm;
         stm = con.prepareStatement(
                 "SELECT COUNT(*) AS TOT_POSTI, SUM(PR.PREZZO) AS TOT_PREZZO\n" +
@@ -72,9 +72,7 @@ public class SpettacoloQueries {
             try {
                 if(rs.next()){
                     res[0]=rs.getInt("TOT_POSTI");
-                    res[1]=rs.getInt("TOT_PREZZO");
-                    if(res[1] == 0)
-                        res[1] = 0;
+                    res[1]=rs.getDouble("TOT_PREZZO");
                 }
             } finally {
                 rs.close();

@@ -62,7 +62,7 @@ public class AdminSpettacoli extends HttpServlet {
                 }
                 InfoPrenotazione infoPrenotazione = null;
                 ArrayList<PostiSala> postiSala = null;
-                Integer[] infoIncassi = null;
+                Number[] infoIncassi = null;
                 try {
                     InfoPrenotazioneQueries infoPrenQ = new InfoPrenotazioneQueries(manager);
                     PostiSalaQueries postiSalaQ = new PostiSalaQueries(manager);

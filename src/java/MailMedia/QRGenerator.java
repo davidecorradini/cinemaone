@@ -5,7 +5,12 @@
  */
 package MailMedia;
 
+import Beans.Film;
+import Beans.Posto;
 import Beans.Prenotazione;
+import Beans.Prezzo;
+import Beans.Spettacolo;
+import Beans.Utente;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,11 +26,12 @@ import net.glxn.qrgen.image.ImageType;
  * @author enrico
  */
 public class QRGenerator {
-    public static void generate(Prenotazione pren, String destinationPath) throws FileNotFoundException, IOException{
-        String info = pren.getIdSpettacolo() + "" + pren.getIdPosto() + "cinemaonesrl";
+    public static void generate(Prenotazione pren, Utente utente, Posto posto, Prezzo prezzo, Film film, Spettacolo spettacolo, String destinationPath) throws FileNotFoundException, IOException{
+        String info = utente.getIdUtente() + utente.getEmail() + prezzo.getPrezzo() + prezzo.getTipo() + posto.getIdPosto() + posto.getRiga() + posto.getColonna() + film.getTitolo() + spettacolo.getIdSpettacolo() + spettacolo.getDataOra() + "cinemaonesrl";
         MessageDigest md = null;
+        System.out.println(info);
         try {
-            md = MessageDigest.getInstance("MD5");
+            md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException ex) {
             //
         }

@@ -5,7 +5,10 @@ import Beans.InfoPrenotazione;
 import Beans.Posto;
 import Beans.PrenTmpPosto;
 import Beans.Prenotazione;
+import Beans.PrenotazionePosto;
+import Beans.PrenotazionePostoPrezzo;
 import Beans.PrenotazioneTmp;
+import Beans.Prezzo;
 import Beans.Sala;
 import Beans.Spettacolo;
 import Beans.Utente;
@@ -304,8 +307,9 @@ public class PrenotazioneTmpQueries {
             uQ.aggiornaCredito(utente);
         }
         
-        ArrayList<String> allegato=new ArrayList<>();
-        
+        ArrayList<PrenotazionePostoPrezzo> prenotazionePosto=new ArrayList<>();
+        InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);
+        InfoPrenotazione filmSalaSpettacolo = null;
         for(PrenotazioneTmp tmp: prenTmp){
             
             Prenotazione pren = new Prenotazione();
@@ -317,26 +321,33 @@ public class PrenotazioneTmpQueries {
             PrenotazioneQueries prenQ = new PrenotazioneQueries(manager);
             prenQ.aggiungiPrenotazione(pren);
             
-            InfoPrenotazioneQueries iPQ=new InfoPrenotazioneQueries(manager);
-            InfoPrenotazione filmSalaSpettacolo=iPQ.getInfoPrenotazione(pren.getIdSpettacolo());
+            filmSalaSpettacolo = iPQ.getInfoPrenotazione(pren.getIdSpettacolo());
             
             
             PostoQueries pQ=new PostoQueries(manager);
             Posto posto=pQ.getPosto(pren.getIdPosto()); 
             
+            PrezzoQueries prQ=new PrezzoQueries(manager);
+            Prezzo prezzo=prQ.getPrezzoBean(pren.getIdPrezzo()); 
             
-            TicketCreator ticketCreator=new TicketCreator("../");
+            PrenotazionePostoPrezzo prenPosto = new PrenotazionePostoPrezzo();
+            prenPosto.setPosto(posto);
+            prenPosto.setPrenotazione(pren);
+            prenPosto.setPrezzo(prezzo);
             
-            String ticket="";
+            
             System.out.println(pren.getIdPrenotazione());
-            try {
-                ticket=ticketCreator.generaTicket(utente, pren, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), posto);
-            } catch (DocumentException | IOException ex) {
-                System.err.println("errore: "+ ex.getLocalizedMessage());
-            }
-            allegato.add(ticket);
+            
+            prenotazionePosto.add(prenPosto);
         }
         
+        TicketCreator ticketCreator=new TicketCreator("../");
+        String ticket="";
+        try {
+            ticket=ticketCreator.generaTicket(utente, filmSalaSpettacolo.getSpettacolo(), filmSalaSpettacolo.getFilm(), filmSalaSpettacolo.getSala(), prenotazionePosto);
+        } catch (DocumentException | IOException ex) {
+            System.err.println("errore: "+ ex.getLocalizedMessage());
+        }
         
         String to=utente.getEmail();
         String subject="Ticket CinemaOne s.r.l.";
@@ -344,7 +355,7 @@ public class PrenotazioneTmpQueries {
         
         MailSender mailSender= new MailSender ();
         try {
-            mailSender.sendMail(to,subject,text,allegato);
+            mailSender.sendMail(to,subject,text,ticket);
         } catch (MessagingException ex) {
             Logger.getLogger(ConfermaPrenotazione.class.getName()).log(Level.SEVERE, null, ex);
         }
