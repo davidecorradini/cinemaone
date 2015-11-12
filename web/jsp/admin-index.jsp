@@ -6,7 +6,10 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-    
+<c:set var="spettPassati" value="${requestScope.spettacoliPassati}"/>
+<c:set var="spettFuturi" value="${requestScope.spettacoliFuturi}"/>
+<c:set var="infoUtenti" value="${requestScope.infoUtenti}"/>
+<c:set var="incassoFilm" value="${requestScope.incassoFilm}"/>
 <%@ include file="header-admin.jsp" %>
 <div class="container">
     <div class="page-header">
