@@ -231,7 +231,7 @@ public class SpettacoloQueries {
             try{
                 while(rs.next()){
                     result[0]= rs.getInt("TOT");
-                    result[1]= rs.getInt("INCASSO");
+                    result[1]= rs.getDouble("INCASSO");
                 }
             } finally {
                 rs.close();
@@ -277,7 +277,7 @@ public class SpettacoloQueries {
             try{
                 while(rs.next()){
                     result[0]= rs.getInt("TOT");
-                    result[1]= rs.getInt("INCASSO");
+                    result[1]= rs.getDouble("INCASSO");
                 }
             } finally {
                 rs.close();

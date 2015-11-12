@@ -64,14 +64,7 @@ public class AdminHome extends HttpServlet {
             } catch (SQLException ex) {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                 getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
-            }
-            
-            System.out.println("spettacoliPassati: "+spettacoliPassati[0]+" "+spettacoliPassati[1]+" "+spettacoliPassati[2]);
-            System.out.println("spettacoliFuturi: "+spettacoliFuturi[0]+" "+spettacoliFuturi[1]+" "+spettacoliFuturi[2]);
-            System.out.println("incassoFilm: "+incassoFilm.getFilm().getTitolo()+" "+incassoFilm.getIncasso()+" "+incassoFilm.getNumSpett());
-            System.out.println("infoUtenti: "+infoUtenti.getUtentiRegistrati()+" "+infoUtenti.getEmailPostiPiuPrenotati()+" "+infoUtenti.getNumeroPosti()+" "+infoUtenti.getEmailTotalePiuAlto()+" "+infoUtenti.getTotale());
-            
-            
+            }            
             request.setAttribute("spettacoliPassati", spettacoliPassati);
             request.setAttribute("spettacoliFuturi", spettacoliFuturi);
             request.setAttribute("incassoFilm", incassoFilm);

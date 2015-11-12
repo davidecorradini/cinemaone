@@ -100,16 +100,16 @@
                         <div class="col-md-4">             
                             <div>
                                 <strong>Legenda</strong><br><br>
-                                    <button class="rotto gradient-1"></button>
-                                    <button class="rotto gradient-2"></button>
-                                    <button class="rotto gradient-3"></button>
-                                    <button class="rotto gradient-4"></button>
-                                    <button class="rotto gradient-5"></button>
-                                    <button class="rotto gradient-6"></button>
                                     <button class="rotto gradient-7"></button>
+                                    <button class="rotto gradient-6"></button>
+                                    <button class="rotto gradient-5"></button>
+                                    <button class="rotto gradient-4"></button>
+                                    <button class="rotto gradient-3"></button>
+                                    <button class="rotto gradient-2"></button>
+                                    <button class="rotto gradient-1"></button>
                                 <br><br>
                                 
-                                <div>MAX <span class="hidden-xs">- - - - - - - - - - - </span>- - - - - - - - - - - - - - - MIN</div>
+                                <div>MIN <span class="hidden-xs">- - - - - - - - - - - </span>- - - - - - - - - - - - - - - MAX</div>
                                 <div class="small text-center width-250-responsive">Numero prenotazioni</div>
                                 <br><div class="legenda-container">
                                     <button class="rotto gradient-rotto"></button><span class="legenda-v-align">Posto rotto/non disponibile</span>
