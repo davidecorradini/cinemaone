@@ -65,9 +65,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-danger" id="signup-success" style="display: none;">Utente creato!</span>
+                            <span class="text-danger" id="signup-success" style="display: none;">Email di conferma inviata all'indirizzo e-mail!</span>
                             <span class="text-danger" id="signup-wrong-password" style="display: none;">Le Password non corrispondono!</span>
                             <span class="text-danger" id="signup-existing" style="display: none;">L'indirizzo e-mail risulta gi&agrave; registrato.</span>
+                            <span class="text-danger" id="signup-error" style="display: none;">Errore non specificato. Riprovare più tardi.</span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>

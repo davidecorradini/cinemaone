@@ -32,6 +32,7 @@ $("#signup-form").submit(function(event) {
     event.preventDefault();
     $("#signup-existing").slideUp("fast");
     $("#signup-wrong-password").slideUp("fast");
+    $("#signup-error").slideUp("fast");
     $("#signup-success").slideUp("fast");
     $("#signup-button").attr("disabled", "disabled");
     $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
@@ -50,6 +51,10 @@ $("#signup-form").submit(function(event) {
                 $("#signup-button").removeAttr("disabled");
             } else if (answer == "wrong-password") {
                 $("#signup-wrong-password").slideDown("slow");
+                $("#signup-button").html("Registrati");
+                $("#signup-button").removeAttr("disabled");
+            } else {
+                $("#signup-error").slideDown("slow");
                 $("#signup-button").html("Registrati");
                 $("#signup-button").removeAttr("disabled");
             }
@@ -596,6 +601,7 @@ $("#signup-form-admin").submit(function(event) {
     event.preventDefault();
     $("#signup-existing").slideUp("fast");
     $("#signup-wrong-password").slideUp("fast");
+    $("#signup-error").slideUp("fast");
     $("#signup-success").slideUp("fast");
     $("#signup-button").attr("disabled", "disabled");
     $("#signup-button").html("<i class=\"zmdi zmdi-rotate-left zmdi-hc-spin-reverse\"></i> Attendere");
@@ -614,6 +620,10 @@ $("#signup-form-admin").submit(function(event) {
                 $("#signup-button").removeAttr("disabled");
             } else if (answer == "wrong-password") {
                 $("#signup-wrong-password").slideDown("slow");
+                $("#signup-button").html("Registrati");
+                $("#signup-button").removeAttr("disabled");
+            } else {
+                $("#signup-error").slideDown("slow");
                 $("#signup-button").html("Registrati");
                 $("#signup-button").removeAttr("disabled");
             }

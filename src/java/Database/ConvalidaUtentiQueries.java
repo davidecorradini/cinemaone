@@ -34,7 +34,12 @@ public class ConvalidaUtentiQueries {
         md = MessageDigest.getInstance("MD5");
         md.update((ut.getEmail()+ut.getPassword()+ut.getCredito()+ut.getIdRuolo() + time).getBytes());
         byte[] hash = md.digest();
-        return new String(hash);
+        StringBuffer sb = new StringBuffer();
+        for (byte b : hash) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        String res = sb.toString();
+        return res;
     }
     
     public String aggiungiRichiestaConvalida(Utente utente) throws SQLException, NoSuchAlgorithmException{
@@ -83,9 +88,10 @@ public class ConvalidaUtentiQueries {
         PreparedStatement stm1 = con.prepareStatement( "DELETE FROM CONVALIDAUTENTI P WHERE P.EMAIL=?");
         try{
         stm1.setString(1, res.getEmail());
-        stm.executeUpdate();
+        stm1.executeUpdate();
         }finally{
             stm.close();
+            stm1.close();
         }
         
         UtenteQueries utQuery = new UtenteQueries(con);
@@ -96,8 +102,9 @@ public class ConvalidaUtentiQueries {
     public void removeOldRequests() throws SQLException{
         PreparedStatement stm = con.prepareStatement( "DELETE FROM CONVALIDAUTENTI P WHERE P.TIME< ?");
         try{
-        stm.setLong(1, System.currentTimeMillis() + 24*60*60*1000); //durata massima di 1 giorno.
-        stm.executeUpdate();
+            long time = System.currentTimeMillis() - (24*60*60*1000);
+            stm.setTimestamp(1, new Timestamp(time)); //durata massima di 1 giorno.
+            stm.executeUpdate();
         }finally{
             stm.close();
         }

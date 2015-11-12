@@ -45,7 +45,7 @@ public class RuoloQueries {
     }
     
     public Ruolo getRuolo(int id) throws SQLException{
-        Ruolo res = null;
+        Ruolo res = new Ruolo();
         PreparedStatement stm = con.prepareStatement("SELECT * FROM RUOLO WHERE RUOLO.ID_RUOLO = ?");
         try {
             stm.setInt(1, id);

@@ -57,32 +57,30 @@ public class SignUp extends HttpServlet {
                     ut.setPassword(password2);
                     ut.setIdRuolo(2);
                     ut.setCredito(0);
-                    
                     String requestId = null;
                     try {
                         requestId = convalidaUtenteQ.aggiungiRichiestaConvalida(ut);
                     } catch (NoSuchAlgorithmException ex) {
-                        request.setAttribute("error", "impossibile eseguire richiesta di convalida account utente");
-                         getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                        response.getWriter().print("fail");
                     }
                     String url = "http://" + request.getServerName() + ":" + request.getServerPort() + "/Multisala/conferma-utente.html?key=" + requestId;
                     MailSender instance = new MailSender();
                     try {
                         instance.convalidaAccount(ut.getEmail(), url);
                     } catch (MessagingException ex) {
-                        request.setAttribute("error", "impossibile inviare mail di richiesta di convalida account utente");
-                        getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);    
+                        response.getWriter().print("fail");   
                     }
                 } else {
                     response.getWriter().print("wrong-password");
                 }
-                    
+                response.getWriter().print("success");
             }
             else{
                 response.getWriter().print("existing");
             }
         } catch (SQLException ex) {
             response.getWriter().print("fail");
+            System.out.println(ex);            
         }
     }
     

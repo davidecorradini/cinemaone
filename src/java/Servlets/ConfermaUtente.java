@@ -43,7 +43,7 @@ public class ConfermaUtente extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String id = request.getParameter("id");
+            String id = request.getParameter("key");
             if(id == null){
                 getServletContext().getRequestDispatcher("/").forward(request, response);
             }
@@ -52,7 +52,7 @@ public class ConfermaUtente extends HttpServlet {
             try {
                 utente = convalidaUtQuery.convalidaUtente(id);
             } catch (SQLException | NoSuchAlgorithmException ex) {
-                request.setAttribute("error", "impossibile confermare dati Utente;");
+                request.setAttribute("error", "impossibile confermare dati Utente;" + ex);
                 getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
             
@@ -63,7 +63,7 @@ public class ConfermaUtente extends HttpServlet {
             session.setAttribute("user", utente);
             session.removeAttribute("idUtente");
             session.setAttribute("idUtente", Utente.encodeIdUtente(utente.getIdUtente()));
-            response.getWriter().println("success");
+            response.sendRedirect(request.getContextPath());
             
         } catch (SQLException ex) {
             request.setAttribute("error", "impossibile collegarsi al database;");
