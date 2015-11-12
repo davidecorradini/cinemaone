@@ -51,8 +51,8 @@ public class AdminHome extends HttpServlet {
             SalaQueries salaQueries = new SalaQueries(manager);
             SpettacoloQueries spettacoloQ = new SpettacoloQueries(manager);
             ArrayList<Sala> sale = null;
-            Number[] spettacoliPassati = null;
-            Number[] spettacoliFuturi = null;
+            Number[] spettacoliPassati = new Number[3];
+            Number[] spettacoliFuturi = new Number[3];
             IncassoFilm incassoFilm = null;
             InfoUtenti infoUtenti = null;
             try {
@@ -65,6 +65,13 @@ public class AdminHome extends HttpServlet {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                 getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
             }
+            
+            System.out.println("spettacoliPassati: "+spettacoliPassati[0]+" "+spettacoliPassati[1]+" "+spettacoliPassati[2]);
+            System.out.println("spettacoliFuturi: "+spettacoliFuturi[0]+" "+spettacoliFuturi[1]+" "+spettacoliFuturi[2]);
+            System.out.println("incassoFilm: "+incassoFilm.getFilm().getTitolo()+" "+incassoFilm.getIncasso()+" "+incassoFilm.getNumSpett());
+            System.out.println("infoUtenti: "+infoUtenti.getUtentiRegistrati()+" "+infoUtenti.getEmailPostiPiuPrenotati()+" "+infoUtenti.getNumeroPosti()+" "+infoUtenti.getEmailTotalePiuAlto()+" "+infoUtenti.getTotale());
+            
+            
             request.setAttribute("spettacoliPassati", spettacoliPassati);
             request.setAttribute("spettacoliFuturi", spettacoliFuturi);
             request.setAttribute("incassoFilm", incassoFilm);
