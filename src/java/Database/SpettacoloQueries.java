@@ -6,6 +6,8 @@
 package Database;
 
 import Beans.Film;
+import Beans.IncassoFilm;
+import Beans.InfoUtenti;
 import Beans.Spettacolo;
 import static java.lang.Math.random;
 import java.sql.Connection;
@@ -213,5 +215,21 @@ public class SpettacoloQueries {
         
         return res;
         
+    }
+
+    public Number[] getInfoSpettacoliPassati() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Number[] getInfoSpettacoliFuturi() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public IncassoFilm getInfoTopFilm() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public InfoUtenti getInfoUtenti() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -5,9 +5,12 @@
  */
 package Servlets;
 
+import Beans.IncassoFilm;
+import Beans.InfoUtenti;
 import Beans.Sala;
 import Database.DBManager;
 import Database.SalaQueries;
+import Database.SpettacoloQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,13 +49,26 @@ public class AdminHome extends HttpServlet {
         String ruolo = (String)session.getAttribute("autenticato");
         if(ruolo!=null && ruolo.equals("ADMIN")){
             SalaQueries salaQueries = new SalaQueries(manager);
+            SpettacoloQueries spettacoloQ = new SpettacoloQueries(manager);
             ArrayList<Sala> sale = null;
+            Number[] spettacoliPassati = null;
+            Number[] spettacoliFuturi = null;
+            IncassoFilm incassoFilm = null;
+            InfoUtenti infoUtenti = null;
             try {
                 sale = salaQueries.getSale();
+                spettacoliPassati = spettacoloQ.getInfoSpettacoliPassati();
+                spettacoliFuturi = spettacoloQ.getInfoSpettacoliFuturi();
+                incassoFilm = spettacoloQ.getInfoTopFilm();
+                infoUtenti = spettacoloQ.getInfoUtenti();
             } catch (SQLException ex) {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                 getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
             }
+            request.setAttribute("spettacoliPassati", spettacoliPassati);
+            request.setAttribute("spettacoliFuturi", spettacoliFuturi);
+            request.setAttribute("incassoFilm", incassoFilm);
+            request.setAttribute("infoUtenti", infoUtenti);
             request.setAttribute("sale", sale);
             getServletContext().getRequestDispatcher("/jsp/admin-index.jsp").forward(request, response);
         }else{
