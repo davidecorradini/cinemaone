@@ -77,7 +77,7 @@ public class AdminSpettacoli extends HttpServlet {
                 } catch (SQLException ex){
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
                     getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);
-                }
+                }              
                 request.setAttribute("infoPrenotazione", infoPrenotazione);
                 request.setAttribute("postiSala", postiSala);
                 request.setAttribute("infoIncassi", infoIncassi);
