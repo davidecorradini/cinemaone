@@ -41,4 +41,16 @@ public class PasswordRecoveryQueries {
         }
     }
     
+    public void removeRecuperaPassword(String email) throws SQLException{
+        PreparedStatement stm;
+        stm = con.prepareStatement(
+                "DELETE FROM PASSWORDRECOVERY WHERE EMAIL = ?");
+        try{
+            stm.setString(1, email);            
+            stm.executeUpdate();
+        } finally {
+            stm.close();
+        }
+    }
+    
 }

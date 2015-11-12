@@ -6,6 +6,7 @@
 package Servlets;
 
 import Database.DBManager;
+import Database.PasswordRecoveryQueries;
 import Database.UtenteQueries;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -45,8 +46,10 @@ public class ResetPassword extends HttpServlet {
             response.getWriter().println("wrong-password");
         else{
             UtenteQueries uq = new UtenteQueries(manager);
-            try {
+            PasswordRecoveryQueries passwordRecoveryQ = new PasswordRecoveryQueries(manager);
+            try {                
                 uq.cambiaPassword(email, password2);
+                passwordRecoveryQ.removeRecuperaPassword(email);
                 response.getWriter().println("success");
             } catch (SQLException ex) {
                 response.getWriter().println("fail");
