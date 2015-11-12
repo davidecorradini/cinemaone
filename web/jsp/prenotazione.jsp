@@ -34,10 +34,10 @@
         }
 
         setInterval(function () {
-            if (mainTimer == 1) {
-                location.reload();
+            $("#main-timer").text(sformat(mainTimer));            
+            if (mainTimer == 0) {
+                window.location.reload();
             }
-            $("#main-timer").text(sformat(mainTimer));
             mainTimer--;
         }, 1000);
     </script>
