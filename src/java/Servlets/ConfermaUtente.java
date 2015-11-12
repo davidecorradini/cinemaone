@@ -5,27 +5,29 @@
  */
 package Servlets;
 
-import Beans.Film;
-import Beans.Prezzo;
+import Beans.Ruolo;
+import Beans.Utente;
+import Database.ConvalidaUtentiQueries;
 import Database.DBManager;
-import Database.FilmQueries;
-import Database.PrezzoQueries;
+import Database.RuoloQueries;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author enrico
  */
-public class Home extends HttpServlet {
+public class ConfermaUtente extends HttpServlet {
     private DBManager manager;
-
-    @Override
+     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
@@ -40,35 +42,34 @@ public class Home extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("domain: " + request.getServerName());
-        request.getServerPort();
-        ArrayList<Film> films = null;
-        FilmQueries fq = new FilmQueries(manager);
         try {
-            films = fq.getFilmsSlider();
+            String id = request.getParameter("id");
+            if(id == null){
+                getServletContext().getRequestDispatcher("/").forward(request, response);
+            }
+            Utente utente = null;
+            ConvalidaUtentiQueries convalidaUtQuery = new ConvalidaUtentiQueries(manager);
+            try {
+                utente = convalidaUtQuery.convalidaUtente(id);
+            } catch (SQLException | NoSuchAlgorithmException ex) {
+                request.setAttribute("error", "impossibile confermare dati Utente;");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+            }
+            
+            RuoloQueries ruoloQuery = new RuoloQueries(manager);
+            Ruolo ruolo = ruoloQuery.getRuolo(utente.getIdRuolo());
+            HttpSession session = request.getSession();
+            session.setAttribute("autenticato", ruolo.getRuolo());
+            session.setAttribute("user", utente);
+            session.removeAttribute("idUtente");
+            session.setAttribute("idUtente", Utente.encodeIdUtente(utente.getIdUtente()));
+            response.getWriter().println("success");
+            
         } catch (SQLException ex) {
-            request.setAttribute("error", "impossibile caricare la pagina home, interrogazione al database fallita;");
-            getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-        }
-        request.setAttribute("filmsSlider", films);
-        ArrayList<Prezzo> prezzi = null;
-        
-        PrezzoQueries pq = new PrezzoQueries(manager);
-        try {
-            prezzi = pq.getAllPrezzi();
-        } catch (SQLException ex) {
-             request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita");
+            request.setAttribute("error", "impossibile collegarsi al database;");
              getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-        }
-        request.setAttribute("prezzi", prezzi);
-        getServletContext().getRequestDispatcher("/jsp/index.jsp").forward(request, response);
+        }    
     }
-    
-    @Override
-    public void destroy(){
-        this.manager = null;
-    }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -98,15 +99,4 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

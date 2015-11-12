@@ -34,7 +34,7 @@ public class EmailTimestampQueries{
      */
     public EmailTimestamp getInfoRecovery(String hash) throws SQLException{
         EmailTimestamp res = null;
-        PreparedStatement stm = stm = con.prepareStatement(
+        PreparedStatement stm = con.prepareStatement(
                 "SELECT * FROM PASSWORDRECOVERY WHERE MD5 = ?");
         stm.setString(1, hash);
         ResultSet rs = stm.executeQuery();

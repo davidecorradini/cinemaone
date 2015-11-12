@@ -63,7 +63,7 @@ public class RecuperaPassword extends HttpServlet {
             try {
                 md = MessageDigest.getInstance("MD5");
             } catch (NoSuchAlgorithmException ex) {
-                //
+                response.getWriter().println("fail");
             }
             md.update((email + timestamp).getBytes());
             byte[] md5 = md.digest();
@@ -81,7 +81,7 @@ public class RecuperaPassword extends HttpServlet {
                 prq.insertRecuperaPassword(pr);
                 MailSender instance = new MailSender();
                 try {
-                    instance.changePassword(email, "http://localhost:8084/Multisala/password-recovery.html?key=" + md5Str);
+                    instance.changePassword(email, "http://" + request.getServerName() + ":" + request.getServerPort() + "/Multisala/password-recovery.html?key=" + md5Str);
                     response.getWriter().println("success");
                 } catch (MessagingException ex) {
                     response.getWriter().println("fail");

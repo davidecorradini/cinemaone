@@ -93,18 +93,16 @@ $("#recovery-form").submit(function(event) {
 
 // Prenotazione
 
+
 var seats = new Array();
 var seconds = 1;
 var totale;
-var tuoTmpCount;
-
 function updatePosti (spettacolo) {
     var currentSeats = new Array();
     var oldSeats = new Array();
     var interval = 1000;
     setInterval(function () {
         $.getJSON("statoPrenotazioni", "spettacolo=" + spettacolo, function (result) {
-            tuoTmpCount = 0;
             // Parsing dell'oggeto JSON
             $.each(result, function (key1, val1) {
                 var idPosto, timestamp, stato, prezzo, x, y;
@@ -114,9 +112,6 @@ function updatePosti (spettacolo) {
                         timestamp = parseInt(val2);
                     } else if (key2 == "stato") {
                         stato = val2;
-                        if (stato == "tuo-tmp") {
-                            tuoTmpCount++;
-                        }
                     } else if (key2 == "prezzo") {
                         prezzo = parseInt(val2);
                     } else if (key2 == "y") {
@@ -163,7 +158,7 @@ function updatePosti (spettacolo) {
                         $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <button href=\"#\" class=\"delete-posto\" id=\"delete-" + object.idPosto + "\"><i class=\"zmdi zmdi-close\"></i></button></div></div></div>");
                         setTimeout(function () {
                             $("#prenotazione-" + object.idPosto).slideUp(200);
-                            if (tuoTmpCount == 1) {
+                            if (seats.length == 1) {
                                 $("#no-selected").slideDown(200);
                                 $("#totale-bottone").slideUp(200);
                             }
@@ -173,7 +168,7 @@ function updatePosti (spettacolo) {
                         if ($.inArray(object.idPosto, currentSeats) > -1 && $.inArray(object.idPosto, oldSeats) == -1) {
                             $("#posti-selezionati-list").append("<div class=\"prenotazione-container\" id=\"prenotazione-" + object.idPosto + "\" style=\"display: none;\"><div class=\"progress-bar-light\"><div class=\"progress-bar-dark\" style=\"width:" + percentuale + "%;\"></div></div><div class=\"selezionato-container\"><div class=\"posto-side tuo-tmp\">" + object.y + object.x + "</div><strong>" + prezzi[object.prezzo][1] + "</strong> " + prezzi[object.prezzo][0] + "<div class=\"delete-posto\"><i class=\"zmdi zmdi-timer\"></i> " + remaining + " <button href=\"#\" class=\"delete-posto\" id=\"delete-" + object.idPosto + "\"><i class=\"zmdi zmdi-close\"></i></button></div></div></div>");
                             $("#prenotazione-" + object.idPosto).slideDown(300);
-                            if (tuoTmpCount == 1 || seconds < 3) {
+                            if (seats.length == 1 || seconds < 3) {
                                 $("#no-selected").slideUp(300);
                                 $("#totale-bottone").slideDown(300);
                             }
@@ -224,7 +219,7 @@ $(document).on("click", ".delete-posto", function (event) {
         data: "posto=" + idPosto + "&spettacolo=" + id_spettacolo,
         success: function (result) {
             $("#prenotazione-" + idPosto).slideUp(100);
-            if (tuoTmpCount == 1) {
+            if (seats.length == 1) {
                 $("#no-selected").slideDown(100);
                 $("#totale-bottone").slideUp(100);
             }

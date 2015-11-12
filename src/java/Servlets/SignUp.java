@@ -6,10 +6,14 @@
 package Servlets;
 
 import Beans.Utente;
+import Database.ConvalidaUtentiQueries;
 import Database.DBManager;
 import Database.UtenteQueries;
+import MailMedia.MailSender;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,22 +49,34 @@ public class SignUp extends HttpServlet {
         
         UtenteQueries uq = new UtenteQueries(manager);
         try {
-            if(!uq.emailValida(email)){
+            if(!uq.emailValida(email)){ //se la mail non è già presente nel database
                 if (password1.equals(password2)){
+                    ConvalidaUtentiQueries convalidaUtenteQ = new ConvalidaUtentiQueries(manager);
                     Utente ut = new Utente();
                     ut.setEmail(email);
                     ut.setPassword(password2);
                     ut.setIdRuolo(2);
                     ut.setCredito(0);
+                    
+                    String requestId = null;
                     try {
-                        uq.aggiungiUtente(ut);
-                        response.getWriter().print("success");
-                    } catch (SQLException ex) {
-                        response.getWriter().print("fail");
+                        requestId = convalidaUtenteQ.aggiungiRichiestaConvalida(ut);
+                    } catch (NoSuchAlgorithmException ex) {
+                        request.setAttribute("error", "impossibile eseguire richiesta di convalida account utente");
+                         getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                    }
+                    String url = "http://" + request.getServerName() + ":" + request.getServerPort() + "/Multisala/conferma-utente.html?key=" + requestId;
+                    MailSender instance = new MailSender();
+                    try {
+                        instance.convalidaAccount(ut.getEmail(), url);
+                    } catch (MessagingException ex) {
+                        request.setAttribute("error", "impossibile inviare mail di richiesta di convalida account utente");
+                        getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);    
                     }
                 } else {
                     response.getWriter().print("wrong-password");
                 }
+                    
             }
             else{
                 response.getWriter().print("existing");

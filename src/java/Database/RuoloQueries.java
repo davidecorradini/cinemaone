@@ -8,6 +8,7 @@ package Database;
 import Beans.Ruolo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -41,5 +42,21 @@ public class RuoloQueries {
         } finally {
             stm.close();
         }
+    }
+    
+    public Ruolo getRuolo(int id) throws SQLException{
+        Ruolo res = null;
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM RUOLO WHERE RUOLO.ID_RUOLO = ?");
+        try {
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                res.setIdRuolo(id);
+                res.setRuolo(rs.getString("RUOLO"));
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
     }
 }

@@ -148,6 +148,10 @@
         <servlet-name>GetCredito</servlet-name>
         <servlet-class>Servlets.GetCredito</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfermaUtente</servlet-name>
+        <servlet-class>Servlets.ConfermaUtente</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Home</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -264,6 +268,10 @@
     <servlet-mapping>
         <servlet-name>GetCredito</servlet-name>
         <url-pattern>/getCredito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfermaUtente</servlet-name>
+        <url-pattern>/conferma-utente.html</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

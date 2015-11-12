@@ -5,7 +5,6 @@
 */
 package MailMedia;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -98,6 +97,12 @@ public class MailSender {
     public void changePassword(String to, String link) throws MessagingException{
         this.sendMail(to, "Modifica Password CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di recupero password.\n"
                 + "Se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto entro 5 minuti dalla ricezione della seguente email:\n"
+                + link, null);
+    }
+    
+    public void convalidaAccount(String to, String link) throws MessagingException{
+         this.sendMail(to, "Conferma account CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di creazione account.\n"
+                + "Se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto entro 1 giorno dalla ricezione della email:\n"
                 + link, null);
     }
 }
