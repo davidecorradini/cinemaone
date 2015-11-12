@@ -108,9 +108,11 @@
                                     <button class="rotto gradient-6"></button>
                                     <button class="rotto gradient-7"></button>
                                 <br><br>
-                                <span class="legenda-v-align">15</span><span style="float: right;" class="legenda-v-align">0</span>
-                                <br><br><div class="legenda-container">
-                                    <button class="rotto gradient-rotto"></button> Posto rotto/non disponibile
+                                
+                                <div>MAX <span class="hidden-xs">- - - - - - - - - </span>- - - - - - - - - - - - - MIN</div>
+                                <div class="small text-center width-250-responsive">Numero prenotazioni</div>
+                                <br><div class="legenda-container">
+                                    <button class="rotto gradient-rotto"></button><span class="legenda-v-align">Posto rotto/non disponibile</span>
                                 </div>
                             </div>
                         </div>

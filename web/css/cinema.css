@@ -339,6 +339,10 @@ ul.nav.navbar-nav.navbar-right li a {
     margin-bottom: 5px;
 }
 
+.width-250-responsive{
+    width: 260px;
+}
+
 @media (max-width: 768px) {
     
     .legenda-v-align{
@@ -349,6 +353,10 @@ ul.nav.navbar-nav.navbar-right li a {
     .legenda-container{
         line-height: 25px;
         margin-bottom: 3px;
+    }
+    
+    .width-250-responsive{
+        width: 180px;
     }
     
     .sala {
@@ -405,7 +413,7 @@ ul.nav.navbar-nav.navbar-right li a {
         box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
         text-align: center;
         line-height: 20px;
-        font-size: 9px;
+        font-size: 0px;
         text-shadow: 0 1px 1px rgba(255, 255, 255, .3);
         transition-duration: 500ms;
         transition-timing-function: ease;
