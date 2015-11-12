@@ -43,8 +43,8 @@
     </script>
     <div class="container">
         <div class="page-header">
-            <h1>Prenotazione</h1>
-        <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy hh:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
+            <h1>Prenotazione</h1><div class="pull-right"><strong>Il film inizia tra </strong><span id="main-timer"></span></div>
+        <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy HH:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
         </div>
         <div class="row">
             <div class="col-md-8">
@@ -55,7 +55,6 @@
                 <br><br><br>
             </div>
             <div class="col-md-4" id="posti-selezionati">
-                <strong>Il film inizia tra </strong><span id="main-timer"></span><br><br>
                 <strong>Posti selezionati</strong>
                 <div id="no-selected" class="text-muted small">Nessun posto selezionato.</div>
                 <div id="posti-selezionati-list"></div>
@@ -74,6 +73,25 @@
                 <div id="totale-bottone" style="display: none;">
                     TOTALE: <strong id="totale"></strong>
                     <button class="btn btn-primary btn-sm pull-right" id="procedi-button">Procedi</button>
+                </div>
+                <br><br>
+                <div>
+                    <span><strong>Legenda</strong></span>
+                    <div class="legenda-container">
+                        <button class="rotto libero"></button><span class="legenda-v-align">Posto disponibile</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto occupato"></button><span class="legenda-v-align">Posto occupato/non disponibile</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto occupato-tmp"></button><span class="legenda-v-align">Posto occupato temporaneamente</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto tuo"></button><span class="legenda-v-align">Posto prenotato</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto tuo-tmp"></button><span class="legenda-v-align">Posto prenotato in attesa di conferma</span>
+                    </div>
                 </div>
             </div>
         </div>

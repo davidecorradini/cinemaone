@@ -68,4 +68,21 @@ public class PrezzoQueries {
         }
         return res;
     }
+    
+    public Prezzo getPrezzoBean(int idPrezzo) throws SQLException{
+        Prezzo res = new Prezzo();
+        PreparedStatement stm = con.prepareStatement("select * from PREZZO WHERE ID_PREZZO=?");
+        try {
+            stm.setInt(1, idPrezzo);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                res.setIdPrezzo(idPrezzo);
+                res.setTipo(rs.getString("TIPO"));
+                res.setPrezzo(rs.getDouble("PREZZO"));
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
+    }
 }

@@ -28,7 +28,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <p><strong>Cinema One S.r.l.</strong> offre ai propri clienti</p>
+            <p><strong>Cinema One S.r.l.</strong> offre ai propri clienti una vasta scelta di film, dagli ultimi usciti alle pietre miliari del cinema italiano e internazionale.</p>
+            <p><strong>Cinema One</strong> offre 5 sale di proiezione garantendo un'ampia scelta ogni giornata, potento spaziare tra più generi.</p>
+            <p>Non perdere la possibilità di vivere un'esperienza incredibile nel cinema multisala più apprezzato dell'intero Trentino. Ti aspettiamo tutte le sere per passare una serata all'insegna dell'arte del cinema che appartiene più agli Dei e al mito che alla vita degli uomini.</p>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default">

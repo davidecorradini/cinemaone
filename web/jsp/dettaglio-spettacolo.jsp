@@ -26,6 +26,28 @@
                 <strong>Totale biglietti venduti:</strong> <c:out value="${requestScope.infoIncassi[0]}"></c:out>
             <br><br>
                 <strong>Totale incasso:</strong> <fmt:formatNumber value="${requestScope.infoIncassi[1]}" type="currency" currencySymbol="&euro;" />
+            <br><br>                
+                <div>
+                    <span><strong>Legenda</strong></span><br>
+                    <div class="legenda-container">
+                        <button class="rotto libero"></button><span class="legenda-v-align">Posto disponibile</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto occupato"></button><span class="legenda-v-align">Posto occupato/non disponibile</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto occupato-tmp"></button><span class="legenda-v-align">Posto occupato temporaneamente</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto tuo"></button><span class="legenda-v-align">Posto prenotato</span>
+                    </div>
+                    <div class="legenda-container">
+                        <button class="rotto tuo-tmp"></button><span class="legenda-v-align">Posto prenotato in attesa di conferma</span>
+                    </div>                    
+                    <div class="legenda-container">
+                        <button class="rotto gradient-rotto"></button><span class="legenda-v-align">Posto rotto/non disponibile</span>
+                    </div>
+                </div>
             </div>
         </div>
         <br><br><br>
