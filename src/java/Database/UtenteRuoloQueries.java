@@ -31,6 +31,7 @@ public class UtenteRuoloQueries {
      * @throws java.sql.SQLException
      */
     public UtenteRuolo authenticate(String email, String password, String idTmp) throws SQLException {
+        password = UtenteQueries.criptaPassword(password);
         UtenteRuolo res;
         Utente utente = null;
         Ruolo ruolo = null;

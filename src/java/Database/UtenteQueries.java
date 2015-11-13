@@ -8,6 +8,8 @@ package Database;
 import Beans.Film;
 import Beans.Utente;
 import Beans.PrenotazioniUtente;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,6 +49,24 @@ public class UtenteQueries {
         
     }
     
+    public static String criptaPassword(String password){
+        String res;
+        MessageDigest sha = null;
+        try {
+            sha = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException ex) {
+            //
+        }
+        sha.update(password.getBytes());
+        byte[] sha256 = sha.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : sha256) {
+            sb.append(String.format("%02x", b & 0xff));
+        }
+        res = sb.toString();
+        return res;
+    }
+    
     public boolean emailValida(String email) throws SQLException{
         boolean res = false;
         PreparedStatement stm = con.prepareStatement(
@@ -70,6 +90,7 @@ public class UtenteQueries {
      * @throws SQLException
      */
     public void cambiaPassword(String email, String password) throws SQLException{
+        password = criptaPassword(password);
         PreparedStatement stm = con.prepareStatement(
                 "UPDATE UTENTE SET PASSWORD = ? WHERE EMAIL = ?");
         try {
@@ -119,11 +140,12 @@ public class UtenteQueries {
      * @throws SQLException
      */
     public void aggiungiUtente(Utente ut) throws SQLIntegrityConstraintViolationException, SQLException{
+        String password = criptaPassword(ut.getPassword());
         PreparedStatement stm = con.prepareStatement("INSERT INTO UTENTE (ID_RUOLO, EMAIL, PASSWORD, CREDITO) VALUES (?,?,?,?)");
         try {
             stm.setInt(1, ut.getIdRuolo());
             stm.setString(2, ut.getEmail());
-            stm.setString(3, ut.getPassword());
+            stm.setString(3, password);
             stm.setDouble(4, ut.getCredito());
             stm.executeUpdate();
         } finally {
