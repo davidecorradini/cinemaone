@@ -57,7 +57,7 @@ public class UtenteQueries {
         } catch (NoSuchAlgorithmException ex) {
             //
         }
-        sha.update(password.getBytes());
+        sha.update((password + "cinemaone").getBytes());
         byte[] sha256 = sha.digest();
         StringBuffer sb = new StringBuffer();
         for (byte b : sha256) {
