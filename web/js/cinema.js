@@ -220,6 +220,7 @@ $(".posto").click(function (event) {
     }
 });
 
+
 $(document).on("click", ".delete-posto", function (event) {
     var idPosto;
     try {
@@ -232,7 +233,7 @@ $(document).on("click", ".delete-posto", function (event) {
         data: "posto=" + idPosto + "&spettacolo=" + id_spettacolo,
         success: function (result) {
             $("#prenotazione-" + idPosto).slideUp(100);
-            if (seats.length == 1) {
+            if (tuoTmpCount == 1) {
                 $("#no-selected").slideDown(100);
                 $("#totale-bottone").slideUp(100);
             }
