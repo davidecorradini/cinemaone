@@ -506,7 +506,8 @@ function updatePostiAdmin (spettacolo) {
             $(".posto").each(function (i, element) {
                 $(element).removeClass("occupato");
                 $(element).removeClass("occupato-tmp");
-                $(element).removeClass("selezionato");
+                $(element).removeClass("tuo");
+                $(element).removeClass("tuo-tmp");
                 $(element).addClass("libero");
                 $(element).prop('title', '');
             });
@@ -553,12 +554,12 @@ function updatePostiAdmin (spettacolo) {
                             $(element).prop('data-original-title', '');
                         } else if (stato == "tuo") {
                             $(element).removeClass("libero");
-                            $(element).addClass("selezionato");
+                            $(element).addClass("tuo");
                             $(element).prop('title', '');
                             $(element).prop('data-original-title', '');
                         } else if (stato == "tuo-tmp") {
                             $(element).removeClass("libero");
-                            $(element).addClass("selezionato");
+                            $(element).addClass("tuo-tmp");
                         }
                     }
                 });
