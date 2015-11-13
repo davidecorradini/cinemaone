@@ -7,10 +7,6 @@ package Database;
 
 import java.sql.Connection;
 
-/**
- *
- * @author enrico
- */
 public class GenereQueries{
     private final transient Connection con;
     

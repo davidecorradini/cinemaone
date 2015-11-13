@@ -12,10 +12,6 @@ import java.security.NoSuchProviderException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author enrico
- */
 public class Utente implements Serializable{
     private int idUtente;
     private String email;

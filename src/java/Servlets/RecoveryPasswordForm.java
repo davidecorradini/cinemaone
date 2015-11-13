@@ -17,10 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author alessandro
- */
 public class RecoveryPasswordForm extends HttpServlet {
     private DBManager manager;
     

@@ -1,9 +1,4 @@
-<%-- 
-    Document   : incasso-film
-    Created on : 1-ott-2015, 11.50.53
-    Author     : alessandro
---%>
-    
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

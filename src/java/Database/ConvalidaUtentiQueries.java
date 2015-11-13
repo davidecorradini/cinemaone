@@ -14,10 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-/**
- *
- * @author enrico
- */
 public class ConvalidaUtentiQueries {
      private final transient Connection con;
     

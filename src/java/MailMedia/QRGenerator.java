@@ -21,10 +21,6 @@ import java.security.NoSuchAlgorithmException;
 import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
 
-/**
- *
- * @author enrico
- */
 public class QRGenerator {
     public static void generate(Prenotazione pren, Utente utente, Posto posto, Prezzo prezzo, Film film, Spettacolo spettacolo, String destinationPath) throws FileNotFoundException, IOException{
         String info = utente.getIdUtente() + utente.getEmail() + prezzo.getPrezzo() + prezzo.getTipo() + posto.getIdPosto() + posto.getRiga() + posto.getColonna() + film.getTitolo() + spettacolo.getIdSpettacolo() + spettacolo.getDataOra() + "cinemaonesrl";

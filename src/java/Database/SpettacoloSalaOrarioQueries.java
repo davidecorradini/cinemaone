@@ -23,10 +23,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class SpettacoloSalaOrarioQueries {
     private final transient Connection con;
     

@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Ruolo implements Serializable{
     private int idRuolo;
     private String ruolo;

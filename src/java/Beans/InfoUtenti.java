@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author alessandro
- */
 public class InfoUtenti {
     private int utentiRegistrati;
     private String emailPostiPiuPrenotati;

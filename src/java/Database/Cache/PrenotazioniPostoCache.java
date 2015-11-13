@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * classe che wrappa metodi di accesso al database aggiungendo un sistema di cache.
  * Wrappa anche i metodi di modifica (eliminazione/update) dei dati del dabase, in questo modo è possibile mantenere la cache sincronizzata.
  * necessita di controllare le modifiche alla tabella Posto e Prenotazioni.
- * @author enrico
+ * 
  */
 public class PrenotazioniPostoCache {
      private final transient Connection manager;

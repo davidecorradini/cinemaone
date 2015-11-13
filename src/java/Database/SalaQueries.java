@@ -12,10 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class SalaQueries {
     private final transient Connection con;
     

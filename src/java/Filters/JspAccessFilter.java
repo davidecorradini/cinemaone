@@ -18,10 +18,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author enrico
- */
 public class JspAccessFilter implements Filter {
     
     // The filter configuration object we are associated with.  If

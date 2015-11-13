@@ -7,10 +7,6 @@ package Beans;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class FilmSpettacoli {
     private Film film;
     private ArrayList<Spettacolo> spettacoli;

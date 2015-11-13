@@ -85,10 +85,6 @@
         <servlet-class>Servlets.ResetPassword</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PrenotaPosto</servlet-name>
-        <servlet-class>Servlets.PrenotaPosto</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ConfermaPrenotazione</servlet-name>
         <servlet-class>Servlets.ConfermaPrenotazione</servlet-class>
     </servlet>
@@ -203,10 +199,6 @@
     <servlet-mapping>
         <servlet-name>ResetPassword</servlet-name>
         <url-pattern>/resetPassword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PrenotaPosto</servlet-name>
-        <url-pattern>/prenotaPosto</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ConfermaPrenotazione</servlet-name>

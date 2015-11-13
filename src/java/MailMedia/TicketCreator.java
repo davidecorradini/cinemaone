@@ -8,7 +8,6 @@ package MailMedia;
 import Beans.Film;
 import Beans.Posto;
 import Beans.Prenotazione;
-import Beans.PrenotazionePosto;
 import Beans.PrenotazionePostoPrezzo;
 import Beans.Prezzo;
 import Beans.Sala;

@@ -7,10 +7,8 @@ package Servlets;
 
 import Beans.InfoPrenotazione;
 import Beans.PostiSala;
-import Beans.Posto;
 import Beans.Prezzo;
 import Beans.Spettacolo;
-import Beans.Utente;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
 import Database.PostiSalaQueries;
@@ -24,13 +22,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-
 
 public class Prenotazioni extends HttpServlet {
     private DBManager manager;
-    
     
     @Override
     public void init() throws ServletException{

@@ -1,10 +1,5 @@
 package Listeners;
 
-/**
- *
- * @author enrico
- */
-
 import Database.DBManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;

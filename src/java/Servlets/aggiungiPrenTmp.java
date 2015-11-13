@@ -21,12 +21,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 public class aggiungiPrenTmp extends HttpServlet {
     private DBManager manager;
 
-    
-    
     @Override
     public void init() throws ServletException{
         this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");

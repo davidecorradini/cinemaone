@@ -10,10 +10,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author enrico
- */
 public class Spettacolo implements Serializable{
     private int idSpettacolo;
     private int idFilm;

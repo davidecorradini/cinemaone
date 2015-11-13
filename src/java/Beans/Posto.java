@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Posto implements Serializable{
     public static final int OK_STATUS = 0;
     public static final int ROTTO_STATUS = -1;

@@ -7,7 +7,6 @@ package Servlets;
 
 import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
-import Database.PrenotazioneTmpQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -17,10 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author enrico
- */
 public class DeletePrenotazioneTmp extends HttpServlet{
      private DBManager manager;
     

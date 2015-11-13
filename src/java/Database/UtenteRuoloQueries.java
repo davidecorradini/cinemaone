@@ -14,10 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author enrico
- */
 public class UtenteRuoloQueries {
     private final transient Connection con;
     

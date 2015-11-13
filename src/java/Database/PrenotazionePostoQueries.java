@@ -14,10 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class PrenotazionePostoQueries {
     private final transient Connection con;
      
@@ -27,49 +23,6 @@ public class PrenotazionePostoQueries {
     
     public PrenotazionePostoQueries(Connection con){
         this.con = con;
-    }
-    
-    /**
-     *
-     * @param id_spettacolo ID dello spettacolo di cui si vuole vedere la lista di prenotazioni
-     * @return prenotazioni dei posti relative al dato spettacolo.
-     * @throws SQLException
-     */
-    public ArrayList<PrenotazionePosto> getPrenotazioni(int id_spettacolo) throws SQLException{
-        PreparedStatement stm;
-        ArrayList<PrenotazionePosto> prenotazioni = new ArrayList<>();
-        stm = con.prepareStatement("SELECT * FROM PRENOTAZIONE PR JOIN POSTO PO ON PR.ID_POSTO = PO.ID_POSTO "+
-                "WHERE PR.ID_SPETTACOLO=?");
-        try {
-            stm.setInt(1,id_spettacolo);
-            ResultSet rs = stm.executeQuery();
-            try {
-                while(rs.next()){
-                    Prenotazione tmp = new Prenotazione();
-                    Posto posto = new Posto();
-                    tmp.setIdPrenotazione(rs.getInt("ID_PRENOTAZIONE"));
-                    tmp.setIdUtente(rs.getInt("ID_UTENTE"));
-                    tmp.setIdSpettacolo(rs.getInt("ID_SPETTACOLO"));
-                    tmp.setIdPrezzo(rs.getInt("ID_PREZZO"));
-                    tmp.setIdPosto(rs.getInt("ID_POSTO"));
-                    tmp.setDataOraOperazione(rs.getTimestamp("DATA_ORA_OPERAZIONE"));
-                    posto.setColonna(rs.getInt("COLONNA"));
-                    posto.setRiga(rs.getString("RIGA").charAt(0));
-                    posto.setIdPosto(rs.getInt("ID_POSTO"));
-                    posto.setIdSala(rs.getInt("ID_SALA"));
-                    posto.setStato(rs.getInt("STATO")); //se è prenotato dovremmo essere già sicuri che è in buono stato? abbiamo già fatto questo controllo da qualche parte?
-                    PrenotazionePosto res = new PrenotazionePosto();
-                    res.setPrenotazione(tmp);
-                    res.setPosto(posto);
-                    prenotazioni.add(res);
-                }
-            } finally {
-                rs.close();
-            }
-        } finally {
-            stm.close();
-        }
-        return prenotazioni;
     }
     
     /**

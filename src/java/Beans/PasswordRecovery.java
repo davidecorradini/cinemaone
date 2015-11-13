@@ -7,10 +7,6 @@ package Beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author enrico
- */
 public class PasswordRecovery {
     private String hash;
     private String email;

@@ -10,14 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- *
- * @author enrico
- */
 public class FilmQueries{
     private final transient Connection con;
     
@@ -28,33 +23,7 @@ public class FilmQueries{
     public FilmQueries(Connection con){
         this.con = con;
     }
-    
-    /**
-     * inserisce un nuovo film nel database
-     * @param fm film da inserire nel database
-     * @throws java.sql.SQLIntegrityConstraintViolationException
-     * @throws SQLException
-     */
-    public void inserisciFilm(Film fm) throws SQLIntegrityConstraintViolationException, SQLException{
-        PreparedStatement stm = con.prepareStatement("INSERT INTO FILM (TITOLO, ID_GENERE, URL_TRAILER, DURATA, TRAMA, URI_LOCANDINA, IS_IN_SLIDER, ANNO, REGISTA) VALUES (?,?,?,?,?,?,?,?,?)");
-        try {
-            stm.setString(1, fm.getTitolo());
-            stm.setInt(2, fm.getIdGenere());
-            stm.setString(3, fm.getUrlTrailer());
-            stm.setInt(4, fm.getDurata());
-            stm.setString(5, fm.getTrama());
-            stm.setString(6, fm.getUriLocandina());
-            stm.setBoolean(7, fm.isInSlider());
-            stm.setInt(8, fm.getAnno());
-            stm.setString(9, fm.getRegista());
-            
-            stm.executeUpdate();
-        } finally {
-            stm.close();
-        }
-    }
-    
-    
+        
     /**
      *
      * @return ArrayList dei film presenti nello slider.

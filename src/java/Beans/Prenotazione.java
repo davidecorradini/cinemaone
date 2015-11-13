@@ -8,10 +8,6 @@ package Beans;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- *
- * @author enrico
- */
 public class Prenotazione implements Serializable{
     private int idPrenotazione;
     private int idUtente;

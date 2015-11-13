@@ -12,10 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-/**
- *
- * @author enrico
- */
 public class PrenotazioneQueries{
     private final transient Connection con;
     

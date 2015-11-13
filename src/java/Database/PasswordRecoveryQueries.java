@@ -11,10 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-/**
- *
- * @author enrico
- */
 public class PasswordRecoveryQueries {
     private final transient Connection con;
     

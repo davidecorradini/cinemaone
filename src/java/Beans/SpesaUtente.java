@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author alessandro
- */
 public class SpesaUtente {
     private Utente ut;
     private int numPrenotazioni;

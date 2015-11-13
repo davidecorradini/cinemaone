@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Sala implements Serializable{
     private int idSala;
     private String nome;

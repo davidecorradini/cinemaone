@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author alessandro
- */
 public class UtenteRuolo {
     private Utente utente;
     private Ruolo ruolo;

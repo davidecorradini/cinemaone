@@ -14,7 +14,6 @@ import Beans.Utente;
 import Database.Cache.PrenotazioniPostoCache;
 import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
-import Database.PrenTmpPostoQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -27,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 /**
  * La servlet risponde con una stringa json con le informazioni riguardanti lo stato dei posti della sala per uno spettacolo.

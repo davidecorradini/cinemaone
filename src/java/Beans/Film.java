@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Film implements Serializable{
     private int idFilm;
     private int idGenere;

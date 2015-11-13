@@ -15,10 +15,6 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class UtenteQueries {
     private final transient Connection con;
     
@@ -67,14 +63,6 @@ public class UtenteQueries {
         return res;
     }
     
-    /**
-     * cambia password all'utente. L'oggetto utente deve contenere l'id dell'utente e la nuova password nel campo password
-     * @param ut utente di cui si vuole cambiare la password, nel campo password di tale oggetto deve esserci la nuova password
-     * @throws SQLException
-     */
-    public void cambiaPassword(Utente ut) throws SQLException{
-        cambiaPassword(ut.getEmail(), ut.getPassword());
-    }
     /**
      * assegna la password all'utente con e-mail email.
      * @param email
