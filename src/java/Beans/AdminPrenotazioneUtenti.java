@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author roberto
- */
 public class AdminPrenotazioneUtenti {
     
     private Spettacolo spettacolo;

@@ -5,7 +5,6 @@
  */
 package Beans;
 
-
 public class InfoPrenotazione {
     private Film film;
     private Spettacolo spettacolo;

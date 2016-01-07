@@ -13,10 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class IncassoFilmQueries{
     private final transient Connection con;
     
@@ -79,4 +75,87 @@ public class IncassoFilmQueries{
         }
         return res;
     }
+    
+    
+    /**
+     *
+     * @return IncassoFilm per il film con più incasso
+     * @throws SQLException
+     */
+    public IncassoFilm getInfoTopFilm() throws SQLException{
+        
+        IncassoFilm result= new IncassoFilm();
+        
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT F.ID_FILM,F.ID_GENERE,F.TITOLO,F.DURATA,F.TRAMA,F.URL_TRAILER,F.URI_LOCANDINA,F.IS_IN_SLIDER,F.ANNO,F.REGISTA, SUM(P.PREZZO) AS TOT\n" +
+"FROM PYTHONI.SPETTACOLO AS S JOIN PYTHONI.PRENOTAZIONE AS PREN ON S.ID_SPETTACOLO=PREN.ID_SPETTACOLO JOIN PYTHONI.PREZZO AS P ON PREN.ID_PREZZO=P.ID_PREZZO JOIN PYTHONI.FILM AS F ON F.ID_FILM=S.ID_FILM  \n" +
+"GROUP BY F.ID_FILM,F.ID_GENERE,F.TITOLO,F.DURATA,F.TRAMA,F.URL_TRAILER,F.URI_LOCANDINA,F.IS_IN_SLIDER,F.ANNO,F.REGISTA\n" +
+"HAVING F.ID_FILM = (SELECT TMP.ID_FILM\n" +
+"FROM (\n" +
+"  SELECT F.ID_FILM, SUM(P.PREZZO) AS TOT\n" +
+"FROM PYTHONI.SPETTACOLO AS S JOIN PYTHONI.PRENOTAZIONE AS PREN ON S.ID_SPETTACOLO=PREN.ID_SPETTACOLO JOIN PYTHONI.PREZZO AS P ON PREN.ID_PREZZO=P.ID_PREZZO JOIN PYTHONI.FILM AS F ON F.ID_FILM=S.ID_FILM  \n" +
+"GROUP BY F.ID_FILM\n" +
+") AS TMP\n" +
+"WHERE TMP.TOT= (SELECT MAX(TMP2.TOT) \n" +
+"                FROM (\n" +
+"                      SELECT F.ID_FILM, SUM(P.PREZZO) AS TOT\n" +
+"                      FROM PYTHONI.SPETTACOLO AS S JOIN PYTHONI.PRENOTAZIONE AS PREN ON S.ID_SPETTACOLO=PREN.ID_SPETTACOLO JOIN PYTHONI.PREZZO AS P ON PREN.ID_PREZZO=P.ID_PREZZO JOIN PYTHONI.FILM AS F ON F.ID_FILM=S.ID_FILM  \n" +
+"                      GROUP BY F.ID_FILM\n" +
+"                      ) AS TMP2\n" +
+"                )\n" +
+"\n" +
+")");
+        Film film = null;
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    film = new Film();
+                    film.setIdFilm(rs.getInt("ID_FILM"));
+                    film.setTitolo(rs.getString("TITOLO"));
+                    film.setIdGenere(rs.getInt("ID_GENERE"));
+                    film.setUrlTrailer(rs.getString("URL_TRAILER"));
+                    film.setDurata(rs.getInt("DURATA"));
+                    film.setUriLocandina(rs.getString("URI_LOCANDINA"));
+                    film.setTrama(rs.getString("TRAMA"));
+                    film.setisInSlider(rs.getBoolean("IS_IN_SLIDER"));
+                    film.setRegista(rs.getString("REGISTA"));
+                    film.setAnno(rs.getInt("ANNO"));
+                    
+                    result.setFilm(film);
+                    result.setIncasso(rs.getDouble("TOT"));
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        
+        stm = con.prepareStatement(
+                "SELECT COUNT(S.ID_FILM) AS TOT\n" +
+"FROM PYTHONI.SPETTACOLO S\n" +
+"GROUP BY S.ID_FILM\n" +
+"HAVING S.ID_FILM=?");
+        
+        try{
+            stm.setInt(1, film.getIdFilm());
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    result.setNumSpett(rs.getInt("TOT"));
+                }
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        
+        
+        return result;
+        
+    }
+    
 }

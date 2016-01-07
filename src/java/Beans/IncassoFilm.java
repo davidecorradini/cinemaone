@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author enrico
- */
 public class IncassoFilm {
     private Film film;
     private double incasso;

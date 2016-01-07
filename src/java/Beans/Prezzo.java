@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Prezzo implements Serializable{
     private int idPrezzo;
     private String tipo;

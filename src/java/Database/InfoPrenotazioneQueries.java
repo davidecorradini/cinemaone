@@ -14,10 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author enrico
- */
 public class InfoPrenotazioneQueries{
     private final transient Connection con;
     

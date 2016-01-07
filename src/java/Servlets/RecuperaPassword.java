@@ -22,10 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import javax.mail.MessagingException;
 
-/**
- *
- * @author Davide
- */
 public class RecuperaPassword extends HttpServlet {
     private DBManager manager;
     

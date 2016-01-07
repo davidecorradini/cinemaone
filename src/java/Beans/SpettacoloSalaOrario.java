@@ -7,10 +7,6 @@ package Beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author enrico
- */
 public class SpettacoloSalaOrario {
     private Spettacolo spettacolo;
     private Film film;

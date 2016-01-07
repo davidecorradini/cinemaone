@@ -8,10 +8,6 @@ package Beans;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- *
- * @author roberto
- */
 public class PrenotazioniUtente implements Serializable {
     
     private Film film;

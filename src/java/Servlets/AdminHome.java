@@ -9,6 +9,8 @@ import Beans.IncassoFilm;
 import Beans.InfoUtenti;
 import Beans.Sala;
 import Database.DBManager;
+import Database.IncassoFilmQueries;
+import Database.InfoUtentiQueries;
 import Database.SalaQueries;
 import Database.SpettacoloQueries;
 import java.io.IOException;
@@ -21,10 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author alessandro
- */
 @WebServlet(name = "AdminHome", urlPatterns = {"/admin/index.html"})
 public class AdminHome extends HttpServlet {
     private DBManager manager;
@@ -50,6 +48,8 @@ public class AdminHome extends HttpServlet {
         if(ruolo!=null && ruolo.equals("ADMIN")){
             SalaQueries salaQueries = new SalaQueries(manager);
             SpettacoloQueries spettacoloQ = new SpettacoloQueries(manager);
+            IncassoFilmQueries incassoFilmQ = new IncassoFilmQueries(manager);
+            InfoUtentiQueries infoUtentiQ = new InfoUtentiQueries(manager);
             ArrayList<Sala> sale = null;
             Number[] spettacoliPassati = new Number[3];
             Number[] spettacoliFuturi = new Number[3];
@@ -59,8 +59,8 @@ public class AdminHome extends HttpServlet {
                 sale = salaQueries.getSale();
                 spettacoliPassati = spettacoloQ.getInfoSpettacoliPassati();
                 spettacoliFuturi = spettacoloQ.getInfoSpettacoliFuturi();
-                incassoFilm = spettacoloQ.getInfoTopFilm();
-                infoUtenti = spettacoloQ.getInfoUtenti();
+                incassoFilm = incassoFilmQ.getInfoTopFilm();
+                infoUtenti = infoUtentiQ.getInfoUtenti();
             } catch (SQLException ex) {
                 request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita1");
                 getServletContext().getRequestDispatcher("/jsp/admin-error.jsp").forward(request, response);

@@ -7,10 +7,6 @@ package Beans;
 
 import java.io.Serializable;
 
-/**
- *
- * @author enrico
- */
 public class Genere implements Serializable{
     private int idGenere;
     private String descrizione; //max size: 50

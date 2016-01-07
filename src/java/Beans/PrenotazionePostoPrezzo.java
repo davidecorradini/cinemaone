@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author alessandro
- */
 public class PrenotazionePostoPrezzo extends PrenotazionePosto{
     private Prezzo prezzo;
 

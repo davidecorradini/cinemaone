@@ -1,9 +1,4 @@
-<%-- 
-    Document   : dettaglio-film
-    Created on : Aug 21, 2015, 12:41:38 PM
-    Author     : enrico
---%>
-    
+  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

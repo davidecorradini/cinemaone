@@ -11,10 +11,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- *
- * @author roberto
- */
 public class Posti {
     
     private final transient Connection con;

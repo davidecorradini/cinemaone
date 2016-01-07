@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author enrico
- */
 public class PrenTmpPosto {
     private PrenotazioneTmp pren;
     private Posto posto;

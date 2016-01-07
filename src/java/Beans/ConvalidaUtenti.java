@@ -7,10 +7,6 @@ package Beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author enrico
- */
 public class ConvalidaUtenti {
     private String hash;
     private Utente utente;

@@ -18,10 +18,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class PrenotazioniTmpPostoCache {
     private final transient Connection manager;
     //coppie idSpettacolo, oggetto.

@@ -21,24 +21,19 @@ import java.security.NoSuchAlgorithmException;
 import net.glxn.qrgen.QRCode;
 import net.glxn.qrgen.image.ImageType;
 
-/**
- *
- * @author enrico
- */
 public class QRGenerator {
     public static void generate(Prenotazione pren, Utente utente, Posto posto, Prezzo prezzo, Film film, Spettacolo spettacolo, String destinationPath) throws FileNotFoundException, IOException{
         String info = utente.getIdUtente() + utente.getEmail() + prezzo.getPrezzo() + prezzo.getTipo() + posto.getIdPosto() + posto.getRiga() + posto.getColonna() + film.getTitolo() + spettacolo.getIdSpettacolo() + spettacolo.getDataOra() + "cinemaonesrl";
-        MessageDigest md = null;
-        System.out.println(info);
+        MessageDigest sha = null;
         try {
-            md = MessageDigest.getInstance("SHA-256");
+            sha = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException ex) {
             //
         }
-        md.update(info.getBytes());
-        byte[] md5 = md.digest();
+        sha.update(info.getBytes());
+        byte[] sha256 = sha.digest();
         StringBuffer sb = new StringBuffer();
-        for (byte b : md5) {
+        for (byte b : sha256) {
             sb.append(String.format("%02x", b & 0xff));
         }
         String infoCr = sb.toString();

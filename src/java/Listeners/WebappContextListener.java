@@ -1,7 +1,5 @@
 package Listeners;
 
-
-
 import Database.DBManager;
 import java.sql.SQLException;
 import javax.servlet.ServletContextEvent;

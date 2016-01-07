@@ -7,7 +7,6 @@ package Beans;
 
 import java.util.ArrayList;
 
-
 public class PostiSalaPercPrenotazioni extends PostiSala{
     public static final int percPrenIndex = PostiSala.size;
     protected static final int size = PostiSala.size+1;

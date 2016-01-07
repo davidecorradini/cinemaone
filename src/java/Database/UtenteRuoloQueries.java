@@ -14,10 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author enrico
- */
 public class UtenteRuoloQueries {
     private final transient Connection con;
     
@@ -35,6 +31,7 @@ public class UtenteRuoloQueries {
      * @throws java.sql.SQLException
      */
     public UtenteRuolo authenticate(String email, String password, String idTmp) throws SQLException {
+        password = UtenteQueries.criptaPassword(password);
         UtenteRuolo res;
         Utente utente = null;
         Ruolo ruolo = null;

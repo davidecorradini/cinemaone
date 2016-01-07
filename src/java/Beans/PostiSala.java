@@ -3,7 +3,6 @@ package Beans;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
-
 public class PostiSala {
     protected static final int size = 3;
     protected static final int idPostoIndex = 0;

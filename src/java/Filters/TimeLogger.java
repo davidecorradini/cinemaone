@@ -9,10 +9,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- *
- * @author enrico
- */
 public class TimeLogger implements Filter {
     
     // The filter configuration object we are associated with.  If

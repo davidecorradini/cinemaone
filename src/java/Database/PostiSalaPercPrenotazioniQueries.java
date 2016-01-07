@@ -14,10 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author alessandro
- */
 public class PostiSalaPercPrenotazioniQueries {
     private final transient Connection con;
     

@@ -1,22 +1,9 @@
 package Servlets;
 
-import Beans.Film;
-import Beans.Posto;
-import Beans.Prenotazione;
-import Beans.Sala;
-import Beans.Spettacolo;
-import Beans.Utente;
 import Database.DBManager;
 import Database.PrenotazioneTmpQueries;
-import MailMedia.MailSender;
-import MailMedia.TicketCreator;
-import com.lowagie.text.DocumentException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

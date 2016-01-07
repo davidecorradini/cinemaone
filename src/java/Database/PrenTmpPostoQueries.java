@@ -16,10 +16,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class PrenTmpPostoQueries {
     private final transient Connection con;
     

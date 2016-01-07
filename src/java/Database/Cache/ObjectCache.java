@@ -3,7 +3,7 @@ package Database.Cache;
 import java.util.HashMap;
 
 /**
- * @author enrico
+ * 
  * @param <Key>
  * @param <Value>
  */

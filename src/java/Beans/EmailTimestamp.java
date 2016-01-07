@@ -7,10 +7,6 @@ package Beans;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author alessandro
- */
 public class EmailTimestamp {
     private String email;
     private Timestamp timestamp;

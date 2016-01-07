@@ -5,10 +5,6 @@
  */
 package Beans;
 
-/**
- *
- * @author enrico
- */
 public class PrenotazionePosto {
     private Prenotazione prenotazione;
     private Posto posto;

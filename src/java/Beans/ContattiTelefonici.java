@@ -7,10 +7,6 @@ package Beans;
 
 import java.math.BigInteger;
 
-/**
- *
- * @author enrico
- */
 public class ContattiTelefonici {
     private String nome;
     private BigInteger numeroTelefonico;

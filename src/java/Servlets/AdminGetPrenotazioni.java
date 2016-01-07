@@ -5,16 +5,12 @@ import Beans.Film;
 import Beans.Genere;
 import Beans.Posto;
 import Beans.Prenotazione;
-import Beans.PrenotazioneTmp;
 import Beans.Prezzo;
 import Beans.Ruolo;
 import Beans.Sala;
 import Beans.Spettacolo;
-import Beans.SpettacoloSalaOrario;
 import Beans.Utente;
 import Database.DBManager;
-import Database.PostoQueries;
-import Database.PrenotazioneTmpQueries;
 import Database.SpettacoloSalaOrarioQueries;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,14 +25,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- *
- * @author roberto
- */
 public class AdminGetPrenotazioni extends HttpServlet {
 
     private DBManager manager;

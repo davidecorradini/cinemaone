@@ -12,10 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author enrico
- */
 public class PrezzoQueries {
     private final transient Connection con;
     
@@ -54,6 +50,12 @@ public class PrezzoQueries {
         return prezzi;
     }
     
+    /**
+     *
+     * @param idPrezzo
+     * @return il prezzo che corrisponde all'id passato
+     * @throws SQLException
+     */
     public double getPrezzo(int idPrezzo) throws SQLException{
         PreparedStatement stm = con.prepareStatement("select PREZZO from PREZZO WHERE ID_PREZZO=?");
         double res = 0.0;
@@ -69,6 +71,12 @@ public class PrezzoQueries {
         return res;
     }
     
+    /**
+     *
+     * @param idPrezzo
+     * @return il Bean Prezzo che corrisponde all'id passato
+     * @throws SQLException
+     */
     public Prezzo getPrezzoBean(int idPrezzo) throws SQLException{
         Prezzo res = new Prezzo();
         PreparedStatement stm = con.prepareStatement("select * from PREZZO WHERE ID_PREZZO=?");
