@@ -1,13 +1,9 @@
 package Listeners;
 
-/**
- *
- * @author enrico
- */
+
 
 import Database.DBManager;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -19,7 +15,6 @@ public class WebappContextListener implements ServletContextListener {
             DBManager manager = new DBManager(dburl); //istanzio un DBManager.
             sce.getServletContext().setAttribute("dbmanager", manager);//pubblico l'attributo per il context
         } catch (SQLException ex) {
-            Logger.getLogger(getClass().getName()).severe(ex.toString());
             throw new RuntimeException(ex);
         }
     }
