@@ -46,13 +46,13 @@ public class MailSender {
     
     private Session getSession(){
         return Session.getInstance(settings, new
-                                        Authenticator(){
-                                            @Override
-                                            protected PasswordAuthentication
-                                        getPasswordAuthentication() {
-                                            return new PasswordAuthentication(username, password);
-                                        }
-                                        });
+                                                Authenticator(){
+                                                    @Override
+                                                    protected PasswordAuthentication
+                                                getPasswordAuthentication() {
+                                                    return new PasswordAuthentication(username, password);
+                                                }
+                                                });
     }
     
     public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
@@ -101,7 +101,7 @@ public class MailSender {
     }
     
     public void convalidaAccount(String to, String link) throws MessagingException{
-         this.sendMail(to, "Conferma account CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di creazione account.\n"
+        this.sendMail(to, "Conferma account CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di creazione account.\n"
                 + "Se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto entro 1 giorno dalla ricezione della email:\n"
                 + link, null);
     }

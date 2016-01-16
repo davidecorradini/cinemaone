@@ -1,4 +1,4 @@
-  
+    
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -19,15 +19,14 @@
             <p><strong>Genere: </strong><c:out value="${tmpGenere.getDescrizione()}"></c:out></p>
             <p><strong>Durata: </strong><c:out value="${tmpFilm.getDurata()}"></c:out> minuti</p>				  
             <p><strong>Trama: </strong><c:out value="${tmpFilm.getTrama()}"></c:out></p>
+                <p><a id="link" class="no-color" href="#"><i class="zmdi zmdi-collection-video"></i> <strong>Guarda il Trailer</strong></a></p>
                 <p><strong>Programmazione: </strong><br>
                 <c:forEach var="tmpSpettacolo" items="${tmp.getSpettacoli()}">
                     <fmt:formatDate value="${tmpSpettacolo.getDataOra()}" type="both" dateStyle="long" timeStyle="short"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a><br>
                 </c:forEach>
             </p>
+            <br><br>
         </div>
-    </div>
-    <div class="page-header">
-        <h3><a id="link" class="no-color" href="#">Guarda il Trailer</a></h3>
     </div>
 </div >
 <c:import url="footer.jsp"></c:import>  
@@ -57,6 +56,9 @@
         });
         
         $('#myModal button').click(function () {
+            $('#myModal iframe').removeAttr('src');
+        });
+        $('#myModal').click(function () {
             $('#myModal iframe').removeAttr('src');
         });
 </script>
