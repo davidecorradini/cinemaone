@@ -73,14 +73,12 @@ public class MailSender {
         BodyPart messageBodyPart1 = new MimeBodyPart();
         messageBodyPart1.setText(text);
 //Create the pdf part of the message
-        int i = 1;
         if(allegato != null){
             DataSource source = new FileDataSource(allegato);
             BodyPart messageBodyPart2 = new MimeBodyPart();
             messageBodyPart2.setDataHandler( new DataHandler(source) );
-            messageBodyPart2.setFileName("yourTicket-" + i);
+            messageBodyPart2.setFileName("Biglietti.pdf");
             multipart.addBodyPart( messageBodyPart2 );
-            i++;
         }
 //Add the parts to the Multipart message
         multipart.addBodyPart( messageBodyPart1 );
