@@ -45,6 +45,7 @@ $("#signup-form").submit(function(event) {
             if(answer == "success") {
                 $("#signup-button").hide();
                 $("#signup-success").slideDown("slow");
+                $("#signup-cancel").html("Chiudi");
             } else if (answer == "existing") {
                 $("#signup-existing").slideDown("slow");
                 $("#signup-button").html("Registrati");

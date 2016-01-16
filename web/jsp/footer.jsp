@@ -71,7 +71,7 @@
                             <span class="text-danger" id="signup-error" style="display: none;">Errore non specificato. Riprovare più tardi.</span>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                            <button type="button" class="btn btn-default" id="signup-cancel" data-dismiss="modal">Annulla</button>
                             <button type="submit" class="btn btn-primary" id="signup-button">Registrati</button>
                         </div>
                     </form>

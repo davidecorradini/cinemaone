@@ -50,6 +50,12 @@ public class ConfermaUtente extends HttpServlet {
                 getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
             }
             
+            if(utente == null){
+                request.setAttribute("error", "link non più valido");
+                getServletContext().getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+                return;
+            }
+            
             RuoloQueries ruoloQuery = new RuoloQueries(manager);
             Ruolo ruolo = ruoloQuery.getRuolo(utente.getIdRuolo());
             HttpSession session = request.getSession();

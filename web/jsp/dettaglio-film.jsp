@@ -25,6 +25,7 @@
                 </c:forEach>
             </p>
             <a id="link" class="no-color" href="#"><i class="zmdi zmdi-collection-video"></i> <strong>Guarda il Trailer</strong></a>
+            <br><br>
         </div>
     </div>
 </div >
