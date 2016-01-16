@@ -24,10 +24,8 @@
                     <fmt:formatDate value="${tmpSpettacolo.getDataOra()}" type="both" dateStyle="long" timeStyle="short"/>  <a href="prenotazione.html?idspettacolo=<c:out value="${tmpSpettacolo.getIdSpettacolo()}"></c:out>"><i class="zmdi zmdi-calendar-check"></i> Prenota</a><br>
                 </c:forEach>
             </p>
+            <a id="link" class="no-color" href="#"><i class="zmdi zmdi-collection-video"></i> <strong>Guarda il Trailer</strong></a>
         </div>
-    </div>
-    <div class="page-header">
-        <h3><a id="link" class="no-color" href="#">Guarda il Trailer</a></h3>
     </div>
 </div >
 <c:import url="footer.jsp"></c:import>  
@@ -57,6 +55,9 @@
         });
         
         $('#myModal button').click(function () {
+            $('#myModal iframe').removeAttr('src');
+        });
+        $('#myModal').click(function () {
             $('#myModal iframe').removeAttr('src');
         });
 </script>
