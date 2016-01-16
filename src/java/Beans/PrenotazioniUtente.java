@@ -14,7 +14,7 @@ public class PrenotazioniUtente implements Serializable {
     private Timestamp dataOraSpettacolo;
     private Timestamp dataOraOperazione;
     private String nomeSala;
-    private int tot; // totale soldi spesi per la prenotazione
+    private double tot; // totale soldi spesi per la prenotazione
     private int numBiglietti; // totale biglietti acquistati per la prenotazione
 
     /**
@@ -76,14 +76,14 @@ public class PrenotazioniUtente implements Serializable {
     /**
      * @return the tot
      */
-    public int getTot() {
+    public double getTot() {
         return tot;
     }
 
     /**
      * @param tot the tot to set
      */
-    public void setTot(int tot) {
+    public void setTot(double tot) {
         this.tot = tot;
     }
 

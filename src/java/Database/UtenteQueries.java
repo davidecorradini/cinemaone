@@ -187,7 +187,7 @@ public class UtenteQueries {
                     tmp.setDataOraSpettacolo(rs.getTimestamp("DATA_ORA"));
                     tmp.setNomeSala(rs.getString("NOME"));
                     tmp.setNumBiglietti(rs.getInt("NUM_BIGLIETTI"));
-                    tmp.setTot(rs.getInt("TOT"));
+                    tmp.setTot(rs.getDouble("TOT"));
                     
                     infoPrenotazioniUtente.add(tmp);
                 }

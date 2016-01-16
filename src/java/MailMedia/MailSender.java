@@ -5,7 +5,6 @@
 */
 package MailMedia;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -47,13 +46,13 @@ public class MailSender {
     
     private Session getSession(){
         return Session.getInstance(settings, new
-                                        Authenticator(){
-                                            @Override
-                                            protected PasswordAuthentication
-                                        getPasswordAuthentication() {
-                                            return new PasswordAuthentication(username, password);
-                                        }
-                                        });
+                                                Authenticator(){
+                                                    @Override
+                                                    protected PasswordAuthentication
+                                                getPasswordAuthentication() {
+                                                    return new PasswordAuthentication(username, password);
+                                                }
+                                                });
     }
     
     public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
@@ -61,11 +60,7 @@ public class MailSender {
         //Create a new message
         Message msg = new MimeMessage(session);
 //Set the FROM and TO fields
-        try {
-            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com", "Cinema One"));
-        } catch (UnsupportedEncodingException ex) {
-            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com"));
-        }
+        msg.setFrom(new InternetAddress("info@peermanagement.it"));
         msg.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to,false));
         msg.setSubject(subject);
@@ -76,9 +71,7 @@ public class MailSender {
         Multipart multipart = new MimeMultipart();
 //Create the textual part of the message
         BodyPart messageBodyPart1 = new MimeBodyPart();
-        messageBodyPart1.setContent(text, "text/html; charset=utf-8");
-        //messageBodyPart1.setText();
-        
+        messageBodyPart1.setText(text);
 //Create the pdf part of the message
         int i = 1;
         if(allegato != null){
@@ -108,7 +101,7 @@ public class MailSender {
     }
     
     public void convalidaAccount(String to, String link) throws MessagingException{
-         this.sendMail(to, "Conferma account Cinema One", "Questa mail ti è stata inviata in seguito a una richiesta di creazione account.\n"
+        this.sendMail(to, "Conferma account CinemaOne", "Questa mail ti è stata inviata in seguito a una richiesta di creazione account.\n"
                 + "Se tale richiesta non è stata fatta da te ignora questa mail, altrimenti clicca sul link quì sotto entro 1 giorno dalla ricezione della email:\n"
                 + link, null);
     }
