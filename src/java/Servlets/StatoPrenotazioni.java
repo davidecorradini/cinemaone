@@ -133,7 +133,6 @@ public class StatoPrenotazioni extends HttpServlet {
         response.setContentType("text/plain;charset=UTF-8\n");
         try (PrintWriter out = response.getWriter()) {
             out.println(jsonStr);
-            System.out.println("statoPrenotazioni: " + jsonStr);
         }
     }
     

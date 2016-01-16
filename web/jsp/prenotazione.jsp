@@ -9,9 +9,9 @@
     <script>
         var id_spettacolo = <c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>;
         var prezzi = new Array();
-        <c:forEach var="tmp20" items="${requestScope.prezzi}">
+    <c:forEach var="tmp20" items="${requestScope.prezzi}">
         prezzi[<c:out value="${tmp20.getIdPrezzo()}"></c:out>] = new Array("<c:out value="${tmp20.getTipo()}"></c:out>", "<fmt:formatNumber value="${tmp20.getPrezzo()}" type="currency" currencySymbol="&euro;" />");
-        </c:forEach>
+    </c:forEach>
         var mainTimer = <c:out value="${requestScope.mainTimer}"></c:out>;
         function sformat(sec) {
             var d = Math.floor(sec / 60 / 60 / 24);
@@ -32,7 +32,7 @@
             }
             return d + "g " + hh + "h " + mm + "m " + ss + "s";
         }
-
+        
         setInterval(function () {
             $("#main-timer").text(sformat(mainTimer));            
             if (mainTimer == 0) {
@@ -43,14 +43,15 @@
     </script>
     <div class="container">
         <div class="page-header">
-            <h1>Prenotazione</h1><div class="pull-right"><strong>Il film inizia tra </strong><span id="main-timer"></span></div>
-        <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy HH:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
+            <h1>Prenotazione</h1>
+            <span class="subtitle"><strong><c:out value="${Film.getTitolo()}"></c:out></strong> &middot; <fmt:formatDate value="${Spettacolo.getTimeStamp()}" pattern="dd-MM-yyyy HH:mm"/> &middot; <c:out value="${Sala.getNome()}"></c:out></span>
+            <div class="pull-right"><strong>Il film inizia tra </strong><span id="main-timer"></span></div>
         </div>
         <div class="row">
             <div class="col-md-8">
                 <div class="sala">
-                    <c:set var="postiSala" value="${requestScope.postiSala}"/>
-                    <c:import url="sala.jsp"></c:import>
+                <c:set var="postiSala" value="${requestScope.postiSala}"/>
+                <c:import url="sala.jsp"></c:import>
                 </div>
                 <br><br><br>
             </div>
@@ -119,32 +120,32 @@
                                 </td>
                                 <td>
                                     <select class="form-control" id="prenotazione-tipo">
-                                        <c:forEach var="tmp2" items="${requestScope.prezzi}">
-                                            <option value="<c:out value="${tmp2.getIdPrezzo()}"></c:out>"><c:out value="${tmp2.getTipo()}"></c:out> (<fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" currencySymbol="&euro;" />)</option>
-                                        </c:forEach>  
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                        <span class="text-danger" id="prenotazione-error" style="display: none;">Errore non specificato, riprova pi&ugrave; tardi.</span>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
-                        <button type="submit" class="btn btn-primary" id="conferma-prenotazione-button">Conferma Prenotazione</button>
-                    </div>
-                </form>
-            </div>
+                                    <c:forEach var="tmp2" items="${requestScope.prezzi}">
+                                        <option value="<c:out value="${tmp2.getIdPrezzo()}"></c:out>"><c:out value="${tmp2.getTipo()}"></c:out> (<fmt:formatNumber value="${tmp2.getPrezzo()}" type="currency" currencySymbol="&euro;" />)</option>
+                                    </c:forEach>  
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <span class="text-danger" id="prenotazione-error" style="display: none;">Errore non specificato, riprova pi&ugrave; tardi.</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annulla</button>
+                    <button type="submit" class="btn btn-primary" id="conferma-prenotazione-button">Conferma Prenotazione</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="modal fade" id="pagamento-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Conferma del pagamento</h4>
-                </div>
-                <form id="paga-form" action="conferma-prenotazione.html" method="post">
-                    <input type="hidden" name="spettacolo" value="<c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>">
+</div>
+<div class="modal fade" id="pagamento-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Conferma del pagamento</h4>
+            </div>
+            <form id="paga-form" action="conferma-prenotazione.html" method="post">
+                <input type="hidden" name="spettacolo" value="<c:out value="${Spettacolo.getIdSpettacolo()}"></c:out>">
                     <div class="modal-body">
                         <div class="alert alert-dismissible alert-danger" role="alert">Tempo rimanente per completare il pagamento: <strong id="payment-timer"></strong></div>
                         <div id="riepilogo">

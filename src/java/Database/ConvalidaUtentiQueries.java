@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package Database;
 
 import Beans.Utente;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class ConvalidaUtentiQueries {
-     private final transient Connection con;
+    private final transient Connection con;
     
     public ConvalidaUtentiQueries(DBManager manager){
         this.con = manager.con;
@@ -43,8 +43,8 @@ public class ConvalidaUtentiQueries {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String hash = computeHash(utente, timestamp);
         PreparedStatement stm;
-               stm = con.prepareStatement(
-                       "INSERT INTO CONVALIDAUTENTI (HASH, EMAIL, PASSWORD, CREDITO, ID_RUOLO, TIME) VALUES (?, ?, ?, ?, ?, ?)");
+        stm = con.prepareStatement(
+                "INSERT INTO CONVALIDAUTENTI (HASH, EMAIL, PASSWORD, CREDITO, ID_RUOLO, TIME) VALUES (?, ?, ?, ?, ?, ?)");
         try{
             stm.setString(1, hash);
             stm.setString(2, utente.getEmail());
@@ -75,23 +75,24 @@ public class ConvalidaUtentiQueries {
             res.setCredito(rs.getDouble("CREDITO"));
             res.setIdRuolo(rs.getInt("ID_RUOLO"));
             timestamp = rs.getTimestamp("TIME");
+            
+            
+            String computedHash = computeHash(res, timestamp);
+            
+            if(!computedHash.equals(id)) return null; //se l'hash non coincide.
+            
+            PreparedStatement stm1 = con.prepareStatement( "DELETE FROM CONVALIDAUTENTI P WHERE P.EMAIL=?");
+            try{
+                stm1.setString(1, res.getEmail());
+                stm1.executeUpdate();
+            }finally{
+                stm.close();
+                stm1.close();
+            }
+            
+            UtenteQueries utQuery = new UtenteQueries(con);
+            utQuery.aggiungiUtente(res);
         }
-        
-        String computedHash = computeHash(res, timestamp);
-        
-        if(!computedHash.equals(id)) return null; //se l'hash non coincide.
-        
-        PreparedStatement stm1 = con.prepareStatement( "DELETE FROM CONVALIDAUTENTI P WHERE P.EMAIL=?");
-        try{
-        stm1.setString(1, res.getEmail());
-        stm1.executeUpdate();
-        }finally{
-            stm.close();
-            stm1.close();
-        }
-        
-        UtenteQueries utQuery = new UtenteQueries(con);
-        utQuery.aggiungiUtente(res);
         return res;
     }
     

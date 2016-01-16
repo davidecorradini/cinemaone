@@ -44,14 +44,11 @@ public class PrenotazioniPostoCache {
      */
     public ArrayList<PrenotazionePosto> getPostiOccupati(int id_spettacolo) throws SQLException{
         ArrayList<PrenotazionePosto> res = cache.get(id_spettacolo);
-        System.out.print("getPostiOccupati; idSpettacolo: " + id_spettacolo + " -> cache ");
         if(res == null){ //if the object is not cached, compute it.
-            System.out.println("miss");
             PrenotazionePostoQueries prenPostoQ = new PrenotazionePostoQueries(manager);
             res = prenPostoQ.getPostiOccupati(id_spettacolo);
             cache.add(id_spettacolo, res); //store it in cache
-        }else
-            System.out.println("hit");
+        }
         return res;
     }
     

@@ -59,7 +59,8 @@ public class SignUp extends HttpServlet {
                     } catch (NoSuchAlgorithmException ex) {
                         response.getWriter().print("fail");
                     }
-                    String url = "http://" + request.getServerName() + ":" + request.getServerPort() + "/Multisala/conferma-utente.html?key=" + requestId;
+                    String url1 = "http://" + request.getServerName() + ":" + request.getServerPort() + "/Multisala/conferma-utente.html?key=" + requestId;
+                    String url = "<a href=\"" + url1 + "\">" + url1 + "</a>";
                     MailSender instance = new MailSender();
                     try {
                         instance.convalidaAccount(ut.getEmail(), url);
