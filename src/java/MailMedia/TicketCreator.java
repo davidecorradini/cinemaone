@@ -49,7 +49,6 @@ public class TicketCreator {
     
     public String generaTicket(Utente utente, Spettacolo spettacolo, Film film, Sala sala, ArrayList<PrenotazionePostoPrezzo> prenotazionePosto) throws DocumentException, FileNotFoundException, IOException{
         String fileName = destinationPath + "ticket" + spettacolo.getIdSpettacolo() + utente.getIdUtente() + ".pdf";
-        System.out.println("\n\n\n\n" + fileName);
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(new File(fileName)));
         
