@@ -55,7 +55,7 @@ public class Utente implements Serializable{
             if(res.length() + dateFormat.length() <= dbFieldSize){
                 SimpleDateFormat df = new SimpleDateFormat(dateFormat);
                 Date date = new Date(System.currentTimeMillis());
-                System.out.println("date: " + df.format(date));
+                //System.out.println("date: " + df.format(date));
                 res += df.format(date);
             }
         }

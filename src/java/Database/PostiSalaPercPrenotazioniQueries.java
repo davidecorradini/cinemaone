@@ -85,7 +85,6 @@ public class PostiSalaPercPrenotazioniQueries {
                     double perc=0;
                     if(totale != 0)
                         perc = ((double)rs.getInt("TOT"))/totale;
-                    System.out.println(perc);
                     ps.addNewPosto(tmpPosto.getIdPosto(), tmpPosto.getColonna(), tmpPosto.getStato(), perc);
                     tmpRiga=String.valueOf(tmpPosto.getRiga());
                 }           

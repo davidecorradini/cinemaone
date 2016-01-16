@@ -5,6 +5,7 @@
 */
 package MailMedia;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -45,22 +46,24 @@ public class MailSender {
     }
     
     private Session getSession(){
-        return Session.getInstance(settings, new
-                                                Authenticator(){
-                                                    @Override
-                                                    protected PasswordAuthentication
-                                                getPasswordAuthentication() {
-                                                    return new PasswordAuthentication(username, password);
-                                                }
-                                                });
+        return Session.getInstance(settings, new Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
     }
     
     public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
         Session session = getSession();
         //Create a new message
         Message msg = new MimeMessage(session);
-//Set the FROM and TO fields
-        msg.setFrom(new InternetAddress("info@peermanagement.it"));
+        try {
+            //Set the FROM and TO fields
+            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com", "Cinema One"));
+        } catch (UnsupportedEncodingException ex) {
+            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com"));
+        }
         msg.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to,false));
         msg.setSubject(subject);
@@ -73,14 +76,12 @@ public class MailSender {
         BodyPart messageBodyPart1 = new MimeBodyPart();
         messageBodyPart1.setText(text);
 //Create the pdf part of the message
-        int i = 1;
         if(allegato != null){
             DataSource source = new FileDataSource(allegato);
             BodyPart messageBodyPart2 = new MimeBodyPart();
             messageBodyPart2.setDataHandler( new DataHandler(source) );
-            messageBodyPart2.setFileName("yourTicket-" + i);
+            messageBodyPart2.setFileName("Biglietti.pdf");
             multipart.addBodyPart( messageBodyPart2 );
-            i++;
         }
 //Add the parts to the Multipart message
         multipart.addBodyPart( messageBodyPart1 );
