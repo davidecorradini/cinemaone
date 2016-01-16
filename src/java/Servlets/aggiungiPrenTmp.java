@@ -11,6 +11,7 @@ import Beans.Spettacolo;
 import Database.Cache.PrenotazioniTmpPostoCache;
 import Database.DBManager;
 import Database.InfoPrenotazioneQueries;
+import Database.PrenotazioneQueries;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -68,8 +69,13 @@ public class aggiungiPrenTmp extends HttpServlet {
             
             PrenotazioniTmpPostoCache prenTmpQ = new PrenotazioniTmpPostoCache(manager);
             try {
-                prenTmpQ.aggiungiPrenotazioneTmp(prenTmp);
-                response.getWriter().println("success");
+                PrenotazioneQueries prenotazioneQ = new PrenotazioneQueries(manager);
+                if(prenotazioneQ.isFree(prenTmp.getIdSpettacolo(), prenTmp.getIdPosto())){
+                    prenTmpQ.aggiungiPrenotazioneTmp(prenTmp);
+                    response.getWriter().println("success");
+                }else{
+                    response.getWriter().println("db-fail");
+                }
             } catch (SQLException ex) {
                 if(ex instanceof SQLIntegrityConstraintViolationException){
                     response.getWriter().println("db-fail");

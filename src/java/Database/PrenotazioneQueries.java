@@ -80,7 +80,7 @@ public class PrenotazioneQueries{
     public Prenotazione getPrenotazione(int idPrenotazione) throws SQLIntegrityConstraintViolationException, SQLException{
        
         Prenotazione pre= new Prenotazione();
-        PreparedStatement stm = con.prepareStatement(" select * from PYTHONI.PRENOTAZIONE P\n" +
+        PreparedStatement stm = con.prepareStatement(" select * from PRENOTAZIONE P\n" +
                 "where P.ID_PRENOTAZIONE=?\n");
         try {
             stm.setInt(1, idPrenotazione);
@@ -106,5 +106,26 @@ public class PrenotazioneQueries{
         }
         
         return pre;
+    }
+    
+    public boolean isFree(int idSpettacolo, int idPosto) throws SQLException{
+        boolean res = true;
+        PreparedStatement stm = con.prepareStatement(" select * from PRENOTAZIONE P\n" +
+                "where P.ID_SPETTACOLO=? AND P.ID_POSTO=?\n");
+        try {
+            stm.setInt(1, idSpettacolo);
+            stm.setInt(2, idPosto);
+            
+            ResultSet rs = stm.executeQuery();
+            try{
+                if(rs.next())
+                    res = false;  
+            } finally {
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return res;
     }
 }
