@@ -88,8 +88,8 @@ public class JspAccessFilter implements Filter {
                 break;
             case "/Multisala/jsp/header.jsp": destination= "/Multisala/index.html";
                 break;
-            case "/Multisala/jsp/menu.jsp": destination= "/Multisala/index.html";
-                break;
+            //case "/Multisala/jsp/menu.jsp": destination= "/Multisala/index.html";
+              //  break;
             case "/Multisala/jsp/prenotazioneEffettuata.jsp": destination= "/Multisala/admin/conferma-prenotazione.html";
                 break;
             case "/Multisala/jsp/recovery-password.jsp": destination= "/Multisala/admin/password-recovery.html";
