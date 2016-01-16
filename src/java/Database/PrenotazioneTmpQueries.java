@@ -266,10 +266,7 @@ public class PrenotazioneTmpQueries {
             prenPosto.setPosto(posto);
             prenPosto.setPrenotazione(pren);
             prenPosto.setPrezzo(prezzo);
-            
-            
-            System.out.println(pren.getIdPrenotazione());
-            
+                  
             prenotazionePosto.add(prenPosto);
         }
         

@@ -36,7 +36,6 @@ public class Home extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("domain: " + request.getServerName());
         request.getServerPort();
         ArrayList<Film> films = null;
         FilmQueries fq = new FilmQueries(manager);

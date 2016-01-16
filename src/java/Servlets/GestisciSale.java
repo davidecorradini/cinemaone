@@ -83,7 +83,6 @@ public class GestisciSale extends HttpServlet {
             ArrayList<PostiSalaPercPrenotazioni> postiSala = new ArrayList<>();
             for(Sala sala : sale){
                 try {
-                    System.out.println(sala.getIdSala());
                     postiSala = postiSalaQ.getAllPosti(sala.getIdSala(), true);
                 } catch (SQLException ex) {
                     request.setAttribute("error", "impossibile caricare la pagina, interrogazione al database fallita2"+ex);

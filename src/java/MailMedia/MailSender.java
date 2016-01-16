@@ -5,6 +5,7 @@
 */
 package MailMedia;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -45,22 +46,24 @@ public class MailSender {
     }
     
     private Session getSession(){
-        return Session.getInstance(settings, new
-                                                Authenticator(){
-                                                    @Override
-                                                    protected PasswordAuthentication
-                                                getPasswordAuthentication() {
-                                                    return new PasswordAuthentication(username, password);
-                                                }
-                                                });
+        return Session.getInstance(settings, new Authenticator(){
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
     }
     
     public void sendMail(String to, String subject, String text, String  allegato) throws MessagingException{
         Session session = getSession();
         //Create a new message
         Message msg = new MimeMessage(session);
-//Set the FROM and TO fields
-        msg.setFrom(new InternetAddress("info@peermanagement.it"));
+        try {
+            //Set the FROM and TO fields
+            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com", "Cinema One"));
+        } catch (UnsupportedEncodingException ex) {
+            msg.setFrom(new InternetAddress("cinemaone.unitn@gmail.com"));
+        }
         msg.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(to,false));
         msg.setSubject(subject);

@@ -102,7 +102,6 @@ public class JspAccessFilter implements Filter {
                 chain.doFilter(request, response);
                 return;
             }
-        System.out.println("URI: "+ uri + "     Destination: "+ destination);
          ((HttpServletResponse)response).sendRedirect(destination);
        // ((HttpServletRequest)request).getSession().getServletContext().getRequestDispatcher(destination).forward(request, response);
         
